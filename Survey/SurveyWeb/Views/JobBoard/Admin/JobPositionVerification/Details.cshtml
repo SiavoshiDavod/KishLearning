@@ -1,0 +1,191 @@
+﻿@model SurveyWeb.Models.JobBoard.JobPosition
+@using SurveyWeb.Models.JobBoard
+
+    <style>
+        .ck-editor__editable_inline {
+            min-height: 300px;
+        }
+    </style>
+
+@using (Ajax.BeginForm("Add", "JobPosition", new AjaxOptions { HttpMethod = "post", UpdateTargetId = "job-position-list" }))
+{
+    @Html.AntiForgeryToken()
+    @Html.HiddenFor(x => x.Id)
+    <div class="form-horizontal" style="text-align:right">
+        <h4>موقعیت های شغلی</h4>
+        <hr />
+        @Html.ValidationSummary(true, "", new { @class = "text-danger" })
+
+        <div class="form-group">
+            @Html.LabelFor(model => model.Title, htmlAttributes: new { @class = "control-label col-md-1 col-sm-2" })
+            <div class="col-md-10">
+                @Html.EditorFor(model => model.Title, new { htmlAttributes = new { @class = "form-control" } })
+                @Html.ValidationMessageFor(model => model.Title, "", new { @class = "text-danger" })
+            </div>
+        </div>
+
+        <div class="form-group">
+            @Html.LabelFor(model => model.Companyname, htmlAttributes: new { @class = "control-label col-md-1 col-sm-2" })
+            <div class="col-md-10">
+                @Html.EditorFor(model => model.Companyname, new { htmlAttributes = new { @class = "form-control" } })
+                @Html.ValidationMessageFor(model => model.Companyname, "", new { @class = "text-danger" })
+            </div>
+        </div>
+
+        <div class="form-group">
+            @Html.LabelFor(model => model.RequiredSkills, htmlAttributes: new { @class = "control-label col-md-1 col-sm-2" })
+            <div class="col-md-10">
+                @Html.EditorFor(model => model.RequiredSkills, new { htmlAttributes = new { @class = "form-control", @placeholder = "با ویرگول جدا کنید" } })
+                @Html.ValidationMessageFor(model => model.RequiredSkills, "", new { @class = "text-danger" })
+            </div>
+        </div>
+
+        <div class="form-group">
+            @Html.LabelFor(model => model.Description, htmlAttributes: new { @class = "control-label col-md-1 col-sm-2" })
+            <div class="col-md-10">
+                @Html.TextAreaFor(model => model.Description, new { @class = "form-control" })
+                @Html.ValidationMessageFor(model => model.Description, "", new { @class = "text-danger" })
+            </div>
+        </div>
+
+        <hr />
+
+        <div class="row">
+            <div class="form-group col-md-4">
+                @Html.LabelFor(model => model.JobCategoryID, htmlAttributes: new { @class = "control-label col-md-3" })
+                <div class="col-md-9">
+                    @Html.DropDownListFor(model => model.JobCategoryID, ViewBag.Categories as List<SelectListItem>, new { @class = "form-control" })
+                    @Html.ValidationMessageFor(model => model.JobCategoryID, "", new { @class = "text-danger" })
+                </div>
+            </div>
+
+            <div class="form-group col-md-4">
+                @Html.LabelFor(model => model.CooperationType, htmlAttributes: new { @class = "control-label col-md-3" })
+                <div class="col-md-9">
+                    @Html.EnumDropDownListFor(model => model.CooperationType, "انتخاب کنید", new { @class = "form-control" })
+                    @Html.ValidationMessageFor(model => model.CooperationType, "", new { @class = "text-danger" })
+                </div>
+            </div>
+
+            <div class="form-group col-md-4">
+                @Html.LabelFor(model => model.WorkExperience, htmlAttributes: new { @class = "control-label col-md-3" })
+                <div class="col-md-9">
+                    @Html.EnumDropDownListFor(model => model.WorkExperience, "انتخاب کنید", new { @class = "form-control" })
+                    @Html.ValidationMessageFor(model => model.WorkExperience, "", new { @class = "text-danger" })
+                </div>
+            </div>
+        </div>
+
+        <div class="row">
+            <div class="form-group col-md-4">
+                @Html.LabelFor(model => model.Gender, htmlAttributes: new { @class = "control-label col-md-3" })
+                <div class="col-md-9">
+                    @Html.EnumDropDownListFor(model => model.Gender, "انتخاب کنید",
+                    new { @class = "form-control" })
+                    @Html.ValidationMessageFor(model => model.Gender, "", new { @class = "text-danger" })
+                </div>
+            </div>
+
+            <div class="form-group col-md-4">
+                @Html.LabelFor(model => model.MilitaryServiceStatus, htmlAttributes: new { @class = "control-label col-md-3" })
+                <div class="col-md-9">
+                    @Html.EnumDropDownListFor(model => model.MilitaryServiceStatus, "انتخاب کنید", new { @class = "form-control" })
+                    @Html.ValidationMessageFor(model => model.MilitaryServiceStatus, "", new { @class = "text-danger" })
+                </div>
+            </div>
+
+            <div class="form-group col-md-4">
+                @Html.LabelFor(model => model.Location, htmlAttributes: new { @class = "control-label col-md-3" })
+                <div class="col-md-9">
+                    @Html.EditorFor(model => model.Location, new { htmlAttributes = new { @class = "form-control" } })
+                    @Html.ValidationMessageFor(model => model.Location, "", new { @class = "text-danger" })
+                </div>
+            </div>
+        </div>
+
+        <div class="row">
+            <div class="form-group col-md-4">
+                @Html.LabelFor(model => model.SalaryFrom, htmlAttributes: new { @class = "control-label col-md-3" })
+                <div class="col-md-9">
+                    @Html.EditorFor(model => model.SalaryFrom, new { htmlAttributes = new { @class = "form-control", @placeholder = "به ریال" } })
+                    @Html.ValidationMessageFor(model => model.SalaryFrom, "", new { @class = "text-danger" })
+                </div>
+            </div>
+
+            <div class="form-group col-md-4">
+                @Html.LabelFor(model => model.SalaryTo, "تا", htmlAttributes: new { @class = "control-label col-md-3" })
+                <div class="col-md-9">
+                    @Html.EditorFor(model => model.SalaryTo, new { htmlAttributes = new { @class = "form-control", @placeholder = "به ریال" } })
+                    @Html.ValidationMessageFor(model => model.SalaryTo, "", new { @class = "text-danger" })
+                </div>
+            </div>
+        </div>
+
+        <div class="form-group">
+            <div class="col-md-offset-1 col-md-10">
+                <input type="submit" value="ایجاد" class="btn btn-default" />
+                <input type="button" value="ویرایش" class="btn btn-default" onclick="updatePosition()" />
+            </div>
+        </div>
+    </div>
+}
+
+<script src="~/lib/ckeditor5/ckeditor.js"></script>
+<script src="~/lib/ckeditor5/translations/fa.js"></script>
+
+<script>
+    function updatePosition() {
+        var Id = $("#Id").val();
+        var Title = $("#Title").val();
+        var Companyname = $("#Companyname").val();
+        var RequiredSkills = $("#RequiredSkills").val();
+        var Description = $("#Description").html();
+        var JobCategoryID = $("#JobCategoryID").val();
+        var CooperationType = $("#CooperationType").val();
+        var WorkExperience = $("#WorkExperience").val();
+        var Gender = $("#Gender").val();
+        var MilitaryServiceStatus = $("#MilitaryServiceStatus").val();
+        var Location = $("#Location").val();
+        var SalaryFrom = $("#SalaryFrom").val();
+        var SalaryTo = $("#SalaryTo").val();
+
+        var formData = new FormData();
+        formData.append("Id", Id);
+        formData.append("Title", Title);
+        formData.append("Companyname", Companyname);
+        formData.append("RequiredSkills", RequiredSkills);
+        formData.append("Description", Description);
+        formData.append("JobCategoryID", JobCategoryID);
+        formData.append("CooperationType", CooperationType);
+        formData.append("WorkExperience", WorkExperience);
+        formData.append("Gender", Gender);
+        formData.append("MilitaryServiceStatus", MilitaryServiceStatus);
+        formData.append("Location", Location);
+        formData.append("SalaryFrom", SalaryFrom);
+        formData.append("SalaryTo", SalaryTo);
+
+        $.ajax({
+            url: "/JobPosition/update",
+            type: "post",
+            processData: false,
+            contentType: false,
+            data: formData,
+            success: function (res) {
+                $("#job-position-list").html(res)
+                alert("ویرایش با موفقیت انجام شد")
+            }
+        })
+    }
+
+    ClassicEditor
+        .create(document.querySelector('#Description'), {
+            language: 'fa',
+            // toolbar: [ 'heading', '|', 'bold', 'italic', 'link' ]
+        })
+        .then(editor => {
+            window.editor = editor;
+        })
+        .catch(err => {
+            console.error(err.stack);
+        });
+</script>

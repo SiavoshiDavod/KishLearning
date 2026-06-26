@@ -1,0 +1,77 @@
+﻿@model int
+@{
+    Layout = "~/Views/Shared/_LayoutAdmin.cshtml";
+    var urlList = "/RoleUsers/LoadList?id=" + Model;
+    ViewBag.Title = "نقش های کاربر " + (string)ViewBag.UserName;
+}
+
+<div class="row">
+    <div class="col-sm-12">
+        <div class="page-title-box">
+            <ol class="breadcrumb pull-right">
+                <li><a href="#">@ViewBag.Title</a></li>
+                <li class="active">Dashboard</li>
+            </ol>
+            <div class="page-title">
+                @using (Html.BeginForm("Create", "RoleUsers", FormMethod.Post))
+                {
+                    @Html.Hidden("UserId", Model)
+                    @Html.RoleDropDown("RoleId", true, false)
+                    <input type="submit" value="افزودن نقش به کاربر" class="btn btn-default" @*onclick="return SaveRoleUser()"*@ />
+                }
+            </div>
+        </div>
+    </div>
+</div>
+<div id="TadGoodsField">
+    @using MVC.Controls
+
+    @Html.Grid(
+    new GridControl().SetName("RoleUserGrid").
+    SetPageSize(10).
+    SetShrinkToFit(false).
+    SetIsAutoSize(true).
+    SetIsFilterToolbar(true).
+    IsRTL().
+    SetListUrl(urlList).
+        SetCaption((string)ViewBag.Title).
+    SetOnLoadCompleteEvent("loadRoleUserGridCompleteEvent").
+        UseColumns(SurveyWeb.Controllers.RoleUsersController.RoleUserColumns)
+)
+    <script >
+        function deleteRoleUser(cl) {
+            var url = "/RoleUsers/Delete";
+            var successFunction = function () {
+                pw.post(url,
+                    { id: cl },
+                    'json',
+                    function (response) {
+                        if (response) {
+                            reloadJqGrid("RoleUserGrid" );
+                            SwalSuccessMessage("");
+                        } else {
+                            showError("خطا");
+                        }
+                    });
+
+            }
+            confirmDelete(successFunction);
+            return false;
+        }
+	function loadRoleUserGridCompleteEvent() {
+	    var ids = $("#RoleUserGrid").jqGrid('getDataIDs');
+
+		for (var i = 0; i < ids.length; i++) {
+		    var cl = ids[i];
+
+		    dl = '<a class="ajaxLink" onclick="return deleteRoleUser(\'' + cl + '\')" title="حذف"   ><div class="fa fa-times"></div></a>';
+		    $('#RoleUserGrid').jqGrid('setRowData', ids[i], { act: dl });
+		}
+    }
+
+    </script>
+</div>
+
+
+
+

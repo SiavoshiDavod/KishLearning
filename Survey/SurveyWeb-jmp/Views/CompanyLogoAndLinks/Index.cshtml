@@ -1,0 +1,52 @@
+﻿@model IEnumerable<SurveyWeb.Models.CompanyLogoAndLink>
+
+@{
+    Layout = "~/Views/Shared/_LayoutAdmin.cshtml";
+    var urlList = "/CompanyLogoAndLinks/LoadList";
+    ViewBag.Title = SurveyWeb.Models.Dictionary.ModelDictionary[typeof(SurveyWeb.Models.CompanyLogoAndLink)];
+}
+<!-- Page-Title -->
+<div class="row">
+    <div class="col-sm-12">
+        <div class="page-title-box">
+            <ol class="breadcrumb pull-right">
+                <li><a href="#">@ViewBag.Title</a></li>
+                <li class="active">Dashboard</li>
+            </ol>
+            <h4 class="page-title">@Html.ActionLink("افزودن", "Create") </h4>
+        </div>
+    </div>
+</div>
+<div id="TadGoodsField">
+    @using MVC.Controls
+
+    @Html.Grid(
+    new GridControl().SetName("CompanyLogoAndLinkGrid").
+    SetPageSize(10).
+    SetShrinkToFit(false).
+    SetIsAutoSize(true).
+    SetIsFilterToolbar(true).
+    IsRTL().
+    SetListUrl(urlList).
+        SetCaption((string)ViewBag.Title).
+    SetOnLoadCompleteEvent("loadCompanyLogoAndLinkGridCompleteEvent").
+        UseColumns(SurveyWeb.Controllers.CompanyLogoAndLinksController.CompanyLogoAndLinksColumns)
+)
+    <script type="text/javascript">
+	function loadCompanyLogoAndLinkGridCompleteEvent() {
+		var ids = $("#CompanyLogoAndLinkGrid").jqGrid('getDataIDs');
+		for (var i = 0; i < ids.length; i++) {
+			var cl = ids[i];
+			ed = '<a class="ajaxLink"  href="/CompanyLogoAndLinks/Create?Id=' + cl + '" title="ویرایش"><div class="fa fa-pencil"></div></a>';
+			dl = '<a class="ajaxLink delete"href="/CompanyLogoAndLinks/Delete?Id=' + cl + '" title="حذف"   ><div class="fa fa-times"></div></a>';
+		    de = '<a class="ajaxLink "href="/CompanyLogoAndLinks/Details?Id=' + cl + '" title="جزئیات"   ><div class="fa fa-building"></div></a>';
+		    $('#CompanyLogoAndLinkGrid').jqGrid('setRowData', ids[i], { act: ed + dl + de });
+		}
+    }
+
+    </script>
+</div>
+
+
+
+

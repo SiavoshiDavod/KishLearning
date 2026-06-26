@@ -1,0 +1,13 @@
+﻿@model SurveyWeb.Models.Idea
+
+@{
+    ViewBag.Title = SurveyWeb.Models.Dictionary.ModelDictionary[typeof(SurveyWeb.Models.Idea)]; ;
+    Layout = null;
+}
+@Html.Partial("_PartialDetailObject", Model)
+@*<div>
+    <p>
+        @Html.ActionLink("ویرایش", "Create", new { id = Model.Id }) |
+        @Html.ActionLink("بازگشت", "Index")
+    </p>
+</div>*@

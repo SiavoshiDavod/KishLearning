@@ -1,0 +1,79 @@
+﻿@model SurveyWeb.Models.SurveyEntity
+@{
+    Layout = "~/Views/Shared/_LayoutAdmin.cshtml";
+    // var urlList = "/SurveyAnswers/LoadList";
+    ViewBag.Title = "پاسخ ها";
+    var excelname = SurveyWeb.DateTimeExtensions.DateTimeNowPersian("",true) + "SurveyAnswered.xls";
+}
+<script>
+    var tableToExcel = (function () {
+        var uri = 'data:application/vnd.ms-excel;base64,'
+            //, template = '<html xmlns:o="urn:schemas-microsoft-com:office:office" xmlns:x="urn:schemas-microsoft-com:office:excel" xmlns="http://www.w3.org/TR/REC-html40"><head><!--[if gte mso 9]><xml><x:ExcelWorkbook><x:ExcelWorksheets><x:ExcelWorksheet><x:Name>{worksheet}</x:Name><x:WorksheetOptions><x:DisplayGridlines/></x:WorksheetOptions></x:ExcelWorksheet></x:ExcelWorksheets></x:ExcelWorkbook></xml><![endif]--></head><body><table>{table}</table></body></html>'
+            , template = '<html xmlns:o="urn:schemas-microsoft-com:office:office" xmlns:x="urn:schemas-microsoft-com:office:excel" xmlns="http://www.w3.org/TR/REC-html40"><meta charset="utf-8"/><head><!--[if gte mso 9]><xml><x:ExcelWorkbook><x:ExcelWorksheets><x:ExcelWorksheet><x:Name>{worksheet}</x:Name><x:WorksheetOptions><x:DisplayGridlines/></x:WorksheetOptions></x:ExcelWorksheet></x:ExcelWorksheets></x:ExcelWorkbook></xml><![endif]--></head><body><table>{table}</table></body></html>'
+            , base64 = function (s) { return window.btoa(unescape(encodeURIComponent(s))) }
+            , format = function (s, c) { return s.replace(/{(\w+)}/g, function (m, p) { return c[p]; }) }
+        return function (table, name, filename) {
+            var form = document.getElementById(table),
+                exportForm = form.cloneNode(true),
+                elementsToRemove = exportForm.querySelectorAll('.PieChart');
+            for (var i = elementsToRemove.length; i--;) {
+                var td = elementsToRemove[i];//.parentElement
+                if (td) {
+                    td.remove();
+                    //td.parentElement.removeChild(td)
+                }
+            }
+
+            var output = document.getElementById('output');
+            output.appendChild(exportForm);
+
+            if (!exportForm.nodeType) table = document.getElementById(exportForm)
+            var ctx = { worksheet: name || 'Worksheet', table: exportForm.innerHTML }
+
+            document.getElementById("dlink").href = uri + base64(format(template, ctx));
+            document.getElementById("dlink").download = filename;
+            document.getElementById("dlink").click();
+            $("#output").html("");
+        }
+    })()
+</script>
+
+<div class="row">
+    <div class="col-sm-12">
+        <div class="page-title-box">
+            <ol class="breadcrumb pull-right">
+                @*<li><a href="#">@ViewBag.Title</a></li>
+                    <li class="active">Dashboard</li>*@
+                <li>
+                    <a id="dlink" style="display:none;"></a>
+
+                    <input type="button" class="btn btn-success" onclick="tableToExcel('AnsweredTable', '@Model.Name', '@excelname')" value="خروجی اکسل">
+                </li>
+            </ol>
+            <h4 class="page-title">پاسخ های نظر سنجی @Model.Name</h4>
+        </div>
+    </div>
+</div>
+<div id="TadGoodsField">
+    <table class="table table-striped table-bordered" id="AnsweredTable">
+        @*<tr>
+                <td>آدرس شرکت کننده</td>
+                <td> </td>
+            </tr>*@
+        @foreach (var item in Model.SurveyQuestions.Where(x => x.SurveyAnswers?.Count > 0)@*x.SurveyAnswers != null && x.QuestionType!= SurveyWeb.Models.QuestionEnum.Goodbye && x.QuestionType != SurveyWeb.Models.QuestionEnum.Welcome && x.QuestionType != SurveyWeb.Models.QuestionEnum.TextOnly &&*@ /**/
+                                                                                                                                                                                                                                                                                                                                             /**/
+                                                                                                                                                                                                                                                                                                                                             /**/
+                                                                                                                                                                                                                                                                                                                                             )
+                    {
+                        <tr>
+                            <td>@item.Question</td>
+                            @Html.Partial("_p" + item.QuestionType.ToString(), item)
+                        </tr>
+                    }
+    </table>
+    <div id="output"></div>
+</div>
+
+
+
+

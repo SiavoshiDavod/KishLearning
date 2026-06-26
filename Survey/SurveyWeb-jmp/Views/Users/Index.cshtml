@@ -1,0 +1,58 @@
+﻿@model IEnumerable<SurveyWeb.Models.User>
+
+@{
+    Layout = "~/Views/Shared/_LayoutAdmin.cshtml";
+    var urlList = "/Users/LoadList";
+    ViewBag.Title = "کاربران";
+    var user = (SurveyWeb.Models.User)ViewBag.User;
+}
+<!-- Page-Title -->
+<div class="row">
+    <div class="col-sm-12">
+        <div class="page-title-box">
+            <ol class="breadcrumb pull-right">
+                <li><a href="#">@ViewBag.Title</a></li>
+                <li class="active">Dashboard</li>
+            </ol>
+            <h4 class="page-title">@Html.ActionLink("افزودن", "Create") </h4>
+        </div>
+    </div>
+</div>
+<div id="TadGoodsField">
+    @using MVC.Controls
+
+    @Html.Grid(
+    new GridControl().SetName("UserGrid").
+    SetPageSize(10).
+    SetShrinkToFit(false).
+    SetIsAutoSize(true).
+    SetIsFilterToolbar(true).
+    IsRTL().
+    SetListUrl(urlList).
+        SetCaption("کاربران").
+    SetOnLoadCompleteEvent("loadUserGridCompleteEvent").
+        UseColumns(SurveyWeb.Controllers.UsersController.UserColumns)
+)
+    <script type="text/javascript">
+	function loadUserGridCompleteEvent() {
+		var ids = $("#UserGrid").jqGrid('getDataIDs');
+		for (var i = 0; i < ids.length; i++) {
+			var cl = ids[i];
+			ed = '<a class="ajaxLink"  href="/Users/Create?Id=' + cl + '" title="ویرایش"><div class="fa fa-pencil"></div></a>';
+			dl = '<a class="ajaxLink delete"href="/Users/Delete?Id=' + cl + '" title="حذف"   ><div class="fa fa-times"></div></a>';
+			de = '<a class="ajaxLink "href="/Users/Details?Id=' + cl + '" title="جزئیات"   ><div class="fa fa-building"></div></a>';
+			var role = '';
+            @if (user.Permisstions.Any(x => x == SurveyWeb.Models.Permisstion.RoleUsers)){
+			    @: role = '<a class="ajaxLink "href="/RoleUsers/Index?Id=' + cl + '" title="نقش ها"   ><div class="fa fa-calendar"></div></a>';
+			}
+			
+			$('#UserGrid').jqGrid('setRowData', ids[i], { act: ed + dl + de + role });
+		}
+    }
+
+    </script>
+</div>
+
+
+
+

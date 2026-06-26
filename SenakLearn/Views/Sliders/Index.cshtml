@@ -1,0 +1,61 @@
+﻿@{
+    Layout = "~/Views/Shared/_LayoutAdmin.cshtml";
+    var ControllerName = (string)ViewBag.ControllerName;
+    var Title = (string)ViewBag.Title;
+    var urlList = "/"+ ControllerName + "/LoadList";
+}
+<!-- Page-Title -->
+<div class="row">
+    <div class="col-sm-12">
+        <div class="page-title-box">
+            <ol class="breadcrumb pull-right">
+                <li><a href="#">@Title</a></li>
+                <li class="active">Dashboard</li>
+            </ol>
+            <h4 class="page-title">@Html.ActionLink("افزودن", "Create", ControllerName) </h4>
+        </div>
+    </div>
+</div>  
+
+<div id="TadGoodsField">
+    @using MVC.Controls
+
+    @Html.Grid(
+    new GridControl().SetName("DropDownTitle").
+    SetPageSize(10).
+    SetShrinkToFit(true).
+    SetIsAutoSize(true).
+    SetIsFilterToolbar(true).
+    IsRTL().
+    SetListUrl(urlList).
+    SetOnLoadCompleteEvent("loadDropDownTitleCompleteEvent").
+        UseColumns(SenakLearn.Controllers.Admin.SlidersController.SliderColumns)
+)
+    <script type="text/javascript">
+	function loadDropDownTitleCompleteEvent() {
+		var ids = $("#DropDownTitle").jqGrid('getDataIDs');
+		for (var i = 0; i < ids.length; i++) {
+			var cl = ids[i];
+			ed = '<a class="ajaxLink"  href="/' + '@ControllerName' + '/Create?Id=' + cl + '" title="ویرایش"><div class="tableEditLink">ویرایش</div></a>';
+		    dl = '<a class="ajaxLink delete"href="#" onclick="return deleteDropDown(\'' + cl + '\')" title="حذف"   ><div class="tableDeleteLink">حذف</div></a>';
+		    de = '<a class="ajaxLink "href="/' + '@ControllerName' + '/Details?Id=' + cl + '" title="نمایش "   ><div class="tableDeleteLink">نمایش</div></a>';
+			$('#DropDownTitle').jqGrid('setRowData', ids[i], { act: ed + dl   });
+		}
+    }
+        function deleteDropDown(id) {
+            var url='/'+'@ControllerName'+'/Delete?Id='+id;
+            $.ajax({
+                type: "POST",
+                url: url,
+               // data: data,
+                success: function(){
+                    reloadJqGrid('DropDownTitle');
+                },
+                dataType: 'json'
+            });
+        }
+    </script>
+</div>
+
+
+

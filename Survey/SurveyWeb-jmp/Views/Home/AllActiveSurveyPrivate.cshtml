@@ -1,0 +1,20 @@
+﻿@model IEnumerable<SurveyWeb.Models.SurveyEntity>
+@{
+    ViewBag.Title = "  نظر سنجی های اختصاصی";
+    Layout = "~/Views/Shared/_LayoutAdmin.cshtml";
+    foreach (var item in Model)
+    {
+        <div class="panel panel-default">
+            <div class="panel-heading">
+                <a href="/Home/Survey?Id=@item.Id">
+                    <h3 class="panel-title">@item.Title</h3>
+                </a>
+                <p class="panel-sub-title font-13 text-muted">@item.Description</p>
+            </div>
+            <div class="panel-body">
+                <a href="/Home/Survey?Id=@item.Id"><img class="" src="~/images/Survey/@item.SurveyImageUrl" alt="@item.Title" style="max-height:300px"></a>
+            </div>
+        </div>
+    }
+}
+

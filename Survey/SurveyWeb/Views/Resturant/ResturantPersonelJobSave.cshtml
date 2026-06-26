@@ -1,0 +1,53 @@
+﻿@model SurveyWeb.Models.ResturantPersonelJob
+
+@{
+    Layout = null;
+}
+@using (Html.BeginForm("ResturantPersonelJobSave", "Resturant", FormMethod.Post, new {id = "FormResturantPersonelJob" }))
+{
+
+    <div class="form-horizontal" style="margin:20px">
+        @Html.HiddenFor(model => model.ResturantPersonelId)
+        <div class="row Job-div">
+
+
+            <div class="form-group ">
+                @Html.LabelFor(model => model.LastJobPosition1, htmlAttributes: new { @class = "control-label col-md-4" })
+                <div class="col-md-8">
+                    @Html.EditorFor(model => model.LastJobPosition1, new { htmlAttributes = new { @class = "form-control" } })
+                    @Html.ValidationMessageFor(model => model.LastJobPosition1, "", new { @class = "text-danger" })
+                </div>
+            </div>
+
+            <div class="form-group ">
+                @Html.LabelFor(model => model.LastJobName1, htmlAttributes: new { @class = "control-label col-md-4" })
+                <div class="col-md-8">
+                    @Html.EditorFor(model => model.LastJobName1, new { htmlAttributes = new { @class = "form-control" } })
+                    @Html.ValidationMessageFor(model => model.LastJobName1, "", new { @class = "text-danger" })
+                </div>
+            </div>
+
+            <div class="form-group ">
+                @Html.LabelFor(model => model.LastStartDate1, htmlAttributes: new { @class = "control-label col-md-4" })
+                <div class="col-md-8">
+                    @Html.EditorFor(model => model.LastStartDate1, new { htmlAttributes = new { @class = "form-control " } })
+                    @Html.ValidationMessageFor(model => model.LastStartDate1, "", new { @class = "text-danger" })
+                </div>
+            </div>
+
+            <div class="form-group ">
+                @Html.LabelFor(model => model.LastEndDate1, htmlAttributes: new { @class = "control-label col-md-4" })
+                <div class="col-md-8">
+                    @Html.EditorFor(model => model.LastEndDate1, new { htmlAttributes = new { @class = "form-control" } })
+                    @Html.ValidationMessageFor(model => model.LastEndDate1, "", new { @class = "text-danger" })
+                </div>
+            </div>
+            <div class="form-group">
+                <div class="col-md-offset-2 col-md-10">
+                    <input type="button" value="ثبت" class="btn btn-default" onclick="return ResturantPersonelJobSave('')" />
+                </div>
+            </div>
+        </div>
+    </div>
+
+}

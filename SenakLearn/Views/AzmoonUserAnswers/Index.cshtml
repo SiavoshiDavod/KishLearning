@@ -1,0 +1,95 @@
+﻿@model IEnumerable<SenakLearn.Models.AzmoonUserAnswer>
+
+@{
+    Layout = "~/Views/Shared/_LayoutAdmin.cshtml";
+    var urlList = "/AzmoonUserAnswers/LoadList";
+    ViewBag.Title = "شرکت کنندگان";
+    var azmoonList = (List<SelectListItem>)ViewBag.azmoonList;
+}
+<!-- Page-Title -->
+<div class="row">
+    <div class="col-sm-12">
+        <div class="page-title-box">
+            <ol class="breadcrumb pull-right">
+                <li><a href="#">@ViewBag.Title</a></li>
+                <li class="active">Dashboard</li>
+            </ol>
+            <h4 class="page-title"> </h4>
+        </div>
+    </div>
+</div>
+<div class="form-horizontal">
+    <div class="form-group">
+        @Html.Label("آزمون : ", new { @class = "control-label col-md-2" })
+        <div class="col-md-10">
+            @Html.DropDownList("AzmoonId", azmoonList, new {@onchange="fnChangeVal(this)"})
+        </div>
+    </div>
+</div>
+<div>
+    <div class="row">
+        <div class="col-md-10">
+            <button class="btn btn-info" onclick="fnChangeVal(this)">جستجو</button>
+            <button class="btn btn-success" onclick="fnShowCertificated(this)">گواهینامه</button>
+        </div>
+    </div>
+</div>
+    <br />
+    <div id="TadGoodsField">
+        @using MVC.Controls
+
+        @Html.Grid(
+        new GridControl().SetName("AzmoonUserAnswerGrid").
+        SetPageSize(50).
+        SetShrinkToFit(false).
+        SetIsAutoSize(true).
+        SetIsFilterToolbar(true).
+        IsRTL().
+        SetListUrl(urlList).
+            SetCaption("کاربران").
+            SetSortName("AzmounDate").
+            SetSortOrder("dsc").
+
+        SetOnLoadCompleteEvent("loadAzmoonUserAnswerGridCompleteEvent").
+            UseColumns(SenakLearn.Controllers.AzmoonUserAnswersController.AzmoonUserAnswerColumns)
+    )
+        <script type="text/javascript">
+        function fnChangeVal(e) {
+
+            var selected = e.value;
+            //debugger;
+            if (selected == '')
+                selected = $('#AzmoonId').val();
+            if (selected != '')
+                jQuery("#AzmoonUserAnswerGrid").jqGrid().setGridParam({ url: '@urlList' + '?azmoonEntityId=' + selected }).trigger("reloadGrid")
+            else
+            jQuery("#AzmoonUserAnswerGrid").jqGrid().setGridParam({ url: '@urlList' }).trigger("reloadGrid")
+        }
+            function loadAzmoonUserAnswerGridCompleteEvent() {
+                var ids = $("#AzmoonUserAnswerGrid").jqGrid('getDataIDs');
+                for (var i = 0; i < ids.length; i++) {
+                    var cl = ids[i];
+                    ed = '<a class="ajaxLink"  href="/AzmoonUserAnswers/Calculator?Id=' + cl + '" title="تصحیح"><div class="fa fa-pencil"></div></a>';
+                    dl = '<a class="ajaxLink delete"href="/AzmoonUserAnswers/Delete?Id=' + cl + '" title="حذف"   ><div class="fa fa-times"></div></a>';
+                    de = '<a class="ajaxLink "href="/AzmoonUserAnswers/Details?Id=' + cl + '" title="جزئیات"   ><div class="fa fa-building"></div></a>';
+                    $('#AzmoonUserAnswerGrid').jqGrid('setRowData', ids[i], { act: ed });
+                }
+            }
+            function fnShowCertificated(e) {
+                //debugger;
+                //var frm = $(e).closest('form');
+                //e.preventDefault();
+                var selected = $('#AzmoonId').val();
+                
+                if (selected == undefined || selected == '' || selected=='همه') {
+                    alert('یک آزمون معتبر را انتخاب نمایید .')
+                }
+                window.open('/AzmoonCertificate/Index?EntityId=' + selected)
+            }
+
+        </script>
+    </div>
+
+
+
+

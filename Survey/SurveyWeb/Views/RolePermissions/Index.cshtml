@@ -1,0 +1,170 @@
+﻿@model int
+@{
+    Layout = "~/Views/Shared/_LayoutAdmin.cshtml";
+    var urlList = "/RolePermissions/GetTreeList";
+    ViewBag.Title = "دسترسی های نقش " + (string)ViewBag.RoleName;
+    var permissions = (List<SurveyWeb.Models.Permisstion>)(ViewBag.Permissions);
+    var urlpost = "/RolePermissions/Create/"+Model;
+}
+
+<div class="row">
+    <div class="col-sm-12">
+        <div class="page-title-box">
+            <ol class="breadcrumb pull-right">
+                <li><a href="#">@ViewBag.Title</a></li>
+                <li class="active">Dashboard</li>
+            </ol>
+            <div class="page-title">
+                @*@ViewBag.Title*@
+                @*@using (Html.BeginForm("Create", "RolePermissions",FormMethod.Post))
+                        {
+                            @Html.Hidden("RoleId", Model)
+                            @Html.PermisstionDropDown("Permisstion",true,false)
+                            <input type="submit" value="ثبت" class="btn btn-default" onclick="return SaveRolePermission()" />
+                    }*@
+                <input type="submit" value="ثبت" class="btn btn-default" onclick="return selectStockActivityTreeSelector()" />
+            </div>
+        </div>
+    </div>
+</div>
+<div id="RolePermissionTreeSelectorDiv" />
+
+<input type="hidden" id="StockActivityIdSelected" />
+<input type="hidden" id="StockActivityNameSelected" />
+@(Html.TreeView1(new List<SurveyWeb.Models.Permisstion>(), "RolePermissionTreeSelectorDiv", "Code").
+
+       EmptyContent("موردی یافت نشد.")
+       .IsAjax()
+       .ShowCheckbox(true, true).
+       SetSearchable(true, true).
+               AjaxUrl(urlList, true)
+            @*.LanguageDirection(BaseSystemModel.Resources.ResourceCommon.TextDirection)*@
+)
+
+<input type="submit" value="انتخاب" onclick="selectStockActivityTreeSelector()" id="btnsaveActivities" />
+
+@*@using MVC.Controls
+
+        @Html.Grid(
+        new GridControl().SetName("RolePermissionGrid").
+        SetPageSize(10).
+        SetShrinkToFit(false).
+        SetIsAutoSize(true).
+        SetIsFilterToolbar(true).
+        IsRTL().
+        SetListUrl(urlList).
+            SetCaption((string)ViewBag.Title).
+        SetOnLoadCompleteEvent("loadRolePermissionGridCompleteEvent").
+            UseColumns(SurveyWeb.Controllers.RolePermissionsController.RolePermissionColumns)
+    )*@
+
+<script >
+    function selectStockActivityTreeSelector() {
+        var selectedIds = [];
+        var selectedTitles = [];
+
+        var selectedElms = $('#RolePermissionTreeSelectorDiv').jstree("get_selected", true);
+        $.each(selectedElms, function () {
+
+            selectedIds.push(Number(this.id));
+            selectedTitles.push(this.text);
+        });
+        $('#StockActivityIdSelected').val(selectedIds.join(','));
+        $('#StockActivityNameSelected').val(selectedTitles.join('|'));
+        var datatopost = JSON.stringify(selectedIds);
+        pw.post("@urlpost",
+                { permission: datatopost },
+                'json',
+                function (response) {
+                    debugger;
+                    if (response) {
+                        location.reload();
+                        SwalSuccessMessage("");
+                    } else {
+                        showError("خطا");
+                    }
+                });
+    }
+
+    $('#RolePermissionTreeSelectorDiv').on('loaded.jstree', function () {
+        selectedIdsArr = [];
+    @foreach (var item in permissions)
+        {
+            int val = (int)item;
+            @: selectedIdsArr.push(@val);
+                }
+        for (var i = 0; i < selectedIdsArr.length; i++) {
+            if (selectedIdsArr[i] != '') {
+                $("#RolePermissionTreeSelectorDiv").jstree("select_node", selectedIdsArr[i]);
+                var id1 = '#RolePermissionTreeSelectorDiv li[id=' + selectedIdsArr[i] + ']';
+            }
+        }
+    });
+
+    //$("#RolePermissionTreeSelectorDiv").delegate("a", "click", function () {
+
+    //    var tag_a = $(this);
+    //    var id = $(this).parent().attr('id');
+
+    //    var node = $("#RolePermissionTreeSelectorDiv").jstree(true).get_node(id);
+    //    var parentid = node.parent;
+    //    if ($(tag_a).hasClass('jstree-clicked') && parentid != '#') {
+    //        var parents = node.parents;
+    //        $(parents).each(function (index, i) {
+    //            //debugger
+    //            var idNode = i;
+    //            if (idNode != '#') {
+    //                $("#RolePermissionTreeSelectorDiv").jstree("select_node", idNode);
+    //            }
+    //        });
+    //    }
+    //});
+    function getRoot(id) {
+        if (id == "#")
+            return null;
+        var node = $("#RolePermissionTreeSelectorDiv").jstree(true).get_node(id);
+        if (node.parent == "#")
+            return node;
+        else {
+            node = getRoot(node.id);
+            return node;
+        }
+
+    }
+    //function deleteRolePermission(cl) {
+    //    var url = "/RolePermissions/Delete";
+    //    var successFunction = function () {
+    //        pw.post(url,
+    //            { id: cl },
+    //            'json',
+    //            function (response) {
+    //                if (response) {
+    //                    reloadJqGrid("RolePermissionGrid" );
+    //                    SwalSuccessMessage("");
+    //                } else {
+    //                    showError("خطا");
+    //                }
+    //            });
+
+    //    }
+    //    confirmDelete(successFunction);
+    //    return false;
+    //}
+
+
+    //function loadRolePermissionGridCompleteEvent() {
+    //    var ids = $("#RolePermissionGrid").jqGrid('getDataIDs');
+
+    //	for (var i = 0; i < ids.length; i++) {
+    //	    var cl = ids[i];
+
+    //	    dl = '<a class="ajaxLink" onclick="return deleteRolePermission(\'' + cl + '\')" title="حذف"   ><div class="fa fa-times"></div></a>';
+    //	    $('#RolePermissionGrid').jqGrid('setRowData', ids[i], { act: dl });
+    //	}
+    //}
+
+</script>
+
+
+
+

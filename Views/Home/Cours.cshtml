@@ -1,0 +1,65 @@
+﻿@model IEnumerable<SenakLearn.Models.learn_cours>
+@{
+    Layout = "~/Views/Shared/_Layout.cshtml";
+    var count = 0;
+}
+
+@Html.Raw("<div class='container courses-browse popular'>")
+<div class="row toolbar">
+    <div class="col-md-4 col-sm-6 col-xs-12 select-categories">
+
+        @Html.Cours_Group_DropDown("CoursGroupId", false, new { @class = "jquery-select" }, "یک دسته را انتخاب کنید", (int?)ViewBag.groupId, null, true)
+    </div>
+    <div class="col-md-4 col-sm-6 col-xs-12 select-numofvids">
+        @Html.Teacher_DropDown("TeacherId", false, new { @class = "jquery-select" }, "یک مدرس را انتخاب کنید", (int?)ViewBag.teacherId)
+    </div>
+
+    <div class="col-sm-6 col-xs-12 text-keywords float-right">
+        <input class="keywords" name="keywords" id="keywords" type="text" placeholder="کلمات کلیدی" value="@ViewBag.keyword">
+    </div>
+    <div class="col-sm-6 col-xs-12 search-button float-left">
+        <button class="search-teachers" onclick="ReloadPage()">جستجو</button>
+    </div>
+</div>
+@foreach (var item in Model)
+{
+    if (count % 3 == 0)
+    {
+        if (count != 0)
+        {
+            @Html.Raw("</div>")
+        }
+        @Html.Raw("<div class='row tutorials'>")
+
+    }
+    count++;
+    <div class="col-xs-12 col-sm-6 col-md-4">
+        <div class="tutorial">
+            <img src="/images/cours/@item.image" class="resp-img" alt="@item.name" style="width:370px;height:220px">
+            <div class="tutorial-details">
+                <h6>@item.name</h6>
+                <p><span class="lessons">
+                    <i class="zmdi zmdi-assignment"></i>
+                    @item.num_present جلسه
+                    </span>
+                <span class="duration">
+                    <i class="zmdi zmdi-time"></i>
+                    @item.time ساعت
+                    </span></p>
+                <p class="abs">@item.doc</p>
+                <a href="/DetailsCours/Index?type=1&id=@item.id" class="greybutton">نمایش دوره</a>
+            </div>
+        </div>
+    </div>
+}
+@Html.Raw("</div>")
+
+@Html.Raw("</div>")
+<script>
+    function ReloadPage() {
+        window.location.href = "/home/Cours?groupId=" + $('#CoursGroupId').val() + "&teacherId=" + $('#TeacherId').val() + "&keyword=" + $('#keywords').val();
+    }
+
+</script>
+
+

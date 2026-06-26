@@ -1,0 +1,123 @@
+﻿
+@model List<SurveyWeb.Models.Advertising>
+@{
+    var count = (int)ViewBag.Count;
+    var search = (string)ViewBag.search;
+    var typeName = (string)ViewBag.typeName;
+    var typeId = (int?)ViewBag.typeId;
+    var currentPage = (int)ViewBag.currentPage;
+    var totalPage = (int)ViewBag.totalPage;
+    var counter = 0;
+    if (!string.IsNullOrWhiteSpace(search))
+    {
+        <div style="padding-top:70px" class=""> جستجوی عبارت @search</div>
+    }
+    if (!string.IsNullOrWhiteSpace(typeName))
+    {
+        <div style="padding-top:70px" class=""> نوع مرکز پذیرایی: @typeName</div>
+    }
+}
+
+<section class="blog-page masonry page-section-ptb">
+    <div class="row ">
+        <div class="col-md-3 col-sm-6 col-xs-12   search-button select-categories">
+
+           @Html.ResturantTypeDropDown("TypeId",false,false)
+
+        </div>
+        <div class="col-md-3 col-sm-6 col-xs-12  search-button select-numofvids">
+            <select class="jquery-select chosen-select chosen-rtl" id="IsMusical" name="IsMusical">
+                <option value="">انتخاب کنید</option>
+                <option value="true">موزیکال</option>
+                <option value="false">معمولی</option>
+            </select>
+
+        </div>
+
+        <div class="col-sm-3 col-xs-6  search-button text-keywords float-right">
+            <input class="keywords form-control placeholder" name="keywords" id="keywords" type="text" placeholder="نام رستوران">
+        </div>
+        <div class="col-sm-3 col-xs-6 search-button text-center">
+            <button class="search-teachers button " style="cursor:pointer" onclick="ReloadPage()">جستجو</button>
+        </div>
+    </div>
+    <div class="container-fluid">
+        <div class="row">
+            <div class="col-md-12">
+                <div class="masonry columns-4">
+                    <div class="grid-sizer"></div>
+                    @{
+                        if (Model != null && Model.Count > 0)
+                        {
+                            foreach (var item in Model)
+                            {
+                                if (counter == 4)
+                                {
+                                    @Html.Raw(" </div></div> </div><div class='row'> <div class='col-md-12'><div class='masonry columns-4' >")
+                                }
+                                counter += 1;
+
+                                <div class="masonry-item clearfix">
+                                    <div class="blog-entry mb-5 mb-4">
+                                        <div class="entry-image clearfix">
+                                            <a href="/Home/Advertising/@item.Id"><img class="img-fluid" src="~/Images/Advertising/@item.ImageUrl" alt="@item.ResturantName"></a>
+                                        </div>
+                                        <div class="blog-detail">
+                                            <div class="entry-title mb-1">
+                                                <a href="/Home/Advertising/@item.Id">@item.ResturantName</a>
+                                            </div>
+                                            <div class="entry-meta mb-1">
+                                                <ul>
+                                                    <li><a href="#"><i class="ti-folder"></i> @item.Resturant.ResturantType.DropDownTitle</a></li>
+                                                    @*<li><a href="#"><i class="ti-folder"></i> @item.NewsGroup.Title</a></li>*@
+                                                    @*<li><a href="#"> @item.VisitCount<i class="ti-comments"></i></a></li>*@
+                                                    @*<li><a href="#"><i class="ti-calendar"></i> @item.CreatedDateShamsi</a></li>*@
+                                                </ul>
+                                            </div>
+                                          
+                                        </div>
+                                    </div>
+                                </div>
+                            }
+                        }
+                        else
+                        {
+                            <div class=""> رکوردی یافت نشد</div>
+                        }
+                    }
+                </div>
+            </div>
+            <div class="pagination-nav text-center col-md-12 col-sm-12 col-xs-12 col-xl-12">
+                <ul class="pagination" style=" width: 100%;overflow: auto;">
+                    @*<li><a href="/Home/Allnews?skip=0">«</a></li>*@
+                    @{
+                        if (totalPage > 1)
+                        {
+                            for (int i = 1; i <= totalPage; i++)
+                            {
+                                var classActive = "";
+                                var skip = i - 1;
+                                var ahref = "/Home/AllAdvertising?skip=" + skip + "&search=" + search;
+                                if (i == currentPage)
+                                {
+                                    classActive = "active";
+                                    ahref = "";
+                                }
+                                <li class="@classActive" style="display: inline-block;clear: both;"><a href="@ahref">@i</a></li>
+                            }
+                        }
+
+                    }
+                    @*<li><a href="/Home/Allnews?skip=@totalPage">»</a></li>*@
+                </ul>
+            </div>
+
+        </div>
+    </div>
+</section>
+<script>
+   
+    function ReloadPage() {
+        window.location.href='/Home/AllAdvertising?typeId='+$("#TypeId").val()+'&search='+$("#keywords").val()+'&isMusical='+$("#IsMusical").val();
+    }
+</script>

@@ -1,0 +1,62 @@
+﻿@model SenakLearn.Models.SurveyQuestion
+@if (ViewBag.Layout != null)
+{
+    Layout = ViewBag.Layout;
+}
+@if (Model?.Id > 0)
+{
+    if (Model.SurveyAnswers?.Count > 0)
+    {
+        foreach (var answer in Model.SurveyAnswers.Where(x=>!string.IsNullOrWhiteSpace(x.Result)))
+        {
+            <td> @answer.Result</td>
+        }
+    }
+    else
+    {
+        var required = "";
+        if (Model.required)
+        {
+            required = "required";
+        }
+        if (!string.IsNullOrEmpty(Model.QuestionImageUrl))
+        {
+              @Html.Raw($"<img src='/images/Question/{ Model.QuestionImageUrl}'  { (Model.Height > 0 ? " height='"+ Model.Height + "'" : "")}{ (Model.Width > 0 ? " width='" + Model.Width + "'" : "")} />")
+        }
+        <div class="QuestionSurvey">
+            @Model.Question
+        </div>
+        <div class="QuestionSurvey">
+            <input type="url" id="@Model.Id" name="@Model.Id"  @required class="SurveyAnswer @required" />
+        </div>
+
+        <div class="QuestionSurveyFooter">
+            @{
+                int? next = null;
+                int? prev = null;
+                if (ViewData["Next"] != null)
+                {
+                    next = (int?)ViewData["Next"];
+                }
+                if (ViewData["Prev"] != null)
+                {
+                    prev = (int?)ViewData["Prev"];
+                }
+                if (next != null && next > 0 && prev != null && prev > 0)
+                {
+                    <input type="button" title="بعدی" value="بعدی" class="btn btn-warning" onclick="return ShowQuestionById('@next')" />
+                    <input type="button" title="قبلی" value="قبلی" class="btn btn-warning" onclick="return ShowQuestionById('@prev')" />
+                }
+                else if (next != null && next > 0)
+                {
+                    <input type="button" title="شروع" value="شروع" class="btn btn-warning" onclick="return ShowQuestionById('@next')" />
+                }
+                else if (prev != null && prev > 0)
+                {
+                    <input type="button" title="ثبت" value="ثبت" class="btn btn-success" onclick="return saveSurveyForm()" />
+                }
+            }
+        </div>
+                    }
+
+                }

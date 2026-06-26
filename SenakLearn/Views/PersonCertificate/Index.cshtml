@@ -1,0 +1,124 @@
+﻿
+@{
+    @model SenakLearn.Models.Person.Person_Certificate
+    Layout = "~/Views/Shared/_LayoutAdmin.cshtml";
+    var urlList = "/PersonCertificate/LoadList?userId=" + Model.UserId;
+    ViewBag.Title = SenakLearn.Models.Dictionary.ModelDictionary[typeof(SenakLearn.Models.Person.Person_Certificate)];
+    var user = (SenakLearn.Models.learn_user)ViewBag.User;
+}
+<style>
+    /* فقط برای اطمینان از اینکه عکس در مودال وسط قرار بگیره و اندازه‌اش مناسب باشه */
+    #myBootstrapModal .modal-body {
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        padding: 0; /* حذف padding پیش‌فرض اگر لازم شد */
+    }
+
+        #myBootstrapModal .modal-body img {
+            display: block; /* برای حذف فضای اضافه زیر عکس */
+            max-width: 100%;
+            max-height: 70vh; /* محدود کردن ارتفاع مودال، می‌تونی تغییرش بدی */
+            object-fit: contain; /* برای اینکه نسبت ابعاد عکس حفظ بشه */
+        }
+
+    /* استایل برای ظاهر بهتر دکمه بستن (اگر لازم بود) */
+    .modal-header .close {
+        padding: 0.5rem 0.75rem; /* کمی فضای بیشتر دور دکمه */
+    }
+
+</style>
+<!-- Page-Title -->
+<div class="row">
+    <div class="col-sm-12">
+        <div class="page-title-box">
+            <ol class="breadcrumb pull-right">
+                <li><a href="#">@ViewBag.Title</a></li>
+                <li class="active">Dashboard</li>
+            </ol>
+            <h4 class="page-title">@Html.ActionLink("افزودن", "Create", new { userId = Model.UserId })||@Html.ActionLink("بازگشت", "Index", "UsersAdmin") </h4>
+        </div>
+    </div>
+</div>
+<!-- دکمه‌ای که ممکنه برای باز کردن مودال داشته باشی (اختیاری) -->
+<!--<button type="button" class="btn btn-primary" data-toggle="modal" data-target="#myBootstrapModal">
+    باز کردن مودال با بو‌ت‌استرپ
+</button>-->
+
+<!-- ساختار اصلی مودال -->
+<div class="modal fade" id="myBootstrapModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+    <div class="modal-dialog modal-lg" role="document">
+        <!-- modal-lg برای سایز بزرگ -->
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="myModalLabel">عکس بزرگ</h5>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+            <div class="modal-body text-center">
+                <!-- عکس اینجا قرار می‌گیرد -->
+                <img id="modalBootstrapImage" src="" alt="بزرگنمایی عکس" style="max-width: 800px; height: auto;width:auto;max-height:600px;">
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-secondary" data-dismiss="modal">بستن</button>
+                <!-- اگر دکمه دیگه‌ای لازم داری اینجا اضافه کن -->
+            </div>
+        </div>
+    </div>
+</div>
+
+<div id="TadGoodsField">
+    @using MVC.Controls
+
+    @Html.Grid(
+    new GridControl().SetName("PersonCertificateGrid").
+    SetPageSize(10).
+    SetShrinkToFit(false).
+    SetIsAutoSize(true).
+    SetIsFilterToolbar(true).
+    IsRTL().
+    SetListUrl(urlList).
+        SetCaption((string)ViewBag.Title).
+    SetOnLoadCompleteEvent("loadPersonCertificateGridCompleteEvent").
+    SetOnDblClickRowEvent("onDblClickRowCertificateGrid").
+        UseColumns(SenakLearn.Controllers.Person.PersonCertificateController.PersonCertificateColumns)
+)
+    <script type="text/javascript">
+        function onDblClickRowCertificateGrid(rowData) {
+            //var rowData = $("#PersonCertificateGrid").jqGrid('getRowData', rowid);
+            //window.alert(rowid);
+            debugger;
+            var imageUrl = rowData.UrlCertificate;
+            var url = $(imageUrl).attr('src');
+
+            $("#modalBootstrapImage").attr("src", url);
+            $("#myModalLabel").text(rowData.Person_Course);
+            // باز کردن مودال (اگر از CSS نمایش/مخفی استفاده می‌کنی)
+            $("#myBootstrapModal").modal('show'); 
+        }
+        function loadPersonCertificateGridCompleteEvent() {
+            var ids = $("#PersonCertificateGrid").jqGrid('getDataIDs');
+            for (var i = 0; i < ids.length; i++) {
+                var cl = ids[i];
+                var rowData = $("#PersonCertificateGrid").jqGrid('getRowData', cl);
+                //debugger;
+                var TypeCourse = rowData.TypeCourse;
+                //window.alert(TypeCourse);
+
+                ed = '<a class="ajaxLink"  href="/PersonCertificate/Edit?id=' + cl + '" title="ویرایش"><div style="margin: 3px;cursor: pointer;display: inline-block;">ویرایش</div></a>';//<div class="fa fa-pencil"></div>
+                dl = '<a class="ajaxLink delete"href="/PersonCertificate/Delete?id=' + cl + '" title="حذف"   ><div style="margin: 3px;cursor: pointer;display: inline-block;">حذف</div></a>';//<div class="fa fa-times"></div>
+                de = '<a class="ajaxLink "href="/PersonCertificate/Details?id=' + cl + '" title="جزئیات"   ><div style="margin: 3px;cursor: pointer;display: inline-block;">جزئیات</div></a>';//<div class="fa fa-building"></div>
+
+                img = '<img src="/MyCertificate/LoadFile?PersonCertificateId=' + cl + '" width="60px" height="65px" title=""/>';
+
+                if (TypeCourse == 'Person') {
+                    $('#PersonCertificateGrid').jqGrid('setRowData', ids[i], { act: ed + dl + de });
+                    $('#PersonCertificateGrid').jqGrid('setRowData', ids[i], { UrlCertificate: img });
+                }
+
+              
+            }
+        }
+    </script>
+</div>

@@ -1,0 +1,21 @@
+﻿/*
+   Persian Web Font, BYekan
+   By Mahdi Golestani
+   www.Arisna.ir
+*/
+
+@charset "utf-8";
+
+@font-face {
+    font-stretch: normal;
+    font-weight: normal;
+    font-variant: normal;
+    font-family: 'BYekan';
+    src: url('../fonts/BYekan.eot?#') format('eot'), /* IE6�8 */
+    url('../fonts/BYekan.woff') format('woff'), /* FF3.6+, IE9, Chrome6+, Saf5.1+*/
+    url('../fonts/BYekan.ttf') format('truetype'); /* Saf3�5, Chrome4+, FF3.5, Opera 10+ */
+}
+
+body {
+    font: normal 13px BYekan,Arial;
+}

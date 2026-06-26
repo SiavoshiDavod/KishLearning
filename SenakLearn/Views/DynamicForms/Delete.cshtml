@@ -1,0 +1,82 @@
+﻿@model SenakLearn.Models.DynamicForm
+
+@{
+    Layout = "~/Views/Shared/_LayoutAdmin.cshtml";
+}
+
+<h2>حذف</h2>
+
+<h3>آیا از حذف رکورد مطمئن هستید؟</h3>
+<div>
+    <h4>DynamicForm</h4>
+    <hr />
+    <dl class="dl-horizontal">
+        <dt>
+            @Html.DisplayNameFor(model => model.Menu.Title)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.Menu.Title)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.Order)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.Order)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.Status)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.Status)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.Title)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.Title)
+        </dd>
+        <dt>
+            @Html.DisplayNameFor(model => model.Url)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.Url)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.Image)
+        </dt>
+
+        <dd>
+            @if (Model.Image != null)
+            {
+                 <img src="/images/DynamicForm/@Model.Image" alt=@Model.Title class="thumbnail" />
+            }
+            @*@Html.DisplayFor(model => model.Image)*@
+        </dd>
+
+        <dt>
+        @Html.DisplayNameFor(model => model.Content)
+    </dt>
+
+    <dd>@Html.Raw(Model.Content)
+    </dd>
+
+    </dl>
+
+    @using (Html.BeginForm()) {
+        
+
+        <div class="form-actions no-color">
+            <input type="submit" value="حذف" class="btn btn-default" /> |
+           @Html.ActionLink("بازگشت به لیست", "Index")
+        </div>
+    }
+</div>

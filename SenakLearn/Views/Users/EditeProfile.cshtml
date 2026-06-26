@@ -1,0 +1,191 @@
+﻿
+@{
+    Layout = "~/Views/Shared/_LayoutAdmin.cshtml";
+}
+
+@model SenakLearn.Models.RegisterViewModel
+<div class="row">
+    <div class="col-sm-12">
+        <div class="page-title-box">
+            <ol class="breadcrumb pull-right">
+                <li><a href="#">@ViewBag.Title</a></li>
+                <li class="active">Dashboard</li>
+            </ol>
+        </div>
+    </div>
+</div>
+<div class="row">
+    <div class="col-sm-12">
+        <div class="card-box">
+
+            @using (Html.BeginForm("EditeProfile", "Users", FormMethod.Post, new { enctype = "multipart/form-data" }))
+            {
+            <div class="form-horizontal">
+                @Html.ValidationSummary(true, "", new { @class = "text-danger" })
+
+                <div class="form-group">
+                    @Html.LabelFor(model => model.UserName, new { @class = "control-label col-md-2  " })
+                    <div class="col-md-10">
+                        @Html.TextBoxFor(model => model.UserName, new { @style = " ", @readonly = "readonly", @class = "form-control" })
+                        @Html.ValidationMessageFor(model => model.UserName, "", new { @class = "text-danger" })
+                    </div>
+                </div>
+
+                <div class="form-group">
+
+                    @Html.LabelFor(model => model.Email, new { @class = " control-label col-md-2" })
+                    <div class="col-md-10">
+                        @Html.TextBoxFor(model => model.Email, new { @style = " ", @maxlength = 50, @readonly = "readonly", @class = "form-control" })
+                        @Html.ValidationMessageFor(model => model.Email, "", new { @class = "text-danger" })
+                    </div>
+                </div>
+                <div class="form-group">
+
+                    @Html.LabelFor(model => model.Name, new { @class = " control-label col-md-2" })
+                    <div class="col-md-10">
+                        @Html.TextBoxFor(model => model.Name, new { @style = " ", @maxlength = 100, @class = "form-control" })
+                        @Html.ValidationMessageFor(model => model.Name, "", new { @class = "text-danger" })
+                    </div>
+                </div>
+                <div class="form-group">
+
+                    @Html.LabelFor(model => model.Family, new { @class = "control-label col-md-2 " })
+                    <div class="col-md-10">
+                        @Html.TextBoxFor(model => model.Family, new { @style = " ", @maxlength = 100, @class = "form-control" })
+                        @Html.ValidationMessageFor(model => model.Family, "", new { @class = "text-danger" })
+                    </div>
+                </div>
+                <div class="form-group">
+
+                    @Html.LabelFor(model => model.FatherName, new { @class = "control-label col-md-2 " })
+                    <div class="col-md-10">
+                        @Html.TextBoxFor(model => model.FatherName, new { @style = " ", @maxlength = 50, @class = "form-control" })
+                        @Html.ValidationMessageFor(model => model.FatherName, "", new { @class = "text-danger" })
+                    </div>
+                </div>
+                <div class="form-group">
+
+                    @Html.LabelFor(model => model.NationaCode, new { @class = "control-label col-md-2 " })
+                    <div class="col-md-10">
+                        @Html.TextBoxFor(model => model.NationaCode, new { @style = " ", @maxlength = 100, @class = "form-control" })
+                        @Html.ValidationMessageFor(model => model.NationaCode, "", new { @class = "text-danger" })
+                    </div>
+                </div>
+                <div class="form-group">
+
+                    @Html.LabelFor(model => model.Shenasname, new { @class = "control-label col-md-2 " })
+                    <div class="col-md-10">
+                        @Html.TextBoxFor(model => model.Shenasname, new { @style = " ", @maxlength = 15, @class = "form-control" })
+                        @Html.ValidationMessageFor(model => model.Shenasname, "", new { @class = "text-danger" })
+                    </div>
+                </div>
+                <div class="form-group">
+
+                    @Html.LabelFor(model => model.BirthLocation, new { @class = "control-label col-md-2 " })
+                    <div class="col-md-10">
+                        @Html.TextBoxFor(model => model.BirthLocation, new { @style = " ", @maxlength = 50, @class = "form-control" })
+                        @Html.ValidationMessageFor(model => model.BirthLocation, "", new { @class = "text-danger" })
+                    </div>
+                </div>
+                <div class="form-group">
+
+                    @Html.LabelFor(model => model.BirthDay, new { @class = "control-label col-md-2 " })
+                    <div  class="input-group   col-md-10">
+                        @*<input type="text" class="form-control MyDate" id="BirthDayShamsi" data-targetselector="#FromDate_l" name="BirthDayShamsi" placeholder="تاریخ" data-mddatetimepicker="true" data-placement="right" data-englishnumber="true" value="@Model.BirthDayShamsi" />*@
+                        @*@Html.TextBoxFor(model => model.BirthDay, new { @style = " ", @maxlength = 100, @class = "form-control" })*@
+                        @*@Html.ValidationMessageFor(model => model.BirthDayShamsi, "", new { @class = "text-danger" })*@
+
+                        <div class="input-group-addon" data-mddatetimepicker="true" data-targetselector="#BirthDayShamsi" data-trigger="click" data-enabletimepicker="false">
+                            <span class="glyphicon glyphicon-calendar"></span>
+                        </div>
+                        <input type="text" class="form-control" id="BirthDayShamsi" name="BirthDayShamsi" value="@Model.BirthDayShamsi" placeholder="تاریخ تولد" />
+                    </div>
+                </div>
+
+
+                <div class="form-group">
+
+                    @Html.LabelFor(model => model.Province, new { @class = "control-label col-md-2 " })
+                    <div class="col-md-10">
+                        @Html.ProvinceDropDown("Province", true, false)
+                        @Html.ValidationMessageFor(model => model.Province, "", new { @class = "text-danger" })
+                    </div>
+                </div>
+                <div class="form-group">
+
+                    @Html.LabelFor(model => model.City, new { @class = "control-label col-md-2 " })
+                    <div class="col-md-10">
+                        @Html.TextBoxFor(model => model.City, new { @style = " ", @maxlength = 50, @class = "form-control" })
+                        @Html.ValidationMessageFor(model => model.City, "", new { @class = "text-danger" })
+                    </div>
+                </div>
+                <div class="form-group">
+
+                    @Html.LabelFor(model => model.Address, new { @class = "control-label  col-md-2" })
+                    <div class="col-md-10">
+                        @Html.TextBoxFor(model => model.Address, new { @style = " ", @maxlength = 100, @class = "form-control" })
+                        @Html.ValidationMessageFor(model => model.Address, "", new { @class = "text-danger" })
+                    </div>
+                </div>
+                <div class="form-group">
+
+                    @Html.LabelFor(model => model.Mobile, new { @class = "control-label col-md-2 " })
+                    <div class="col-md-10">
+                        @Html.TextBoxFor(model => model.Mobile, new { @style = " ", @maxlength = 11, @class = "form-control" })
+                        @Html.ValidationMessageFor(model => model.Mobile, "", new { @class = "text-danger" })
+                    </div>
+                </div>
+                <div class="form-group">
+
+                    @Html.LabelFor(model => model.Tel, new { @class = "control-label col-md-2 " })
+                    <div class="col-md-10">
+                        @Html.TextBoxFor(model => model.Tel, new { @style = " ", @maxlength = 15, @class = "form-control" })
+                        @Html.ValidationMessageFor(model => model.Tel, "", new { @class = "text-danger" })
+                    </div>
+                </div>
+
+                <div class="form-group">
+
+                    @Html.LabelFor(model => model.Education, new { @class = "control-label col-md-2 " })
+                    <div class="col-md-10">
+                        @Html.TextBoxFor(model => model.Education, new { @style = " ", @maxlength = 50, @class = "form-control" })
+                        @Html.ValidationMessageFor(model => model.Education, "", new { @class = "text-danger" })
+                    </div>
+                </div>
+                <div class="form-group">
+
+                    @Html.LabelFor(model => model.Expertise, new { @class = "control-label col-md-2 " })
+                    <div class="col-md-10">
+                        @Html.TextBoxFor(model => model.Expertise, new { @style = " ", @maxlength = 50, @class = "form-control" })
+                        @Html.ValidationMessageFor(model => model.Expertise, "", new { @class = "text-danger" })
+                    </div>
+                </div>
+
+
+
+                <div class="form-group">
+                    @Html.Label("عکس پروفایل", new { @class = "control-label col-md-2" })
+
+                    @if (Model.ImageUrl != null)
+                    {
+                        <img src="/images/Users/@Model.ImageUrl" alt=@Model.ImageUrl style=";width:150px" class="thumbnail" />
+                    }
+                    <div class="col-md-10">
+                        <label class="btn btn-default"> انتخاب فایل عکس  <input accept="image/*" class="fileChosen" type="file" hidden id="ImageFile" name="ImageFile"></label><span class="fileChosenText"></span>
+                    </div>
+                    @Html.HiddenFor(x => x.ImageUrl)
+                    @Html.ValidationMessageFor(model => model.ImageUrl, "", new { @class = "text-danger" })
+
+                </div>
+                <div class="form-group">
+                    <div style="text-align:center">
+                        <input type="submit" value="ویرایش" class="btn btn-success" />
+                    </div>
+                </div>
+            </div>
+            }
+
+
+        </div>
+    </div>
+</div>

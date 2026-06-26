@@ -1,0 +1,104 @@
+﻿
+@model SenakLearn.Models.OfflineVideo
+
+@{
+    string video = "";
+    if (Model != null && Model.VideoId != Guid.Empty)
+    {
+        video = Model.VideoId.ToString();
+    }
+
+}
+
+@using (Html.BeginForm(null, null, FormMethod.Post, new
+{
+    @id = "myForm",
+    @name = "myForm"
+}))
+{
+    @Html.HiddenFor(x => x.Id)
+
+    <div class="form-horizontal">
+        <h4>کلاس های افلاین</h4>
+        <hr />
+        @Html.ValidationSummary(true, "", new { @class = "text-danger" })
+        <div class="form-group">
+            @Html.LabelFor(model => model.VideoId, "VideoId", new { @class = "control-label col-md-2" })
+            <div class="col-md-10">
+                @*@Html.Video_DropDown("VideoId", true, new { @class = "form-control" })*@
+                @Html.VideoSelector("VideoId", "VideoName", video, new { @class = "form-control" },true)
+                @Html.ValidationMessageFor(model => model.VideoId, "", new { @class = "text-danger" })
+            </div>
+        </div>
+
+        <div class="form-group">
+            @Html.LabelFor(model => model.ParentId, "ParentId", new { @class = "control-label col-md-2" })
+            <div class="col-md-10">
+                @Html.OfflineVideoDropDown("ParentId", false, new { @class = "form-control" })
+                @Html.ValidationMessageFor(model => model.ParentId, "", new { @class = "text-danger" })
+            </div>
+        </div>
+
+        <div class="form-group">
+            @Html.LabelFor(model => model.Order, new { @class = "control-label col-md-2" })
+            <div class="col-md-10">
+                @Html.EditorFor(model => model.Order, new { @class = "form-control" })
+                @Html.ValidationMessageFor(model => model.Order, "", new { @class = "text-danger" })
+            </div>
+        </div>
+
+        <div class="form-group">
+            @Html.LabelFor(model => model.Description, new { @class = "control-label col-md-2" })
+            <div class="col-md-10">
+                @Html.EditorFor(model => model.Description, new { @class = "form-control" })
+                @Html.ValidationMessageFor(model => model.Description, "", new { @class = "text-danger" })
+            </div>
+        </div>
+        <div class="form-group">
+            @Html.LabelFor(model => model.IsFree, new { @class = "control-label col-md-2" })
+            <div class="col-md-10">
+                @Html.EditorFor(model => model.IsFree, new { @class = "form-control" })
+                @Html.ValidationMessageFor(model => model.IsFree, "", new { @class = "text-danger" })
+            </div>
+        </div>
+        <div class="form-group">
+            @Html.LabelFor(model => model.learn_coursId, new { @class = "control-label col-md-2" })
+            <div class="col-md-10">
+                @Html.HiddenFor(x=>x.learn_coursId)
+                @Html.Cours_DropDown("learn_coursIdDDl", true, new { @class = "form-control" })
+                @Html.ValidationMessageFor(model => model.learn_coursId, "", new { @class = "text-danger" })
+            </div>
+        </div>
+        <div class="form-group">
+            <div class="col-md-offset-2 col-md-10">
+                <input type="button" value="ثبت" onclick=" createForm()" class="btn btn-default" />
+            </div>
+        </div>
+    </div>
+    <script>
+        
+        $(document).ready(function () {
+            $("#learn_coursIdDDl").val($("#learncoursId").val());
+            $("#learn_coursId").val($("#learncoursId").val());
+            $('#learn_coursIdDDl').attr("disabled", true);
+        });
+        function createForm() {
+           // e.preventDefault();
+            $.ajax({
+                url: '/TeacherOfflineVideo/create',
+                type: 'post',
+                data: $('#myForm').serialize(),
+                success: function () {
+                    $('#OfflineVideo').jstree("refresh");
+                    createOfflineVideoChild(null, null);
+                }
+            });
+        };
+    </script>
+}
+
+
+@section Scripts {
+    @Scripts.Render("~/bundles/jqueryval")
+}
+

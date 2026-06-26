@@ -1,0 +1,54 @@
+﻿@{
+    Layout = "~/Views/Shared/_LayoutAdmin.cshtml";
+}
+
+@{
+    Layout = "~/Views/Shared/_LayoutAdmin.cshtml";
+    var urlList = "/SurveyQuestionOptions/LoadList";
+    ViewBag.Title = "گزینه های سوالات";
+}
+<!-- Page-Title -->
+<div class="row">
+    <div class="col-sm-12">
+        <div class="page-title-box">
+            <ol class="breadcrumb pull-right">
+                <li><a href="#">@ViewBag.Title</a></li>
+                <li class="active">Dashboard</li>
+            </ol>
+            <h4 class="page-title">@Html.ActionLink("افزودن", "Create") </h4>
+        </div>
+    </div>
+</div>
+<div id="TadGoodsField">
+    @using MVC.Controls
+
+    @Html.Grid(
+    new GridControl().SetName("SurveyQuestionOptionGrid").
+    SetPageSize(10).
+    SetShrinkToFit(false).
+    SetIsAutoSize(true).
+    SetIsFilterToolbar(true).
+    IsRTL().
+    SetListUrl(urlList).
+        SetCaption("گزینه های سوالات").
+    SetOnLoadCompleteEvent("loadSurveyQuestionOptionGridCompleteEvent").
+        UseColumns(SenakLearn.Controllers.SurveyQuestionOptionsController.SurveyQuestionOptionColumns)
+)
+    <script type="text/javascript">
+	function loadSurveyQuestionOptionGridCompleteEvent() {
+		var ids = $("#SurveyQuestionOptionGrid").jqGrid('getDataIDs');
+		for (var i = 0; i < ids.length; i++) {
+			var cl = ids[i];
+			ed = '<a class="ajaxLink"  href="/SurveyQuestionOptions/Create?Id=' + cl + '" title="ویرایش"><div class="fa fa-pencil"></div></a>';
+			dl = '<a class="ajaxLink delete"href="/SurveyQuestionOptions/Delete?Id=' + cl + '" title="حذف"   ><div class="fa fa-times"></div></a>';
+			de = '<a class="ajaxLink "href="/SurveyQuestionOptions/Details?Id=' + cl + '" title="جزئیات"   ><div class="fa fa-building"></div></a>';
+			$('#SurveyQuestionOptionGrid').jqGrid('setRowData', ids[i], { act: ed + dl + de });
+		}
+    }
+
+    </script>
+</div>
+
+
+
+

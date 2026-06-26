@@ -1,0 +1,237 @@
+﻿@model SenakLearn.Models.learn_cours
+
+@{
+        Layout = "~/Views/Shared/_LayoutAdmin.cshtml";
+    ViewBag.Title = SenakLearn.Models.Dictionary.ModelDictionary[typeof(SenakLearn.Models.learn_cours)];
+}
+
+<h2>@ViewBag.Title</h2>
+
+
+@using (Html.BeginForm("Edit", "Cours",  FormMethod.Post, new { enctype = "multipart/form-data" }))
+{
+
+
+<div class="form-horizontal">
+
+    @Html.ValidationSummary(true)
+    @Html.HiddenFor(model => model.id)
+    @Html.HiddenFor(model => model.image)
+
+    <div class="form-group">
+        @Html.LabelFor(model => model.name, new { @class = "control-label col-md-2" })
+        <div class="col-md-10">
+            @Html.EditorFor(model => model.name)
+            @Html.ValidationMessageFor(model => model.name)
+        </div>
+    </div>
+
+    <div class="form-group">
+        @Html.LabelFor(model => model.id_group, new { @class = "control-label col-md-2" })
+        <div class="col-md-10">
+            @Html.Cours_Group_DropDown("id_group", true, new { @class = "jquery-select" }, "یک دسته را انتخاب کنید", null, null, true, null, null, null)
+            @Html.ValidationMessageFor(model => model.id_group)
+        </div>
+    </div>
+
+    <div class="form-group">
+        @Html.LabelFor(model => model.time, new { @class = "control-label col-md-2" })
+        <div class="col-md-10">
+            @Html.EditorFor(model => model.time)
+            @Html.ValidationMessageFor(model => model.time)
+        </div>
+    </div>
+
+    <div class="form-group">
+        @Html.LabelFor(model => model.id_teacher, new { @class = "control-label col-md-2" })
+        <div class="col-md-10">
+            @Html.Teacher_DropDown("id_teacher", false, new { @class = "jquery-select" }, "یک مدرس را انتخاب کنید")
+            @Html.ValidationMessageFor(model => model.id_teacher)
+        </div>
+    </div>
+
+
+
+    <div class="form-group">
+        @Html.LabelFor(model => model.status, new { @class = "control-label col-md-2" })
+        <div class="col-md-10">
+            @Html.EditorFor(model => model.status)
+            @Html.ValidationMessageFor(model => model.status)
+        </div>
+    </div>
+
+    <div class="form-group">
+        @Html.LabelFor(model => model.num_present, new { @class = "control-label col-md-2" })
+        <div class="col-md-10">
+            @Html.EditorFor(model => model.num_present)
+            @Html.ValidationMessageFor(model => model.num_present)
+        </div>
+    </div>
+    <div class="form-group">
+        @Html.LabelFor(model => model.Monetary, new { @class = "control-label col-md-2" })
+        <div class="col-md-8">
+            @Html.EditorFor(model => model.Monetary)
+            @Html.ValidationMessageFor(model => model.Monetary)
+        </div>
+    </div>
+    <div class="form-group">
+        @Html.LabelFor(model => model.PriceAfterDiscount, new { @class = "control-label col-md-2" })
+        <div class="col-md-8">
+            @Html.EditorFor(model => model.PriceAfterDiscount)
+            @Html.ValidationMessageFor(model => model.PriceAfterDiscount)
+        </div>
+    </div>
+    <div class="form-group">
+        @Html.LabelFor(model => model.IsFavorite, new { @class = "control-label col-md-2" })
+        <div class="col-md-10">
+            <div class="checkbox">
+                @Html.BooleanDropDownFor(x => x.IsFavorite, "بله", "خیر", true)
+                @Html.ValidationMessageFor(model => model.IsFavorite, "", new { @class = "text-danger" })
+            </div>
+        </div>
+    </div>
+
+    <div class="form-group">
+        @Html.LabelFor(model => model.image, new { @class = "control-label col-md-2" })
+        <div class="col-md-10">
+            @if (Model.image != null)
+            {
+                <img src="/images/cours/@Model.image" alt=@Model.name width="150px" class="thumbnail" />
+            }
+
+            <label class="btn btn-default"> انتخاب فایل  <input accept="image/*" class="fileChosen" type="file" hidden id="ImageFile" name="ImageFile"></label><span class="fileChosenText"></span>
+            @Html.HiddenFor(x => x.image)
+            @Html.ValidationMessageFor(model => model.image)
+        </div>
+    </div>
+
+    <div class="form-group">
+        @Html.LabelFor(model => model.doc, new { @class = "control-label col-md-2" })
+        <div class="col-md-10">
+            @Html.EditorFor(model => model.doc)
+            @Html.ValidationMessageFor(model => model.doc)
+        </div>
+    </div>
+
+    <div class="form-group">
+        @Html.LabelFor(model => model.doc2, new { @class = "control-label col-md-2" })
+        <div class="col-md-10">
+            @Html.ClassicEditorFor(model => model.doc2, new { @class = "form-control" })
+            @Html.ValidationMessageFor(model => model.doc2, "", new { @class = "text-danger" })
+        </div>
+    </div>
+    <div class="form-group">
+        @Html.LabelFor(model => model.InterviewPathVideo, new { @class = "control-label col-md-2" })
+        <div class="col-md-10">
+            @*@Html.File_DropDown("InterviewPathVideo", false)*@
+            <div class="form-control">
+                @Html.VideoSelector("InterviewPathVideo", "InterviewPathVideoName", Model.InterviewPathVideo.ToString(), Model.InterviewPathVideoName, new { @class = "col-md-5" })
+                @*@Html.HiddenFor(x=>x.InterviewPathVideo)*@
+                @Html.ValidationMessageFor(model => model.InterviewPathVideo, "", new { @class = "text-danger" })
+
+                @*<span id="InterviewPathVideoName">@Model.InterviewPathVideoName</span>*@
+                <div class="col-md-3">
+                    <button onclick="btnShowVideoUpload()" type="button">
+                        <img src="~/images/64x64/toggle-expand-blue.png" title="بارگذاری فایل" width="32" height="32" />
+                    </button>
+                    <button onclick="btnShowVideoPlay()" type="button">
+                        <img src="~/images/64x64/Play.png" title="پخش" width="32" height="32" />
+                    </button>
+                </div>
+            </div>
+
+        </div>
+    </div>
+    <div class="form-group">
+        @Html.LabelFor(model => model.OnlineRelated, new { @class = "control-label col-md-2" })
+        <div class="col-md-10">
+            @Html.OnlineClass_DropDown("OnlineRelated", false, new { @class = "form-control" })
+            @Html.ValidationMessageFor(model => model.OnlineRelated, "", new { @class = "text-danger" })
+        </div>
+    </div>
+    <div class="form-group">
+        @Html.LabelFor(model => model.BookRelated, new { @class = "control-label col-md-2" })
+        <div class="col-md-10">
+            @Html.Book_DropDown("BookRelated", false, new { @class = "form-control" })
+            @Html.ValidationMessageFor(model => model.BookRelated, "", new { @class = "text-danger" })
+        </div>
+    </div>
+    <div class="form-group">
+        @Html.LabelFor(model => model.BookletRelated, new { @class = "control-label col-md-2" })
+        <div class="col-md-10">
+            @Html.Booklet_DropDown("BookletRelated", false, new { @class = "form-control" })
+            @Html.ValidationMessageFor(model => model.BookletRelated, "", new { @class = "text-danger" })
+        </div>
+    </div>
+    <div class="form-group">
+        <div class="col-md-offset-2 col-md-10">
+            <input type="submit" value="ویرایش" class="btn btn-danger" />
+        </div>
+    </div>
+</div>
+}
+
+<div>
+    @Html.ActionLink("بازگشت به لیست", "Index")
+</div>
+
+@section Scripts
+{
+@Scripts.Render("~/bundles/jqueryval")
+<script>
+    function btnShowVideoUpload() {
+        $(".dialogVideoUploadClass").remove();
+        var $dialog = $("<div class='dialogVideoUploadClass' style='padding:15px'></div>").get(0);
+        $.ajax({
+            url: "/VideoFile/CreatePartial",
+            type: "post",
+            success: function (res) {
+
+                /* var div = $($dialog).find('div.dialogVideoUploadClass').prevObject[0];*/
+                //debugger;
+                $($dialog).html(res);
+                $($dialog).dialog({
+                    autoOpen: true, modal: true, show: "blind", hide: "blind", width: '550px',
+                    height: 'auto', title: 'بارگذاری فایل',
+                    close: function () {
+                        //$('#OfflineVideo').jstree("refresh");
+                        //createOfflineVideoChild(null, null);
+                        //debugger;
+                        $('#InterviewPathVideo').val($($dialog).find('#fileUploadedId').val());
+                        $('#InterviewPathVideoName').text($($dialog).find('#fileUploadedName').val());
+                        $(".dialogVideoUploadClass").remove();
+                    }
+                });
+            }
+        });
+    }
+    function btnShowVideoPlay() {
+        var videoId = $('#InterviewPathVideo').val();
+        //debugger;
+        if (videoId == '' || videoId == undefined) {
+            alert('یک فایل برای مشاهده انتخاب نماپید !');
+            return;
+        }
+        $(".dialogVideoPlayClass").remove();
+        var $dialog = $("<div class='dialogVideoPlayClass' style='padding:15px'></div>").get(0);
+        $.ajax({
+            url: "/VideoFile/PlayPartial?videoId=" + videoId,
+            type: "post",
+            success: function (res) {
+
+                $($dialog).html(res);
+                $($dialog).dialog({
+                    autoOpen: true, modal: true, show: "blind", hide: "blind", width: '550px',
+                    height: 'auto', title: 'پخش فایل',
+                    close: function () {
+                        //$('#OfflineVideo').jstree("refresh");
+                        //createOfflineVideoChild(null, null);
+
+                        $(".dialogVideoPlayClass").remove();
+                    }
+                });
+            }
+        });
+    }
+    </script>
+}

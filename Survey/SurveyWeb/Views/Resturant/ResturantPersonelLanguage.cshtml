@@ -1,0 +1,49 @@
+﻿@model List<SurveyWeb.Models.ResturantPersonelLanguage>
+    
+    <div>
+        <input type="hidden" id="ViewBagpersonelId" value="@ViewBag.personelId" />
+        <input type="submit" value="افزودن زبان خارجی" class="btn btn-default" onclick="return AddLanguagePersonel('@ViewBag.personelId')" />
+    </div>
+<table class="table table-bordered table-hover">
+    <thead>
+        <tr>
+            <th>
+                نام زبان
+            </th>
+            <th>
+                وضعیت خواندن
+            </th>
+            <th>
+                وضعیت نوشتن
+            </th>
+            <th>
+                وضعیت مکالمه
+            </th>
+            <th>
+                حذف
+            </th>
+        </tr>
+    </thead>
+    <tbody>
+        @foreach (var item in Model)
+        {
+        <tr>
+            <td>
+                @item.LanguageName
+            </td>
+            <td>
+                @item.LanguageReading
+            </td>
+            <td>
+                @item.LanguageWriting
+            </td>
+            <td>
+                @item.LanguageSpeaking
+            </td>
+            <td>
+                <button class="btn btn-danger " value="حذف" title="حذف" onclick="RemoveLanguagePersonel('@item.Id')">حذف</button>
+            </td>
+        </tr>
+        }
+    </tbody>
+</table>

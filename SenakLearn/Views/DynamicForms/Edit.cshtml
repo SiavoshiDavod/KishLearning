@@ -1,0 +1,106 @@
+﻿@model SenakLearn.Models.DynamicForm
+
+@{
+    Layout = "~/Views/Shared/_LayoutAdmin.cshtml";
+}
+
+<h2>ویرایش</h2>
+
+
+@using (Html.BeginForm("Edit", "DynamicForms", FormMethod.Post, new { enctype = "multipart/form-data" }))
+{
+    
+    
+    <div class="form-horizontal">
+        <h4>DynamicForm</h4>
+        <hr />
+        @Html.ValidationSummary(true, "", new { @class = "text-danger" })
+        @Html.HiddenFor(model => model.Id)
+
+        <div class="form-group">
+            @Html.LabelFor(model => model.Order,  new { @class = "control-label col-md-2" })
+            <div class="col-md-10">
+                @Html.EditorFor(model => model.Order, new { @class = "form-control" } )
+                @Html.ValidationMessageFor(model => model.Order, "", new { @class = "text-danger" })
+            </div>
+        </div>
+
+        <div class="form-group">
+            @Html.LabelFor(model => model.Status,  new { @class = "control-label col-md-2" })
+            <div class="col-md-10">
+                <div class="checkbox">
+                    @Html.EditorFor(model => model.Status)
+                    @Html.ValidationMessageFor(model => model.Status, "", new { @class = "text-danger" })
+                </div>
+            </div>
+        </div>
+
+        <div class="form-group">
+            @Html.LabelFor(model => model.MenuId, "MenuId",  new { @class = "control-label col-md-2" })
+            <div class="col-md-10">
+                @Html.DropDownList("MenuId", null,  new { @class = "form-control" })
+                @Html.ValidationMessageFor(model => model.MenuId, "", new { @class = "text-danger" })
+            </div>
+        </div>
+
+        <div class="form-group">
+            @Html.LabelFor(model => model.Title,  new { @class = "control-label col-md-2" })
+            <div class="col-md-10">
+                @Html.EditorFor(model => model.Title, new { @class = "form-control" } )
+                @Html.ValidationMessageFor(model => model.Title, "", new { @class = "text-danger" })
+            </div>
+        </div>
+        <div class="form-group">
+            @Html.LabelFor(model => model.Url, new { @class = "control-label col-md-2" })
+            <div class="col-md-10">
+                @Html.EditorFor(model => model.Url, new { @class = "form-control" })
+                @Html.ValidationMessageFor(model => model.Url, "", new { @class = "text-danger" })
+            </div>
+        </div>
+
+        <div class="form-group">
+            @Html.LabelFor(model => model.Image,  new { @class = "control-label col-md-2" })
+            <div class="col-md-10">
+                @Html.HiddenFor(model => model.Image)
+                @if (Model.Image != null)
+                {
+                    <img src="/images/DynamicForm/@Model.Image" alt=@Model.Image width="150px" class="thumbnail" />
+                }
+                <label class="btn btn-default"> انتخاب فایل  <input  accept="image/*" class="fileChosen" type="file" hidden id="ImageFile" name="ImageFile"></label><span class="fileChosenText"></span>
+                @Html.ValidationMessageFor(model => model.Image, "", new { @class = "text-danger" })
+            </div>
+        </div>
+        <div class="form-group">
+            @Html.LabelFor(model => model.InterviewPathVideo, new { @class = "control-label col-md-2" })
+            <div class="col-md-10">
+                @*@Html.File_DropDown("InterviewPathVideo", false)*@
+                @Html.VideoSelector("InterviewPathVideo", "VideoName", null, new { @class = "form-control" })
+                @Html.ValidationMessageFor(model => model.InterviewPathVideo, "", new { @class = "text-danger" })
+            </div>
+        </div>
+        <div class="form-group">
+            @Html.LabelFor(model => model.Content,  new { @class = "control-label col-md-2" })
+            <div class="col-md-10">
+                @Html.ClassicEditorFor(model => model.Content, new { @class = "form-control" } )
+                @Html.ValidationMessageFor(model => model.Content, "", new { @class = "text-danger" })
+            </div>
+        </div>
+
+        <div class="form-group">
+            <div class="col-md-offset-2 col-md-10">
+                 <input type="submit" value="ذخیره" class="btn btn-default" />
+            </div>
+        </div>
+    </div>
+}
+
+<div>
+   @Html.ActionLink("بازگشت به لیست", "Index")
+</div>
+
+
+@section Scripts {
+    @Scripts.Render("~/bundles/jqueryval")
+}
+
+

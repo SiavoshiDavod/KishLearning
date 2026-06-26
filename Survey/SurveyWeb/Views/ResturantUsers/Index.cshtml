@@ -1,0 +1,67 @@
+﻿@model IEnumerable<SurveyWeb.Models.User>
+
+@{
+    Layout = "~/Views/Shared/_LayoutAdmin.cshtml";
+    var urlList = "/ResturantUsers/LoadList";
+    ViewBag.Title = "کاربران در انتظار تایید";
+    var user = (SurveyWeb.Models.User)ViewBag.User;
+}
+
+<div class="row">
+    <div class="col-sm-12">
+        <div class="page-title-box">
+            <ol class="breadcrumb pull-right">
+                <li><a href="#">@ViewBag.Title</a></li>
+                <li class="active">Dashboard</li>
+            </ol>
+            <h4 class="page-title">@Html.ActionLink("افزودن", "Create") </h4>
+        </div>
+    </div>
+</div>
+<div id="TadGoodsField">
+    <select id="Archive" name="Archive" onchange="reloadResturantUsersGrid()">
+        <option value="true"> @ViewBag.Title  </option>
+        <option value="false"> کاربران تایید شده</option>
+    </select>
+    @using MVC.Controls
+
+    @Html.Grid(
+    new GridControl().SetName("ResturantUsersGrid").
+    SetPageSize(10).
+    SetShrinkToFit(false).
+    SetIsAutoSize(true).
+    SetIsFilterToolbar(true).
+    IsRTL().
+    SetListUrl(urlList).
+        SetCaption("کاربران").
+    SetOnLoadCompleteEvent("loadUserGridCompleteEvent").
+        UseColumns(SurveyWeb.Controllers.UsersController.UserColumns)
+)
+    <script >
+	function loadUserGridCompleteEvent() {
+		var ids = $("#ResturantUsersGrid").jqGrid('getDataIDs');
+		for (var i = 0; i < ids.length; i++) {
+			var cl = ids[i];
+			ed = '<a class="ajaxLink"  href="/ResturantUsers/Create?Id=' + cl + '" title="ویرایش"><div class="fa fa-pencil"></div></a>';
+			dl = '<a class="ajaxLink delete"href="/ResturantUsers/Delete?Id=' + cl + '" title="حذف"   ><div class="fa fa-times"></div></a>';
+            de = '<a class="ajaxLink "href="/ResturantUsers/Details?Id=' + cl + '" title="جزئیات"   ><div class="fa fa-building"></div></a>';
+             var addorEditResturant = '';
+                @if (user.Permisstions.Any(x => x == SurveyWeb.Models.Permisstion.CheckListTypeCartables)){
+                    @: addorEditResturant = '<a class="ajaxLink "href="/CheckListTypeCartables/Create?userId=' + cl + '" title="اطلاعات رستوران"   ><div class="fa fa-building"></div></a>';
+                }
+            var role = '<a class="" onclick="confirmSwalFire(\'/ResturantUsers/Accept?userId=' + cl + '\', reloadResturantUsersGrid,\'کاربر تایید شود؟\')"  title="تایید"   ><div class="fa fa-check"></div></a>';
+			$('#ResturantUsersGrid').jqGrid('setRowData', ids[i], { act:  dl  + role+addorEditResturant });
+		}
+        }
+        function reloadResturantUsersGrid() {
+            var url = '@urlList' + '?Archive='+$("#Archive").val();
+            console.log(url);
+            reloadJqGrid("ResturantUsersGrid",url);
+        }
+
+    </script>
+</div>
+
+
+
+

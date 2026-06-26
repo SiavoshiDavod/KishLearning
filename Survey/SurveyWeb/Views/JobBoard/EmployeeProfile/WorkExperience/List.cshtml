@@ -1,0 +1,46 @@
+﻿
+@using MVC.Controls
+
+@Html.Grid(
+new GridControl().SetName("WorkExperienceGrid").
+SetPageSize(10).
+SetShrinkToFit(false).
+SetIsAutoSize(true).
+SetIsFilterToolbar(true).
+IsRTL().
+SetListUrl("/EmployeeProfile/LoadWorkExperienceList?userID="+ (int)ViewBag.currentUser).
+    SetCaption((string)ViewBag.Title).
+SetOnLoadCompleteEvent("loadWorkExperienceGridCompleteEvent").
+    UseColumns(SurveyWeb.Controllers.JobBoard.EmployeeProfileController.WorkExperienceColumns)
+)
+
+<script >
+	function loadWorkExperienceGridCompleteEvent() {
+		var ids = $("#WorkExperienceGrid").jqGrid('getDataIDs');
+		for (var i = 0; i < ids.length; i++) {
+			var cl = ids[i];
+			//ed = '<a class="ajaxLink"  href="/JobCategory/Find?Id=' + cl + '" title="ویرایش"><div class="fa fa-pencil"></div></a>';
+			dl = '<a class="ajaxLink delete" onclick="remove(' + cl +')" title="حذف"   ><div class="fa fa-times"></div></a>';
+		    //de = '<a class="ajaxLink "href="/JobCategory/Find?Id=' + cl + '" title="جزئیات"   ><div class="fa fa-building"></div></a>';
+		    $('#WorkExperienceGrid').jqGrid('setRowData', ids[i], { act: dl });
+		}
+    }
+
+	 function remove(id) {
+        var conf = window.confirm("آیا از حذف اطمینان دارید؟");
+        if (conf == true) {
+            $.ajax({
+                type: "post",
+                url: "/EmployeeProfile/RemoveWorkExperience?id=" + id,
+                success: function (resp) {
+                    //alert("Item deleted successfully.");
+                    $('#work-experience-list').html(resp);
+                },
+                error: function () {
+                    alert("عملیات با خطا مواجه شد.")
+                }
+            })
+        }
+    }
+
+</script>

@@ -1,0 +1,97 @@
+﻿@model IEnumerable<SenakLearn.Models.learn_cours>
+
+@{
+    Layout = "~/Views/Shared/_LayoutAdmin.cshtml";
+    var urlList = "/Podcast/LoadList";
+    ViewBag.Title = "پادکست";
+}
+<!-- Page-Title -->
+<div class="row">
+    <div class="col-sm-12">
+        <div class="page-title-box">
+            <ol class="breadcrumb pull-right">
+                <li><a href="#">@ViewBag.Title</a></li>
+                <li class="active">Dashboard</li>
+            </ol>
+            <h4 class="page-title">@Html.ActionLink("افزودن", "Create", new { @class = "page-title" }) </h4>
+        </div>
+    </div>
+</div>
+
+<div id="TadGoodsField" class="row">
+    @using MVC.Controls
+
+    @Html.Grid(
+    new GridControl().SetName("PodcastGrid").
+    SetPageSize(10).
+    SetShrinkToFit(false).
+    SetIsAutoSize(true).
+    SetIsFilterToolbar(true).
+    IsRTL().
+    SetSortName("id").
+    SetListUrl(urlList).
+        SetCaption("پادکست").
+    SetOnLoadCompleteEvent("loadPodcastGridCompleteEvent").
+        UseColumns(SenakLearn.Controllers.Admin.PodcastController.PodcastColumns)
+)
+    <script type="text/javascript">
+        function loadPodcastGridCompleteEvent() {
+
+
+            var ids = $("#PodcastGrid").jqGrid('getDataIDs');
+            for (var i = 0; i < ids.length; i++) {
+                var cl = ids[i];
+                var CourseesName = $("#PodcastGrid").jqGrid('getCell', cl, 'name');
+                ed = '<div class="tableEditLink" ><a class="ajaxLink"  href="/Podcast/edit?Id=' + cl + '" title="ویرایش"> ویرایش </a></div>';
+                dl = '<div class="tableDeleteLink"><a class="ajaxLink delete"href="/Podcast/Delete?Id=' + cl + '" title="حذف"   >حذف</a></div>';
+                da = '<div class="tableDeleteLink"><a class="ajaxLink delete" onclick=deleteAllDetails(' + cl + ') title="حذف کامل"   >حذف کامل</a></div>';
+                de = '<div class="tableDetailLink"><a href="#" class="ajaxLink" onclick="clickShowVideoPanel(' + cl + ',\'' + CourseesName + '\')" title="پادکست"   >پادکست</a></div>';
+                pr = '<div ><a href="/DetailsPodcast/Index?type=2&id=' + cl + '" class="ajaxLink " target="_blank"  title="مشاهده"   >مشاهده</a></div>';
+                $('#PodcastGrid').jqGrid('setRowData', ids[i], { InterviewPathVideo: ed + dl + da + de + pr });
+            }
+        }
+        function clickShowVideoPanel(coursId, CourseesName) {
+            //console.log(coursId);
+            //debugger;
+            //return false;
+            $(".dialogVideoPanelClass").remove();
+            var $dialog = "<div class='dialogVideoPanelClass' style='padding:15px'></div>";
+            $.ajax({
+                url: "/OfflineVideo/IndexPartial?learn_coursId=" + coursId,
+                type: "post",
+                success: function (res) {
+
+                    var div = $($dialog).find('div.dialogVideoPanelClass').prevObject[0];
+                    //debugger;
+                    $(div).html(res);
+                    $(div).dialog({
+                        autoOpen: true, modal: true, show: "blind", hide: "blind", width: '600',
+                        height: 'auto', title: CourseesName
+                    });
+                }
+            });
+
+        }
+
+        function deleteAllDetails(coursId) {
+
+            if (confirm('آیا از حذف پادکست و کلیه فایلها اطمینان دارید ؟')) {
+                $.ajax({
+                    url: '/Cours/DeleteAll?coursId=' + coursId,
+                    type: 'Post',
+                    success: function (res) {
+                        debugger;
+                        if (res.Status == 'OK')
+                            $("#PodcastGrid").trigger('reloadGrid');
+                    },
+                    Error: function (xhr, error, status) {
+                        console.log(error, status);
+                    }
+                });
+            }
+        }
+    </script>
+</div>
+
+
+

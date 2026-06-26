@@ -1,0 +1,151 @@
+﻿@model IEnumerable<SurveyWeb.Models.Faq>
+
+
+
+<section class="faq page-section-ptb">
+    <div class="container">
+        <div class="row">
+            <div class="col-md-12">
+                <div class="section-title text-center">
+                    <span>سؤالی دارید؟</span>
+                    <h3 class="text-center">سؤالات متداول پرسیده شده</h3>
+                </div>
+                <!-- Nav tabs -->
+                <ul class="nav nav-tabs justify-content-center" role="tablist">
+                    <li role="presentation"><a class="active show" href="#all-faqs" aria-controls="all-faqs" role="tab" data-toggle="tab" aria-selected="true">همه سؤالات متداول</a></li>
+                    @*<li role="presentation"><a href="#ecommerce" aria-controls="ecommerce" role="tab" data-toggle="tab" class="" aria-selected="false">تجارت الکترونیک</a></li>
+                    <li role="presentation"><a href="#smm" aria-controls="smm" role="tab" data-toggle="tab" class="" aria-selected="false">SMM</a></li>
+                    <li role="presentation"><a href="#technology" aria-controls="technology" role="tab" data-toggle="tab" class="" aria-selected="false">تکنولوژی</a></li>
+                    <li role="presentation"><a href="#services" aria-controls="services" role="tab" data-toggle="tab" class="" aria-selected="false">خدمات B2B</a></li>
+                    <li role="presentation"><a href="#seo" aria-controls="seo" role="tab" data-toggle="tab" class="" aria-selected="true">سئو</a></li>*@
+                </ul>
+                <!-- Tab panes -->
+                <div class="tab-content">
+                    <div role="tabpanel" class="tab-pane active show" id="all-faqs">
+                        <div class="accordion">
+                            @{
+                                string a = "acd-active";
+                                string d = "block";
+                            }
+                            @foreach (var item in Model)
+                            {
+                                <div class="acd-group  text-black @a">
+                                    <a href="#" class="acd-heading text-black"><i class="fa fa-question" aria-hidden="true"></i>@item.Question</a>
+                                    <div class="acd-des text-gray" style="display: @d;">
+                                        <p> @item.Answer</p>
+                                    </div>
+                                </div>
+                                a = "";
+                                d = "none";
+                            }
+                        </div>
+                    </div>
+                    @*<div role="tabpanel" class="tab-pane" id="ecommerce">
+                        <div class="accordion">
+                            <div class="acd-group text-black">
+                                <a href="#" class="acd-heading">
+                                    <i class="fa fa-question" aria-hidden="true"></i>ما همیشه در عرض یک روز کاری پشتیبانی می کنیم.
+                                </a>
+                                <div class="acd-des text-gray" style="display: none;">لورم ایپسوم متن ساختگی با تولید سادگی نامفهوم از صنعت چاپ و با استفاده از طراحان گرافیک است. چاپگرها و متون بلکه روزنامه و مجله در ستون و سطرآنچنان که لازم است و برای شرایط فعلی تکنولوژی مورد نیاز و کاربردهای متنوعلورم ایپسوم متن ساختگی با تولید سادگی نامفهوم از صنعت چاپ و با استفاده از طراحان گرافیک است. چاپگرها و متون بلکه روزنامه و مجله در ستون و سطرآنچنان که لازم است و برای شرایط فعلی تکنولوژی مورد نیاز و کاربردهای متنوع</div>
+                            </div>
+                            <div class="acd-group">
+                                <a href="#" class="acd-heading text-black">
+                                    <i class="fa fa-question" aria-hidden="true"></i> ما رتبه بندی بالا را ارائه می دهیم.
+                                </a>
+                                <div class="acd-des text-gray" style="display: none;">لورم ایپسوم متن ساختگی با تولید سادگی نامفهوم از صنعت چاپ و با استفاده از طراحان گرافیک است. چاپگرها و متون بلکه روزنامه و مجله در ستون و سطرآنچنان که لازم است و برای شرایط فعلی تکنولوژی مورد نیاز و کاربردهای متنوعلورم ایپسوم متن ساختگی با تولید سادگی نامفهوم از صنعت چاپ و با استفاده از طراحان گرافیک است. چاپگرها و متون بلکه روزنامه و مجله در ستون و سطرآنچنان که لازم است و برای شرایط فعلی تکنولوژی مورد نیاز و کاربردهای متنوع</div>
+                            </div>
+                            <div class="acd-group">
+                                <a href="#" class="acd-heading text-black">
+                                    <i class="fa fa-question" aria-hidden="true"></i>نرخ بالای نگهداری مشتری.
+                                </a>
+                                <div class="acd-des text-gray pb-0" style="display: none;">لورم ایپسوم متن ساختگی با تولید سادگی نامفهوم از صنعت چاپ و با استفاده از طراحان گرافیک است. چاپگرها و متون بلکه روزنامه و مجله در ستون و سطرآنچنان که لازم است و برای شرایط فعلی تکنولوژی مورد نیاز و کاربردهای متنوعلورم ایپسوم متن ساختگی با تولید سادگی نامفهوم از صنعت چاپ و با استفاده از طراحان گرافیک است. چاپگرها و متون بلکه روزنامه و مجله در ستون و سطرآنچنان که لازم است و برای شرایط فعلی تکنولوژی مورد نیاز و کاربردهای متنوع</div>
+                            </div>
+                        </div>
+                    </div>*@
+                    @*<div role="tabpanel" class="tab-pane" id="smm">
+                        <div class="accordion">
+                            <div class="acd-group text-black">
+                                <a href="#" class="acd-heading">
+                                    <i class="fa fa-question" aria-hidden="true"></i>ما همیشه در عرض یک روز کاری پشتیبانی می کنیم.
+                                </a>
+                                <div class="acd-des text-gray" style="display: none;">لورم ایپسوم متن ساختگی با تولید سادگی نامفهوم از صنعت چاپ و با استفاده از طراحان گرافیک است. چاپگرها و متون بلکه روزنامه و مجله در ستون و سطرآنچنان که لازم است و برای شرایط فعلی تکنولوژی مورد نیاز و کاربردهای متنوعلورم ایپسوم متن ساختگی با تولید سادگی نامفهوم از صنعت چاپ و با استفاده از طراحان گرافیک است. چاپگرها و متون بلکه روزنامه و مجله در ستون و سطرآنچنان که لازم است و برای شرایط فعلی تکنولوژی مورد نیاز و کاربردهای متنوع</div>
+                            </div>
+                            <div class="acd-group">
+                                <a href="#" class="acd-heading text-black">
+                                    <i class="fa fa-question" aria-hidden="true"></i>نرخ بالای نگهداری مشتری.
+                                </a>
+                                <div class="acd-des text-gray pb-0" style="display: none;">لورم ایپسوم متن ساختگی با تولید سادگی نامفهوم از صنعت چاپ و با استفاده از طراحان گرافیک است. چاپگرها و متون بلکه روزنامه و مجله در ستون و سطرآنچنان که لازم است و برای شرایط فعلی تکنولوژی مورد نیاز و کاربردهای متنوعلورم ایپسوم متن ساختگی با تولید سادگی نامفهوم از صنعت چاپ و با استفاده از طراحان گرافیک است. چاپگرها و متون بلکه روزنامه و مجله در ستون و سطرآنچنان که لازم است و برای شرایط فعلی تکنولوژی مورد نیاز و کاربردهای متنوع</div>
+                            </div>
+                        </div>
+                    </div>*@
+                    @*<div role="tabpanel" class="tab-pane" id="technology">
+                        <div class="accordion">
+                            <div class="acd-group text-black">
+                                <a href="#" class="acd-heading">
+                                    <i class="fa fa-question" aria-hidden="true"></i>ما همیشه در عرض یک روز کاری پشتیبانی می کنیم.
+                                </a>
+                                <div class="acd-des text-gray" style="display: none;">لورم ایپسوم متن ساختگی با تولید سادگی نامفهوم از صنعت چاپ و با استفاده از طراحان گرافیک است. چاپگرها و متون بلکه روزنامه و مجله در ستون و سطرآنچنان که لازم است و برای شرایط فعلی تکنولوژی مورد نیاز و کاربردهای متنوعلورم ایپسوم متن ساختگی با تولید سادگی نامفهوم از صنعت چاپ و با استفاده از طراحان گرافیک است. چاپگرها و متون بلکه روزنامه و مجله در ستون و سطرآنچنان که لازم است و برای شرایط فعلی تکنولوژی مورد نیاز و کاربردهای متنوع</div>
+                            </div>
+                            <div class="acd-group">
+                                <a href="#" class="acd-heading text-black">
+                                    <i class="fa fa-question" aria-hidden="true"></i> ما رتبه بندی بالا را ارائه می دهیم.
+                                </a>
+                                <div class="acd-des text-gray" style="display: none;">لورم ایپسوم متن ساختگی با تولید سادگی نامفهوم از صنعت چاپ و با استفاده از طراحان گرافیک است. چاپگرها و متون بلکه روزنامه و مجله در ستون و سطرآنچنان که لازم است و برای شرایط فعلی تکنولوژی مورد نیاز و کاربردهای متنوعلورم ایپسوم متن ساختگی با تولید سادگی نامفهوم از صنعت چاپ و با استفاده از طراحان گرافیک است. چاپگرها و متون بلکه روزنامه و مجله در ستون و سطرآنچنان که لازم است و برای شرایط فعلی تکنولوژی مورد نیاز و کاربردهای متنوع</div>
+                            </div>
+                            <div class="acd-group">
+                                <a href="#" class="acd-heading text-black">
+                                    <i class="fa fa-question" aria-hidden="true"></i>نرخ بالای نگهداری مشتری.
+                                </a>
+                                <div class="acd-des text-gray pb-0" style="display: none;">لورم ایپسوم متن ساختگی با تولید سادگی نامفهوم از صنعت چاپ و با استفاده از طراحان گرافیک است. چاپگرها و متون بلکه روزنامه و مجله در ستون و سطرآنچنان که لازم است و برای شرایط فعلی تکنولوژی مورد نیاز و کاربردهای متنوعلورم ایپسوم متن ساختگی با تولید سادگی نامفهوم از صنعت چاپ و با استفاده از طراحان گرافیک است. چاپگرها و متون بلکه روزنامه و مجله در ستون و سطرآنچنان که لازم است و برای شرایط فعلی تکنولوژی مورد نیاز و کاربردهای متنوع</div>
+                            </div>
+                        </div>
+                    </div>*@
+                    @*<div role="tabpanel" class="tab-pane" id="services">
+                        <div class="accordion">
+                            <div class="acd-group text-black">
+                                <a href="#" class="acd-heading">
+                                    <i class="fa fa-question" aria-hidden="true"></i>ما همیشه در عرض یک روز کاری پشتیبانی می کنیم.
+                                </a>
+                                <div class="acd-des text-gray" style="display: none;">لورم ایپسوم متن ساختگی با تولید سادگی نامفهوم از صنعت چاپ و با استفاده از طراحان گرافیک است. چاپگرها و متون بلکه روزنامه و مجله در ستون و سطرآنچنان که لازم است و برای شرایط فعلی تکنولوژی مورد نیاز و کاربردهای متنوعلورم ایپسوم متن ساختگی با تولید سادگی نامفهوم از صنعت چاپ و با استفاده از طراحان گرافیک است. چاپگرها و متون بلکه روزنامه و مجله در ستون و سطرآنچنان که لازم است و برای شرایط فعلی تکنولوژی مورد نیاز و کاربردهای متنوع</div>
+                            </div>
+                            <div class="acd-group">
+                                <a href="#" class="acd-heading text-black">
+                                    <i class="fa fa-question" aria-hidden="true"></i> ما رتبه بندی بالا را ارائه می دهیم.
+                                </a>
+                                <div class="acd-des text-gray" style="display: none;">لورم ایپسوم متن ساختگی با تولید سادگی نامفهوم از صنعت چاپ و با استفاده از طراحان گرافیک است. چاپگرها و متون بلکه روزنامه و مجله در ستون و سطرآنچنان که لازم است و برای شرایط فعلی تکنولوژی مورد نیاز و کاربردهای متنوعلورم ایپسوم متن ساختگی با تولید سادگی نامفهوم از صنعت چاپ و با استفاده از طراحان گرافیک است. چاپگرها و متون بلکه روزنامه و مجله در ستون و سطرآنچنان که لازم است و برای شرایط فعلی تکنولوژی مورد نیاز و کاربردهای متنوع</div>
+                            </div>
+                            <div class="acd-group">
+                                <a href="#" class="acd-heading text-black">
+                                    <i class="fa fa-question" aria-hidden="true"></i>نرخ بالای نگهداری مشتری.
+                                </a>
+                                <div class="acd-des text-gray pb-0" style="display: none;">لورم ایپسوم متن ساختگی با تولید سادگی نامفهوم از صنعت چاپ و با استفاده از طراحان گرافیک است. چاپگرها و متون بلکه روزنامه و مجله در ستون و سطرآنچنان که لازم است و برای شرایط فعلی تکنولوژی مورد نیاز و کاربردهای متنوعلورم ایپسوم متن ساختگی با تولید سادگی نامفهوم از صنعت چاپ و با استفاده از طراحان گرافیک است. چاپگرها و متون بلکه روزنامه و مجله در ستون و سطرآنچنان که لازم است و برای شرایط فعلی تکنولوژی مورد نیاز و کاربردهای متنوع</div>
+                            </div>
+                        </div>
+                    </div>*@
+                    @*<div role="tabpanel" class="tab-pane active show" id="seo">
+                        <div class="accordion">
+                            <div class="acd-group text-black">
+                                <a href="#" class="acd-heading">
+                                    <i class="fa fa-question" aria-hidden="true"></i>ما همیشه در عرض یک روز کاری پشتیبانی می کنیم.
+                                </a>
+                                <div class="acd-des text-gray" style="display: none;">لورم ایپسوم متن ساختگی با تولید سادگی نامفهوم از صنعت چاپ و با استفاده از طراحان گرافیک است. چاپگرها و متون بلکه روزنامه و مجله در ستون و سطرآنچنان که لازم است و برای شرایط فعلی تکنولوژی مورد نیاز و کاربردهای متنوعلورم ایپسوم متن ساختگی با تولید سادگی نامفهوم از صنعت چاپ و با استفاده از طراحان گرافیک است. چاپگرها و متون بلکه روزنامه و مجله در ستون و سطرآنچنان که لازم است و برای شرایط فعلی تکنولوژی مورد نیاز و کاربردهای متنوع</div>
+                            </div>
+                            <div class="acd-group">
+                                <a href="#" class="acd-heading text-black">
+                                    <i class="fa fa-question" aria-hidden="true"></i> ما رتبه بندی بالا را ارائه می دهیم.
+                                </a>
+                                <div class="acd-des text-gray" style="display: none;">لورم ایپسوم متن ساختگی با تولید سادگی نامفهوم از صنعت چاپ و با استفاده از طراحان گرافیک است. چاپگرها و متون بلکه روزنامه و مجله در ستون و سطرآنچنان که لازم است و برای شرایط فعلی تکنولوژی مورد نیاز و کاربردهای متنوعلورم ایپسوم متن ساختگی با تولید سادگی نامفهوم از صنعت چاپ و با استفاده از طراحان گرافیک است. چاپگرها و متون بلکه روزنامه و مجله در ستون و سطرآنچنان که لازم است و برای شرایط فعلی تکنولوژی مورد نیاز و کاربردهای متنوع</div>
+                            </div>
+                            <div class="acd-group">
+                                <a href="#" class="acd-heading text-black">
+                                    <i class="fa fa-question" aria-hidden="true"></i>نرخ بالای نگهداری مشتری.
+                                </a>
+                                <div class="acd-des text-gray pb-0" style="display: none;">لورم ایپسوم متن ساختگی با تولید سادگی نامفهوم از صنعت چاپ و با استفاده از طراحان گرافیک است. چاپگرها و متون بلکه روزنامه و مجله در ستون و سطرآنچنان که لازم است و برای شرایط فعلی تکنولوژی مورد نیاز و کاربردهای متنوعلورم ایپسوم متن ساختگی با تولید سادگی نامفهوم از صنعت چاپ و با استفاده از طراحان گرافیک است. چاپگرها و متون بلکه روزنامه و مجله در ستون و سطرآنچنان که لازم است و برای شرایط فعلی تکنولوژی مورد نیاز و کاربردهای متنوع</div>
+                            </div>
+                        </div>
+                    </div>*@
+                </div>
+            </div>
+        </div>
+    </div>
+</section>

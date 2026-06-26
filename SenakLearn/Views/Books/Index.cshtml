@@ -1,0 +1,181 @@
+﻿@using SenakLearn.Models.Common
+@using SenakLearn.Models
+@model Pagination<Book>
+@{
+    Layout = "~/Views/Shared/_Layout.cshtml";
+    ViewBag.Title = "کتاب";
+
+    int? groupId = ViewBag.groupId;
+    int? publisherId = ViewBag.publisherId;
+    string keyword = ViewBag.keyword;
+    string title = ViewBag.TitleE;
+    string titleF = ViewBag.TitleF;
+    string author = ViewBag.Author;
+    //var books = SenakLearn.Biz.BookBiz.Instance.GetAllPage(i => (groupId == null || groupId == i.GroupId) && (string.IsNullOrEmpty(keyword) || i.Keyword.Contains(keyword)) && (string.IsNullOrEmpty(titleF) || i.TitleF.Contains(titleF)) && (string.IsNullOrEmpty(title) || i.Title.Contains(title)) && (string.IsNullOrEmpty(author) || i.Author.Contains(author)), 0, 50);
+    //var books = (List<Book>)Model.DataPage;
+    int countPage = Model.CountPage;
+    int currentPage = Model.CurrentPage;
+    List<BookSlideModel> sliderBooks = ViewBag.SliderBooks;
+}
+<style>
+    .btn_Serach_p {
+        border: 1px solid lightgray;
+        margin: 15px 15px 0px 0px;
+        border-radius: 5px;
+        padding: 3px;
+        contain-intrinsic-block-size: auto;
+    }
+
+        .btn_Serach_p:hover {
+            background-color: lightgray;
+            cursor: pointer;
+        }
+
+    .carousel-caption h5 {
+        color: white;
+    }
+</style>
+<section>
+    <div class="container">
+        @if (sliderBooks.Any())
+        {
+            <div class="row">
+                <div class="col-12">
+                    <div id="carouselExampleIndicators" class="carousel slide" data-ride="carousel">
+                        <ol class="carousel-indicators">
+                            @for (int i = 0; i < sliderBooks.Count; i++)
+                            {
+                                if (i == 0)
+                                {
+                                    <li data-target="#carouselExampleIndicators" data-slide-to="0" class="active"></li>
+                                }
+                                else
+                                {
+                                    <li data-target="#carouselExampleIndicators" data-slide-to="@i"></li>
+                                }
+                            }
+                        </ol>
+                        <div class="carousel-inner">
+                            @for (int i = 0; i < sliderBooks.Count; i++)
+                            {
+                                BookSlideModel slide = sliderBooks[i];
+                                if (i == 0)
+                                {
+                                    <div class="carousel-item active">
+                                        <a href="/@slide.Url">
+                                            <img class="d-block w-100" src="/images/book/@slide.Img" alt="slide @i++">
+                                        </a>
+                                        <div class="carousel-caption d-none d-md-block">
+                                            <h5>@slide.Title</h5>
+                                        </div>
+                                    </div>
+                                }
+                                else
+                                {
+                                    <div class="carousel-item">
+                                        <a href="/@slide.Url">
+                                            <img class="d-block w-100" src="/images/book/@slide.Img" alt="slide @i++">
+                                        </a>
+                                        <div class="carousel-caption d-none d-md-block">
+                                            <h5>@slide.Title</h5>
+                                        </div>
+                                    </div>
+                                }
+                            }
+                        </div>
+                        <a class="carousel-control-prev" href="#carouselExampleIndicators" role="button" data-slide="prev">
+                            <span class="carousel-control-prev-icon" aria-hidden="true"></span>
+                            <span class="sr-only">Previous</span>
+                        </a>
+                        <a class="carousel-control-next" href="#carouselExampleIndicators" role="button" data-slide="next">
+                            <span class="carousel-control-next-icon" aria-hidden="true"></span>
+                            <span class="sr-only">Next</span>
+                        </a>
+                    </div>
+                </div>
+            </div>
+        }
+        <div class="row">
+            <div class="float-right btn_Serach_p" onclick="fn_show_Filter_boxes()">
+                <i class="fa fa-search fa-f4 "></i>
+                <span class="text-dark  header-title m-t-0"> جستجو</span>
+            </div>
+        </div>
+        <div class="row" style="display:@(ViewBag.filter?"inline-block":"none")" id="rowFilterBoxes">
+            <div class="col-md-3 col-sm-6 col-xs-12   search-button select-categories" style="display:inline-block">
+                <input type="search" class="form-control placeholder" id="BookTitle" placeholder="دنبال چه کتابی هستید؟" value="@ViewBag.TitleFilter">
+            </div>
+            <div class="col-md-3 col-sm-6 col-xs-12  search-button select-numofvids" style="display:inline-block">
+                <input type="search" name="author" class="form-control placeholder" id="author" placeholder="نویسنده خاصی مدنظرتان است" value="@ViewBag.Author">
+            </div>
+
+            <div class="col-sm-3 col-xs-6  search-button text-keywords float-right" style="display:inline-block">
+                <input class="keywords form-control placeholder" name="keywords" id="keywords" type="text" placeholder="کلمات کلیدی" value="@ViewBag.keyword">
+            </div>
+            <div class="col-xl-2 col-md-6 col-sm-6 col-xs-12 select-categories search-button" style="display:inline-block">
+                @Html.Cours_Group_DropDown("CoursGroupId", false, new { @class = "jquery-select" }, "یک گروه را انتخاب کنید", (int?)ViewBag.groupId, null, null, null, true, null)
+            </div>
+            <div class="col-sm-1 col-xs-6 search-button text-center" style="display:inline-block">
+                <button class="search-teachers button " onclick="ReloadPage()">مشاهده</button>
+            </div>
+        </div>
+    </div>
+</section>
+<section class="shop grid page-section-ptb" style="padding:20px 0;">
+    <div class="container">
+        <div class="row">
+            @foreach (var item in Model.DataPage)
+            {
+                <div class="col-md-4">
+                    <div class="product text-center mb-4">
+                        <div class="product-image">
+                            <img class="img-fluid center-block" src="/images/book/@item.ScreenShotId" alt="@item.TitleF">
+                            <div class="product-overlay">
+                                <div class="add-to-cart">
+                                    <a onclick='return countPreviewItemByClient("@SenakLearn.Models.ObjCount.objType_Book",@item.Id)' href="/Books/detail?Id=@item.Id">نمایش کتاب</a>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="product-des">
+                            <div class="product-title">
+                                <a href="/Books/detail?Id=@item.Id">@item.TitleF</a>
+                            </div>
+                            <div class="product-title">
+                                <a href="/Books/detail?Id=@item.Id">@item.Title</a>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            }
+        </div>
+
+        <div class="row">
+            <nav class="center-block">
+                <div class="navigation" style="text-align: center">
+                    <ul class="pagination">
+                        <li> صفحات : @countPage</li>
+                        <li class="page-item @Model.PreviousClass"><a class="page-link" href="?page=@((currentPage>1)?currentPage-1:currentPage)">&laquo; </a></li>
+                        <li class="page-item " style="font-weight: bolder;"><span class="page-link" style="background-color: lightgray" href="?page=@currentPage ">@currentPage</span></li>
+                        <li class="page-item @Model.NextClass"><a class="page-link" href="?page=@((currentPage<countPage)?currentPage+1:currentPage)">&raquo;</a></li>
+                    </ul>
+                </div>
+            </nav>
+        </div>
+    </div>
+</section>
+
+
+
+<script>
+    function ReloadPage() {
+        window.location.href = "/books/Index?groupId=" + $('#CoursGroupId').val() + "&publisherId=" + $('#publisherId').val() + "&title=" + $('#BookTitle').val() + "&author=" + $('#author').val() + "&keyword=" + $('#keywords').val() + "&filter=true";
+    }
+    function fn_show_Filter_boxes() {
+        //debugger;
+        if ($('#rowFilterBoxes').css('display') == 'none') {
+            $('#rowFilterBoxes').show();
+        }
+        else
+            $('#rowFilterBoxes').hide();
+    }
+</script>

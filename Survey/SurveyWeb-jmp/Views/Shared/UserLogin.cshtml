@@ -1,0 +1,72 @@
+﻿@model SurveyWeb.Models.User
+
+<div class="container">
+
+    <div class="row justify-content-center">
+        <div class="col-md-8 text-center">
+            <div class="contact-form-title text-center mb-4">
+                <h4 class="mb-1"> ورود</h4>
+                @*<p>لورم ایپسوم متن ساختگی با تولید سادگی نامفهوم از صنعت چاپ و با استفاده از طراحان گرافیک است. لورم ایپسوم متن ساختگی با تولید سادگی نامفهوم از صنعت چاپ و با استفاده از طراحان گرافیک است.  </p>*@
+            </div>
+        </div>
+    </div>
+</div>
+
+
+                <form class="gray-form mb-5 md-mb-0" action="/Home/Login" method="post" novalidate="novalidate">
+                    @Html.Hidden("ReturnUrl", (string)ViewBag.ReturnUrl)
+                    @{
+                        var m = (string)ViewBag.Message;
+                        if (!string.IsNullOrEmpty(m))
+                        {
+                            <div class="row">
+                                <div class="col-md-12">
+                                    <div class="form-group">
+                                        <span style="color:red">@m</span>
+                                    </div>
+                                </div>
+                            </div>
+                        }
+                    }
+
+                    <div class="form-group">
+                        <label for="name">آدرس ایمیل*</label>
+                        <input type="email" class="form-control" id="email" name="email" placeholder="آدرس ایمیل">
+                    </div>
+                    <div class="form-group">
+                        <label for="Password">رمز عبور*</label>
+                        <input type="password" class="form-control" id="pass" name="pass" placeholder="رمز عبور">
+                    </div>
+                    <div class="form-group">
+                        <div class="remember-checkbox mb-3">
+                            <input type="checkbox" name="one" id="one">
+                            <label for="one">پذیرش <a href="#"> سیاست ها</a> و <a href="#"> مقررات</a> سایت ما</label>
+                            <a href="#" class="pull-left">فراموشی رمز عبور؟</a>
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col-md-12">
+                            <input type="submit" value="ورود" class="button" />
+                        </div>
+                    </div>
+
+                </form>
+@*<section class="login-form page-section-ptb">
+    <div class="container">
+        <div class="row">
+            <div class="col-lg-9">
+                <h4>وارد شدن به حساب کاربری</h4>
+    </div>
+    </div>
+    </div>
+     </section>*@
+                @*<div class="col-lg-3">
+                        <div class="login-social">
+                            <h4>رسانه ها ی اجتماعی</h4>
+                            <ul>
+                                <li><a class="fb" href="#"><i class="fa fa-facebook"></i>  ورود با فیسبوک</a></li>
+                                <li><a class="twitter" href="#"><i class="fa fa-twitter"></i> ورود با توییتر</a></li>
+                                <li><a class="pinterest" href="#"><i class="fa fa-pinterest-p"></i> ورود با گوگل پلاس</a></li>
+                            </ul>
+                        </div>
+                    </div>*@

@@ -1,0 +1,54 @@
+﻿@model List<SurveyWeb.Models.JobBoard.JobPositionWrapper>
+@using SurveyWeb.Models.JobBoard
+@{
+    ViewBag.Title = "همه موقعیت های شغلی";
+    Layout = "~/Views/Shared/_LayoutAdmin.cshtml";
+}
+<style>
+    .job-container {
+        border: 1px solid #ddd;
+        border-radius: 4px;
+        padding: 5px;
+    }
+
+    .job-title {
+        color: #c93d31;
+    }
+</style>
+
+<h4>@ViewBag.PageTitle</h4>
+<hr />
+
+@if (Model != null)
+{
+    foreach (var item in Model)
+    {
+        <div class="job-container col-md-4">
+            <a href="/JobPosition/Details/@item.ID">
+                <h2 class="job-title">@item.Title</h2>
+            </a>
+            <div class=""><i class="fa fa-building"></i>@item.CompanyName</div>
+            <div class=""><i class="fa fa-map-marker mr-4"></i>@item.Location</div>
+            <div class=""><i class="fa fa-paperclip mr-4"></i>قرارداد @item.CooperationTypeName</div>
+            <div class=""><span>حقوق از</span> @item.SalaryFrom ريال <span>تا</span> @item.SalaryTo ريال</div>
+            @if (!string.IsNullOrEmpty(item.RequestStatusName))
+            {
+                if (item.RequestStatus == JobRequest.StatusType.Accepted)
+                {
+                    <div class="btn btn-success pull-right"><i class="fa fa-check mr-4"></i>@item.RequestStatusName</div>
+                }
+                else if (item.RequestStatus == JobRequest.StatusType.Rejected)
+                {
+                    <div class="btn btn-danger pull-right"><i class="fa fa-ban mr-4"></i>@item.RequestStatusName</div>
+                }
+                else
+                {
+                    <div class="btn btn-default pull-right"><i class="fa fa-spinner mr-4"></i>@item.RequestStatusName</div>
+                }
+            }
+        </div>
+    }
+}
+else { 
+    <h2>در حال حاضر آگهی ای ثیت نشده است</h2>
+}

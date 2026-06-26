@@ -1,0 +1,101 @@
+﻿@model SenakLearn.Models.Slider
+@{
+    Layout = "~/Views/Shared/_LayoutAdmin.cshtml";
+    var ControllerName = (string)ViewBag.ControllerName;
+    var Title = (string)ViewBag.Title;
+}
+<div class="row">
+    <div class="col-sm-12">
+        <div class="page-title-box">
+            <ol class="breadcrumb pull-right">
+                <li><a href="#">@ViewBag.Title</a></li>
+                <li class="active">Dashboard</li>
+            </ol>
+        </div>
+    </div>
+</div>
+<div class="row">
+    <div class="col-sm-12">
+        <div class="card-box">
+            @using (Html.BeginForm("Create", ControllerName, FormMethod.Post, new { enctype = "multipart/form-data", @class = "" }))
+            {
+                <div class="form-horizontal">
+                    @Html.HiddenFor(x => x.Id)
+                    @Html.ValidationSummary(false, "", new { @class = "text-danger" })
+                    <div class="form-group">
+                        <label class="col-md-2 control-label  ">عنوان</label>
+                        <div class="col-md-10">
+                            @Html.TextBoxFor(x => x.DropDownTitle, new { @class = "col-md-10 form-control" })
+                        </div>
+                    </div>
+
+                    <div class="form-group">
+                        <label class="col-md-2 control-label  ">پیش عنوان</label>
+                        <div class="col-md-10">
+                            @Html.TextBoxFor(x => x.PreTitle, new { @class = "col-md-10 form-control" })
+                        </div>
+                    </div>
+
+                    <div class="form-group">
+                        <label class="col-md-2 control-label  ">توضیحات</label>
+                        <div class="col-md-10">
+                            @Html.TextAreaFor(x => x.Description, new { @class = "col-md-10 form-control" })
+                        </div>
+                    </div>
+
+                    <div class="form-group">
+                        <label class="col-md-2 control-label  ">وضعیت</label>
+                        <div class="col-md-10">
+                            @Html.CheckBoxFor(x => x.Archive, new { @class = "col-md-10 form-control" })
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label class="col-md-2 control-label  ">رنگ</label>
+                        <div class="col-md-10">
+                            @Html.DropDownListFor(x => x.Color, new List<SelectListItem>() {
+                           new SelectListItem() { Text= "Black" ,Value= "Black" },
+                           new SelectListItem() { Text= "White" ,Value= "White" },
+                           new SelectListItem() { Text= "Red" ,Value= "Red" },
+                           new SelectListItem() { Text= "Green" ,Value= "Green" },
+                           new SelectListItem() { Text= "Blue" ,Value= "Blue" },
+                           new SelectListItem() { Text= "Yellow" ,Value= "Yellow" },
+                       })
+                        </div>
+                    </div>
+
+                    <div class="form-group">
+                        <label class="col-md-2 control-label  ">عکس </label>
+                        <div class="col-md-10">
+                            @if (Model!=null && !string.IsNullOrEmpty(Model.IconPath))
+                            {
+                                <img src="~/images/slider/@Model.IconPath" alt="@Model.IconPath" width="150px" class="thumbnail" />
+                            }
+                            <label class="btn btn-default"> انتخاب فایل  <input accept="image/*" class="fileChosen" type="file" hidden id="ImageFile" name="ImageFile"></label><span class="fileChosenText"></span>
+                            @Html.Hidden("IconPath")
+                        </div>
+                    </div>
+
+
+
+                    <div class="row">
+                        <button class=" btn btn-success">ثبت</button>
+                    </div>
+                    <script>
+                    </script>
+                </div>
+            }
+        </div>
+    </div>
+</div>
+@section Scripts {
+    @Scripts.Render("~/bundles/jqueryval")
+}
+<script>
+    $(document).ready(function () {
+        $("#Color option").each(function () {
+            if ($(this).val() != '') {
+                $(this).css('background-color', $(this).val());
+            }
+        });
+    });
+</script>

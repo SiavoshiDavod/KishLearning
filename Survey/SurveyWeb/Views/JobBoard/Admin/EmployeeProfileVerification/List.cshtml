@@ -1,0 +1,76 @@
+﻿
+@using MVC.Controls
+
+@Html.Grid(
+new GridControl().SetName("EmployeeProfileGrid").
+SetPageSize(10).
+SetShrinkToFit(false).
+SetIsAutoSize(true).
+SetIsFilterToolbar(true).
+IsRTL().
+SetListUrl("/AdminEmployeeProfile/LoadNotVerifiedList").
+    SetCaption((string)ViewBag.Title).
+SetOnLoadCompleteEvent("loadEmployeeProfileGridCompleteEvent").
+    UseColumns(SurveyWeb.Controllers.JobBoard.AdminEmployeeProfileController.EmployeeProfileColumns)
+)
+<script >
+    function loadEmployeeProfileGridCompleteEvent() {
+        var ids = $("#EmployeeProfileGrid").jqGrid('getDataIDs');
+        for (var i = 0; i < ids.length; i++) {
+            var cl = ids[i];
+            ed = '<a class="ajaxLink edit"   onclick="find(' + cl + ')" title="جزئیات"><div class="fa fa-pencil"></div></a>';
+            ver = '<a class="ajaxLink edit"   onclick="verify(' + cl + ')" title="تایید"><div class="fa fa-check"></div></a>';
+            //dl = '<a class="ajaxLink delete" onclick="remove(' + cl + ')" title="حذف"   ><div class="fa fa-times"></div></a>';
+            //de = '<a class="ajaxLink "href="/JobPosition/Find?Id=' + cl + '" title="جزئیات"   ><div class="fa fa-building"></div></a>';
+            $('#EmployeeProfileGrid').jqGrid('setRowData', ids[i], { act: ed + ver });
+        }
+    }
+
+    function remove(id) {
+        var conf = window.confirm("آیا از حذف اطمینان دارید؟");
+        if (conf == true) {
+            $.ajax({
+                type: "post",
+                url: "/JobPosition/Remove?id=" + id,
+                success: function (resp) {
+                    //alert("Item deleted successfully.");
+                    $('#job-position-list').html(resp);
+                },
+                error: function () {
+                    alert("عملیات با خطا مواجه شد.")
+                }
+            })
+        }
+    }
+
+    function find(id) {
+        $.ajax({
+            type: "post",
+            url: "/AdminEmployeeProfile/Find?id=" + id,
+            success: function (resp) {
+                $("#job-position-details").html(resp)
+                //alert("Item deleted successfully.");
+                //$('#job-position-list').html(resp);
+            },
+            error: function () {
+                alert("عملیات با خطا مواجه شد.")
+            }
+        })
+    }
+
+    function verify(id) {
+        var conf = window.confirm("آیا این پروفایل را تایید می کنید؟");
+        if (conf == true)
+            $.ajax({
+                type: "post",
+                url: "/AdminEmployeeProfile/AdminVerification/" + id,
+                success: function (resp) {
+                    $('#job-position-list').html(resp);
+                },
+                error: function () {
+                    alert("عملیات با خطا مواجه شد.")
+                }
+            })
+    }
+
+</script>

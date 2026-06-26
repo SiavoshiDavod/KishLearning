@@ -1,0 +1,55 @@
+﻿
+@model SenakLearn.Models.GroupDetail
+
+@{
+    Layout = "~/Views/Shared/_LayoutAdmin.cshtml";
+}
+
+<h2>حذف</h2>
+
+<h3>آیا از حذف رکورد مطمئن هستید؟</h3>
+<div>
+    <h4>OnlineClass</h4>
+    <hr />
+    <dl class="dl-horizontal">
+        <dt>
+            @Html.DisplayNameFor(model => model.Name)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.Name)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.Mobile)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.Mobile)
+        </dd>
+        <dt>
+            @Html.DisplayNameFor(model => model.Email)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.Email)
+        </dd>
+        <dt>
+            @Html.DisplayNameFor(model => model.Company)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.Company)
+        </dd>
+    </dl>
+
+    @using (Html.BeginForm())
+    {
+
+
+        <div class="form-actions no-color">
+            <input type="submit" value="حذف" class="btn btn-default" /> |
+            @Html.ActionLink("بازگشت به لیست", "Index")
+        </div>
+    }
+</div>

@@ -1,0 +1,52 @@
+﻿
+@{
+    Layout = "~/Views/Shared/_LayoutAdmin.cshtml";
+    var urlList = "/GroupDetail/LoadList";
+    ViewBag.Title = "کابران";
+}
+<!-- Page-Title -->
+<div class="row">
+    <div class="col-sm-12">
+        <div class="page-title-box">
+            <ol class="breadcrumb pull-right">
+                <li><a href="#">@ViewBag.Title</a></li>
+                <li class="active">Dashboard</li>
+            </ol>
+            <h4 class="page-title">@Html.ActionLink("افزودن", "Create") </h4>
+            <h4 class="page-title">@Html.ActionLink("آپلود اکسل", "ExcelUpload", new { @class = "page-title" }) </h4>
+        </div>
+    </div>
+</div>
+<div id="TadGoodsField">
+    @using MVC.Controls
+
+    @Html.Grid(
+    new GridControl().SetName("GroupDetailesGrid").
+    SetPageSize(10).
+    SetShrinkToFit(false).
+    SetIsAutoSize(true).
+    SetIsFilterToolbar(true).
+    IsRTL().
+    SetListUrl(urlList).
+        SetCaption("کابران").
+    SetOnLoadCompleteEvent("loadGroupDetailesGridCompleteEvent").
+        UseColumns(SenakLearn.Controllers.Admin.GroupDetailController.Columns)
+)
+    <script type="text/javascript">
+	function loadGroupDetailesGridCompleteEvent() {
+		var ids = $("#GroupDetailesGrid").jqGrid('getDataIDs');
+		for (var i = 0; i < ids.length; i++) {
+			var cl = ids[i];
+			ed = '<a class="ajaxLink"  href="/GroupDetail/Create?Id=' + cl + '" title="ویرایش"><div class="tableEditLink">ویرایش</div></a>';
+			dl = '<a class="ajaxLink delete"href="/GroupDetail/Delete?Id=' + cl + '" title="حذف"   ><div class="tableDeleteLink">حذف</div></a>';
+			de = '<a class="ajaxLink "href="/GroupDetail/Details?Id=' + cl + '" title="جزئیات"   ><div class="tableDeleteLink">جزئیات</div></a>';
+			$('#GroupDetailesGrid').jqGrid('setRowData', ids[i], { act: ed + dl  });
+		}
+    }
+
+    </script>
+</div>
+
+
+
+

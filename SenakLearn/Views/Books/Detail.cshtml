@@ -1,0 +1,158 @@
+﻿@model SenakLearn.Models.Book
+@{
+    Layout = "~/Views/Shared/_Layout.cshtml";
+    ViewBag.Title = "کتاب "+Model.TitleF;
+}
+<div class="container">
+    <div class="row">
+        <div class="col-md-12" id="mainBook" >
+            <article class="" itemscope="" itemtype="https://schema.org/NewsArticle">
+                <div class="content-title">
+                    <h3 style="text-align:center">@Model.TitleF</h3>
+                </div>
+                <div style="text-align:center">
+                </div>
+                <div class="content-body">
+                    <div style="text-align:center;">
+                        <figure>
+                            <img src="/images/paperPublisher/@Model.Publisher.IconPath" style="max-width:252px; max-height:252px ">
+                        </figure>
+                    </div>
+                    <div class="content-body">
+
+                        <div class="entry content-body__detail clearfix">
+
+                            <p>&nbsp;</p>
+                            <table class="table table-bordered">
+
+                                <tbody>
+                                    <tr>
+                                        <td style="width: 25%; background-color: #f2f2f2;">عنوان کتاب:</td>
+                                        <td style="text-align: center;">
+                                            <strong>@Model.TitleF</strong>
+                                        </td>
+                                    </tr>
+                                    <tr>
+                                        <td style="width: 25%; background-color: #f2f2f2;">عنوان انگلیسی کتاب:</td>
+                                        <td style="text-align: center;">
+                                            <strong>@Model.Title</strong>
+                                        </td>
+                                    </tr>
+                                    <tr>
+                                        <td style="width: 25%; text-align: center; background-color: #f2f2f2;" colspan="2">
+                                            <div>&nbsp;</div>
+                                            <div style="text-align: center;"><a href="~/images/Book/@Model.FileId" onclick='return countPreviewItemByClient("@SenakLearn.Models.ObjCount.objType_BookDownload",@Model.Id)' class="large otw-aqua round right-icon otw-button" target="_blank"><i class="general foundicon-down-arrow"></i>دانلود رایگان کتاب</a>&nbsp;</div>
+                                            <div>&nbsp;</div>
+                                        </td>
+                                    </tr>
+                                </tbody>
+                            </table>
+                            <p>&nbsp;</p>
+                            <table class="table table-bordered" style="height: 165px; width: 99.8522%;">
+                                <tbody>
+                                    <tr style="height: 15px;">
+                                        <td style="width: 99.8522%; text-align: center; background-color: #f2f2f2; height: 15px;" colspan="2"><span style="color: #000000;"><strong>مشخصات کتاب </strong></span></td>
+                                    </tr>
+                                    <tr style="height: 15px;">
+                                        <td style="width: 27%; background-color: #f2f2f2; height: 15px;">نویسندگان/مولف </td>
+                                        <td style="height: 15px; width: 72.8522%;">@Model.Author</td>
+                                    </tr>
+                                    @if (!string.IsNullOrWhiteSpace(Model.Translator))
+                                    {
+                                        <tr style="height: 15px;">
+                                            <td style="width: 27%; background-color: #f2f2f2; height: 15px;">مترجمان </td>
+                                            <td style="height: 15px; width: 72.8522%;">@Model.Translator</td>
+                                        </tr>
+                                    }
+                                    <tr style="height: 15px;">
+                                        <td style="width: 27%; background-color: #f2f2f2; height: 15px;"> شابک</td>
+                                        <td style="height: 15px; width: 72.8522%;">@Model.Shabak</td>
+                                    </tr>
+                                    <tr style="height: 15px;">
+                                        <td style="width: 27%; background-color: #f2f2f2; height: 15px;">سال انتشار</td>
+                                        <td style="height: 15px; width: 72.8522%;">@Model.Year</td>
+                                    </tr>
+                                    <tr style="height: 15px;">
+                                        <td style="width: 27%; background-color: #f2f2f2; height: 15px;">تعداد صفحات کتاب </td>
+                                        <td style="height: 15px; width: 72.8522%;">@Model.PageCount</td>
+                                    </tr>
+                                    <tr style="height: 15px;">
+                                        <td style="width: 27%; background-color: #f2f2f2; height: 15px;">گروه </td>
+                                        <td style="width: 72.8522%;">@Model.Group.name</td>
+                                    </tr>
+
+
+                                    <tr style="height: 15px;">
+                                        <td style="width: 27%; background-color: #f2f2f2; height: 15px;">کلمات کلیدی</td>
+                                        <td style="direction: rtl; height: 15px; width: 72.8522%;">@Model.Keyword</td>
+                                    </tr>
+
+                                    <tr style="height: 15px;">
+                                        <td style="width: 27%; background-color: #f2f2f2; height: 15px;">کد محصول</td>
+                                        <td style="height: 15px; width: 72.8522%;">F1192</td>
+                                    </tr>
+                                    <tr style="height: 15px;">
+                                        <td style="width: 27%; background-color: #f2f2f2; height: 15px;">ناشر</td>
+                                        <td style="height: 15px; width: 72.8522%;">@Model.Publisher.DropDownTitle @Model.Publisher.DropDownTitleE</td>
+                                    </tr>
+                                </tbody>
+                            </table>
+                            <p>&nbsp;</p>
+ 
+                            <p>&nbsp;</p>
+                            <table class="table table-bordered">
+                                <tbody>
+                                    <tr>
+                                        <td style="width: 27%; text-align: center; background-color: #f2f2f2;"><strong><span style="color: #003366;">فهرست مطالب</span></strong></td>
+                                    </tr>
+                                    <tr>
+                                        <td style="background-color: #ffffff;padding-right: 20px;">
+
+                                            <div>@Html.Raw(Model.Indicator)</div>
+                                        </td>
+                                    </tr>
+                                </tbody>
+                            </table>
+
+                            <p>&nbsp;</p>
+                            <table class="table table-bordered">
+                                <tbody>
+                                    <tr>
+                                        <td style="width: 27%; text-align: center; background-color: #f2f2f2;"><strong><span style="color: #003366;">بخشی از کتاب </span></strong></td>
+                                    </tr>
+                                    <tr>
+                                        <td style="background-color: #ffffff;padding-right: 20px;">
+                                            @Html.Raw(Model.Abstract)
+                                        </td>
+                                    </tr>
+                                </tbody>
+                            </table>
+                            <p>&nbsp;</p>
+                            <p>&nbsp;</p>
+
+
+
+
+                        </div><!--#entry -->
+                        <div class="content-tags">
+                            <div class="content-tags__title hide-phone">
+                                کلمات کلیدی :
+                                @Model.Keyword
+                            </div>
+
+                        </div>
+
+                    </div>
+                </div>
+
+            </article>
+            @*	<div class="related-wrap">
+                 <div class="section_title"><strong>مطالب مرتبط</strong></div>
+
+                </div>*@
+
+        </div>
+
+    </div>
+
+</div>

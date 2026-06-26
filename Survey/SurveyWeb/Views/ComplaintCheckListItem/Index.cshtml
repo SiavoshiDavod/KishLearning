@@ -1,0 +1,171 @@
+﻿@model SurveyWeb.Models.CheckList.ComplaintCheckListItem
+
+@{
+    Layout = "~/Views/Shared/_LayoutAdmin.cshtml";
+    var urlList = "/ComplaintCheckListItem/LoadList?complaintCheckListId=" + Model?.ComplaintCheckListId;
+    ViewBag.Title = " آیتم بازدید";
+}
+
+<div class="row">
+    <div class="col-sm-12">
+        <div class="page-title-box">
+            <ol class="breadcrumb pull-right">
+                <li><a href="#">@ViewBag.Title</a></li>
+                <li class="active">Dashboard</li>
+            </ol>
+        </div>
+    </div>
+</div>
+
+<div class="form-horizontal">
+    <h4> آیتم بازدید</h4>
+    <hr />
+    @Html.HiddenFor(a => a.ComplaintCheckListId)
+    @Html.ValidationSummary(true, "", new { @class = "text-danger" })
+    <div class="form-group">
+        @Html.LabelFor(a => a.CheckListName, htmlAttributes: new { @class = "control -label col-md-2" })
+        <div class="col-md-10">
+            @Html.EditorFor(a => a.CheckListName, (string)ViewBag.CheckListName, new { htmlAttributes = new { @class = "form -control", @readonly = "readonly" } })
+        </div>
+    </div>
+    <div class="form-group">
+        @Html.LabelFor(a => a.ResturantName, htmlAttributes: new { @class = "control -label col-md-2" })
+        <div class="col-md-10">
+            @Html.EditorFor(a => a.ResturantName, new { htmlAttributes = new { @class = "form -control", @readonly = "readonly" } })
+        </div>
+    </div>
+
+    <div class="form-group">
+        <div class="col-md-offset-2 col-md-10">
+            <button type="button" class="btn btn-success" onclick="SaveItemsComplaintCheckList()">ذخیره</button>
+        </div>
+    </div>
+</div>
+
+<div id="TadGoodsField">
+    @using MVC.Controls
+
+    @Html.Grid(
+    new GridControl().SetName("ComplaintCheckListItemGrid").
+    SetPageSize(10).
+    SetShrinkToFit(false).
+    SetIsAutoSize(true).
+    SetIsFilterToolbar(true).
+    IsRTL().
+    SetListUrl(urlList).
+        SetCaption("آیتم بازدید").
+    SetOnLoadCompleteEvent("loadGridCompleteEvent").
+        UseColumns(SurveyWeb.Controllers.CheckList.ComplaintCheckListItemController.Columns)
+)
+    <script >
+        function loadGridCompleteEvent() {
+            var ids = $("#ComplaintCheckListItemGrid").jqGrid('getDataIDs');
+            for (var i = 0; i < ids.length; i++) {
+                var cl = ids[i];
+                var rowData = $("#ComplaintCheckListItemGrid").getRowData(cl);
+                ed = '<select>';
+                //debugger;
+                if (rowData.ComplaintCheckListItemId != 0) {
+                    if (rowData.IsYesNo == "true") {
+                        if (rowData.ValueItem == 1) {
+                            ed += '<option value="1" selected="selected">' + 'بله' + '</option>';
+                            ed += '<option value="0">' + 'خیر' + '</option>';
+                        }
+                        else {
+                            ed += '<option value="1" >' + 'بله' + '</option>';
+                            ed += '<option value="0" selected="selected">' + 'خیر' + '</option>';
+                        }
+                    }
+
+                    if (rowData.IsGoodMidBad == 1) {
+                        if (rowData.ValueItem == 0) {
+                            ed += '<option value="0" selected="selected">' + 'بد' + '</option>';
+                            ed += '<option value="1">' + 'متوسط' + '</option>';
+                            ed += '<option value="2" >' + 'خوب' + '</option>';
+                        } else if (rowData.ValueItem == 1) {
+                            ed += '<option value="0">' + 'بد' + '</option>';
+                            ed += '<option value="1" selected="selected">' + 'متوسط' + '</option>';
+                            ed += '<option value="2">' + 'خوب' + '</option>';
+                        }
+                        else if (rowData.ValueItem == 2) {
+                            ed += '<option value="0">' + 'بد' + '</option>';
+                            ed += '<option value="1">' + 'متوسط' + '</option>';
+                            ed += '<option value="2" selected="selected">' + 'خوب' + '</option>';
+                        }
+                    }
+                    if (rowData.IsHasItDontHave == 1) {
+                        if (rowData.ValueItem == 1) {
+                            ed += '<option value="1" selected="selected">' + 'دارد' + '</option>';
+                            ed += '<option value="0">' + 'ندارد' + '</option>';
+                        }
+                        else {
+                            ed += '<option value="1" >' + 'دارد' + '</option>';
+                            ed += '<option value="0" selected="selected">' + 'ندارد' + '</option>';
+                        }
+                    }
+
+                }
+                else {
+                    if (rowData.IsYesNo == "true") {
+                        ed += '<option value="1" selected>' + 'بله' + '</option>';
+                        ed += '<option value="0">' + 'خیر' + '</option>';
+                    }
+
+                    if (rowData.IsGoodMidBad == 1) {
+                        ed += '<option value="0">' + 'بد' + '</option>';
+                        ed += '<option value="1" selected>' + 'متوسط' + '</option>';
+                        ed += '<option value="2" >' + 'خوب' + '</option>';
+
+                    }
+                    if (rowData.IsHasItDontHave == 1) {
+                        ed += '<option value="1" selected>' + 'دارد' + '</option>';
+                        ed += '<option value="0">' + 'ندارد' + '</option>';
+                    }
+                }
+                ed += '</select>';
+                $('#ComplaintCheckListItemGrid').jqGrid('setRowData', ids[i], { act: ed });
+            }
+        }
+        function SaveItemsComplaintCheckList() {
+           //
+            var ids = $("#ComplaintCheckListItemGrid").jqGrid('getDataIDs');
+            var rowDatas = [];
+            for (var i = 0; i < ids.length; i++) {
+                var cl = ids[i];
+                var rowData = $("#ComplaintCheckListItemGrid").getRowData(cl);
+
+                var td = $($('table#ComplaintCheckListItemGrid').find('tr[id=' + cl + ']').find('td[aria-describedby="ComplaintCheckListItemGrid_act"]'));
+                var val = $(td).find('select option:selected').val();
+                rowData.ValueItem = Number(val);
+                //debugger;
+                rowDatas.push({
+                    "ComplaintCheckListItemId": rowData.ComplaintCheckListItemId, "ComplaintCheckListId": rowData.ComplaintCheckListId,
+                    "CheckListItemId": rowData.CheckListItemId, "IsGoodMidBad": rowData.IsGoodMidBad, "IsHasItDontHave": rowData.IsHasItDontHave,
+                    "IsYesNo": rowData.IsYesNo, "ValueItem": rowData.ValueItem
+                });
+                //rowDatas.push(rowData);
+
+            };
+            $.ajax({
+                url: '/ComplaintCheckListItem/UpdateComCheckListItem',
+                type: 'Post',
+                dataType: "json",
+                contentType: "application/json; charset=utf-8",
+                data: JSON.stringify(rowDatas),
+                success: function (res) {
+                    debugger;
+                    if (res.message != undefined && res.message == "OK") {
+                        alert('آیتم های بازدید ثبت شد .');
+                        window.open('@Url.Action("Index", "ComplaintCheckList")' + '?complaintCheckListId=@(Model?.ComplaintCheckListId)', '_self')
+                    }
+                    else if (res.ErrorMessage != undefined)
+                    { alert(res.ErrorMessage); }
+                },
+                error: function (a, b, c) {
+                    debugger;
+                }
+            })
+        }
+    </script>
+
+</div>

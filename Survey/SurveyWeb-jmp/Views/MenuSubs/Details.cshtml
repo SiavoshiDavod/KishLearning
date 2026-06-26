@@ -1,0 +1,6 @@
+﻿@model SurveyWeb.Models.MenuSub
+@{
+    ViewBag.Title = SurveyWeb.Models.Dictionary.ModelDictionary[typeof(SurveyWeb.Models.MenuSub)]; ;
+    Layout = "~/Views/Shared/_LayoutAdmin.cshtml";
+}
+@Html.Partial("_PartialDetailObject", Model)

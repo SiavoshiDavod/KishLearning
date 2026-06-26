@@ -1,0 +1,231 @@
+﻿@model SurveyWeb.Models.Resturant
+
+@{
+    ViewBag.Title = "کارمندان";
+    Layout = null;
+}
+<div class="row">
+    <div class="col-sm-12">
+        <div class="page-title-box">
+            <div class="page-title">
+                @*@using (Html.BeginForm("SaveResturantPersonel", "Resturant", FormMethod.Post))
+                    {
+                        @Html.Hidden("ResturantId", Model.Id)
+                        @Html.TextBox("PersonelName","",new { placeholder="نام و نام خانوادگی "})
+                        <input type="submit" value="افزودن پرسنل" class="btn btn-default" onclick="return SaveResturantPersonel()" />
+                    }*@
+                <input type="submit" value="افزودن پرسنل" class="btn btn-default" onclick="return FindResturantPersonel('')" /> 
+                @if (Model.ResturantPersonel?.Count>=2)
+                {
+
+                }
+                else
+                {
+                    <span style="background-color: red;color: white;">
+                             حداقل بایستی اطلاعات دو نفر از پرسنل یا مدیران ثبت گردد
+                    </span>
+                }
+            </div>
+        </div>
+    </div>
+</div>
+<div class="row">
+    <table class="table table-bordered">
+        @foreach (var item in Model.ResturantPersonel)
+        {
+            <tr>
+                <td> @item.Name</td>
+                <td> @item.LastName</td>
+                <td> @item.NationalCode</td>
+                <td>
+                    @if (!string.IsNullOrEmpty(item.ImageUrl))
+                    {
+                        <a href="~/images/Resturant/@item.ImageUrl" target="_blank">
+                            <img src="~/images/Resturant/@item.ImageUrl" title="دانلود" height="50" />
+                        </a>
+                    }
+                </td>
+                @if (Model.Cartable.IsFirstState)
+                {
+                    <td>
+                        <button class="btn btn-warning" value="ویرایش" title="ویرایش" onclick="FindResturantPersonel('@item.Id')">ویرایش</button>
+                    </td>
+                    <td>
+                        <button class="btn btn-danger " value="حذف" title="حذف" onclick="RemovePersonel('@item.Id')">حذف</button>
+                    </td>
+                    <td>
+                        <button class="btn btn-default " value="سوابق تحصیلی" title="سوابق تحصیلی" onclick="EducationPersonel('@item.Id')">سوابق تحصیلی</button>
+                    </td>
+                    <td>
+                        <button class="btn btn-default " value="زبان خارجی" title="زبان خارجی" onclick="LanguagePersonel('@item.Id')">زبان خارجی</button>
+                    </td>
+                    <td>
+                        <button class="btn btn-default " value="دوره های آموزشی" title="دوره های آموزشی" onclick="CoursePersonel('@item.Id')">دوره های آموزشی</button>
+                    </td>
+                    <td>
+                        <button class="btn btn-default " value="سوابق شغلی" title="سوابق شغلی" onclick="JobPersonel('@item.Id')">سوابق شغلی</button>
+                    </td>
+                }
+            </tr>
+        }
+
+    </table>
+
+</div>
+<script>
+     function CoursePersonel(id) {
+        var url = '/Resturant/ResturantPersonelCourse?personelId=' + id;
+         pw.modal('CourseResturantPersonelInModal', "دوره های آموزشی", url, null, 'modal-full', true, null, null);
+         return false;
+    }
+     function AddCoursePersonel(id) {
+        var url = '/Resturant/ResturantPersonelCourseSave?personelId=' + id;
+         pw.modal('CourseResturantPersonelSaveInModal', "افزودن دوره های آموزشی", url, null, 'modal-md', true, null, null);
+        return false;
+    }
+    function ResturantPersonelCourseSave() {
+         var success = function () { pw.closeModal('CourseResturantPersonelSaveInModal'); $('.modal-backdrop').remove();;CoursePersonel($('#ViewBagpersonelId').val())};
+        pw.submitForm('FormResturantPersonelCourse', success);
+    }
+     function RemoveCoursePersonel(id) {
+         var url = '/Resturant/RemoveResturantPersonelCourse?id=' + id;
+         var successFunction = function () {
+                pw.post(url,  { id: id }, 'json', function (response) {
+                        if (response) {
+                            SwalSuccessMessage("");
+                            pw.closeModal('CourseResturantPersonelSaveInModal');
+                            $('.modal-backdrop').remove();
+                            CoursePersonel($('#ViewBagpersonelId').val())
+                        } else {
+                            showError("خطا");
+                        }
+                    });
+            }
+            confirmDelete(successFunction);
+            return false;
+    }
+     function LanguagePersonel(id) {
+        var url = '/Resturant/ResturantPersonelLanguage?personelId=' + id;
+         pw.modal('LanguageResturantPersonelInModal', "زبان خارجی", url, null, 'modal-full', true, null, null);
+         return false;
+    }
+     function AddLanguagePersonel(id) {
+        var url = '/Resturant/ResturantPersonelLanguageSave?personelId=' + id;
+         pw.modal('LanguageResturantPersonelSaveInModal', "افزودن زبان خارجی", url, null, 'modal-md', true, null, null);
+        return false;
+    }
+    function ResturantPersonelLanguageSave() {
+         var success = function () { pw.closeModal('LanguageResturantPersonelSaveInModal'); $('.modal-backdrop').remove();;LanguagePersonel($('#ViewBagpersonelId').val())};
+        pw.submitForm('FormResturantPersonelLanguage', success);
+    }
+     function RemoveLanguagePersonel(id) {
+         var url = '/Resturant/RemoveResturantPersonelLanguage?id=' + id;
+         var successFunction = function () {
+                pw.post(url,  { id: id }, 'json', function (response) {
+                        if (response) {
+                            SwalSuccessMessage("");
+                            pw.closeModal('LanguageResturantPersonelSaveInModal');
+                            $('.modal-backdrop').remove();
+                            LanguagePersonel($('#ViewBagpersonelId').val())
+                        } else {
+                            showError("خطا");
+                        }
+                    });
+            }
+            confirmDelete(successFunction);
+            return false;
+    }
+
+     function EducationPersonel(id) {
+        var url = '/Resturant/ResturantPersonelEducation?personelId=' + id;
+         pw.modal('EducationResturantPersonelInModal', "سوابق تحصیلی", url, null, 'modal-full', true, null, null);
+         return false;
+    }
+     function AddEducationPersonel(id) {
+        var url = '/Resturant/ResturantPersonelEducationSave?personelId=' + id;
+         pw.modal('EducationResturantPersonelSaveInModal', "افزودن سوابق تحصیلی", url, null, 'modal-md', true, null, null);
+        return false;
+    }
+    function ResturantPersonelEducationSave() {
+         var success = function () { pw.closeModal('EducationResturantPersonelSaveInModal'); $('.modal-backdrop').remove();;EducationPersonel($('#ViewBagpersonelId').val())};
+        pw.submitForm('FormResturantPersonelEducation', success);
+    }
+     function RemoveEducationPersonel(id) {
+         var url = '/Resturant/RemoveResturantPersonelEducation?id=' + id;
+         var successFunction = function () {
+                pw.post(url,  { id: id }, 'json', function (response) {
+                        if (response) {
+                            SwalSuccessMessage("");
+                            pw.closeModal('EducationResturantPersonelSaveInModal');
+                            $('.modal-backdrop').remove();
+                            EducationPersonel($('#ViewBagpersonelId').val())
+                        } else {
+                            showError("خطا");
+                        }
+                    });
+            }
+            confirmDelete(successFunction);
+            return false;
+    }
+
+
+
+     function JobPersonel(id) {
+        var url = '/Resturant/ResturantPersonelJob?personelId=' + id;
+         pw.modal('JobResturantPersonelInModal', "سوابق شغلی", url, null, 'modal-full', true, null, null);
+         return false;
+    }
+     function AddJobPersonel(id) {
+        var url = '/Resturant/ResturantPersonelJobSave?personelId=' + id;
+         pw.modal('JobResturantPersonelSaveInModal', "افزودن سوابق شغلی", url, null, 'modal-md', true, null, null);
+        return false;
+    }
+    function ResturantPersonelJobSave() {
+         var success = function () { pw.closeModal('JobResturantPersonelSaveInModal'); $('.modal-backdrop').remove();;JobPersonel($('#ViewBagpersonelId').val())};
+        pw.submitForm('FormResturantPersonelJob', success);
+    }
+     function RemoveJobPersonel(id) {
+         var url = '/Resturant/RemoveResturantPersonelJob?id=' + id;
+         var successFunction = function () {
+                pw.post(url,  { id: id }, 'json', function (response) {
+                        if (response) {
+                            SwalSuccessMessage("");
+                            pw.closeModal('JobResturantPersonelSaveInModal');
+                            $('.modal-backdrop').remove();
+                            JobPersonel($('#ViewBagpersonelId').val())
+                        } else {
+                            showError("خطا");
+                        }
+                    });
+            }
+            confirmDelete(successFunction);
+            return false;
+    }
+
+
+    function RemovePersonel(id) {
+        var url = '/Resturant/RemoveResturantPersonel?id='+id;
+        var sf = function () { partialPageResturant(url, 'کارکنان') };
+        confirmDelete(sf);
+        }
+    function FindResturantPersonel(id) {
+        var ResturantId = '@Model.Id';
+        var url = '/Resturant/FindResturantPersonel?ResturantId=' + ResturantId + '&id=' + id;
+         pw.modal('FindResturantPersonelInModal', "ذخیره سازی پرسنل", url, null, 'modal-full', true, null, null);
+    }
+
+    function SaveResturantPersonel(id) {
+
+           var success = function () {
+          pw.closeModal('FindResturantPersonelInModal');
+        OpenPersonel('@Model.Id');
+            };
+
+        var validate = $("#FormPersonel").valid();
+        if (validate) {
+            //setTimeout(success, 2000);
+            pw.submitForm('FormPersonel', success);
+        }
+
+    }
+</script>

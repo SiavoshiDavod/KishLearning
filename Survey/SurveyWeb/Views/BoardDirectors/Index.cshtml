@@ -1,0 +1,51 @@
+﻿@model IEnumerable< SurveyWeb.Models.BoardDirector>
+
+@{
+     ViewBag.Title = SurveyWeb.Models.Dictionary.ModelDictionary[typeof( SurveyWeb.Models.BoardDirector)];
+    Layout = "~/Views/Shared/_LayoutAdmin.cshtml";
+    var urlList = "/BoardDirectors/LoadList";
+}
+
+<div class="row">
+    <div class="col-sm-12">
+        <div class="page-title-box">
+            <ol class="breadcrumb pull-right">
+                <li><a href="#">@ViewBag.Title</a></li>
+                <li class="active">Dashboard</li>
+            </ol>
+            <h4 class="page-title">@Html.ActionLink("افزودن", "Create") </h4>
+        </div>
+    </div>
+</div>
+<div id="TadGoodsField">
+    @using MVC.Controls
+
+    @Html.Grid(
+    new GridControl().SetName("BoardDirectoreesGrid").
+    SetPageSize(10).
+    SetShrinkToFit(false).
+    SetIsAutoSize(true).
+    SetIsFilterToolbar(true).
+    IsRTL().
+    SetSortName("id").
+    SetListUrl(urlList).
+        SetCaption("اساتید").
+    SetOnLoadCompleteEvent("loadBoardDirectoreesGridCompleteEvent").
+        UseColumns(SurveyWeb.Controllers.BoardDirectorsController.BoardDirectorColumns)
+)
+    <script >
+	function loadBoardDirectoreesGridCompleteEvent() {
+		var ids = $("#BoardDirectoreesGrid").jqGrid('getDataIDs');
+		for (var i = 0; i < ids.length; i++) {
+			var cl = ids[i];
+			ed = '<a class="ajaxLink"  href="/BoardDirectors/edit?Id=' + cl + '" title="ویرایش"><div class="tableEditLink">ویرایش</div></a>';
+			dl = '<a class="ajaxLink delete"href="/BoardDirectors/Delete?Id=' + cl + '" title="حذف"   ><div class="tableDeleteLink">حذف</div></a>';
+			$('#BoardDirectoreesGrid').jqGrid('setRowData', ids[i], { Resume: ed + dl  });
+		}
+    }
+
+    </script>
+</div>
+
+
+

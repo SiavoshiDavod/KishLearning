@@ -1,0 +1,168 @@
+﻿@model SurveyWeb.Models.Suggestion
+<div class="container">
+
+    <div class="row justify-content-center">
+        <div class="col-md-8 text-center">
+            <div class="contact-form-title text-center mb-4">
+                <h4 class="mb-1">ثبت پیشنهادات</h4>
+                @*<p>لورم ایپسوم متن ساختگی با تولید سادگی نامفهوم از صنعت چاپ و با استفاده از طراحان گرافیک است. لورم ایپسوم متن ساختگی با تولید سادگی نامفهوم از صنعت چاپ و با استفاده از طراحان گرافیک است.  </p>*@
+            </div>
+        </div>
+    </div>
+</div>
+<form class="gray-form mb-5 md-mb-0" action="/Home/Suggestion" method="post">
+    @{
+        var m = (string)ViewBag.Message;
+        if (!string.IsNullOrEmpty(m))
+        {
+            <div class="row">
+                <div class="col-md-12">
+                    <div class="form-group">
+                        <span style="color:red">@m</span>
+                    </div>
+                </div>
+            </div>
+        }
+    }
+
+    <div class="row">
+        <div class="col-md-12">
+            <div class="form-group">
+                @Html.DescriptionFor(x => x.Email)
+                @Html.EditorFor(model => model.Email, new { htmlAttributes = new { @class = "form-control", @placeholder = "آدرس ایمیل" } })
+                @Html.ValidationMessageFor(model => model.Email, "", new { @class = "text-danger" })
+                @*<input type="email" class="form-control" id="UserName" name="UserName" placeholder="آدرس ایمیل">*@
+            </div>
+        </div>
+    </div>
+
+    <div class="row">
+        <div class="col-md-6">
+            <div class="form-group">
+                @Html.EditorFor(model => model.Name, new { htmlAttributes = new { @class = "form-control", @placeholder = "نام " } })
+                @Html.ValidationMessageFor(model => model.Name, "", new { @class = "text-danger" })
+            </div>
+        </div>
+        <div class="col-md-6">
+            <div class="form-group">
+                @Html.EditorFor(model => model.Family, new { htmlAttributes = new { @class = "form-control", @placeholder = "نام خانوادگی" } })
+                @Html.ValidationMessageFor(model => model.Family, "", new { @class = "text-danger" })
+            </div>
+        </div>
+    </div>
+    <div class="row">
+        <div class="col-md-6">
+            <div class="form-group">
+                @Html.EditorFor(model => model.Education, new { htmlAttributes = new { @class = "form-control", @placeholder = "مدرک و رشته تحصیلی" } })
+                @Html.ValidationMessageFor(model => model.Education, "", new { @class = "text-danger" })
+            </div>
+        </div>
+        <div class="col-md-6">
+            <div class="form-group">
+                @Html.EditorFor(model => model.Mobile, new { htmlAttributes = new { @class = "form-control", @placeholder = "تلفن همراه" } })
+                @Html.ValidationMessageFor(model => model.Mobile, "", new { @class = "text-danger" })
+            </div>
+        </div>
+    </div>
+    <div class="row">
+        <div class="col-md-6">
+            <div class="form-group">
+                @Html.EditorFor(model => model.Tel, new { htmlAttributes = new { @class = "form-control", @placeholder = "شماره تماس" } })
+                @Html.ValidationMessageFor(model => model.Tel, "", new { @class = "text-danger" })
+            </div>
+        </div>
+        <div class="col-md-6">
+            <div class="form-group">
+                @Html.EditorFor(model => model.UnitOrJob, new { htmlAttributes = new { @class = "form-control", @placeholder = "واحد سازمانی/شغل" } })
+                @Html.ValidationMessageFor(model => model.UnitOrJob, "", new { @class = "text-danger" })
+            </div>
+        </div>
+    </div>
+    <div class="row">
+        <div class="col-md-12">
+            <div class="form-group">
+                @Html.EditorFor(model => model.Address, new { htmlAttributes = new { @class = "form-control", @placeholder = "آدرس" } })
+                @Html.ValidationMessageFor(model => model.Address, "", new { @class = "text-danger" })
+            </div>
+        </div>
+
+    </div>
+    <div class="row">
+        <div class="col-md-12">
+            <div class="form-group">
+                @Html.EditorFor(model => model.Title, new { htmlAttributes = new { @class = "form-control height300", @placeholder = "عنوان پیشنهاد" } })
+                @Html.ValidationMessageFor(model => model.Title, "", new { @class = "text-danger" })
+            </div>
+        </div>
+    </div>
+    <div class="row">
+        <div class="col-md-12">
+            <div class="form-group">
+                @Html.EditorFor(model => model.Proposal, new { htmlAttributes = new { @class = "form-control height300", @placeholder = "کلیات طرح پیشنهادی" } })
+                @Html.ValidationMessageFor(model => model.Proposal, "", new { @class = "text-danger" })
+            </div>
+        </div>
+    </div>
+    <div class="row">
+        <div class="col-md-12">
+            <div class="form-group">
+                @Html.EditorFor(model => model.Description, new { htmlAttributes = new { @class = "form-control height300", @placeholder = "شرح مختصری از محصول/طرح" } })
+                @Html.ValidationMessageFor(model => model.Description, "", new { @class = "text-danger" })
+            </div>
+        </div>
+    </div>
+
+    <div class="row">
+        <div class="col-md-6">
+            <div class="form-group">
+                @Html.EditorFor(model => model.Month, new { htmlAttributes = new { @class = "form-control", @placeholder = "مدت ساخت و راه اندازی (ماه)" } })
+                @Html.ValidationMessageFor(model => model.Month, "", new { @class = "text-danger" })
+            </div>
+        </div>
+        <div class="col-md-6">
+            <div class="form-group">
+                @Html.EditorFor(model => model.Year, new { htmlAttributes = new { @class = "form-control", @placeholder = "پیش بینی مدت بهره برداری (سال)" } })
+                @Html.ValidationMessageFor(model => model.Year, "", new { @class = "text-danger" })
+            </div>
+        </div>
+    </div>
+
+    <div class="row">
+        <div class="col-md-12">
+            <div class="form-group">
+                @Html.EditorFor(model => model.Benefit, new { htmlAttributes = new { @class = "form-control height300", @placeholder = "مزایای رقابتی و اجرایی طرح برای منطقه" } })
+                @Html.ValidationMessageFor(model => model.Benefit, "", new { @class = "text-danger" })
+            </div>
+        </div>
+    </div>
+    <div class="row">
+        <div class="col-md-12">
+            <div class="form-group">
+                @Html.EditorFor(model => model.Experience, new { htmlAttributes = new { @class = "form-control height300", @placeholder = "نمونه تجربیات" } })
+                @Html.ValidationMessageFor(model => model.Experience, "", new { @class = "text-danger" })
+            </div>
+        </div>
+    </div>
+
+
+    <div class="row">
+        <div class="col-md-6">
+            <div class="form-group">
+                <label class="btn btn-warning">پیوست طرح پیشنهادی  <input @*accept=".pdf, .doc , .docx"  accept="video/*" accept="image/*"*@ class="fileChosen fileChosen1" type="file" hidden id="Attachment1" name="Attachment1"></label><span class="fileChosenText1"></span>
+            </div>
+        </div>
+        <div class="col-md-6">
+            <div class="form-group">
+                <label class="btn btn-warning">پیوست سوابق مربوط به صاحب طرح <input accept="*" class="fileChosen fileChosen2" type="file" hidden id="Attachment2" name="Attachment2"></label><span class="fileChosenText2"></span>
+            </div>
+        </div>
+    </div>
+    <div class="row">
+        <div class="col-md-12">
+            <input type="submit" value="ثبت پیشنهاد" class="button" />
+        </div>
+    </div>
+</form>
+@section Scripts {
+    @Scripts.Render("~/bundles/jqueryval")
+}

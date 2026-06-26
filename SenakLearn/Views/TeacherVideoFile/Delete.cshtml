@@ -1,0 +1,54 @@
+﻿@model SenakLearn.Models.VideoFile
+
+@{
+    Layout = "~/Views/Shared/_LayoutAdmin.cshtml";
+}
+
+<h3>آیا از حذف اطلاعات اطمینان دارید?</h3>
+<div>
+    <h4> حذف </h4>
+    <hr />
+    <dl class="dl-horizontal">
+        <dt>
+            @Html.DisplayNameFor(model => model.titel)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.titel)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.myFile)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.myFile)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.format)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.format)
+        </dd>
+        <dt>
+            @Html.DisplayNameFor(model => model.CreatedDateShamsi)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.CreatedDateShamsi)
+        </dd>
+
+       
+    </dl>
+
+    @using (Html.BeginForm()) {
+        
+
+        <div class="form-actions no-color">
+            <input type="submit" value="حذف" class="btn btn-danger" /> |
+            @Html.ActionLink("نمایش لیست", "Index")
+        </div>
+    }
+</div>

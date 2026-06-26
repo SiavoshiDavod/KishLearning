@@ -1,0 +1,42 @@
+﻿@model IEnumerable<SenakLearn.Models.JoinUs>
+
+@{
+    Layout = "~/Views/Shared/_LayoutAdmin.cshtml";
+    var urlList = "/JoinUs/LoadList";
+}
+
+<div id="TadGoodsField">
+    @using MVC.Controls
+
+    @Html.Grid(
+    new GridControl().SetName("JoinUsGrid").
+    SetPageSize(10).
+    SetShrinkToFit(false).
+    SetIsAutoSize(true).
+    SetIsFilterToolbar(true).
+    IsRTL().
+     SetSortOrder("desc").
+    SetListUrl(urlList).
+        SetCaption("درخواست های همکاری با ما").
+    SetOnLoadCompleteEvent("loadJoinUsGridCompleteEvent").
+        UseColumns(SenakLearn.Controllers.Admin.JoinUsController.Columns)
+)
+    <script src='/Scripts/Learn.js' type='text/javascript'></script>
+    <script type="text/javascript">
+	function loadJoinUsGridCompleteEvent() {
+		//$("#JoinUsGrid").jqGrid('setGridWidth', $('#TadGoodsListDiv').width()-100, false);
+		//var ids = $("#JoinUsGrid").jqGrid('getDataIDs');
+		//for (var i = 0; i < ids.length; i++) {
+		//	var cl = ids[i];
+		//	ed = '<a class="ajaxLink" target-update="TadGoodsDetailsDiv" href="/JoinUss/Edit?tadGoodsId=' + cl + '" title="ویرایش"><div class="tableEditLink"></div></a>';
+		//	dl = '<a class="ajaxLink delete" target-update="TadGoodsListDiv" href="/JoinUss/Remove?Id=' + cl + '" title="حذف"   ><div class="tableDeleteLink"></div></a>';
+		//	$('#JoinUsGrid').jqGrid('setRowData', ids[i], { act: ed + dl });
+		//}
+    }
+
+    </script>
+</div>
+<p>
+    @*@Html.ActionLink("افزودن", "Create")*@
+</p>
+

@@ -1,0 +1,64 @@
+﻿<div id="VideoSelectorDiv">
+
+    <input type="hidden" id="VideoSelectorHiddenFieldId" />
+    <input type="hidden" id="VideoSelectorHiddenFieldName" />
+    <script type="text/javascript">
+        function VideoGridCpl() {
+           // $('#VideoModalGrid').jqGrid('filterToolbar', { stringResult: true, searchOnEnter: true, defaultSearch: "cn" });
+        };
+
+        function onClickGridVideo(e) {
+            $("#VideoSelectorHiddenFieldId").val(e.VideoId);
+            $("#VideoSelectorHiddenFieldName").val(e.titel);
+
+            CloseDialogAndClear();
+        };
+
+        function CloseDialogAndClear() {
+            //var i, n, rowData;//selectedRowIds = jQuery("#VideoModalGrid").jqGrid('getGridParam', 'selarrrow'),
+            //var selectedRowIds = sanatyar.common.loadJqgridSelectedRowIds("VideoModalGrid");
+            //if (selectedRowIds != '') {
+            //    $("#VideoSelectorHiddenFieldIds").val(selectedRowIds);
+            //    $("#VideoSelectorHiddenFieldNameFamilys").val('تعداد '+selectedRowIds.length+' سهامدار انتخاب شده');
+            //    //var allNameFamily = "";
+            //    //for (i = 0, n = selectedRowIds.length; i < n; i++) {
+            //    //    rowData = jQuery("#VideoModalGrid").jqGrid("getRowData", selectedRowIds[i]);
+            //        //var family = rowData.Name;
+            //        //if (rowData.Family != null && rowData.Family !== '') {
+            //        //    family += ' ' + rowData.Family;
+            //        //}
+            //        //family += " , ";
+            //        //allNameFamily += family;
+            //    //}
+            //    //$("#VideoSelectorHiddenFieldNameFamily").val(allNameFamily);
+            //}
+            $('#VideoSelectorDiv').parent().dialog('close');
+            //$('.VideoSelectorDiv').dialog('close');
+        }
+    </script>
+    @*@if (Model.IsFinal)
+    {
+        <div style="text-align: left">
+            <button onclick="CloseDialogAndClear()" style="width: 150px; height: 30px;">ثبت و بستن</button>
+        </div>
+    }*@
+
+    @Html.Grid(new MVC.Controls.Grid.GridControl()
+                                 .SetName("VideoModalGrid")
+                                 .SetOnSelectedRowEvent("onClickGridVideo")
+                                 .SetOnLoadCompleteEvent("VideoGridCpl")
+                                 .SetPageSize(10)
+                                 .SetRowList(new[] { 10, 20, 50, 100 })
+                                 .SetForceFit(false)
+                                 .SetIsAutoSize(false)
+                                 .SetCaption("انتخاب فایل")
+                                 .SetShrinkToFit(false)
+                                 .SetMultiSelect(false)
+                                 .SetWidth("400")
+                                 .IsRTL()
+                                 .SetIsFilterToolbar(true)
+                                 .SetKeepSelectedRows()
+                                 .SetListUrl(Url.Content("/VideoFile/LoadList?wating=false"))
+                                         .UseColumns(SenakLearn.Controllers.Admin.VideoFileController.VideoSelectorColumns))
+
+</div>

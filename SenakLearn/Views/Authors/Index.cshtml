@@ -1,0 +1,57 @@
+﻿@model IEnumerable<SenakLearn.Models.Author>
+
+@{
+    Layout = "~/Views/Shared/_LayoutAdmin.cshtml";
+    var urlList = "/Authors/LoadList";
+    ViewBag.Title = SenakLearn.Models.Dictionary.ModelDictionary[typeof(SenakLearn.Models.Author)];
+}
+<!-- Page-Title -->
+<div class="row">
+    <div class="col-sm-12">
+        <div class="page-title-box">
+            <ol class="breadcrumb pull-right">
+                <li><a href="#">@ViewBag.Title</a></li>
+                <li class="active">Dashboard</li>
+            </ol>
+            <h4 class="page-title">@Html.ActionLink("افزودن", "Create") </h4>
+        </div>
+    </div>
+</div>
+
+<div id="TadGoodsField">
+    @using MVC.Controls
+
+    @Html.Grid(
+    new GridControl().SetName("AuthorGrid").
+    SetPageSize(10).
+    SetShrinkToFit(false).
+    SetIsAutoSize(true).
+    SetIsFilterToolbar(true).
+    IsRTL().
+    SetListUrl(urlList).
+        SetCaption((string)ViewBag.Title).
+    SetOnLoadCompleteEvent("loadAuthorGridCompleteEvent").
+        UseColumns(SenakLearn.Controllers.Admin.AuthorsController.AuthorColumns)
+)
+    <script type="text/javascript">
+	function loadAuthorGridCompleteEvent() {
+		var ids = $("#AuthorGrid").jqGrid('getDataIDs');
+		for (var i = 0; i < ids.length; i++) {
+            var cl = ids[i];
+            var img = celValue = $("#AuthorGrid").jqGrid('getCell', cl, 'ImageUrl');
+            debugger;
+			ed = '<a class="ajaxLink"  href="/Authors/Create?Id=' + cl + '" title="ویرایش"><div class="fa fa-pencil"></div></a>';
+			dl = '<a class="ajaxLink delete"href="/Authors/Delete?Id=' + cl + '" title="حذف"   ><div class="fa fa-times"></div></a>';
+		    de = '<a class="ajaxLink "href="/Authors/Details?Id=' + cl + '" title="جزئیات"   ><div class="fa fa-building"></div></a>';
+            $('#AuthorGrid').jqGrid('setRowData', ids[i], { act: ed + dl + de });
+            pc = '<img src="/images/Author/' + img + '" style="max-width:150px;max-height:150px"/>';
+            $('#AuthorGrid').jqGrid('setRowData', ids[i], { Pic: pc });
+		}
+    }
+
+    </script>
+</div>
+
+
+
+

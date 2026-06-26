@@ -1,0 +1,15 @@
+﻿@model string
+@{
+    var id = Model;
+    if (Model.StartsWith("/images/VideoFile/"))
+    {
+        id = "/api/ShowVideoByPath?id=" + Model.Replace("/images/VideoFile/", "");
+    }
+
+}
+<div class="text-center">
+    <video width="100%" height="auto" preload="auto" poster="/images/logo.png" controls autoplay muted class="videoPreviewTag">
+        @*<source src="@id" type="video/mp4">*@
+        <source type="video/mp4">
+    </video>
+</div>

@@ -1,0 +1,72 @@
+﻿@model IEnumerable<SenakLearn.Models.learn_teacher>
+@{
+    Layout = "~/Views/Shared/_Layout.cshtml";
+    var count = 0;
+}
+<div class="page-heading text-center">
+    <h3>مدرسین ما</h3>
+</div>
+<div class="container teachers-browse pros">
+    <div class="row toolbar">
+        <div class="col-md-4 col-sm-6 col-xs-12 select-categories">
+            @Html.Cours_Group_DropDown("CoursGroupId", false, new { @class = "jquery-select" }, "یک دسته را انتخاب کنید")
+            @*<select class="jquery-select">
+                <option>انتخاب دسته بندی</option>
+                <option value="1">دسته بندی اول</option>
+                <option value="2">دسته بندی دوم</option>
+                <option value="3">دسته بندی سوم</option>
+            </select>*@
+        </div>
+        @*<div class="col-md-4 col-sm-6 col-xs-12 select-numofvids">
+            <select class="jquery-select">
+                <option>تعداد ویدیو ها</option>
+                <option value="1">2</option>
+                <option value="2">4</option>
+                <option value="3">8</option>
+            </select>
+        </div>*@
+        <div class="col-md-4 col-sm-6 col-xs-12 select-name">
+            @Html.Teacher_DropDown("TeacherId", false, new { @class = "jquery-select" }, "یک مدرس را انتخاب کنید")
+            @*<select class="jquery-select">
+                <option>نام</option>
+                <option value="1">نام 1</option>
+                <option value="2">نام 2</option>
+                <option value="3">نام 3</option>
+            </select>*@
+        </div>
+        <div class="col-sm-6 col-xs-12 text-keywords float-right">
+            <input class="keywords" name="keywords" type="text" placeholder="کلمات کلیدی">
+        </div>
+        <div class="col-sm-6 col-xs-12 search-button float-left">
+            <button class="search-teachers">جستجو</button>
+        </div>
+    </div>
+    @foreach (var item in Model)
+    {
+        if (count % 6 == 0)
+        {
+            if (count != 0)
+            {
+                @Html.Raw("</div>")
+            }
+            @Html.Raw("<div class='row text-center'>")
+
+        }
+        count++;
+            <div class="col-md-2 col-sm-4 col-xs-6">
+                <div class="teacher">
+                    <div class="imgcontainer">
+                        <img src="/images/teacher/@item.image" alt="@item.FullName" style="width:130px;height:130px">
+                        <div class="overlay">
+                            <img src="assets/img/profile.png" alt="Profile">
+                            <p>@item.CourseCount دوره</p>
+                        </div>
+                    </div>
+                    <a href="/Home/TeacherCours/@item.id">@item.FullName</a>
+                    <p>@item.education</p>
+                </div>
+            </div>
+    }
+@Html.Raw("</div>")
+  
+</div>

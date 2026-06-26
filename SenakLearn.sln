@@ -1,0 +1,82 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 12.00
+# Visual Studio 15
+VisualStudioVersion = 15.0.26228.4
+MinimumVisualStudioVersion = 10.0.40219.1
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "SenakLearn", "SenakLearn\SenakLearn.csproj", "{9C5633EC-E3D5-45EF-A606-317BDEE67874}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "AdobeConnect", "AdobeConnect\AdobeConnect.csproj", "{07A1A401-63B9-4189-878C-14DBE7634AE2}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "FaraPayamak", "FaraPayamak\FaraPayamak.csproj", "{4E32F9C5-27EE-4C23-AF62-644E9F6A7F11}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "SiteSetting", "SiteSetting\SiteSetting.csproj", "{8A3218C9-3B94-4AB1-9E31-AD2B8A8099A5}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Payment", "Payment\Payment.csproj", "{28C2CC5E-1237-432B-9CC9-3941416AD756}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Sms", "Sms\Sms.csproj", "{423E0169-FFFC-42A8-9218-E8214F8AC6DA}"
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|Any CPU = Debug|Any CPU
+		Release|Any CPU = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{9C5633EC-E3D5-45EF-A606-317BDEE67874}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{9C5633EC-E3D5-45EF-A606-317BDEE67874}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{9C5633EC-E3D5-45EF-A606-317BDEE67874}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{9C5633EC-E3D5-45EF-A606-317BDEE67874}.Release|Any CPU.Build.0 = Release|Any CPU
+		{07A1A401-63B9-4189-878C-14DBE7634AE2}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{07A1A401-63B9-4189-878C-14DBE7634AE2}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{07A1A401-63B9-4189-878C-14DBE7634AE2}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{07A1A401-63B9-4189-878C-14DBE7634AE2}.Release|Any CPU.Build.0 = Release|Any CPU
+		{4E32F9C5-27EE-4C23-AF62-644E9F6A7F11}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{4E32F9C5-27EE-4C23-AF62-644E9F6A7F11}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{4E32F9C5-27EE-4C23-AF62-644E9F6A7F11}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{4E32F9C5-27EE-4C23-AF62-644E9F6A7F11}.Release|Any CPU.Build.0 = Release|Any CPU
+		{8A3218C9-3B94-4AB1-9E31-AD2B8A8099A5}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{8A3218C9-3B94-4AB1-9E31-AD2B8A8099A5}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{8A3218C9-3B94-4AB1-9E31-AD2B8A8099A5}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{8A3218C9-3B94-4AB1-9E31-AD2B8A8099A5}.Release|Any CPU.Build.0 = Release|Any CPU
+		{28C2CC5E-1237-432B-9CC9-3941416AD756}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{28C2CC5E-1237-432B-9CC9-3941416AD756}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{28C2CC5E-1237-432B-9CC9-3941416AD756}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{28C2CC5E-1237-432B-9CC9-3941416AD756}.Release|Any CPU.Build.0 = Release|Any CPU
+		{423E0169-FFFC-42A8-9218-E8214F8AC6DA}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{423E0169-FFFC-42A8-9218-E8214F8AC6DA}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{423E0169-FFFC-42A8-9218-E8214F8AC6DA}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{423E0169-FFFC-42A8-9218-E8214F8AC6DA}.Release|Any CPU.Build.0 = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+	GlobalSection(ExtensibilityGlobals) = postSolution
+		SolutionGuid = {3DA0E226-960E-47B9-B844-63434E62AE24}
+	EndGlobalSection
+	GlobalSection(TeamFoundationVersionControl) = preSolution
+		SccNumberOfProjects = 7
+		SccEnterpriseProvider = {4CA58AB2-18FA-4F8D-95D4-32DDF27D184C}
+		SccTeamFoundationServer = https://rahmatymahdi.visualstudio.com/
+		SccLocalPath0 = .
+		SccProjectUniqueName1 = SenakLearn\\SenakLearn.csproj
+		SccProjectName1 = SenakLearn
+		SccLocalPath1 = SenakLearn
+		SccProjectUniqueName2 = AdobeConnect\\AdobeConnect.csproj
+		SccProjectName2 = AdobeConnect
+		SccLocalPath2 = AdobeConnect
+		SccProjectUniqueName3 = FaraPayamak\\FaraPayamak.csproj
+		SccProjectName3 = FaraPayamak
+		SccLocalPath3 = FaraPayamak
+		SccProjectUniqueName4 = SiteSetting\\SiteSetting.csproj
+		SccProjectName4 = SiteSetting
+		SccLocalPath4 = SiteSetting
+		SccProjectUniqueName5 = Payment\\Payment.csproj
+		SccProjectName5 = Payment
+		SccLocalPath5 = Payment
+		SccProjectUniqueName6 = Sms\\Sms.csproj
+		SccProjectName6 = Sms
+		SccLocalPath6 = Sms
+	EndGlobalSection
+	GlobalSection(Performance) = preSolution
+		HasPerformanceSessions = true
+	EndGlobalSection
+EndGlobal

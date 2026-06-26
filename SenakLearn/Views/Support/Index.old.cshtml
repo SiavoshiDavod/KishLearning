@@ -1,0 +1,113 @@
+﻿@{
+    Layout = "~/Views/Shared/_Layout.cshtml";
+    SiteSetting.SiteSetting setting = (SiteSetting.SiteSetting)ViewBag.SiteSetting;
+}
+<h3 class="text-center">نرم افزارهای مورد نیاز</h3>
+<div class="row">
+    <div class="col-xs-12 col-sm-12 col-md-8">
+        <table style="width: 827.539px;">
+            <tbody>
+                <tr style="background-color: #0055ff;"><td style="width: 37px; height: 22px;">&nbsp;</td><td style="text-align: center; width: 299px; height: 22px;"><span style="color: #f5f5f5;">عنوان نرم‌افزار</span></td><td style="text-align: center; width: 475px; height: 22px;"><span style="color: #f5f5f5;">توضیح</span></td></tr>
+                <tr style="height: 45px;">
+                    <td style="width: 37px; height: 45px;">
+                        <a href="/App/AnyDesk.exe" target="_blank" rel="noopener">
+                            <img src="~/images/Adobe/anydesk.jpg" alt="" width="40">
+                        </a>
+                    </td>
+                    <td style="width: 299px; height: 45px;">
+                        <a href="/App/AnyDesk.exe" target="_blank" rel="noopener">
+                            دانلود نسخه ویندوز Any Desk
+                        </a>
+                    </td>
+                    <td style="width: 475px; height: 45px;">
+                        نرم افزار ریموت دسکتاپ نسخه ۴.٢.٢
+                    </td>
+                </tr>
+                <tr style="height: 45px;">
+                    <td style="width: 37px; height: 45px;">
+                        <a href="/App/ConnectAppSetup.rar" target="_blank" rel="noopener">
+                            <img src="~/images/Adobe/AdobeConnect.jpg" alt="" width="40">
+                        </a>
+                    </td>
+                    <td style="width: 299px; height: 45px;">
+                        <a href="/App/ConnectAppSetup.rar" target="_blank" rel="noopener">
+                            دانلود نسخه ویندوز Adobe Connect
+                        </a>
+                    </td>
+                    <td style="width: 475px; height: 45px;">
+                        شرکت در کلاس های آنلاین برای سیستم عامل ویندوز
+                    </td>
+                </tr>
+                <tr style="height: 45px;">
+                    <td style="width: 37px; height: 45px;">
+                        <a href="/App/AdobeConnect_Android.zip" target="_blank" rel="noopener">
+                            <img src="~/images/Adobe/AdobeConnect.jpg" alt="" width="40">
+                        </a>
+                    </td>
+                    <td style="width: 299px; height: 45px;">
+                        <a href="/App/AdobeConnect_Android.zip" target="_blank" rel="noopener">
+                            دانلود نسخه اندروید Adobe Connect
+                        </a>
+                    </td>
+                    <td style="width: 475px; height: 45px;">
+                        شرکت در کلاس های آنلاین برای سیستم عامل اندروید
+                    </td>
+                </tr>
+                <tr style="height: 45px;">
+                    <td style="width: 37px; height: 45px;">
+                        <a href="/App/AdobeConnect_985.57_MacOsX.zip" target="_blank" rel="noopener">
+                            <img src="~/images/Adobe/AdobeConnect.jpg" alt="" width="40">
+                        </a>
+                    </td>
+                    <td style="width: 299px; height: 45px;">
+                        <a href="/App/AdobeConnect_985.57_MacOsX.zip" target="_blank" rel="noopener">
+                            دانلود نسخه MacOS X اپل Adobe Connect
+                        </a>
+                    </td>
+                    <td style="width: 475px; height: 45px;">
+                        شرکت در کلاس های آنلاین برای سیستم عامل MacOS X
+                    </td>
+                </tr>
+                <tr style="height: 45px;">
+                    <td style="width: 37px; height: 45px;">
+                        <a href="https://www.adobeconnect.ir/zip/Adobe.Flash.Player.Last.Ver_www.adobeconnect.ir.zip" target="_blank" rel="noopener">
+                            <img src="~/images/Adobe/Flash-Player.png" alt="" width="40">
+                        </a>
+                    </td>
+                    <td style="width: 299px; height: 45px;">
+                        <a href="https://www.adobeconnect.ir/zip/Adobe.Flash.Player.Last.Ver_www.adobeconnect.ir.zip" target="_blank" rel="noopener">
+                            دانلود نسخه ویندوز Flash-Player فارسی
+                        </a>
+                    </td>
+                    <td style="width: 475px; height: 45px;">
+                        فلش پلیر فارسی برای سیستم عامل ویندوز
+                    </td>
+                </tr>
+                <tr style="height: 45px;">
+                    <td style="width: 37px; height: 45px;">
+                        <a href="https://cafebazaar.ir/app/com.winzip.android/" target="_blank" rel="noopener">
+                            <img src="~/images/Adobe/WinZip.png" alt="" width="40">
+                        </a>
+                    </td>
+                    <td style="width: 299px; height: 45px;">
+                        <a href="https://cafebazaar.ir/app/com.winzip.android/" target="_blank" rel="noopener">
+                            دانلود آخرین نسخه اندروید WinZip از بازار
+                        </a>
+                    </td>
+                    <td style="width: 475px; height: 45px;">
+                        این برنامه برای باز نمودن فایل‌های فشرده شده استفاده می‌شود.
+                    </td>
+                </tr>
+            </tbody>
+        </table>
+    </div>
+
+    <div class="col-xs-12 col-sm-12 col-md-4">
+        <a href="/Support/Student" class="btn btn-info">ویدئوهای آموزشی جهت<br /> شرکت در کلاسهای آنلاین</a>
+        <br />
+        <br />
+        <br />
+        <a href="#" class="btn btn-info">تلفن های پشتیبانی<br /> @setting.tel @setting.Mobile</a>
+    </div>
+
+</div>

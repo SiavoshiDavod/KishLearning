@@ -1,0 +1,34 @@
+﻿@model IEnumerable<SenakLearn.Models.UserCommnet>
+@{var list = Model.Where(x => x.ParentId == null).ToList();string avatar = "";}
+@foreach (var item in list)
+{
+    if (item.learn_user != null && !string.IsNullOrEmpty(item.learn_user.ImageUrl))
+    {
+        avatar = item.learn_user.ImageUrl;
+    }
+    else
+    {
+        avatar = "man.png";
+    }
+    if (item.learn_user != null && !string.IsNullOrEmpty(item.learn_user.Name) && !string.IsNullOrEmpty(item.learn_user.Family))
+    {
+        item.Name = item.learn_user.Name + " " + item.learn_user.Family;
+    }
+    var child = Model.Where(x => x.ParentId == item.Id).ToList();
+    <div class="comment clearfix">
+        <img src="/images/Users/@avatar" alt="Avatar" class="pull-left" style="max-width: 80px;"> <a href="#">@item.Name</a> <span class="postedon">@item.CreatedDateShamsi</span>
+        <p class="abs">@item.Description</p>
+        @*<a onclick="Comment(@item.Id,@item.PageTypeId,@item.TypeId)" class="pull-right greybutton">پاسخ</a>*@
+    </div>
+
+foreach (var item2 in child)
+{
+    <div class="comment subcomment clearfix">
+        <img src="/assets/img/avatar/3.png" alt="Avatar" class="pull-left" style="max-width: 80px;"> <a href="#">@item2.Name</a> <span class="postedon">@item2.CreatedDateShamsi</span>
+        <p class="abs">@item2.Description </p>
+        @*<a href="#" class="pull-right greybutton">پاسخ</a>*@
+    </div>
+
+}
+            
+}

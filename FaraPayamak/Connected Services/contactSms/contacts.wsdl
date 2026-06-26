@@ -1,0 +1,1442 @@
+<?xml version="1.0" encoding="utf-8"?>
+<wsdl:definitions xmlns:soap="http://schemas.xmlsoap.org/wsdl/soap/" xmlns:soapenc="http://schemas.xmlsoap.org/soap/encoding/" xmlns:tm="http://microsoft.com/wsdl/mime/textMatching/" xmlns:mime="http://schemas.xmlsoap.org/wsdl/mime/" xmlns:tns="http://tempuri.org/" xmlns:http="http://schemas.xmlsoap.org/wsdl/http/" xmlns:s="http://www.w3.org/2001/XMLSchema" xmlns:soap12="http://schemas.xmlsoap.org/wsdl/soap12/" targetNamespace="http://tempuri.org/" xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/">
+  <wsdl:types>
+    <s:schema elementFormDefault="qualified" targetNamespace="http://tempuri.org/">
+      <s:element name="AddGroup">
+        <s:complexType>
+          <s:sequence>
+            <s:element minOccurs="0" maxOccurs="1" name="username" type="s:string" />
+            <s:element minOccurs="0" maxOccurs="1" name="password" type="s:string" />
+            <s:element minOccurs="0" maxOccurs="1" name="groupName" type="s:string" />
+            <s:element minOccurs="0" maxOccurs="1" name="Descriptions" type="s:string" />
+            <s:element minOccurs="1" maxOccurs="1" name="showToChilds" type="s:boolean" />
+          </s:sequence>
+        </s:complexType>
+      </s:element>
+      <s:element name="AddGroupResponse">
+        <s:complexType>
+          <s:sequence>
+            <s:element minOccurs="1" maxOccurs="1" name="AddGroupResult" type="s:int" />
+          </s:sequence>
+        </s:complexType>
+      </s:element>
+      <s:element name="GetGroups">
+        <s:complexType>
+          <s:sequence>
+            <s:element minOccurs="0" maxOccurs="1" name="username" type="s:string" />
+            <s:element minOccurs="0" maxOccurs="1" name="password" type="s:string" />
+          </s:sequence>
+        </s:complexType>
+      </s:element>
+      <s:element name="GetGroupsResponse">
+        <s:complexType>
+          <s:sequence>
+            <s:element minOccurs="0" maxOccurs="1" name="GetGroupsResult" type="tns:ArrayOfGroupsList" />
+          </s:sequence>
+        </s:complexType>
+      </s:element>
+      <s:complexType name="ArrayOfGroupsList">
+        <s:sequence>
+          <s:element minOccurs="0" maxOccurs="unbounded" name="GroupsList" nillable="true" type="tns:GroupsList" />
+        </s:sequence>
+      </s:complexType>
+      <s:complexType name="GroupsList">
+        <s:sequence>
+          <s:element minOccurs="1" maxOccurs="1" name="GroupID" type="s:int" />
+          <s:element minOccurs="1" maxOccurs="1" name="ParentId" type="s:int" />
+          <s:element minOccurs="1" maxOccurs="1" name="UserID" type="s:int" />
+          <s:element minOccurs="0" maxOccurs="1" name="GroupName" type="s:string" />
+          <s:element minOccurs="0" maxOccurs="1" name="GroupDescription" type="s:string" />
+          <s:element minOccurs="1" maxOccurs="1" name="GroupStatus" type="s:unsignedByte" />
+          <s:element minOccurs="1" maxOccurs="1" name="ContactCount" type="s:int" />
+          <s:element minOccurs="1" maxOccurs="1" name="ShowToChild" type="s:boolean" />
+          <s:element minOccurs="1" maxOccurs="1" name="ChildsCount" type="s:int" />
+        </s:sequence>
+      </s:complexType>
+      <s:element name="AddContact">
+        <s:complexType>
+          <s:sequence>
+            <s:element minOccurs="0" maxOccurs="1" name="username" type="s:string" />
+            <s:element minOccurs="0" maxOccurs="1" name="password" type="s:string" />
+            <s:element minOccurs="0" maxOccurs="1" name="groupIds" type="s:string" />
+            <s:element minOccurs="0" maxOccurs="1" name="firstname" type="s:string" />
+            <s:element minOccurs="0" maxOccurs="1" name="lastname" type="s:string" />
+            <s:element minOccurs="0" maxOccurs="1" name="nickname" type="s:string" />
+            <s:element minOccurs="0" maxOccurs="1" name="corporation" type="s:string" />
+            <s:element minOccurs="0" maxOccurs="1" name="mobilenumber" type="s:string" />
+            <s:element minOccurs="0" maxOccurs="1" name="phone" type="s:string" />
+            <s:element minOccurs="0" maxOccurs="1" name="fax" type="s:string" />
+            <s:element minOccurs="1" maxOccurs="1" name="birthdate" type="s:dateTime" />
+            <s:element minOccurs="0" maxOccurs="1" name="email" type="s:string" />
+            <s:element minOccurs="1" maxOccurs="1" name="gender" type="s:unsignedByte" />
+            <s:element minOccurs="1" maxOccurs="1" name="province" type="s:int" />
+            <s:element minOccurs="1" maxOccurs="1" name="city" type="s:int" />
+            <s:element minOccurs="0" maxOccurs="1" name="address" type="s:string" />
+            <s:element minOccurs="0" maxOccurs="1" name="postalCode" type="s:string" />
+            <s:element minOccurs="1" maxOccurs="1" name="additionaldate" type="s:dateTime" />
+            <s:element minOccurs="0" maxOccurs="1" name="additionaltext" type="s:string" />
+            <s:element minOccurs="0" maxOccurs="1" name="descriptions" type="s:string" />
+          </s:sequence>
+        </s:complexType>
+      </s:element>
+      <s:element name="AddContactResponse">
+        <s:complexType>
+          <s:sequence>
+            <s:element minOccurs="1" maxOccurs="1" name="AddContactResult" type="s:int" />
+          </s:sequence>
+        </s:complexType>
+      </s:element>
+      <s:element name="GetContactsByID">
+        <s:complexType>
+          <s:sequence>
+            <s:element minOccurs="0" maxOccurs="1" name="username" type="s:string" />
+            <s:element minOccurs="0" maxOccurs="1" name="password" type="s:string" />
+            <s:element minOccurs="1" maxOccurs="1" name="contactId" type="s:int" />
+            <s:element minOccurs="1" maxOccurs="1" name="status" type="s:int" />
+          </s:sequence>
+        </s:complexType>
+      </s:element>
+      <s:element name="GetContactsByIDResponse">
+        <s:complexType>
+          <s:sequence>
+            <s:element minOccurs="0" maxOccurs="1" name="GetContactsByIDResult" type="tns:ContactsBL" />
+            <s:element minOccurs="1" maxOccurs="1" name="status" type="s:int" />
+          </s:sequence>
+        </s:complexType>
+      </s:element>
+      <s:complexType name="ContactsBL">
+        <s:complexContent mixed="false">
+          <s:extension base="tns:BaseBL">
+            <s:sequence>
+              <s:element minOccurs="1" maxOccurs="1" name="ContactID" type="s:int" />
+              <s:element minOccurs="1" maxOccurs="1" name="UserID" type="s:int" />
+              <s:element minOccurs="0" maxOccurs="1" name="FirstName" type="s:string" />
+              <s:element minOccurs="0" maxOccurs="1" name="LastName" type="s:string" />
+              <s:element minOccurs="0" maxOccurs="1" name="Corporation" type="s:string" />
+              <s:element minOccurs="0" maxOccurs="1" name="NickName" type="s:string" />
+              <s:element minOccurs="0" maxOccurs="1" name="MobileNumbers" type="s:string" />
+              <s:element minOccurs="0" maxOccurs="1" name="PhoneNumbers" type="s:string" />
+              <s:element minOccurs="0" maxOccurs="1" name="FaxNumbers" type="s:string" />
+              <s:element minOccurs="1" maxOccurs="1" name="BirthDate" type="s:dateTime" />
+              <s:element minOccurs="0" maxOccurs="1" name="Email" type="s:string" />
+              <s:element minOccurs="1" maxOccurs="1" name="Gender" type="s:unsignedByte" />
+              <s:element minOccurs="1" maxOccurs="1" name="Province" type="s:int" />
+              <s:element minOccurs="1" maxOccurs="1" name="City" type="s:int" />
+              <s:element minOccurs="0" maxOccurs="1" name="Address" type="s:string" />
+              <s:element minOccurs="0" maxOccurs="1" name="PostalCode" type="s:string" />
+              <s:element minOccurs="1" maxOccurs="1" name="AdditionalDate" type="s:dateTime" />
+              <s:element minOccurs="0" maxOccurs="1" name="AdditionalText" type="s:string" />
+              <s:element minOccurs="0" maxOccurs="1" name="Descriptions" type="s:string" />
+              <s:element minOccurs="1" maxOccurs="1" name="CreateDate" type="s:dateTime" />
+              <s:element minOccurs="1" maxOccurs="1" name="ContactSort" type="s:int" />
+              <s:element minOccurs="1" maxOccurs="1" name="ContactStatus" type="s:unsignedByte" />
+              <s:element minOccurs="1" maxOccurs="1" name="Credit" type="s:double" />
+            </s:sequence>
+          </s:extension>
+        </s:complexContent>
+      </s:complexType>
+      <s:complexType name="BaseBL" />
+      <s:element name="GetContacts">
+        <s:complexType>
+          <s:sequence>
+            <s:element minOccurs="0" maxOccurs="1" name="username" type="s:string" />
+            <s:element minOccurs="0" maxOccurs="1" name="password" type="s:string" />
+            <s:element minOccurs="1" maxOccurs="1" name="groupId" type="s:int" />
+            <s:element minOccurs="0" maxOccurs="1" name="keyword" type="s:string" />
+            <s:element minOccurs="1" maxOccurs="1" name="from" type="s:int" />
+            <s:element minOccurs="1" maxOccurs="1" name="count" type="s:int" />
+          </s:sequence>
+        </s:complexType>
+      </s:element>
+      <s:element name="GetContactsResponse">
+        <s:complexType>
+          <s:sequence>
+            <s:element minOccurs="0" maxOccurs="1" name="GetContactsResult" type="tns:ArrayOfContactsGridList" />
+          </s:sequence>
+        </s:complexType>
+      </s:element>
+      <s:complexType name="ArrayOfContactsGridList">
+        <s:sequence>
+          <s:element minOccurs="0" maxOccurs="unbounded" name="ContactsGridList" nillable="true" type="tns:ContactsGridList" />
+        </s:sequence>
+      </s:complexType>
+      <s:complexType name="ContactsGridList">
+        <s:sequence>
+          <s:element minOccurs="1" maxOccurs="1" name="ContactID" type="s:int" />
+          <s:element minOccurs="0" maxOccurs="1" name="FirstName" type="s:string" />
+          <s:element minOccurs="0" maxOccurs="1" name="LastName" type="s:string" />
+          <s:element minOccurs="0" maxOccurs="1" name="NickName" type="s:string" />
+          <s:element minOccurs="0" maxOccurs="1" name="Corporation" type="s:string" />
+          <s:element minOccurs="0" maxOccurs="1" name="MobileNumbers" type="s:string" />
+          <s:element minOccurs="0" maxOccurs="1" name="FaxNumber" type="s:string" />
+          <s:element minOccurs="0" maxOccurs="1" name="Email" type="s:string" />
+          <s:element minOccurs="1" maxOccurs="1" name="Gender" type="s:unsignedByte" />
+          <s:element minOccurs="0" maxOccurs="1" name="Descriptions" type="s:string" />
+          <s:element minOccurs="1" maxOccurs="1" name="CreateDate" type="s:dateTime" />
+          <s:element minOccurs="0" maxOccurs="1" name="Groups" type="s:string" />
+          <s:element minOccurs="1" maxOccurs="1" name="Credit" type="s:double" />
+          <s:element minOccurs="1" maxOccurs="1" name="AdditionalDate" type="s:dateTime" />
+          <s:element minOccurs="1" maxOccurs="1" name="BirthDate" type="s:dateTime" />
+          <s:element minOccurs="1" maxOccurs="1" name="ContactSort" type="s:int" />
+          <s:element minOccurs="1" maxOccurs="1" name="ContactStatus" type="s:unsignedByte" />
+          <s:element minOccurs="0" maxOccurs="1" name="AdditionalText" type="s:string" />
+        </s:sequence>
+      </s:complexType>
+      <s:element name="GetContactEvents">
+        <s:complexType>
+          <s:sequence>
+            <s:element minOccurs="0" maxOccurs="1" name="username" type="s:string" />
+            <s:element minOccurs="0" maxOccurs="1" name="password" type="s:string" />
+            <s:element minOccurs="1" maxOccurs="1" name="contactId" type="s:int" />
+          </s:sequence>
+        </s:complexType>
+      </s:element>
+      <s:element name="GetContactEventsResponse">
+        <s:complexType>
+          <s:sequence>
+            <s:element minOccurs="0" maxOccurs="1" name="GetContactEventsResult" type="tns:ArrayOfContactEventBL" />
+          </s:sequence>
+        </s:complexType>
+      </s:element>
+      <s:complexType name="ArrayOfContactEventBL">
+        <s:sequence>
+          <s:element minOccurs="0" maxOccurs="unbounded" name="ContactEventBL" nillable="true" type="tns:ContactEventBL" />
+        </s:sequence>
+      </s:complexType>
+      <s:complexType name="ContactEventBL">
+        <s:complexContent mixed="false">
+          <s:extension base="tns:BaseBL">
+            <s:sequence>
+              <s:element minOccurs="1" maxOccurs="1" name="EventID" type="s:int" />
+              <s:element minOccurs="1" maxOccurs="1" name="ContactID" type="s:int" />
+              <s:element minOccurs="0" maxOccurs="1" name="EventName" type="s:string" />
+              <s:element minOccurs="1" maxOccurs="1" name="EventType" type="s:unsignedByte" />
+              <s:element minOccurs="1" maxOccurs="1" name="EventDate" type="s:dateTime" />
+              <s:element minOccurs="1" maxOccurs="1" name="EventDay" type="s:int" />
+              <s:element minOccurs="1" maxOccurs="1" name="EventMonth" type="s:int" />
+            </s:sequence>
+          </s:extension>
+        </s:complexContent>
+      </s:complexType>
+      <s:element name="CheckMobileExistInContact">
+        <s:complexType>
+          <s:sequence>
+            <s:element minOccurs="0" maxOccurs="1" name="username" type="s:string" />
+            <s:element minOccurs="0" maxOccurs="1" name="password" type="s:string" />
+            <s:element minOccurs="0" maxOccurs="1" name="mobileNumber" type="s:string" />
+          </s:sequence>
+        </s:complexType>
+      </s:element>
+      <s:element name="CheckMobileExistInContactResponse">
+        <s:complexType>
+          <s:sequence>
+            <s:element minOccurs="1" maxOccurs="1" name="CheckMobileExistInContactResult" type="s:int" />
+          </s:sequence>
+        </s:complexType>
+      </s:element>
+      <s:element name="ChangeContact">
+        <s:complexType>
+          <s:sequence>
+            <s:element minOccurs="0" maxOccurs="1" name="username" type="s:string" />
+            <s:element minOccurs="0" maxOccurs="1" name="password" type="s:string" />
+            <s:element minOccurs="1" maxOccurs="1" name="contactId" type="s:int" />
+            <s:element minOccurs="0" maxOccurs="1" name="mobilenumber" type="s:string" />
+            <s:element minOccurs="0" maxOccurs="1" name="firstname" type="s:string" />
+            <s:element minOccurs="0" maxOccurs="1" name="lastname" type="s:string" />
+            <s:element minOccurs="0" maxOccurs="1" name="nickname" type="s:string" />
+            <s:element minOccurs="0" maxOccurs="1" name="corporation" type="s:string" />
+            <s:element minOccurs="0" maxOccurs="1" name="phone" type="s:string" />
+            <s:element minOccurs="0" maxOccurs="1" name="fax" type="s:string" />
+            <s:element minOccurs="0" maxOccurs="1" name="email" type="s:string" />
+            <s:element minOccurs="1" maxOccurs="1" name="gender" type="s:unsignedByte" />
+            <s:element minOccurs="1" maxOccurs="1" name="province" type="s:int" />
+            <s:element minOccurs="1" maxOccurs="1" name="city" type="s:int" />
+            <s:element minOccurs="0" maxOccurs="1" name="address" type="s:string" />
+            <s:element minOccurs="0" maxOccurs="1" name="postalCode" type="s:string" />
+            <s:element minOccurs="0" maxOccurs="1" name="additionaltext" type="s:string" />
+            <s:element minOccurs="0" maxOccurs="1" name="descriptions" type="s:string" />
+            <s:element minOccurs="1" maxOccurs="1" name="contactStatus" type="s:int" />
+          </s:sequence>
+        </s:complexType>
+      </s:element>
+      <s:element name="ChangeContactResponse">
+        <s:complexType>
+          <s:sequence>
+            <s:element minOccurs="1" maxOccurs="1" name="ChangeContactResult" type="s:int" />
+          </s:sequence>
+        </s:complexType>
+      </s:element>
+      <s:element name="RemoveContact">
+        <s:complexType>
+          <s:sequence>
+            <s:element minOccurs="0" maxOccurs="1" name="username" type="s:string" />
+            <s:element minOccurs="0" maxOccurs="1" name="password" type="s:string" />
+            <s:element minOccurs="0" maxOccurs="1" name="mobilenumber" type="s:string" />
+          </s:sequence>
+        </s:complexType>
+      </s:element>
+      <s:element name="RemoveContactResponse">
+        <s:complexType>
+          <s:sequence>
+            <s:element minOccurs="1" maxOccurs="1" name="RemoveContactResult" type="s:int" />
+          </s:sequence>
+        </s:complexType>
+      </s:element>
+      <s:element name="RemoveContactByContactID">
+        <s:complexType>
+          <s:sequence>
+            <s:element minOccurs="0" maxOccurs="1" name="username" type="s:string" />
+            <s:element minOccurs="0" maxOccurs="1" name="password" type="s:string" />
+            <s:element minOccurs="1" maxOccurs="1" name="contactId" type="s:int" />
+          </s:sequence>
+        </s:complexType>
+      </s:element>
+      <s:element name="RemoveContactByContactIDResponse">
+        <s:complexType>
+          <s:sequence>
+            <s:element minOccurs="1" maxOccurs="1" name="RemoveContactByContactIDResult" type="s:int" />
+          </s:sequence>
+        </s:complexType>
+      </s:element>
+      <s:element name="ChangeGroup">
+        <s:complexType>
+          <s:sequence>
+            <s:element minOccurs="0" maxOccurs="1" name="username" type="s:string" />
+            <s:element minOccurs="0" maxOccurs="1" name="password" type="s:string" />
+            <s:element minOccurs="1" maxOccurs="1" name="groupId" type="s:int" />
+            <s:element minOccurs="0" maxOccurs="1" name="groupName" type="s:string" />
+            <s:element minOccurs="0" maxOccurs="1" name="Descriptions" type="s:string" />
+            <s:element minOccurs="1" maxOccurs="1" name="showToChilds" type="s:boolean" />
+            <s:element minOccurs="1" maxOccurs="1" name="groupStatus" type="s:unsignedByte" />
+          </s:sequence>
+        </s:complexType>
+      </s:element>
+      <s:element name="ChangeGroupResponse">
+        <s:complexType>
+          <s:sequence>
+            <s:element minOccurs="1" maxOccurs="1" name="ChangeGroupResult" type="s:int" />
+          </s:sequence>
+        </s:complexType>
+      </s:element>
+      <s:element name="RemoveGroup">
+        <s:complexType>
+          <s:sequence>
+            <s:element minOccurs="0" maxOccurs="1" name="username" type="s:string" />
+            <s:element minOccurs="0" maxOccurs="1" name="password" type="s:string" />
+            <s:element minOccurs="1" maxOccurs="1" name="groupId" type="s:int" />
+          </s:sequence>
+        </s:complexType>
+      </s:element>
+      <s:element name="RemoveGroupResponse">
+        <s:complexType>
+          <s:sequence>
+            <s:element minOccurs="1" maxOccurs="1" name="RemoveGroupResult" type="s:int" />
+          </s:sequence>
+        </s:complexType>
+      </s:element>
+      <s:element name="AddContactEvents">
+        <s:complexType>
+          <s:sequence>
+            <s:element minOccurs="0" maxOccurs="1" name="username" type="s:string" />
+            <s:element minOccurs="0" maxOccurs="1" name="password" type="s:string" />
+            <s:element minOccurs="1" maxOccurs="1" name="contactId" type="s:int" />
+            <s:element minOccurs="0" maxOccurs="1" name="eventName" type="s:string" />
+            <s:element minOccurs="1" maxOccurs="1" name="eventType" type="s:unsignedByte" />
+            <s:element minOccurs="1" maxOccurs="1" name="eventDate" type="s:dateTime" />
+          </s:sequence>
+        </s:complexType>
+      </s:element>
+      <s:element name="AddContactEventsResponse">
+        <s:complexType>
+          <s:sequence>
+            <s:element minOccurs="1" maxOccurs="1" name="AddContactEventsResult" type="s:int" />
+          </s:sequence>
+        </s:complexType>
+      </s:element>
+      <s:element name="MergeGroups">
+        <s:complexType>
+          <s:sequence>
+            <s:element minOccurs="0" maxOccurs="1" name="username" type="s:string" />
+            <s:element minOccurs="0" maxOccurs="1" name="password" type="s:string" />
+            <s:element minOccurs="1" maxOccurs="1" name="originGroupId" type="s:int" />
+            <s:element minOccurs="1" maxOccurs="1" name="destinationGroupId" type="s:int" />
+            <s:element minOccurs="1" maxOccurs="1" name="deleteOriginGroup" type="s:boolean" />
+          </s:sequence>
+        </s:complexType>
+      </s:element>
+      <s:element name="MergeGroupsResponse">
+        <s:complexType>
+          <s:sequence>
+            <s:element minOccurs="1" maxOccurs="1" name="MergeGroupsResult" type="s:int" />
+          </s:sequence>
+        </s:complexType>
+      </s:element>
+      <s:element name="int" type="s:int" />
+      <s:element name="ArrayOfGroupsList" nillable="true" type="tns:ArrayOfGroupsList" />
+      <s:element name="ArrayOfContactsGridList" nillable="true" type="tns:ArrayOfContactsGridList" />
+      <s:element name="ArrayOfContactEventBL" nillable="true" type="tns:ArrayOfContactEventBL" />
+    </s:schema>
+  </wsdl:types>
+  <wsdl:message name="AddGroupSoapIn">
+    <wsdl:part name="parameters" element="tns:AddGroup" />
+  </wsdl:message>
+  <wsdl:message name="AddGroupSoapOut">
+    <wsdl:part name="parameters" element="tns:AddGroupResponse" />
+  </wsdl:message>
+  <wsdl:message name="GetGroupsSoapIn">
+    <wsdl:part name="parameters" element="tns:GetGroups" />
+  </wsdl:message>
+  <wsdl:message name="GetGroupsSoapOut">
+    <wsdl:part name="parameters" element="tns:GetGroupsResponse" />
+  </wsdl:message>
+  <wsdl:message name="AddContactSoapIn">
+    <wsdl:part name="parameters" element="tns:AddContact" />
+  </wsdl:message>
+  <wsdl:message name="AddContactSoapOut">
+    <wsdl:part name="parameters" element="tns:AddContactResponse" />
+  </wsdl:message>
+  <wsdl:message name="GetContactsByIDSoapIn">
+    <wsdl:part name="parameters" element="tns:GetContactsByID" />
+  </wsdl:message>
+  <wsdl:message name="GetContactsByIDSoapOut">
+    <wsdl:part name="parameters" element="tns:GetContactsByIDResponse" />
+  </wsdl:message>
+  <wsdl:message name="GetContactsSoapIn">
+    <wsdl:part name="parameters" element="tns:GetContacts" />
+  </wsdl:message>
+  <wsdl:message name="GetContactsSoapOut">
+    <wsdl:part name="parameters" element="tns:GetContactsResponse" />
+  </wsdl:message>
+  <wsdl:message name="GetContactEventsSoapIn">
+    <wsdl:part name="parameters" element="tns:GetContactEvents" />
+  </wsdl:message>
+  <wsdl:message name="GetContactEventsSoapOut">
+    <wsdl:part name="parameters" element="tns:GetContactEventsResponse" />
+  </wsdl:message>
+  <wsdl:message name="CheckMobileExistInContactSoapIn">
+    <wsdl:part name="parameters" element="tns:CheckMobileExistInContact" />
+  </wsdl:message>
+  <wsdl:message name="CheckMobileExistInContactSoapOut">
+    <wsdl:part name="parameters" element="tns:CheckMobileExistInContactResponse" />
+  </wsdl:message>
+  <wsdl:message name="ChangeContactSoapIn">
+    <wsdl:part name="parameters" element="tns:ChangeContact" />
+  </wsdl:message>
+  <wsdl:message name="ChangeContactSoapOut">
+    <wsdl:part name="parameters" element="tns:ChangeContactResponse" />
+  </wsdl:message>
+  <wsdl:message name="RemoveContactSoapIn">
+    <wsdl:part name="parameters" element="tns:RemoveContact" />
+  </wsdl:message>
+  <wsdl:message name="RemoveContactSoapOut">
+    <wsdl:part name="parameters" element="tns:RemoveContactResponse" />
+  </wsdl:message>
+  <wsdl:message name="RemoveContactByContactIDSoapIn">
+    <wsdl:part name="parameters" element="tns:RemoveContactByContactID" />
+  </wsdl:message>
+  <wsdl:message name="RemoveContactByContactIDSoapOut">
+    <wsdl:part name="parameters" element="tns:RemoveContactByContactIDResponse" />
+  </wsdl:message>
+  <wsdl:message name="ChangeGroupSoapIn">
+    <wsdl:part name="parameters" element="tns:ChangeGroup" />
+  </wsdl:message>
+  <wsdl:message name="ChangeGroupSoapOut">
+    <wsdl:part name="parameters" element="tns:ChangeGroupResponse" />
+  </wsdl:message>
+  <wsdl:message name="RemoveGroupSoapIn">
+    <wsdl:part name="parameters" element="tns:RemoveGroup" />
+  </wsdl:message>
+  <wsdl:message name="RemoveGroupSoapOut">
+    <wsdl:part name="parameters" element="tns:RemoveGroupResponse" />
+  </wsdl:message>
+  <wsdl:message name="AddContactEventsSoapIn">
+    <wsdl:part name="parameters" element="tns:AddContactEvents" />
+  </wsdl:message>
+  <wsdl:message name="AddContactEventsSoapOut">
+    <wsdl:part name="parameters" element="tns:AddContactEventsResponse" />
+  </wsdl:message>
+  <wsdl:message name="MergeGroupsSoapIn">
+    <wsdl:part name="parameters" element="tns:MergeGroups" />
+  </wsdl:message>
+  <wsdl:message name="MergeGroupsSoapOut">
+    <wsdl:part name="parameters" element="tns:MergeGroupsResponse" />
+  </wsdl:message>
+  <wsdl:message name="AddGroupHttpGetIn">
+    <wsdl:part name="username" type="s:string" />
+    <wsdl:part name="password" type="s:string" />
+    <wsdl:part name="groupName" type="s:string" />
+    <wsdl:part name="Descriptions" type="s:string" />
+    <wsdl:part name="showToChilds" type="s:string" />
+  </wsdl:message>
+  <wsdl:message name="AddGroupHttpGetOut">
+    <wsdl:part name="Body" element="tns:int" />
+  </wsdl:message>
+  <wsdl:message name="GetGroupsHttpGetIn">
+    <wsdl:part name="username" type="s:string" />
+    <wsdl:part name="password" type="s:string" />
+  </wsdl:message>
+  <wsdl:message name="GetGroupsHttpGetOut">
+    <wsdl:part name="Body" element="tns:ArrayOfGroupsList" />
+  </wsdl:message>
+  <wsdl:message name="AddContactHttpGetIn">
+    <wsdl:part name="username" type="s:string" />
+    <wsdl:part name="password" type="s:string" />
+    <wsdl:part name="groupIds" type="s:string" />
+    <wsdl:part name="firstname" type="s:string" />
+    <wsdl:part name="lastname" type="s:string" />
+    <wsdl:part name="nickname" type="s:string" />
+    <wsdl:part name="corporation" type="s:string" />
+    <wsdl:part name="mobilenumber" type="s:string" />
+    <wsdl:part name="phone" type="s:string" />
+    <wsdl:part name="fax" type="s:string" />
+    <wsdl:part name="birthdate" type="s:string" />
+    <wsdl:part name="email" type="s:string" />
+    <wsdl:part name="gender" type="s:string" />
+    <wsdl:part name="province" type="s:string" />
+    <wsdl:part name="city" type="s:string" />
+    <wsdl:part name="address" type="s:string" />
+    <wsdl:part name="postalCode" type="s:string" />
+    <wsdl:part name="additionaldate" type="s:string" />
+    <wsdl:part name="additionaltext" type="s:string" />
+    <wsdl:part name="descriptions" type="s:string" />
+  </wsdl:message>
+  <wsdl:message name="AddContactHttpGetOut">
+    <wsdl:part name="Body" element="tns:int" />
+  </wsdl:message>
+  <wsdl:message name="GetContactsHttpGetIn">
+    <wsdl:part name="username" type="s:string" />
+    <wsdl:part name="password" type="s:string" />
+    <wsdl:part name="groupId" type="s:string" />
+    <wsdl:part name="keyword" type="s:string" />
+    <wsdl:part name="from" type="s:string" />
+    <wsdl:part name="count" type="s:string" />
+  </wsdl:message>
+  <wsdl:message name="GetContactsHttpGetOut">
+    <wsdl:part name="Body" element="tns:ArrayOfContactsGridList" />
+  </wsdl:message>
+  <wsdl:message name="GetContactEventsHttpGetIn">
+    <wsdl:part name="username" type="s:string" />
+    <wsdl:part name="password" type="s:string" />
+    <wsdl:part name="contactId" type="s:string" />
+  </wsdl:message>
+  <wsdl:message name="GetContactEventsHttpGetOut">
+    <wsdl:part name="Body" element="tns:ArrayOfContactEventBL" />
+  </wsdl:message>
+  <wsdl:message name="CheckMobileExistInContactHttpGetIn">
+    <wsdl:part name="username" type="s:string" />
+    <wsdl:part name="password" type="s:string" />
+    <wsdl:part name="mobileNumber" type="s:string" />
+  </wsdl:message>
+  <wsdl:message name="CheckMobileExistInContactHttpGetOut">
+    <wsdl:part name="Body" element="tns:int" />
+  </wsdl:message>
+  <wsdl:message name="ChangeContactHttpGetIn">
+    <wsdl:part name="username" type="s:string" />
+    <wsdl:part name="password" type="s:string" />
+    <wsdl:part name="contactId" type="s:string" />
+    <wsdl:part name="mobilenumber" type="s:string" />
+    <wsdl:part name="firstname" type="s:string" />
+    <wsdl:part name="lastname" type="s:string" />
+    <wsdl:part name="nickname" type="s:string" />
+    <wsdl:part name="corporation" type="s:string" />
+    <wsdl:part name="phone" type="s:string" />
+    <wsdl:part name="fax" type="s:string" />
+    <wsdl:part name="email" type="s:string" />
+    <wsdl:part name="gender" type="s:string" />
+    <wsdl:part name="province" type="s:string" />
+    <wsdl:part name="city" type="s:string" />
+    <wsdl:part name="address" type="s:string" />
+    <wsdl:part name="postalCode" type="s:string" />
+    <wsdl:part name="additionaltext" type="s:string" />
+    <wsdl:part name="descriptions" type="s:string" />
+    <wsdl:part name="contactStatus" type="s:string" />
+  </wsdl:message>
+  <wsdl:message name="ChangeContactHttpGetOut">
+    <wsdl:part name="Body" element="tns:int" />
+  </wsdl:message>
+  <wsdl:message name="RemoveContactHttpGetIn">
+    <wsdl:part name="username" type="s:string" />
+    <wsdl:part name="password" type="s:string" />
+    <wsdl:part name="mobilenumber" type="s:string" />
+  </wsdl:message>
+  <wsdl:message name="RemoveContactHttpGetOut">
+    <wsdl:part name="Body" element="tns:int" />
+  </wsdl:message>
+  <wsdl:message name="RemoveContactByContactIDHttpGetIn">
+    <wsdl:part name="username" type="s:string" />
+    <wsdl:part name="password" type="s:string" />
+    <wsdl:part name="contactId" type="s:string" />
+  </wsdl:message>
+  <wsdl:message name="RemoveContactByContactIDHttpGetOut">
+    <wsdl:part name="Body" element="tns:int" />
+  </wsdl:message>
+  <wsdl:message name="ChangeGroupHttpGetIn">
+    <wsdl:part name="username" type="s:string" />
+    <wsdl:part name="password" type="s:string" />
+    <wsdl:part name="groupId" type="s:string" />
+    <wsdl:part name="groupName" type="s:string" />
+    <wsdl:part name="Descriptions" type="s:string" />
+    <wsdl:part name="showToChilds" type="s:string" />
+    <wsdl:part name="groupStatus" type="s:string" />
+  </wsdl:message>
+  <wsdl:message name="ChangeGroupHttpGetOut">
+    <wsdl:part name="Body" element="tns:int" />
+  </wsdl:message>
+  <wsdl:message name="RemoveGroupHttpGetIn">
+    <wsdl:part name="username" type="s:string" />
+    <wsdl:part name="password" type="s:string" />
+    <wsdl:part name="groupId" type="s:string" />
+  </wsdl:message>
+  <wsdl:message name="RemoveGroupHttpGetOut">
+    <wsdl:part name="Body" element="tns:int" />
+  </wsdl:message>
+  <wsdl:message name="AddContactEventsHttpGetIn">
+    <wsdl:part name="username" type="s:string" />
+    <wsdl:part name="password" type="s:string" />
+    <wsdl:part name="contactId" type="s:string" />
+    <wsdl:part name="eventName" type="s:string" />
+    <wsdl:part name="eventType" type="s:string" />
+    <wsdl:part name="eventDate" type="s:string" />
+  </wsdl:message>
+  <wsdl:message name="AddContactEventsHttpGetOut">
+    <wsdl:part name="Body" element="tns:int" />
+  </wsdl:message>
+  <wsdl:message name="MergeGroupsHttpGetIn">
+    <wsdl:part name="username" type="s:string" />
+    <wsdl:part name="password" type="s:string" />
+    <wsdl:part name="originGroupId" type="s:string" />
+    <wsdl:part name="destinationGroupId" type="s:string" />
+    <wsdl:part name="deleteOriginGroup" type="s:string" />
+  </wsdl:message>
+  <wsdl:message name="MergeGroupsHttpGetOut">
+    <wsdl:part name="Body" element="tns:int" />
+  </wsdl:message>
+  <wsdl:message name="AddGroupHttpPostIn">
+    <wsdl:part name="username" type="s:string" />
+    <wsdl:part name="password" type="s:string" />
+    <wsdl:part name="groupName" type="s:string" />
+    <wsdl:part name="Descriptions" type="s:string" />
+    <wsdl:part name="showToChilds" type="s:string" />
+  </wsdl:message>
+  <wsdl:message name="AddGroupHttpPostOut">
+    <wsdl:part name="Body" element="tns:int" />
+  </wsdl:message>
+  <wsdl:message name="GetGroupsHttpPostIn">
+    <wsdl:part name="username" type="s:string" />
+    <wsdl:part name="password" type="s:string" />
+  </wsdl:message>
+  <wsdl:message name="GetGroupsHttpPostOut">
+    <wsdl:part name="Body" element="tns:ArrayOfGroupsList" />
+  </wsdl:message>
+  <wsdl:message name="AddContactHttpPostIn">
+    <wsdl:part name="username" type="s:string" />
+    <wsdl:part name="password" type="s:string" />
+    <wsdl:part name="groupIds" type="s:string" />
+    <wsdl:part name="firstname" type="s:string" />
+    <wsdl:part name="lastname" type="s:string" />
+    <wsdl:part name="nickname" type="s:string" />
+    <wsdl:part name="corporation" type="s:string" />
+    <wsdl:part name="mobilenumber" type="s:string" />
+    <wsdl:part name="phone" type="s:string" />
+    <wsdl:part name="fax" type="s:string" />
+    <wsdl:part name="birthdate" type="s:string" />
+    <wsdl:part name="email" type="s:string" />
+    <wsdl:part name="gender" type="s:string" />
+    <wsdl:part name="province" type="s:string" />
+    <wsdl:part name="city" type="s:string" />
+    <wsdl:part name="address" type="s:string" />
+    <wsdl:part name="postalCode" type="s:string" />
+    <wsdl:part name="additionaldate" type="s:string" />
+    <wsdl:part name="additionaltext" type="s:string" />
+    <wsdl:part name="descriptions" type="s:string" />
+  </wsdl:message>
+  <wsdl:message name="AddContactHttpPostOut">
+    <wsdl:part name="Body" element="tns:int" />
+  </wsdl:message>
+  <wsdl:message name="GetContactsHttpPostIn">
+    <wsdl:part name="username" type="s:string" />
+    <wsdl:part name="password" type="s:string" />
+    <wsdl:part name="groupId" type="s:string" />
+    <wsdl:part name="keyword" type="s:string" />
+    <wsdl:part name="from" type="s:string" />
+    <wsdl:part name="count" type="s:string" />
+  </wsdl:message>
+  <wsdl:message name="GetContactsHttpPostOut">
+    <wsdl:part name="Body" element="tns:ArrayOfContactsGridList" />
+  </wsdl:message>
+  <wsdl:message name="GetContactEventsHttpPostIn">
+    <wsdl:part name="username" type="s:string" />
+    <wsdl:part name="password" type="s:string" />
+    <wsdl:part name="contactId" type="s:string" />
+  </wsdl:message>
+  <wsdl:message name="GetContactEventsHttpPostOut">
+    <wsdl:part name="Body" element="tns:ArrayOfContactEventBL" />
+  </wsdl:message>
+  <wsdl:message name="CheckMobileExistInContactHttpPostIn">
+    <wsdl:part name="username" type="s:string" />
+    <wsdl:part name="password" type="s:string" />
+    <wsdl:part name="mobileNumber" type="s:string" />
+  </wsdl:message>
+  <wsdl:message name="CheckMobileExistInContactHttpPostOut">
+    <wsdl:part name="Body" element="tns:int" />
+  </wsdl:message>
+  <wsdl:message name="ChangeContactHttpPostIn">
+    <wsdl:part name="username" type="s:string" />
+    <wsdl:part name="password" type="s:string" />
+    <wsdl:part name="contactId" type="s:string" />
+    <wsdl:part name="mobilenumber" type="s:string" />
+    <wsdl:part name="firstname" type="s:string" />
+    <wsdl:part name="lastname" type="s:string" />
+    <wsdl:part name="nickname" type="s:string" />
+    <wsdl:part name="corporation" type="s:string" />
+    <wsdl:part name="phone" type="s:string" />
+    <wsdl:part name="fax" type="s:string" />
+    <wsdl:part name="email" type="s:string" />
+    <wsdl:part name="gender" type="s:string" />
+    <wsdl:part name="province" type="s:string" />
+    <wsdl:part name="city" type="s:string" />
+    <wsdl:part name="address" type="s:string" />
+    <wsdl:part name="postalCode" type="s:string" />
+    <wsdl:part name="additionaltext" type="s:string" />
+    <wsdl:part name="descriptions" type="s:string" />
+    <wsdl:part name="contactStatus" type="s:string" />
+  </wsdl:message>
+  <wsdl:message name="ChangeContactHttpPostOut">
+    <wsdl:part name="Body" element="tns:int" />
+  </wsdl:message>
+  <wsdl:message name="RemoveContactHttpPostIn">
+    <wsdl:part name="username" type="s:string" />
+    <wsdl:part name="password" type="s:string" />
+    <wsdl:part name="mobilenumber" type="s:string" />
+  </wsdl:message>
+  <wsdl:message name="RemoveContactHttpPostOut">
+    <wsdl:part name="Body" element="tns:int" />
+  </wsdl:message>
+  <wsdl:message name="RemoveContactByContactIDHttpPostIn">
+    <wsdl:part name="username" type="s:string" />
+    <wsdl:part name="password" type="s:string" />
+    <wsdl:part name="contactId" type="s:string" />
+  </wsdl:message>
+  <wsdl:message name="RemoveContactByContactIDHttpPostOut">
+    <wsdl:part name="Body" element="tns:int" />
+  </wsdl:message>
+  <wsdl:message name="ChangeGroupHttpPostIn">
+    <wsdl:part name="username" type="s:string" />
+    <wsdl:part name="password" type="s:string" />
+    <wsdl:part name="groupId" type="s:string" />
+    <wsdl:part name="groupName" type="s:string" />
+    <wsdl:part name="Descriptions" type="s:string" />
+    <wsdl:part name="showToChilds" type="s:string" />
+    <wsdl:part name="groupStatus" type="s:string" />
+  </wsdl:message>
+  <wsdl:message name="ChangeGroupHttpPostOut">
+    <wsdl:part name="Body" element="tns:int" />
+  </wsdl:message>
+  <wsdl:message name="RemoveGroupHttpPostIn">
+    <wsdl:part name="username" type="s:string" />
+    <wsdl:part name="password" type="s:string" />
+    <wsdl:part name="groupId" type="s:string" />
+  </wsdl:message>
+  <wsdl:message name="RemoveGroupHttpPostOut">
+    <wsdl:part name="Body" element="tns:int" />
+  </wsdl:message>
+  <wsdl:message name="AddContactEventsHttpPostIn">
+    <wsdl:part name="username" type="s:string" />
+    <wsdl:part name="password" type="s:string" />
+    <wsdl:part name="contactId" type="s:string" />
+    <wsdl:part name="eventName" type="s:string" />
+    <wsdl:part name="eventType" type="s:string" />
+    <wsdl:part name="eventDate" type="s:string" />
+  </wsdl:message>
+  <wsdl:message name="AddContactEventsHttpPostOut">
+    <wsdl:part name="Body" element="tns:int" />
+  </wsdl:message>
+  <wsdl:message name="MergeGroupsHttpPostIn">
+    <wsdl:part name="username" type="s:string" />
+    <wsdl:part name="password" type="s:string" />
+    <wsdl:part name="originGroupId" type="s:string" />
+    <wsdl:part name="destinationGroupId" type="s:string" />
+    <wsdl:part name="deleteOriginGroup" type="s:string" />
+  </wsdl:message>
+  <wsdl:message name="MergeGroupsHttpPostOut">
+    <wsdl:part name="Body" element="tns:int" />
+  </wsdl:message>
+  <wsdl:portType name="ContactsSoap">
+    <wsdl:operation name="AddGroup">
+      <wsdl:input message="tns:AddGroupSoapIn" />
+      <wsdl:output message="tns:AddGroupSoapOut" />
+    </wsdl:operation>
+    <wsdl:operation name="GetGroups">
+      <wsdl:input message="tns:GetGroupsSoapIn" />
+      <wsdl:output message="tns:GetGroupsSoapOut" />
+    </wsdl:operation>
+    <wsdl:operation name="AddContact">
+      <wsdl:input message="tns:AddContactSoapIn" />
+      <wsdl:output message="tns:AddContactSoapOut" />
+    </wsdl:operation>
+    <wsdl:operation name="GetContactsByID">
+      <wsdl:input message="tns:GetContactsByIDSoapIn" />
+      <wsdl:output message="tns:GetContactsByIDSoapOut" />
+    </wsdl:operation>
+    <wsdl:operation name="GetContacts">
+      <wsdl:input message="tns:GetContactsSoapIn" />
+      <wsdl:output message="tns:GetContactsSoapOut" />
+    </wsdl:operation>
+    <wsdl:operation name="GetContactEvents">
+      <wsdl:input message="tns:GetContactEventsSoapIn" />
+      <wsdl:output message="tns:GetContactEventsSoapOut" />
+    </wsdl:operation>
+    <wsdl:operation name="CheckMobileExistInContact">
+      <wsdl:input message="tns:CheckMobileExistInContactSoapIn" />
+      <wsdl:output message="tns:CheckMobileExistInContactSoapOut" />
+    </wsdl:operation>
+    <wsdl:operation name="ChangeContact">
+      <wsdl:input message="tns:ChangeContactSoapIn" />
+      <wsdl:output message="tns:ChangeContactSoapOut" />
+    </wsdl:operation>
+    <wsdl:operation name="RemoveContact">
+      <wsdl:input message="tns:RemoveContactSoapIn" />
+      <wsdl:output message="tns:RemoveContactSoapOut" />
+    </wsdl:operation>
+    <wsdl:operation name="RemoveContactByContactID">
+      <wsdl:input message="tns:RemoveContactByContactIDSoapIn" />
+      <wsdl:output message="tns:RemoveContactByContactIDSoapOut" />
+    </wsdl:operation>
+    <wsdl:operation name="ChangeGroup">
+      <wsdl:input message="tns:ChangeGroupSoapIn" />
+      <wsdl:output message="tns:ChangeGroupSoapOut" />
+    </wsdl:operation>
+    <wsdl:operation name="RemoveGroup">
+      <wsdl:input message="tns:RemoveGroupSoapIn" />
+      <wsdl:output message="tns:RemoveGroupSoapOut" />
+    </wsdl:operation>
+    <wsdl:operation name="AddContactEvents">
+      <wsdl:input message="tns:AddContactEventsSoapIn" />
+      <wsdl:output message="tns:AddContactEventsSoapOut" />
+    </wsdl:operation>
+    <wsdl:operation name="MergeGroups">
+      <wsdl:input message="tns:MergeGroupsSoapIn" />
+      <wsdl:output message="tns:MergeGroupsSoapOut" />
+    </wsdl:operation>
+  </wsdl:portType>
+  <wsdl:portType name="ContactsHttpGet">
+    <wsdl:operation name="AddGroup">
+      <wsdl:input message="tns:AddGroupHttpGetIn" />
+      <wsdl:output message="tns:AddGroupHttpGetOut" />
+    </wsdl:operation>
+    <wsdl:operation name="GetGroups">
+      <wsdl:input message="tns:GetGroupsHttpGetIn" />
+      <wsdl:output message="tns:GetGroupsHttpGetOut" />
+    </wsdl:operation>
+    <wsdl:operation name="AddContact">
+      <wsdl:input message="tns:AddContactHttpGetIn" />
+      <wsdl:output message="tns:AddContactHttpGetOut" />
+    </wsdl:operation>
+    <wsdl:operation name="GetContacts">
+      <wsdl:input message="tns:GetContactsHttpGetIn" />
+      <wsdl:output message="tns:GetContactsHttpGetOut" />
+    </wsdl:operation>
+    <wsdl:operation name="GetContactEvents">
+      <wsdl:input message="tns:GetContactEventsHttpGetIn" />
+      <wsdl:output message="tns:GetContactEventsHttpGetOut" />
+    </wsdl:operation>
+    <wsdl:operation name="CheckMobileExistInContact">
+      <wsdl:input message="tns:CheckMobileExistInContactHttpGetIn" />
+      <wsdl:output message="tns:CheckMobileExistInContactHttpGetOut" />
+    </wsdl:operation>
+    <wsdl:operation name="ChangeContact">
+      <wsdl:input message="tns:ChangeContactHttpGetIn" />
+      <wsdl:output message="tns:ChangeContactHttpGetOut" />
+    </wsdl:operation>
+    <wsdl:operation name="RemoveContact">
+      <wsdl:input message="tns:RemoveContactHttpGetIn" />
+      <wsdl:output message="tns:RemoveContactHttpGetOut" />
+    </wsdl:operation>
+    <wsdl:operation name="RemoveContactByContactID">
+      <wsdl:input message="tns:RemoveContactByContactIDHttpGetIn" />
+      <wsdl:output message="tns:RemoveContactByContactIDHttpGetOut" />
+    </wsdl:operation>
+    <wsdl:operation name="ChangeGroup">
+      <wsdl:input message="tns:ChangeGroupHttpGetIn" />
+      <wsdl:output message="tns:ChangeGroupHttpGetOut" />
+    </wsdl:operation>
+    <wsdl:operation name="RemoveGroup">
+      <wsdl:input message="tns:RemoveGroupHttpGetIn" />
+      <wsdl:output message="tns:RemoveGroupHttpGetOut" />
+    </wsdl:operation>
+    <wsdl:operation name="AddContactEvents">
+      <wsdl:input message="tns:AddContactEventsHttpGetIn" />
+      <wsdl:output message="tns:AddContactEventsHttpGetOut" />
+    </wsdl:operation>
+    <wsdl:operation name="MergeGroups">
+      <wsdl:input message="tns:MergeGroupsHttpGetIn" />
+      <wsdl:output message="tns:MergeGroupsHttpGetOut" />
+    </wsdl:operation>
+  </wsdl:portType>
+  <wsdl:portType name="ContactsHttpPost">
+    <wsdl:operation name="AddGroup">
+      <wsdl:input message="tns:AddGroupHttpPostIn" />
+      <wsdl:output message="tns:AddGroupHttpPostOut" />
+    </wsdl:operation>
+    <wsdl:operation name="GetGroups">
+      <wsdl:input message="tns:GetGroupsHttpPostIn" />
+      <wsdl:output message="tns:GetGroupsHttpPostOut" />
+    </wsdl:operation>
+    <wsdl:operation name="AddContact">
+      <wsdl:input message="tns:AddContactHttpPostIn" />
+      <wsdl:output message="tns:AddContactHttpPostOut" />
+    </wsdl:operation>
+    <wsdl:operation name="GetContacts">
+      <wsdl:input message="tns:GetContactsHttpPostIn" />
+      <wsdl:output message="tns:GetContactsHttpPostOut" />
+    </wsdl:operation>
+    <wsdl:operation name="GetContactEvents">
+      <wsdl:input message="tns:GetContactEventsHttpPostIn" />
+      <wsdl:output message="tns:GetContactEventsHttpPostOut" />
+    </wsdl:operation>
+    <wsdl:operation name="CheckMobileExistInContact">
+      <wsdl:input message="tns:CheckMobileExistInContactHttpPostIn" />
+      <wsdl:output message="tns:CheckMobileExistInContactHttpPostOut" />
+    </wsdl:operation>
+    <wsdl:operation name="ChangeContact">
+      <wsdl:input message="tns:ChangeContactHttpPostIn" />
+      <wsdl:output message="tns:ChangeContactHttpPostOut" />
+    </wsdl:operation>
+    <wsdl:operation name="RemoveContact">
+      <wsdl:input message="tns:RemoveContactHttpPostIn" />
+      <wsdl:output message="tns:RemoveContactHttpPostOut" />
+    </wsdl:operation>
+    <wsdl:operation name="RemoveContactByContactID">
+      <wsdl:input message="tns:RemoveContactByContactIDHttpPostIn" />
+      <wsdl:output message="tns:RemoveContactByContactIDHttpPostOut" />
+    </wsdl:operation>
+    <wsdl:operation name="ChangeGroup">
+      <wsdl:input message="tns:ChangeGroupHttpPostIn" />
+      <wsdl:output message="tns:ChangeGroupHttpPostOut" />
+    </wsdl:operation>
+    <wsdl:operation name="RemoveGroup">
+      <wsdl:input message="tns:RemoveGroupHttpPostIn" />
+      <wsdl:output message="tns:RemoveGroupHttpPostOut" />
+    </wsdl:operation>
+    <wsdl:operation name="AddContactEvents">
+      <wsdl:input message="tns:AddContactEventsHttpPostIn" />
+      <wsdl:output message="tns:AddContactEventsHttpPostOut" />
+    </wsdl:operation>
+    <wsdl:operation name="MergeGroups">
+      <wsdl:input message="tns:MergeGroupsHttpPostIn" />
+      <wsdl:output message="tns:MergeGroupsHttpPostOut" />
+    </wsdl:operation>
+  </wsdl:portType>
+  <wsdl:binding name="ContactsSoap" type="tns:ContactsSoap">
+    <soap:binding transport="http://schemas.xmlsoap.org/soap/http" />
+    <wsdl:operation name="AddGroup">
+      <soap:operation soapAction="http://tempuri.org/AddGroup" style="document" />
+      <wsdl:input>
+        <soap:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="GetGroups">
+      <soap:operation soapAction="http://tempuri.org/GetGroups" style="document" />
+      <wsdl:input>
+        <soap:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="AddContact">
+      <soap:operation soapAction="http://tempuri.org/AddContact" style="document" />
+      <wsdl:input>
+        <soap:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="GetContactsByID">
+      <soap:operation soapAction="http://tempuri.org/GetContactsByID" style="document" />
+      <wsdl:input>
+        <soap:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="GetContacts">
+      <soap:operation soapAction="http://tempuri.org/GetContacts" style="document" />
+      <wsdl:input>
+        <soap:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="GetContactEvents">
+      <soap:operation soapAction="http://tempuri.org/GetContactEvents" style="document" />
+      <wsdl:input>
+        <soap:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="CheckMobileExistInContact">
+      <soap:operation soapAction="http://tempuri.org/CheckMobileExistInContact" style="document" />
+      <wsdl:input>
+        <soap:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="ChangeContact">
+      <soap:operation soapAction="http://tempuri.org/ChangeContact" style="document" />
+      <wsdl:input>
+        <soap:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="RemoveContact">
+      <soap:operation soapAction="http://tempuri.org/RemoveContact" style="document" />
+      <wsdl:input>
+        <soap:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="RemoveContactByContactID">
+      <soap:operation soapAction="http://tempuri.org/RemoveContactByContactID" style="document" />
+      <wsdl:input>
+        <soap:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="ChangeGroup">
+      <soap:operation soapAction="http://tempuri.org/ChangeGroup" style="document" />
+      <wsdl:input>
+        <soap:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="RemoveGroup">
+      <soap:operation soapAction="http://tempuri.org/RemoveGroup" style="document" />
+      <wsdl:input>
+        <soap:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="AddContactEvents">
+      <soap:operation soapAction="http://tempuri.org/AddContactEvents" style="document" />
+      <wsdl:input>
+        <soap:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="MergeGroups">
+      <soap:operation soapAction="http://tempuri.org/MergeGroups" style="document" />
+      <wsdl:input>
+        <soap:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+  </wsdl:binding>
+  <wsdl:binding name="ContactsSoap12" type="tns:ContactsSoap">
+    <soap12:binding transport="http://schemas.xmlsoap.org/soap/http" />
+    <wsdl:operation name="AddGroup">
+      <soap12:operation soapAction="http://tempuri.org/AddGroup" style="document" />
+      <wsdl:input>
+        <soap12:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap12:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="GetGroups">
+      <soap12:operation soapAction="http://tempuri.org/GetGroups" style="document" />
+      <wsdl:input>
+        <soap12:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap12:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="AddContact">
+      <soap12:operation soapAction="http://tempuri.org/AddContact" style="document" />
+      <wsdl:input>
+        <soap12:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap12:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="GetContactsByID">
+      <soap12:operation soapAction="http://tempuri.org/GetContactsByID" style="document" />
+      <wsdl:input>
+        <soap12:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap12:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="GetContacts">
+      <soap12:operation soapAction="http://tempuri.org/GetContacts" style="document" />
+      <wsdl:input>
+        <soap12:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap12:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="GetContactEvents">
+      <soap12:operation soapAction="http://tempuri.org/GetContactEvents" style="document" />
+      <wsdl:input>
+        <soap12:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap12:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="CheckMobileExistInContact">
+      <soap12:operation soapAction="http://tempuri.org/CheckMobileExistInContact" style="document" />
+      <wsdl:input>
+        <soap12:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap12:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="ChangeContact">
+      <soap12:operation soapAction="http://tempuri.org/ChangeContact" style="document" />
+      <wsdl:input>
+        <soap12:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap12:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="RemoveContact">
+      <soap12:operation soapAction="http://tempuri.org/RemoveContact" style="document" />
+      <wsdl:input>
+        <soap12:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap12:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="RemoveContactByContactID">
+      <soap12:operation soapAction="http://tempuri.org/RemoveContactByContactID" style="document" />
+      <wsdl:input>
+        <soap12:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap12:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="ChangeGroup">
+      <soap12:operation soapAction="http://tempuri.org/ChangeGroup" style="document" />
+      <wsdl:input>
+        <soap12:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap12:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="RemoveGroup">
+      <soap12:operation soapAction="http://tempuri.org/RemoveGroup" style="document" />
+      <wsdl:input>
+        <soap12:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap12:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="AddContactEvents">
+      <soap12:operation soapAction="http://tempuri.org/AddContactEvents" style="document" />
+      <wsdl:input>
+        <soap12:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap12:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="MergeGroups">
+      <soap12:operation soapAction="http://tempuri.org/MergeGroups" style="document" />
+      <wsdl:input>
+        <soap12:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap12:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+  </wsdl:binding>
+  <wsdl:binding name="ContactsHttpGet" type="tns:ContactsHttpGet">
+    <http:binding verb="GET" />
+    <wsdl:operation name="AddGroup">
+      <http:operation location="/AddGroup" />
+      <wsdl:input>
+        <http:urlEncoded />
+      </wsdl:input>
+      <wsdl:output>
+        <mime:mimeXml part="Body" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="GetGroups">
+      <http:operation location="/GetGroups" />
+      <wsdl:input>
+        <http:urlEncoded />
+      </wsdl:input>
+      <wsdl:output>
+        <mime:mimeXml part="Body" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="AddContact">
+      <http:operation location="/AddContact" />
+      <wsdl:input>
+        <http:urlEncoded />
+      </wsdl:input>
+      <wsdl:output>
+        <mime:mimeXml part="Body" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="GetContacts">
+      <http:operation location="/GetContacts" />
+      <wsdl:input>
+        <http:urlEncoded />
+      </wsdl:input>
+      <wsdl:output>
+        <mime:mimeXml part="Body" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="GetContactEvents">
+      <http:operation location="/GetContactEvents" />
+      <wsdl:input>
+        <http:urlEncoded />
+      </wsdl:input>
+      <wsdl:output>
+        <mime:mimeXml part="Body" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="CheckMobileExistInContact">
+      <http:operation location="/CheckMobileExistInContact" />
+      <wsdl:input>
+        <http:urlEncoded />
+      </wsdl:input>
+      <wsdl:output>
+        <mime:mimeXml part="Body" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="ChangeContact">
+      <http:operation location="/ChangeContact" />
+      <wsdl:input>
+        <http:urlEncoded />
+      </wsdl:input>
+      <wsdl:output>
+        <mime:mimeXml part="Body" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="RemoveContact">
+      <http:operation location="/RemoveContact" />
+      <wsdl:input>
+        <http:urlEncoded />
+      </wsdl:input>
+      <wsdl:output>
+        <mime:mimeXml part="Body" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="RemoveContactByContactID">
+      <http:operation location="/RemoveContactByContactID" />
+      <wsdl:input>
+        <http:urlEncoded />
+      </wsdl:input>
+      <wsdl:output>
+        <mime:mimeXml part="Body" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="ChangeGroup">
+      <http:operation location="/ChangeGroup" />
+      <wsdl:input>
+        <http:urlEncoded />
+      </wsdl:input>
+      <wsdl:output>
+        <mime:mimeXml part="Body" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="RemoveGroup">
+      <http:operation location="/RemoveGroup" />
+      <wsdl:input>
+        <http:urlEncoded />
+      </wsdl:input>
+      <wsdl:output>
+        <mime:mimeXml part="Body" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="AddContactEvents">
+      <http:operation location="/AddContactEvents" />
+      <wsdl:input>
+        <http:urlEncoded />
+      </wsdl:input>
+      <wsdl:output>
+        <mime:mimeXml part="Body" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="MergeGroups">
+      <http:operation location="/MergeGroups" />
+      <wsdl:input>
+        <http:urlEncoded />
+      </wsdl:input>
+      <wsdl:output>
+        <mime:mimeXml part="Body" />
+      </wsdl:output>
+    </wsdl:operation>
+  </wsdl:binding>
+  <wsdl:binding name="ContactsHttpPost" type="tns:ContactsHttpPost">
+    <http:binding verb="POST" />
+    <wsdl:operation name="AddGroup">
+      <http:operation location="/AddGroup" />
+      <wsdl:input>
+        <mime:content type="application/x-www-form-urlencoded" />
+      </wsdl:input>
+      <wsdl:output>
+        <mime:mimeXml part="Body" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="GetGroups">
+      <http:operation location="/GetGroups" />
+      <wsdl:input>
+        <mime:content type="application/x-www-form-urlencoded" />
+      </wsdl:input>
+      <wsdl:output>
+        <mime:mimeXml part="Body" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="AddContact">
+      <http:operation location="/AddContact" />
+      <wsdl:input>
+        <mime:content type="application/x-www-form-urlencoded" />
+      </wsdl:input>
+      <wsdl:output>
+        <mime:mimeXml part="Body" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="GetContacts">
+      <http:operation location="/GetContacts" />
+      <wsdl:input>
+        <mime:content type="application/x-www-form-urlencoded" />
+      </wsdl:input>
+      <wsdl:output>
+        <mime:mimeXml part="Body" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="GetContactEvents">
+      <http:operation location="/GetContactEvents" />
+      <wsdl:input>
+        <mime:content type="application/x-www-form-urlencoded" />
+      </wsdl:input>
+      <wsdl:output>
+        <mime:mimeXml part="Body" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="CheckMobileExistInContact">
+      <http:operation location="/CheckMobileExistInContact" />
+      <wsdl:input>
+        <mime:content type="application/x-www-form-urlencoded" />
+      </wsdl:input>
+      <wsdl:output>
+        <mime:mimeXml part="Body" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="ChangeContact">
+      <http:operation location="/ChangeContact" />
+      <wsdl:input>
+        <mime:content type="application/x-www-form-urlencoded" />
+      </wsdl:input>
+      <wsdl:output>
+        <mime:mimeXml part="Body" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="RemoveContact">
+      <http:operation location="/RemoveContact" />
+      <wsdl:input>
+        <mime:content type="application/x-www-form-urlencoded" />
+      </wsdl:input>
+      <wsdl:output>
+        <mime:mimeXml part="Body" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="RemoveContactByContactID">
+      <http:operation location="/RemoveContactByContactID" />
+      <wsdl:input>
+        <mime:content type="application/x-www-form-urlencoded" />
+      </wsdl:input>
+      <wsdl:output>
+        <mime:mimeXml part="Body" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="ChangeGroup">
+      <http:operation location="/ChangeGroup" />
+      <wsdl:input>
+        <mime:content type="application/x-www-form-urlencoded" />
+      </wsdl:input>
+      <wsdl:output>
+        <mime:mimeXml part="Body" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="RemoveGroup">
+      <http:operation location="/RemoveGroup" />
+      <wsdl:input>
+        <mime:content type="application/x-www-form-urlencoded" />
+      </wsdl:input>
+      <wsdl:output>
+        <mime:mimeXml part="Body" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="AddContactEvents">
+      <http:operation location="/AddContactEvents" />
+      <wsdl:input>
+        <mime:content type="application/x-www-form-urlencoded" />
+      </wsdl:input>
+      <wsdl:output>
+        <mime:mimeXml part="Body" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="MergeGroups">
+      <http:operation location="/MergeGroups" />
+      <wsdl:input>
+        <mime:content type="application/x-www-form-urlencoded" />
+      </wsdl:input>
+      <wsdl:output>
+        <mime:mimeXml part="Body" />
+      </wsdl:output>
+    </wsdl:operation>
+  </wsdl:binding>
+  <wsdl:service name="Contacts">
+    <wsdl:port name="ContactsSoap" binding="tns:ContactsSoap">
+      <soap:address location="http://api.payamak-panel.com/post/contacts.asmx" />
+    </wsdl:port>
+    <wsdl:port name="ContactsSoap12" binding="tns:ContactsSoap12">
+      <soap12:address location="http://api.payamak-panel.com/post/contacts.asmx" />
+    </wsdl:port>
+    <wsdl:port name="ContactsHttpGet" binding="tns:ContactsHttpGet">
+      <http:address location="http://api.payamak-panel.com/post/contacts.asmx" />
+    </wsdl:port>
+    <wsdl:port name="ContactsHttpPost" binding="tns:ContactsHttpPost">
+      <http:address location="http://api.payamak-panel.com/post/contacts.asmx" />
+    </wsdl:port>
+  </wsdl:service>
+</wsdl:definitions>

@@ -1,0 +1,75 @@
+﻿
+@model IEnumerable<AdobeConnectSDK.Model.PrincipalListItemViewModel>
+@{
+    ViewBag.Title = "MeetingItem";
+    Layout = "~/Views/Shared/_LayoutAdmin.cshtml";
+}
+@if (Model != null)
+{
+    <table class="table table-bordered table-responsive">
+        <tr>
+           
+            <th>
+                @Html.DisplayNameFor(model => model.AccountIdVm)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.PrincipalIdVm)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.HasChildrenVm)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.IsHiddenVm)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.IsPrimaryVm)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.LoginVm)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.NameVm)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.EmailVm)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.DisplayUidVm)
+            </th>
+            
+        </tr>
+        @foreach (var item in Model)
+        {
+            <tr>
+                <th>
+                    @Html.DisplayFor(modelItem => item.AccountIdVm)
+                </th>
+                <th>
+                    @Html.DisplayFor(model => item.PrincipalIdVm)
+                </th>
+                <th>
+                    @Html.DisplayFor(model => item.HasChildrenVm)
+                </th>
+                <th>
+                    @Html.DisplayFor(model => item.IsHiddenVm)
+                </th>
+                <th>
+                    @Html.DisplayFor(modelItem => item.IsPrimaryVm)
+                </th>
+                <th>
+                    @Html.DisplayFor(modelItem => item.LoginVm)
+                </th>
+                <th>
+                    @Html.DisplayFor(modelItem => item.NameVm)
+                </th>
+                <th>
+                    @Html.DisplayFor(modelItem => item.EmailVm)
+                </th>
+                <th>
+                    @Html.DisplayFor(model => item.DisplayUidVm)
+                </th>
+              
+            </tr>
+        }
+    </table>
+}

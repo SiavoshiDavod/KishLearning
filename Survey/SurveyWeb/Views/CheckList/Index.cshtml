@@ -1,0 +1,49 @@
+﻿@model IEnumerable<SurveyWeb.Models.CheckList.CheckList>
+
+@{
+    Layout = "~/Views/Shared/_LayoutAdmin.cshtml";
+    var urlList = "/CheckList/LoadList";
+    ViewBag.Title = "تعریف ارزیابی";
+}
+
+<div class="row">
+    <div class="col-sm-12">
+        <div class="page-title-box">
+            <ol class="breadcrumb pull-right">
+                <li><a href="#">@ViewBag.Title</a></li>
+                <li class="active">Dashboard</li>
+            </ol>
+            <h4 class="page-title">@Html.ActionLink("افزودن", "Create") </h4>
+        </div>
+    </div>
+</div>
+<div id="TadGoodsField">
+    @using MVC.Controls
+
+    @Html.Grid(
+    new GridControl().SetName("CheckListGrid").
+    SetPageSize(10).
+    SetShrinkToFit(false).
+    SetIsAutoSize(true).
+    SetIsFilterToolbar(true).
+    IsRTL().
+    SetListUrl(urlList).
+        SetCaption("تعریف ارزیابی").
+    SetOnLoadCompleteEvent("loadGridCompleteEvent").
+        UseColumns(SurveyWeb.Controllers.CheckList.CheckListController.Columns)
+)
+    <script >
+	function loadGridCompleteEvent() {
+        var ids = $("#CheckListGrid").jqGrid('getDataIDs');
+		for (var i = 0; i < ids.length; i++) {
+			var cl = ids[i];
+            ed = '<a class="ajaxLink"  href="/CheckList/Create?Id=' + cl + '" title="ویرایش"><div class="fa fa-pencil"></div></a>';
+            dl = '<a class="ajaxLink delete"href="/CheckList/Delete?Id=' + cl + '" title="حذف"   ><div class="fa fa-times"></div></a>';
+            de = '<a class="ajaxLink "href="/CheckList/Details?Id=' + cl + '" title="جزئیات"   ><div class="fa fa-building"></div></a>';
+            dt = '<a class=""href="/CheckListItem/Index?checkListId=' + cl + '" title="آیتم ها" target="_blank"  ><div class="fa fa-child"></div></a>';
+            $('#CheckListGrid').jqGrid('setRowData', ids[i], { act: ed + dl + de + dt});
+		}
+    }
+
+    </script>
+</div>

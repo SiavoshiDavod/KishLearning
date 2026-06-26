@@ -1,0 +1,51 @@
+﻿@model IEnumerable<SurveyWeb.Models.NewsGroup>
+@{
+    Layout = "~/Views/Shared/_LayoutAdmin.cshtml";
+    var urlList = "/NewsGroups/LoadList";
+    ViewBag.Title = SurveyWeb.Models.Dictionary.ModelDictionary[typeof(SurveyWeb.Models.NewsGroup)];
+}
+
+<div class="row">
+    <div class="col-sm-12">
+        <div class="page-title-box">
+            <ol class="breadcrumb pull-right">
+                <li><a href="#">@ViewBag.Title</a></li>
+                <li class="active">Dashboard</li>
+            </ol>
+            <h4 class="page-title">@Html.ActionLink("افزودن", "Create") </h4>
+        </div>
+    </div>
+</div>
+<div id="TadGoodsField">
+    @using MVC.Controls
+
+    @Html.Grid(
+    new GridControl().SetName("NewsGroupGrid").
+    SetPageSize(10).
+    SetShrinkToFit(false).
+    SetIsAutoSize(true).
+    SetIsFilterToolbar(true).
+    IsRTL().
+    SetListUrl(urlList).
+        SetCaption((string)ViewBag.Title).
+    SetOnLoadCompleteEvent("loadNewsGroupGridCompleteEvent").
+        UseColumns(SurveyWeb.Controllers.NewsGroupsController.NewsGroupsColumns)
+)
+    <script >
+	function loadNewsGroupGridCompleteEvent() {
+		var ids = $("#NewsGroupGrid").jqGrid('getDataIDs');
+		for (var i = 0; i < ids.length; i++) {
+			var cl = ids[i];
+			ed = '<a class="ajaxLink"  href="/NewsGroups/Create?Id=' + cl + '" title="ویرایش"><div class="fa fa-pencil"></div></a>';
+			dl = '<a class="ajaxLink delete"href="/NewsGroups/Delete?Id=' + cl + '" title="حذف"   ><div class="fa fa-times"></div></a>';
+		    de = '<a class="ajaxLink "href="/NewsGroups/Details?Id=' + cl + '" title="جزئیات"   ><div class="fa fa-building"></div></a>';
+		    $('#NewsGroupGrid').jqGrid('setRowData', ids[i], { act: ed + dl + de });
+		}
+    }
+
+    </script>
+</div>
+
+
+
+

@@ -1,0 +1,217 @@
+﻿@model SenakLearn.Models.OnlineClass
+@{
+    Layout = "~/Views/Shared/_Layout.cshtml";
+    ViewBag.Title = "کلاس "+Model.name;
+    SiteSetting.SiteSetting setting = (SiteSetting.SiteSetting)ViewBag.SiteSetting;
+}
+<div class="container">
+
+    <div class="row justify-content-center">
+        <div class="col-md-8 text-center">
+            <div class="contact-form-title text-center mb-4">
+                <h4 class="mb-1">@Model.name</h4>
+            </div>
+        </div>
+    </div>
+</div>
+<div id="course-single" class="page">
+    @*<div class="page-heading text-center">
+            <div class="container">
+                <h2>@Model.name</h2>
+                <p class="breadcrumbs"> <a href="#">خانه</a> <i class="zmdi zmdi-chevron-left"></i> <a href="#">دوره ها</a> <i class="zmdi zmdi-chevron-left"></i> <a href="#">@Model.learn_cours_group.name</a> <i class="zmdi zmdi-chevron-left"></i> <span>@Model.name</span> </p>
+            </div>
+        </div>*@
+    <div class="container">
+        <div class="row">
+            <div class="col-md-12 col-lg-9 col-sm-12 col-xl-9 float-right">
+                @{
+                    var filePrevivew = setting.DefaultVideoUrl;
+                    if (Model.InterviewPathVideo != null && Model.InterviewPathVideo != Guid.Empty)
+                    {
+                        filePrevivew = "/images/VideoFile/" + Model.InterviewPathVideo.ToString().Replace("-", "") + ".mp4";
+                    }
+                }
+                @Html.Partial("~/Views/Shared/_PartialVideo.cshtml", filePrevivew);
+                @*<img src="/assets/img/test.jpg" alt="Course" class="resp-img course-preview">*@
+                <h3>@Model.name</h3>
+                <p class="class-details">
+                    <span class="lessons"><i class="zmdi zmdi-assignment"></i>@Model.SessionCount جلسه</span> <span class="duration"><i class="zmdi zmdi-time"></i>@Model.Time ساعت</span> <span class="views">
+                        <i class="zmdi zmdi-eye"></i>@*2562 نمایش*@
+                    </span>
+                    <span class="tag"><i class="zmdi zmdi-label"></i>@Model.learn_cours_group.name</span>
+                </p>
+                <h4>جزئیات دوره</h4>
+                <p class="abs">@Model.Description</p>
+                <h5>چه چیزی داخل این دوره می آموزید؟</h5>
+                @{ List<SenakLearn.Models.OnlineClassAccorationDetails> list = new List<SenakLearn.Models.OnlineClassAccorationDetails>();
+
+                    if (Model.OnlineClassAccoration != null && Model.OnlineClassAccoration.Details != null)
+                    {
+                        list = Model.OnlineClassAccoration.Details.ToList();
+                    }
+
+                }
+
+                <div class="includes">
+                    @Html.Raw(Model.doc2)
+                </div>
+                <h4>محتوای دوره</h4>
+                <div class="tab-content">
+                    <div role="tabpanel" class="tab-pane active show" id="all-faqs">
+                        <div class="accordion">
+                            @{
+                                string a = "acd-active";
+                                string d = "block";
+                                int count = 1;
+                                foreach (var item in list.Where(x => x.ParentId == null).OrderBy(x => x.Order))
+                                {
+                                    <div class="acd-group  text-black @a">
+                                        <a href="#" class="acd-heading text-black"><i class="fa fa-pencil-square-o" aria-hidden="true"></i>@count: @item.Description</a>
+                                        <div class="acd-des text-gray" style="display: @d;">
+                                            <div class="option-wrapper">
+                                                <ul class="option-items">
+                                                    @if (item.Childs != null)
+                                                    {
+                                                        foreach (var Subitem in item.Childs.OrderBy(x => x.Order))
+                                                        {
+                                                            <li class="option-item">
+                                                                <div class="pull-right"> @Subitem.Description </div>
+                                                            </li>
+                                                        }
+                                                    }
+                                                </ul>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    a = "";
+                                    d = "none";
+                                    count++;
+                                }
+                            }
+                        </div>
+                    </div>
+                </div>
+                <h4 class="comment">نظرات</h4>
+                @Html.Action("ShowComments", "UserComment", new { id = Model.Id, type = SenakLearn.Models.PageType.OnlineClass })
+
+                <h4 class="comment">ارسال دیدگاه</h4>
+                @Html.Action("ContactUs", "UserComment", new { id = Model.Id, type = SenakLearn.Models.PageType.OnlineClass })
+
+            </div>
+            <div class="col-md-12 col-lg-3 col-sm-12 col-xl-3 float-left">
+                <div class="order text-center">
+                    <div>
+                        <p class="button ">کلاس @Model.ClassTypeString است</p>
+                    </div>
+                    @{
+                        var url = "/Zarinpal/PaymentRequest?amount=" + Model.Amount + "&onlineClassId=" + Model.Id + "&Description=" + Model.name;
+                        var listEntezar = "ثبت نام در لیست انتظار";
+                        
+                    }
+                    @if (@Model.Amount == 0)
+                    {
+                        if (Model.ClassType==SenakLearn.Enums.OnlineClassType.Registering)
+                        {
+                            listEntezar = "ثبت نام";
+                        }
+                        <div>
+                            <p class="button border-black">رایگان</p>
+                        </div>
+                        <a href="@url" class="blueplay button "> @listEntezar</a>
+                    }
+                    else
+                    {
+                        if (Model.ClassType==SenakLearn.Enums.OnlineClassType.Registering)
+                        {
+                            listEntezar = "خرید و ثبت نام";
+                        }
+                        <p class="button border-black">@Model.AmountFarsi<span>ریال</span></p>
+                        @*<p>قیمت تک</p>*@
+                        <p>
+                            <script src="https://www.zarinpal.com/webservice/TrustCode" type="text/javascript"></script>
+                        </p>
+                        <a href="@url" class="blueplay button "> @listEntezar</a>
+                    }
+
+                    @*<p class="order-or"><span>یا</span></p>
+        <p>ثبت نام برای</p>
+        <a href="#" class="greybutton">عضویت ویژه</a>*@
+                </div>
+                @if (Model.learn_teacher != null)
+                {
+                    <div class="pros">
+                        <h4>درباره مدرس</h4>
+                        <div class="teacher text-center">
+                            <div class="imgcontainer">
+                                <img src="/images/teacher/@Model.learn_teacher.image" alt="@Model.learn_teacher.FullName" style="width:130px;height:130px">
+                                <div class="overlay">
+                                    <img src="/assets/img/profile.png" alt="Profile">
+                                    <p>@Model.learn_teacher.CourseCount دوره</p>
+                                </div>
+                            </div>
+                            <a href="/Home/TeacherCours/@Model.id_learn_teacher">@Model.learn_teacher.FullName</a>
+                            <p>@Model.learn_teacher.education</p>
+                            @*<ul class="social">
+                                <li><a href="#"><i class="zmdi zmdi-facebook"></i></a></li>
+                                <li> <a href="#"><i class="zmdi zmdi-twitter"></i></a></li>
+                                <li> <a href="#"><i class="zmdi zmdi-google-old"></i></a></li>
+                                <li> <a href="#"><i class="zmdi zmdi-pinterest"></i></a></li>
+                                <li> <a href="#"><i class="zmdi zmdi-email"></i></a></li>
+                                <li> <a href="#"><i class="zmdi zmdi-globe-alt"></i></a></li>
+                            </ul>*@
+                        </div>
+                    </div>
+                }
+
+            <div class="ratings">
+                <h4>امتیاز دوره</h4>
+                @Html.Action("ShowRating", "StarRating", new { id = Model.Id, type = SenakLearn.Models.PageType.OnlineClass })
+
+            </div>
+                <h4>محبوب ترین دوره ها</h4>
+
+                <div class="owl-carousel" data-nav-dots="true" data-nav-arrow="false" data-items="1" data-sm-items="1" data-lg-items="1" data-md-items="1" data-autoplay="true">
+                    @{
+                        var onlineClass = SenakLearn.Biz.OnlineClassBiz.Instance.GetAllPage(x => x.Id != Model.Id && x.IsFavorite && x.ClassType != SenakLearn.Enums.OnlineClassType.Archived, 0, 3);
+                        foreach (var item in onlineClass)
+                        {
+                            var img = "/images/Interview/" + item.InterviewPathImage;
+                            if (string.IsNullOrEmpty(item.InterviewPathImage))
+                            {
+                                img = "/images/logo.png";
+                            }
+                            <div class="item">
+                                <div class="">
+                                    <div class=" text-center " style=" background-image:url(@img); height:200px;">
+                                        <div class="">
+                                            <div style="opacity:0.5;" class="">
+                                                <a style="font-weight: bold;" href="/DetailsOnlineClass/Index?type=2&id=@item.Id" class="testimonial-info">
+                                                    <br />
+                                                    <h5 style="font-weight: bold;">@item.name</h5>
+                                                    <br />
+                                                    <p style="font-weight: bold;">@item.Description</p>
+                                                </a>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        }
+                    }
+                </div>
+                <div class="categories">
+                    <h6>دسته بندی ها</h6>
+                    <ul>
+                        @{
+                            var categorieslist = SenakLearn.Biz.CourseBiz.Instance.FindAllGroup(true, null, null, null, null);
+                            foreach (var item in categorieslist)
+                            {
+                                <li><a href="#">@item.name (@item.OnlineCount)</a></li>
+                            }
+                        }
+                    </ul>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

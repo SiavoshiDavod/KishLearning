@@ -1,0 +1,49 @@
+﻿@model SenakLearn.Models.LoginViewModel
+
+@{
+    ViewBag.Title = "ورود به سیستم";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<div class="container">
+
+    <div class="row justify-content-center">
+        <div class="col-md-8 text-center">
+            <div class="contact-form-title text-center mb-4">
+                <h4 class="mb-1"> وارد شدن به حساب کاربری</h4>
+            </div>
+        </div>
+    </div>
+</div>
+<section class="login-form page-section-ptb">
+    <div class="container">
+        <div class="row">
+            <div class="col-md-12">
+                @*<div class="col-lg-9">*@
+                @*<div class="section-title text-center">
+                        <h3 class="text-center">وارد شدن به حساب کاربری</h3>
+                    </div>*@
+
+                @Html.Partial("_PartialLogin")
+
+                @*</div>
+                    <div class="col-lg-3">
+                        <div class="login-social">
+                            <h4>رسانه ها ی اجتماعی</h4>
+                            <ul>
+                                <li><a class="fb" href="#"><i class="fa fa-facebook"></i>  ورود با فیسبوک</a></li>
+                                <li><a class="twitter" href="#"><i class="fa fa-twitter"></i> ورود با توییتر</a></li>
+                                <li><a class="pinterest" href="#"><i class="fa fa-pinterest-p"></i> ورود با گوگل پلاس</a></li>
+                            </ul>
+                        </div>
+                    </div>*@
+            </div>
+        </div>
+    </div>
+</section>
+
+
+<script src="~/Scripts/jquery-1.10.2.min.js"></script>
+@section Scripts {
+    @Scripts.Render("~/bundles/jqueryval")
+}

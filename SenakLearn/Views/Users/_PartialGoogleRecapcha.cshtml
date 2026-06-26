@@ -1,0 +1,56 @@
+﻿@model string
+<style>
+    .captcha {
+        font-size: 21px;
+        margin: 15px 0;
+        font-weight: bold;
+        direction:ltr;
+        display:flow;
+    }
+</style>
+
+<div class="box">
+    <div><span class="captcha" id="captchaText"></span></div>
+    <input type="number" id="userAnswer" placeholder="پاسخ را وارد کن">
+    <button onclick="newCaptcha()" style="background: #b6ff00; border: none; font-size: x-small;">سؤال جدید</button>
+    <div class="msg" id="message"></div>
+</div>
+<script>
+
+    let correctAnswer = 0;
+
+    function newCaptcha() {
+      let a = Math.floor(Math.random() * 10) + 1;
+        let b = Math.floor(Math.random() * 10) + 1;
+        let op = Math.random() > 0.5 ? '+' : '-';
+        debugger;
+      if (op === '+') {
+        correctAnswer = a + b;
+      } else {
+        if (a < b) [a, b] = [b, a];
+        correctAnswer = a - b;
+      }
+
+      document.getElementById("captchaText").textContent = `${a} ${op} ${b} = ?`;
+      document.getElementById("message").textContent = "";
+      document.getElementById("userAnswer").value = "";
+    };
+
+    function checkCaptcha() {
+        const userAnswer = parseInt(document.getElementById("userAnswer").value);
+        const msg = document.getElementById("message");
+
+        if (userAnswer === correctAnswer) {
+            msg.textContent = "درست بود! ";
+            msg.style.color = "green";
+            return true; // یعنی اوکی هست
+        } else {
+            msg.textContent = "اشتباهه! دوباره تلاش کن ";
+            msg.style.color = "red";
+            newCaptcha(); // رفرش کردن کد در صورت اشتباه
+            return false; // یعنی سابمیت نشه
+        }
+    };
+    newCaptcha();
+
+</script>

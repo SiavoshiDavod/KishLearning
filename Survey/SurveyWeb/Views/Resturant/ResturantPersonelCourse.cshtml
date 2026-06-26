@@ -1,0 +1,43 @@
+﻿@model List<SurveyWeb.Models.ResturantPersonelCourse>
+    
+    <div>
+        <input type="hidden" id="ViewBagpersonelId" value="@ViewBag.personelId" />
+        <input type="submit" value="افزودن دوره های آموزشی" class="btn btn-default" onclick="return AddCoursePersonel('@ViewBag.personelId')" />
+    </div>
+<table class="table table-bordered table-hover">
+    <thead>
+        <tr>
+            <th>
+                مقطع دوره آموزشی
+            </th>
+            <th>
+                مدت دوره آموزشی
+            </th>
+            <th>
+                محل دوره آموزشی
+            </th>
+            <th>
+                حذف
+            </th>
+        </tr>
+    </thead>
+    <tbody>
+        @foreach (var item in Model)
+        {
+        <tr>
+            <td>
+                @item.CourseName1
+            </td>
+            <td>
+                @item.CourseDuration1
+            </td>
+            <td>
+                @item.CourseLocation1
+            </td>
+            <td>
+                <button class="btn btn-danger " value="حذف" title="حذف" onclick="RemoveCoursePersonel('@item.Id')">حذف</button>
+            </td>
+        </tr>
+        }
+    </tbody>
+</table>

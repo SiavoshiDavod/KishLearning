@@ -1,0 +1,305 @@
+﻿@model SenakLearn.Models.AzmoonEntity
+
+@{
+    ViewBag.Title = "پرسشنامه";
+    Layout = "~/Views/Shared/_LayoutAdmin.cshtml";
+}
+
+<div class="row">
+    <div class="col-sm-12">
+        <div class="page-title-box">
+            <ol class="breadcrumb pull-right">
+                <li><a href="#">ذخیره سازی</a></li>
+                <li><a href="#">@ViewBag.Title</a></li>
+                <li class="active">Dashboard</li>
+            </ol>
+            <h4 class="page-title">ذخیره سازی @ViewBag.Title </h4>
+        </div>
+    </div>
+</div>
+@using (Html.BeginForm("Create", "AzmoonEntitys", FormMethod.Post, new { enctype = "multipart/form-data" }))
+{
+    @Html.AntiForgeryToken()
+
+<div class="form-horizontal">
+    @Html.ValidationSummary(true, "", new { @class = "text-danger" })
+    @Html.HiddenFor(model => model.Id)
+    @Html.HiddenFor(model => model.AnswerCount)
+    @Html.HiddenFor(model => model.QuestionCount)
+
+    <div class="form-group">
+        @Html.LabelFor(model => model.GroupAzmoonId, htmlAttributes: new { @class = "control-label col-md-2" })
+        <div class="col-md-10">
+            @Html.GroupAzmoonDropDown("GroupAzmoonId", true)
+            @Html.ValidationMessageFor(model => model.GroupAzmoonId, "", new { @class = "text-danger" })
+        </div>
+    </div>
+
+    <div class="form-group">
+        @Html.LabelFor(model => model.Name, htmlAttributes: new { @class = "control-label col-md-2" })
+        <div class="col-md-10">
+            @Html.EditorFor(model => model.Name, new { htmlAttributes = new { @class = "form-control" } })
+            @Html.ValidationMessageFor(model => model.Name, "", new { @class = "text-danger" })
+        </div>
+    </div>
+    <div class="form-group">
+        @Html.LabelFor(model => model.Title, htmlAttributes: new { @class = "control-label col-md-2" })
+        <div class="col-md-10">
+            @Html.EditorFor(model => model.Title, new { htmlAttributes = new { @class = "form-control" } })
+            @Html.ValidationMessageFor(model => model.Title, "", new { @class = "text-danger" })
+        </div>
+    </div>
+
+    <div class="form-group">
+        @Html.LabelFor(model => model.Description, htmlAttributes: new { @class = "control-label col-md-2" })
+        <div class="col-md-10">
+            @Html.TextAreaFor(model => model.Description, new { htmlAttributes = new { @class = "form-control" } })
+            @Html.ValidationMessageFor(model => model.Description, "", new { @class = "text-danger" })
+        </div>
+    </div>
+    <div class="form-group">
+        @Html.LabelFor(model => model.AzmoonImageUrl, htmlAttributes: new { @class = "control-label col-md-2" })
+        <div class="col-md-10">
+            <label class="btn btn-default"> انتخاب فایل عکس  <input @*accept=".pdf, .doc , .docx"  accept="video/*"*@ accept="image/*" class="fileChosen" type="file" hidden id="File" name="File"></label><span class="fileChosenText">
+                @if (Model != null && !string.IsNullOrEmpty(Model.AzmoonImageUrl))
+                {
+                    <a href="~/images/Azmoon/@Model.AzmoonImageUrl"><img src="~/images/Azmoon/@Model.AzmoonImageUrl" title="دانلود" height="50" /></a>
+                }
+            </span>
+            @Html.HiddenFor(x => x.AzmoonImageUrl)
+            @Html.ValidationMessageFor(model => model.AzmoonImageUrl, "", new { @class = "text-danger" })
+        </div>
+    </div>
+    <div class="form-group">
+        @Html.LabelFor(model => model.AzmoonCerImageUrl, htmlAttributes: new { @class = "control-label col-md-2" })
+        <div class="col-md-10">
+            <label class="btn btn-default"> انتخاب فایل مدرک  <input @*accept=".pdf, .doc , .docx"  accept="video/*"*@ accept="image/*" class="fileChosen2" type="file" hidden id="CerFile" name="CerFile"></label><span class="fileChosenText2">
+                @if (Model != null && !string.IsNullOrEmpty(Model.AzmoonCerImageUrl))
+                {
+                    <a href="~/images/AzmoonCer/@Model.AzmoonCerImageUrl"><img src="~/images/AzmoonCer/@Model.AzmoonCerImageUrl" title="دانلود" height="50" /></a>
+                }
+            </span>
+            @Html.HiddenFor(x => x.AzmoonCerImageUrl)
+            @Html.ValidationMessageFor(model => model.AzmoonCerImageUrl, "", new { @class = "text-danger" })
+        </div>
+    </div>
+    <div class="form-group">
+        @Html.LabelFor(model => model.IsIpRestriction, htmlAttributes: new { @class = "control-label col-md-2" })
+        <div class="col-md-10">
+            @Html.EditorFor(model => model.IsIpRestriction, new { htmlAttributes = new { @class = "form-control" } })
+            @Html.ValidationMessageFor(model => model.IsIpRestriction, "", new { @class = "text-danger" })
+        </div>
+    </div>
+
+    <div class="form-group">
+        @Html.LabelFor(model => model.IsShowInSinglePage, htmlAttributes: new { @class = "control-label col-md-2" })
+        <div class="col-md-10">
+            @Html.EditorFor(model => model.IsShowInSinglePage, new { htmlAttributes = new { @class = "form-control" } })
+            @Html.ValidationMessageFor(model => model.IsShowInSinglePage, "", new { @class = "text-danger" })
+        </div>
+    </div>
+    <div class="form-group">
+        @Html.LabelFor(model => model.IsUserMustBeLogin, htmlAttributes: new { @class = "control-label col-md-2" })
+        <div class="col-md-10">
+            @Html.EditorFor(model => model.IsUserMustBeLogin, new { htmlAttributes = new { @class = "form-control" } })
+            @Html.ValidationMessageFor(model => model.IsUserMustBeLogin, "", new { @class = "text-danger" })
+        </div>
+    </div>
+    <div class="form-group">
+        @Html.LabelFor(model => model.Status, htmlAttributes: new { @class = "control-label col-md-2" })
+        <div class="col-md-10">
+            <div class="checkbox">
+                @Html.EditorFor(model => model.Status, new { htmlAttributes = new { @class = "form-control" } })
+                @Html.ValidationMessageFor(model => model.Status, "", new { @class = "text-danger" })
+            </div>
+        </div>
+    </div>
+    <div class="form-group">
+        @Html.LabelFor(model => model.IsFavorite, htmlAttributes: new { @class = "control-label col-md-2" })
+        <div class="col-md-10">
+            <div class="checkbox">
+                @Html.EditorFor(model => model.IsFavorite, new { htmlAttributes = new { @class = "form-control" } })
+                @Html.ValidationMessageFor(model => model.IsFavorite, "", new { @class = "text-danger" })
+            </div>
+        </div>
+    </div>
+    <div class="form-group">
+        @Html.LabelFor(model => model.IsImportant, htmlAttributes: new { @class = "control-label col-md-2" })
+        <div class="col-md-10">
+            <div class="checkbox">
+                @Html.EditorFor(model => model.IsImportant, new { htmlAttributes = new { @class = "form-control" } })
+                @Html.ValidationMessageFor(model => model.IsImportant, "", new { @class = "text-danger" })
+            </div>
+        </div>
+    </div>
+    <div class="form-group">
+        @Html.LabelFor(model => model.IsPrivate, htmlAttributes: new { @class = "control-label col-md-2" })
+        <div class="col-md-10">
+            <div class="checkbox">
+                @Html.EditorFor(model => model.IsPrivate, new { htmlAttributes = new { @class = "form-control", @onchange = "return isPrivateChange();" } })
+                @Html.ValidationMessageFor(model => model.IsPrivate, "", new { @class = "text-danger" })
+            </div>
+        </div>
+    </div>
+    <div class="form-group IsPrivateChange">
+        @Html.LabelFor(model => model.AzmoonPrivateGroupId, htmlAttributes: new { @class = "control-label col-md-2" })
+        <div class="col-md-10">
+            <div class="checkbox">
+                @Html.AzmoonPrivateGroupDropDown("AzmoonPrivateGroupId", false)
+            </div>
+        </div>
+    </div>
+    <div class="form-group">
+        @Html.LabelFor(model => model.FromDate_l, htmlAttributes: new { @class = "control-label col-md-2" })
+        <div class="input-group   col-md-10">
+            <div class="input-group-addon" data-mddatetimepicker="true" data-targetselector="#FromDate_l" data-trigger="click" data-enabletimepicker="true">
+                <span class="glyphicon glyphicon-calendar"></span>
+            </div>
+            <input type="text" class="form-control" id="FromDate_l" name="FromDate_l" value="@Model.FromDate_l" placeholder="تاریخ شروع" />
+        </div>
+    </div>
+    <div class="form-group">
+        @Html.LabelFor(model => model.ToDate_l, htmlAttributes: new { @class = "control-label col-md-2" })
+        <div class="input-group  col-md-10">
+
+            <div class="input-group-addon" data-mddatetimepicker="true" data-targetselector="#ToDate_l" data-trigger="click" data-enabletimepicker="true">
+                <span class="glyphicon glyphicon-calendar"></span>
+            </div>
+            <input type="text" class="form-control" id="ToDate_l" name="ToDate_l" value="@Model.ToDate_l" placeholder="تاریخ پایان" />
+        </div>
+    </div>
+    <div class="form-group">
+        @Html.LabelFor(model => model.MinScore, htmlAttributes: new { @class = "control-label col-md-2" })
+        <div class="col-md-10">
+            <div class="checkbox">
+                @Html.EditorFor(model => model.MinScore, new { htmlAttributes = new { @class = "form-control" } })
+                @Html.ValidationMessageFor(model => model.MinScore, "", new { @class = "text-danger" })
+            </div>
+        </div>
+    </div>
+    <div class="form-group">
+        @Html.LabelFor(model => model.MaxScore, htmlAttributes: new { @class = "control-label col-md-2" })
+        <div class="col-md-10">
+            <div class="checkbox">
+                @Html.EditorFor(model => model.MaxScore, new { htmlAttributes = new { @class = "form-control" } })
+                @Html.ValidationMessageFor(model => model.MaxScore, "", new { @class = "text-danger" })
+            </div>
+        </div>
+    </div>
+    <div class="form-group">
+        @Html.LabelFor(model => model.TotalScore, htmlAttributes: new { @class = "control-label col-md-2" })
+        <div class="col-md-10">
+            <div class="checkbox">
+                @Html.EditorFor(model => model.TotalScore, new { htmlAttributes = new { @class = "form-control" } })
+                @Html.ValidationMessageFor(model => model.TotalScore, "", new { @class = "text-danger" })
+            </div>
+        </div>
+    </div>
+    <div class="form-group">
+        @Html.LabelFor(model => model.ZaribManfi, htmlAttributes: new { @class = "control-label col-md-2" })
+        <div class="col-md-10">
+            <div class="checkbox">
+                @Html.EditorFor(model => model.ZaribManfi, new { htmlAttributes = new { @class = "form-control" } })
+                @Html.ValidationMessageFor(model => model.ZaribManfi, "", new { @class = "text-danger" })
+            </div>
+        </div>
+    </div>
+
+    <div class="form-group">
+        @Html.LabelFor(model => model.IsJustOption, htmlAttributes: new { @class = "control-label col-md-2" })
+        <div class="col-md-10">
+            <div class="checkbox">
+                @Html.EditorFor(model => model.IsJustOption, new { htmlAttributes = new { @class = "form-control" } })
+                @Html.ValidationMessageFor(model => model.IsJustOption, "", new { @class = "text-danger" })
+            </div>
+        </div>
+    </div>
+
+    <div class="form-group">
+        @Html.LabelFor(model => model.IsRanking, htmlAttributes: new { @class = "control-label col-md-2" })
+        <div class="col-md-10">
+            <div class="checkbox">
+                @Html.EditorFor(model => model.IsRanking, new { htmlAttributes = new { @class = "form-control" } })
+                @Html.ValidationMessageFor(model => model.IsRanking, "", new { @class = "text-danger" })
+            </div>
+        </div>
+    </div>
+
+    <div class="form-group">
+        @Html.LabelFor(model => model.AzmoonEntityType, htmlAttributes: new { @class = "control-label col-md-2" })
+        <div class="col-md-10">
+            <div class="checkbox">
+                @Html.EnumDropDownListFor(model => model.AzmoonEntityType, new { htmlAttributes = new { @class = "form-control" } })
+                @Html.ValidationMessageFor(model => model.AzmoonEntityType, "", new { @class = "text-danger" })
+            </div>
+        </div>
+    </div>
+
+    <div class="form-group">
+        @Html.LabelFor(model => model.TimeDuration, htmlAttributes: new { @class = "control-label col-md-2" })
+        <div class="col-md-10">
+            <div class="checkbox">
+                @Html.EditorFor(model => model.TimeDuration, new { htmlAttributes = new { @class = "form-control" } })
+                @Html.ValidationMessageFor(model => model.TimeDuration, "", new { @class = "text-danger" })
+            </div>
+        </div>
+    </div>
+
+    <div class="form-group">
+        <div class="col-md-offset-2 col-md-10">
+            <input type="submit" value="ذخیره" class="btn btn-default" />
+        </div>
+    </div>
+</div>
+}
+
+<div>
+    @Html.ActionLink("بازگشت", "Index")
+</div>
+
+@section Scripts {
+    @Scripts.Render("~/bundles/jqueryval")
+<script>
+    function isPrivateChange() {
+        if ($("#IsPrivate").is(':checked')) {
+            $(".IsPrivateChange").show();
+        }else {
+            $("#AzmoonPrivateGroupId").val('');
+            $(".IsPrivateChange").hide();
+        }
+        return false;
+    }
+    $(document).ready(function () {
+        isPrivateChange();
+        $('#FromDate').MdPersianDateTimePicker({
+            targetTextSelector: '#FromDate-1',
+            targetDateSelector: '#FromDate',
+            dateFormat: 'yyyy-MM-dd hh:mm:ss',
+            width:'120',
+            isGregorian: false,
+            enableTimePicker: true,
+            disableBeforeToday: true,
+
+        });
+        $('#ToDate').MdPersianDateTimePicker({
+            targetTextSelector: '#ToDate-1',
+            targetDateSelector: '#ToDate',
+            dateFormat: 'yyyy-MM-dd hh:mm:ss',
+            isGregorian: false,
+            enableTimePicker: true,
+            disableBeforeToday: true,
+
+        });
+
+        $(".fileChosen").change(function () {
+            filename = this.files[0].name;
+            $(".fileChosenText").html(filename);
+        });
+        $(".fileChosen2").change(function () {
+            filename = this.files[0].name;
+            $(".fileChosenText2").html(filename);
+        });
+    });
+    $("#IsPrivate").on("change", isPrivateChange);
+    </script>
+}

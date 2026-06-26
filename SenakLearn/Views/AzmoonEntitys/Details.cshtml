@@ -1,0 +1,11 @@
+﻿@model SenakLearn.Models.AzmoonEntity
+
+@{
+    Layout = null;
+    Model.act = "/AzmoonEntitys/Index";
+    ViewBag.Title = "پیش نمایش";
+}
+@Html.Partial("Azmoon", Model)
+<div>
+    @Html.ActionLink("بازگشت", "Index")
+</div>

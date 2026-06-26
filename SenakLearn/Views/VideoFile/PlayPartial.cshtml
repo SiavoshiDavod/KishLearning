@@ -1,0 +1,65 @@
+﻿@model SenakLearn.Models.VideoFile
+
+@{
+    Layout = null;
+}
+
+
+    <input type="hidden" id="fileUploadedId" />
+    <input type="hidden" id="fileUploadedName" />
+
+    <div class="form-horizontal">
+        <h4> ایجاد</h4>
+        <hr />
+        @Html.ValidationSummary(true)
+        <div class="form-group">
+            @Html.LabelFor(model => model.titel, new { @class = "control-label col-md-2" })
+            <div class="col-md-10">
+                @Html.EditorFor(model => model.titel, new { @class = "form-control", @readonly = "readonly" })
+            </div>
+        </div>
+
+        <div class="form-group">
+            @Html.LabelFor(model => model.doc, new { @class = "control-label col-md-2" })
+            <div class="col-md-10 full">
+                @Html.EditorFor(model => model.doc, new { @class = "form-control",@readonly="readonly" })
+            </div>
+        </div>
+        <div class="form-group">
+            <video controls id="video-player" width="400" height="270">
+                <source type="video/mp4">
+            </video>
+            @*<canvas></canvas>
+                <br />
+                <img id="imgFileUploadForVideo"/>*@
+        </div>
+
+    </div>
+
+
+    <script>
+    $(function () {
+        var promptUrl = '/VideoFile/FetchVideo?videoId=' + '@Model.VideoId';
+        var videoPlayer = $('.dialogVideoPlayClass #video-player');
+        //debugger;
+        videoPlayer.attr({
+            'src': promptUrl,
+            'type': 'video/mp4',
+            'autoplay': 'autoplay',
+            'loop': 'loop',
+            'muted': 'muted',
+            'controls': 'controls',
+            'playsinline': 'playsinline'
+        });
+
+        // Set video description
+        //videoPlayer.text('Model.doc');
+
+    });
+
+
+    </script>
+
+@section Scripts {
+    @Scripts.Render("~/bundles/jqueryval")
+}

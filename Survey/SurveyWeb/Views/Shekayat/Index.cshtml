@@ -1,0 +1,145 @@
+﻿
+@model SurveyWeb.Models.Resturan.Shekayat
+<div class="container"style="padding-top:70px" >
+    <div class="row justify-content-center">
+        <div class="col-md-8 text-center">
+            <div class="contact-form-title text-center mb-4">
+                <h4 class="mb-1"> شکایت</h4>
+                <input type="button" value="پیگیری درخواست" title="پیگیری درخواست های قبلی" class="btn btn-primary" style="margin: 15px;" onclick="openModalForTrack();" />
+            </div>
+        </div>
+    </div>
+</div>
+<form class="gray-form mb-5 md-mb-0" action="/Shekayat/Save" method="post" enctype="multipart/form-data">
+    @{
+        var m = (string)ViewBag.Message;
+        if (!string.IsNullOrEmpty(m))
+        {
+            <div class="row">
+                <div class="col-md-12">
+                    <div class="form-group">
+                        <span style="color:red">@m</span>
+                    </div>
+                </div>
+            </div>
+        }
+    }
+
+    <div class="row">
+        <div class="col-md-12">
+            <div class="form-group">
+                <lable> نوع درخواست را انتخاب کنید</lable>
+                <input type="radio" id="Shek" name="TypeShekayatId" value="Shek" checked> <label for="Shek">شکایات</label>
+                <input type="radio" id="Enteghad" name="TypeShekayatId" value="Enteghad"> <label for="Enteghad">انتقاد</label>
+                <input type="radio" id="Pishnahad" name="TypeShekayatId" value="Pishnahad"> <label for="Pishnahad">پیشنهاد</label>
+                <input type="radio" id="Taghdir" name="TypeShekayatId" value="Taghdir"> <label for="Taghdir">تقدیر</label>
+                @Html.ValidationMessageFor(model => model.TypeShekayatId, "", new { @class = "text-danger" })
+            </div>
+        </div>
+    </div>
+
+    <div class="row">
+        <div class="col-md-6">
+            <div class="form-group">
+                @Html.EditorFor(model => model.Name, new { htmlAttributes = new { @class = "form-control", @placeholder = "نام " } })
+                @Html.ValidationMessageFor(model => model.Name, "", new { @class = "text-danger" })
+            </div>
+        </div>
+        <div class="col-md-6">
+            <div class="form-group">
+                @Html.EditorFor(model => model.Mobile, new { htmlAttributes = new { @class = "form-control", @placeholder = "تلفن همراه" } })
+                @Html.ValidationMessageFor(model => model.Mobile, "", new { @class = "text-danger" })
+            </div>
+        </div>
+    </div>
+
+
+    <div class="row">
+        <div class="col-md-6">
+            <div class="form-group">
+                @Html.EditorFor(model => model.Email, new { htmlAttributes = new { @class = "form-control", @placeholder = "آدرس ایمیل" } })
+                @Html.ValidationMessageFor(model => model.Email, "", new { @class = "text-danger" })
+                @*<input type="email" class="form-control" id="UserName" name="UserName" placeholder="آدرس ایمیل">*@
+            </div>
+        </div>
+        <div class="col-md-6">
+            <div class="form-group">
+                @Html.EditorFor(model => model.Title, new { htmlAttributes = new { @class = "form-control", @placeholder = "عنوان شکایت" } })
+                @Html.ValidationMessageFor(model => model.Title, "", new { @class = "text-danger" })
+            </div>
+        </div>
+    </div>
+    <div class="row">
+        <div class="col-md-6">
+            <div class="form-group">
+                @Html.ResturantDropDown("ResturantId", false, false)
+                @Html.ValidationMessageFor(model => model.ResturantId, "", new { @class = "text-danger" })
+            </div>
+        </div>
+    </div>
+    <div class="row">
+        <div class="col-md-12">
+            <div class="form-group">
+                @Html.EditorFor(model => model.Description, new { htmlAttributes = new { @class = "form-control height300", @placeholder = "شرح " } })
+                @Html.ValidationMessageFor(model => model.Description, "", new { @class = "text-danger" })
+            </div>
+        </div>
+    </div>
+
+    <div class="row">
+        <div class="col-md-12">
+            <input type="submit" value="ثبت " class="button" />
+        </div>
+    </div>
+</form>
+@section Scripts {
+    @Scripts.Render("~/bundles/jqueryval")
+
+    <script>
+        function openModalForTrack() {
+            var url = '/Shekayat/Track';
+            Swal.fire({
+                title: 'کد رهگیری خود را وارد کنید',
+                input: 'text',
+                inputAttributes: {
+                    autocapitalize: 'off'
+                },
+                showCancelButton: true,
+                cancelButtonText: 'انصراف',
+                confirmButtonText: 'پیگیری',
+                showLoaderOnConfirm: false,
+
+                allowOutsideClick: () => !Swal.isLoading()
+            }).then((result) => {
+                if (result.value) {
+                    $.ajax(
+                        {
+                            type: 'GET',
+                            datatype: "json",
+                            url: url,
+                            data: { trackId: result.value },
+                            success: function (data) {
+                                if (data.success) {
+                                    Swal.fire({
+                                        position: 'top-end',
+                                        type: 'success',
+                                        title: 'وضعیت درخواست شما:',
+                                        text: data.Message,
+                                        showConfirmButton: true,
+                                    });
+                                } else {
+                                    SwalErrorMessage(data.Message);
+                                }
+                                return false;
+                            }, error: function (data) {
+                                SwalErrorMessage("کد پیگیری معتبر نیست"); return false;
+                            }
+                        }
+                    );
+                }
+                else { SwalErrorMessage("کد پیگیری معتبر نیست"); return false; }
+            })
+            return false;
+        }
+    </script>
+}

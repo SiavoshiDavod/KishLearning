@@ -1,0 +1,107 @@
+﻿@model IEnumerable<SenakLearn.Models.learn_cours>
+@{
+    Layout = "~/Views/Shared/_Layout.cshtml";
+    ViewBag.Title = "قیلم های آموزشی";
+}
+
+@Html.Raw("<div class='container courses-browse popular'>")
+<div class="row ">
+    <div class="col-md-3 col-sm-6 col-xs-12   search-button select-categories">
+
+        @Html.Cours_Group_DropDown("CoursGroupId", false, new { @class = "jquery-select" }, "یک دسته را انتخاب کنید", (int?)ViewBag.groupId, null, true)
+    </div>
+    <div class="col-md-3 col-sm-6 col-xs-12  search-button select-numofvids">
+        @Html.Teacher_DropDown("TeacherId", false, new { @class = "jquery-select" }, "یک مدرس را انتخاب کنید", (int?)ViewBag.teacherId)
+    </div>
+
+    <div class="col-sm-3 col-xs-6  search-button text-keywords float-right">
+        <input class="keywords form-control placeholder" name="keywords" id="keywords" type="text" placeholder="کلمات کلیدی" value="@ViewBag.keyword">
+    </div>
+    <div class="col-sm-3 col-xs-6 search-button text-center">
+        <button class="search-teachers button " onclick="ReloadPage()">جستجو</button>
+    </div>
+</div>
+<section class="shop grid page-section-ptb">
+    <div class="container">
+        <div class="row">
+            @foreach (var item in Model)
+            {
+                <div class="col-md-4">
+                    <div class="product text-center mb-4">
+                        <div class="product-image">
+                            <img class="img-fluid center-block" src="/images/cours/@item.image" alt="@item.name">
+                            <div class="product-overlay">
+                                <div class="add-to-cart">
+                                    <a onclick="countPreviewItemByClient('@SenakLearn.Models.ObjCount.objType_Course','@item.id')" href="/DetailsCours/Index?type=1&id=@item.id">نمایش دوره</a>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="product-des">
+                            @*<div class="product-title">
+                                    <a href="/DetailsCours/Index?type=1&id=@item.id">@item.name</a>
+                                </div>*@
+                            <div class="product-title">
+                                <a href="/DetailsCours/Index?type=1&id=@item.id">@item.name</a>
+                            </div>
+                            <div class="product-price">
+                                @item.doc
+                            </div>
+                            <div class="product-rating">
+                                <span class="lessons">
+                                    <i class="fa fa-building-o"></i>
+                                    @item.num_present جلسه
+                                </span>
+                                <span class="duration">
+                                    <i class="fa fa-clock-o"></i>
+                                    @item.time ساعت
+                                </span>
+                            </div>
+                            @if (item.Monetary != null && item.Monetary > 0)
+                            {
+                                <div class="product-price">
+                                    <del>@item.Monetary</del> @if (item.PriceAfterDiscount != null && item.PriceAfterDiscount > 0)
+                                    {
+                                        <ins>@item.PriceAfterDiscount</ins>
+                                    }
+                                    else if (item.PriceAfterDiscount == null || item.PriceAfterDiscount == 0)
+                                    {
+                                        <ins>رایگان</ins>
+                                    }
+                                </div>
+                            }
+
+                        </div>
+                    </div>
+                </div>
+
+            }
+
+        </div>
+    </div>
+</section>
+@section Scripts
+{
+    <script>
+        function ReloadPage() {
+            window.location.href = "/home/Cours?groupId=" + $('#CoursGroupId').val() + "&teacherId=" + $('#TeacherId').val() + "&keyword=" + $('#keywords').val();
+        }
+        $(document).ready(function () {
+            var dels = $.find('del');
+            $(dels).each(function (i, item) {
+
+                var del = $(item).text();
+                //debugger;
+                $(item).text(del.replace(/\B(?=(\d{3})+(?!\d))/g, ","));
+            });
+            var inss = $.find('ins');
+            $(inss).each(function (i, item) {
+
+                var ins = $(item).text();
+                //debugger;
+                $(item).text(ins.replace(/\B(?=(\d{3})+(?!\d))/g, ","));
+            });
+        });
+    </script>
+    }
+
+

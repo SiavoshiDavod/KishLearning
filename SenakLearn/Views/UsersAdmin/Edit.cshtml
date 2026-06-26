@@ -1,0 +1,132 @@
+﻿@model SenakLearn.Models.learn_user
+
+@{
+    ViewBag.Title = SenakLearn.Models.Dictionary.ModelDictionary[typeof(SenakLearn.Models.learn_user)];
+    Layout = "~/Views/Shared/_LayoutAdmin.cshtml";
+    var Posts = (List<SelectListItem>)ViewBag.PostList;
+    var Orgs = (List<SelectListItem>)ViewBag.OrgList;
+}
+
+<h2>@ViewBag.Title</h2>
+
+
+@using (Html.BeginForm())
+{
+
+
+    <div class="form-horizontal">
+
+        @Html.ValidationSummary(true)
+        @Html.HiddenFor(model => model.id)
+        @Html.HiddenFor(model => model.date_register)
+
+        @*<div class="form-group">
+            @Html.LabelFor(model => model.id_person,  new { @class = "control-label col-md-2" })
+            <div class="col-md-10">
+                @Html.DropDownList("id_person", String.Empty)
+                @Html.ValidationMessageFor(model => model.id_person)
+            </div>
+        </div>*@
+
+        <div class="form-group">
+            @Html.LabelFor(model => model.user_name, new { @class = "control-label col-md-2" })
+            <div class="col-md-10">
+                @Html.EditorFor(model => model.user_name)
+                @Html.ValidationMessageFor(model => model.user_name)
+            </div>
+        </div>
+
+        <div class="form-group">
+            @Html.LabelFor(model => model.Name, new { @class = "control-label col-md-2" })
+            <div class="col-md-10">
+                @Html.EditorFor(model => model.Name)
+                @Html.ValidationMessageFor(model => model.Name)
+            </div>
+        </div>
+
+        <div class="form-group">
+            @Html.LabelFor(model => model.Family, new { @class = "control-label col-md-2" })
+            <div class="col-md-10">
+                @Html.EditorFor(model => model.Family)
+                @Html.ValidationMessageFor(model => model.Family)
+            </div>
+        </div>
+
+        <div class="form-group">
+            @Html.LabelFor(model => model.Email, new { @class = "control-label col-md-2" })
+            <div class="col-md-10">
+                @Html.EditorFor(model => model.Email)
+                @Html.ValidationMessageFor(model => model.Email)
+            </div>
+        </div>
+
+        <div class="form-group">
+            @Html.LabelFor(model => model.NationaCode, new { @class = "control-label col-md-2" })
+            <div class="col-md-10">
+                @Html.EditorFor(model => model.NationaCode)
+                @Html.ValidationMessageFor(model => model.NationaCode)
+            </div>
+        </div>
+
+        <div class="form-group">
+            @Html.LabelFor(model => model.Mobile, new { @class = "control-label col-md-2" })
+            <div class="col-md-10">
+                @Html.EditorFor(model => model.Mobile)
+                @Html.ValidationMessageFor(model => model.Mobile)
+            </div>
+        </div>
+
+        <div class="form-group">
+            @Html.LabelFor(model => model.TypeUser, new { @class = "control-label col-md-2" })
+            <div class="col-md-10">
+                @Html.DropDownListFor(model => model.TypeUser, new List<SelectListItem> { new SelectListItem { Text = "شخصی", Value = "1" }, new SelectListItem { Text = "سازمانی", Value = "2" } })
+            </div>
+        </div>
+
+        <div class="form-group">
+            @Html.LabelFor(model => model.status, new { @class = "control-label col-md-2" })
+            <div class="col-md-10">
+                @Html.EditorFor(model => model.status)
+                @Html.ValidationMessageFor(model => model.status)
+            </div>
+        </div>
+
+        <div class="form-group">
+            @Html.LabelFor(model => model.RoleId, new { @class = "control-label col-md-2" })
+            <div class="col-md-10">
+                @Html.EnumDropDownListFor(model => model.RoleId, htmlAttributes: new { @class = "form-control" })
+                @Html.ValidationMessageFor(model => model.RoleId)
+            </div>
+        </div>
+        <div class="form-group">
+            @Html.LabelFor(model => model.PostId, new { @class = "control-label col-md-2" })
+            <div class="col-md-10">
+                @Html.DropDownListFor(model => model.PostId, Posts, htmlAttributes: new { @class = "form-control" })
+            </div>
+        </div>
+        <div class="form-group">
+            @Html.LabelFor(model => model.OrgId, new { @class = "control-label col-md-2" })
+            <div class="col-md-10">
+                @Html.DropDownListFor(model => model.OrgId, Orgs, htmlAttributes: new { @class = "form-control" })
+            </div>
+        </div>
+
+        <div class="form-group">
+            <div class="col-md-offset-2 col-md-10">
+                <input type="submit" value="ویرایش" class="btn btn-danger" />
+                <input type="button" onclick="return ResetPass('@Model.id')" value="ریست پسورد" class="btn btn-danger" />
+
+            </div>
+        </div>
+    </div>
+}
+
+<div>
+    @Html.ActionLink("بازگشت به لیست", "Index")
+</div>
+
+
+@section Scripts {
+    <script src='/Scripts/Learn.js' type='text/javascript'></script>
+    @Scripts.Render("~/bundles/jqueryval")s
+}

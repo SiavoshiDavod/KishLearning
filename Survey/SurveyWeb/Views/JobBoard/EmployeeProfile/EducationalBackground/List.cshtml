@@ -1,0 +1,44 @@
+﻿@using MVC.Controls
+
+@Html.Grid(
+new GridControl().SetName("EducationalBackgroundGrid").
+SetPageSize(10).
+SetShrinkToFit(false).
+SetIsAutoSize(true).
+SetIsFilterToolbar(true).
+IsRTL().
+SetListUrl("/EmployeeProfile/LoadEducationalBackgroundList?userID=" + (int)ViewBag.currentUser).
+    SetCaption((string)ViewBag.Title).
+SetOnLoadCompleteEvent("loadEducationalBackgroundGridCompleteEvent").
+    UseColumns(SurveyWeb.Controllers.JobBoard.EmployeeProfileController.EducationalBackgroundColumns)
+)
+
+<script >
+    function loadEducationalBackgroundGridCompleteEvent() {
+        var ids = $("#EducationalBackgroundGrid").jqGrid('getDataIDs');
+        for (var i = 0; i < ids.length; i++) {
+            var cl = ids[i];
+            //ed = '<a class="ajaxLink"  href="/JobCategory/Find?Id=' + cl + '" title="ویرایش"><div class="fa fa-pencil"></div></a>';
+            dl = '<a class="ajaxLink delete" onclick="remove(' + cl + ')" title="حذف"   ><div class="fa fa-times"></div></a>';
+            //de = '<a class="ajaxLink "href="/JobCategory/Find?Id=' + cl + '" title="جزئیات"   ><div class="fa fa-building"></div></a>';
+            $('#EducationalBackgroundGrid').jqGrid('setRowData', ids[i], { act: dl });
+        }
+    }
+
+    function remove(id) {
+        var conf = window.confirm("آیا از حذف اطمینان دارید؟");
+        if (conf == true) {
+            $.ajax({
+                type: "post",
+                url: "/EmployeeProfile/RemoveEducationalBackground?id=" + id,
+                success: function (resp) {
+                    $('#educational-background-list').html(resp);
+                },
+                error: function () {
+                    alert("عملیات با خطا مواجه شد.")
+                }
+            })
+        }
+    }
+
+</script>

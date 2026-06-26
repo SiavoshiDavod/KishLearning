@@ -1,0 +1,18 @@
+﻿@model SurveyWeb.Models.CheckList.CheckListItem
+
+@{
+    ViewBag.Title = "آیتم تعریف ارزیابی";
+    Layout = "~/Views/Shared/_LayoutAdmin.cshtml";
+}
+@Html.Partial("_PartialDetailObject", Model)
+
+@using (Html.BeginForm())
+{
+    @Html.AntiForgeryToken()
+
+    <div class="form-actions no-color">
+        <h4 style="color:red">آیا از حذف اطمینان دارید !</h4>
+        <input type="submit" value="حذف" class="btn btn-default" /> |
+        @Html.ActionLink("بازگشت", "Index",new {checkListId=Model?.CheckListId })
+    </div>
+}

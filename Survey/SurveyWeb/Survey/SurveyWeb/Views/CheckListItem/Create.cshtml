@@ -1,0 +1,79 @@
+﻿@model SurveyWeb.Models.CheckList.CheckListItem
+
+@{
+    ViewBag.Title = "آیتم تعریف ارزیابی";
+    Layout = "~/Views/Shared/_LayoutAdmin.cshtml";
+}
+
+<div class="row">
+    <div class="col-sm-12">
+        <div class="page-title-box">
+            <ol class="breadcrumb pull-right">
+                <li><a href="#">ذخیره سازی</a></li>
+                <li><a href="#">@ViewBag.Title</a></li>
+                <li class="active">Dashboard</li>
+            </ol>
+            <h4 class="page-title">ذخیره سازی @ViewBag.Title </h4>
+        </div>
+    </div>
+</div>
+
+
+@using (Html.BeginForm()) 
+{
+    @Html.AntiForgeryToken()
+    
+    <div class="form-horizontal">
+        <h4>آیتم تعریف ارزیابی</h4>
+        <hr />
+        @Html.HiddenFor(model => model.Id)
+        @Html.HiddenFor(model => model.CheckListId)
+        @Html.HiddenFor(model => model.CreatedDate)
+        @Html.HiddenFor(model => model.UpdateDate)
+        @Html.ValidationSummary(true, "", new { @class = "text-danger" })
+        <div class="form-group">
+            @Html.LabelFor(model => model.CheckListId, htmlAttributes: new { @class = "control-label col-md-2" })
+            <div class="col-md-10">
+                @Html.EditorFor(model => model.CheckListName, new { htmlAttributes = new { @class = "form-control",@readonly="readonly" } })
+
+            </div>
+        </div>
+        <div class="form-group">
+            @Html.LabelFor(model => model.Name, htmlAttributes: new { @class = "control-label col-md-2" })
+            <div class="col-md-10">
+                @Html.EditorFor(model => model.Name, new { htmlAttributes = new { @class = "form-control" } })
+                @Html.ValidationMessageFor(model => model.Name, "", new { @class = "text-danger" })
+            </div>
+        </div>
+
+        <div class="form-group">
+            @Html.LabelFor(model => model.CheckListGroupId, "عنوان ارزیابی", htmlAttributes: new { @class = "control-label col-md-2" })
+            <div class="col-md-10">
+                @Html.DropDownListFor(a => a.CheckListGroupId, null, htmlAttributes: new { @class = "form-control" })
+                @Html.ValidationMessageFor(model => model.CheckListGroupId, "", new { @class = "text-danger" })
+            </div>
+        </div>
+
+        <div class="form-group">
+            @Html.LabelFor(model => model.CheckListItemType, htmlAttributes: new { @class = "control-label col-md-2" })
+            <div class="col-md-10">
+                @Html.EnumDropDownListFor(model => model.CheckListItemType, htmlAttributes: new { @class = "form-control" })
+                @Html.ValidationMessageFor(model => model.CheckListItemType, "", new { @class = "text-danger" })
+            </div>
+        </div>
+
+        <div class="form-group">
+            <div class="col-md-offset-2 col-md-10">
+                <input type="submit" value="ذخیره" class="btn btn-default" />
+            </div>
+        </div>
+    </div>
+}
+
+<div>
+    @Html.ActionLink("بازگشت", "Index", new { checkListId = Model?.CheckListId })
+</div>
+
+@section Scripts {
+    @Scripts.Render("~/bundles/jqueryval")
+}

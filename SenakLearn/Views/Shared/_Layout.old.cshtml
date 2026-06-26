@@ -1,0 +1,275 @@
+﻿@{
+    Layout = null;
+    bool isHomePage = false;
+    string classpage = "page";
+    if (ViewBag.isHomePage != null)
+    {
+        isHomePage = true;
+        classpage = "HomePage";
+    }
+    SiteSetting.SiteSetting setting =(SiteSetting.SiteSetting) ViewBag.SiteSetting;
+}
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <meta name="description" content="@setting.Description">
+    <meta name="keywords" content="@setting.Keywords">
+    <meta name='url' content='@setting.SiteUrl'>
+    <meta name="author" content="MahdiRahmati,rahmatymahdi@gmail.com">
+    <title>@setting.NameFa</title>
+    <link rel="shortcut icon" href="@Url.Content("~/images/logo.png")">
+    <link rel="stylesheet" href="/assets/libs/bootstrap/css/bootstrap.min.css">
+    <link rel="stylesheet" href="/assets/libs/material-design-iconic-font/css/material-design-iconic-font.min.css">
+    <link rel="stylesheet" href="/assets/libs/jquery-ui/jquery-ui.min.css">
+    <link rel="stylesheet" href="/assets/libs/rslides/responsiveslides.css">
+    <link rel="stylesheet" href="/assets/libs/slick/slick.css">
+    <link rel="stylesheet" href="/assets/css/main.css">
+
+    <link rel="stylesheet" type="text/css" href="/assets/css/style.css">
+    <link rel="stylesheet" type="text/css" href="/assets/css/animate.css">
+    <script src="/assets/js/jquery-3.2.1.min.js"></script>
+    <script src="/assets/js/wow.min.js"></script>
+
+    <script>
+        new WOW().init();
+    </script>
+    <style>
+        #mainPaper {
+            margin-top: 50px;
+        }
+        .table > tbody > tr > td, .container {
+            line-height: 1.9 !important;
+        }
+        
+    </style>
+</head>
+@RenderSection("scripts", required: false)
+<body id="index2" class="@classpage">
+    @*@Html.Partial("_PartialGoogleRecapcha", "homepage")*@
+    <header>
+        @* <ul class="pull-right lang">
+        <li class="selected"><a href="#">Pr</a></li>
+        <li><a href="#">En</a></li>
+            </ul>*@
+        <div class="container">
+            <div class="container">
+                <div id="topbar">
+                    <div class="pull-right">
+                        <div class="navigation">
+                            <button type="button" class="navbar-toggle" data-toggle="collapse" data-target="#myNavbar"> <i class="zmdi zmdi-menu zmdi-hc-lg"></i> </button>
+                            <nav class="collapse navbar-collapse" id="myNavbar">
+                                <ul>
+                                    <li class="active">
+                                        <a href="/">خانه</a>
+                                    </li>
+                                    @{
+                                        var list = SenakLearn.Biz.MenuBiz.Instance.GetActiveMenu();
+                                        foreach (var item in list)
+                                        {
+                                            <li>
+                                                <a href="#">@item.Title</a>
+                                                @if (item.DynamicForms != null && item.DynamicForms.Count > 0)
+                                                {
+                                                    <ul class="submenu submenu-list">
+                                                        @foreach (var submenu in item.DynamicForms.OrderBy(x => x.Order))
+                                                        {
+                                                            if (string.IsNullOrEmpty(submenu.Url))
+                                                            {
+                                                                submenu.Url = "/Home/Details/" + submenu.Id;
+                                                            }
+                                                            <li><a href="@submenu.Url">@submenu.Title</a></li>
+                                                        }
+                                                    </ul>
+                                                }
+                                            </li>
+                                        }
+                                    }
+                                    @if (User.Identity.IsAuthenticated)
+                                    {
+
+                                        <li><a href="/Dashboard">پروفایل</a></li>
+                                        <li><a href="/Users/Logout">خروج</a></li>
+                                    }
+                                    else
+                                    {
+                                        <li><a href="/Users/Login" @*class="blueplay login"*@>ورود</a> </li>
+                                        <li><a href="/Users/Register" @*class="register"*@>ثبت نام</a></li>
+                                    }
+                                </ul>
+                            </nav>
+                        </div>
+                        <h1 class="logo">
+
+                            <img src="~/images/logo.png" style="width:95px; padding: 5px;" title="@setting.NameFa" />
+
+                        </h1>
+
+                        @*<div class="cart">
+                        <a href="#"><i class="zmdi zmdi-case zmdi-hc-lg"></i><span></span></a>
+                        <div class="cart-container">
+                            <h6>سبد خرید (2)</h6>*@
+                        @*<div class="cart-item clearfix">
+                            <img src="/assets/img/cart1.jpg" alt="cart item" class="pull-left"> <a href="#">چگونه یک طراح UX شویم</a>
+                            <p class="quantity">1x $35,500</p>
+                            <button class="remove">x حذف</button>
+                        </div>
+                        <div class="cart-item clearfix">
+                            <img src="/assets/img/cart2.jpg" alt="cart item" class="pull-left"> <a href="#">8 گام به راه اندازی استارت اپ خودتان</a>
+                            <p class="quantity">1x $18,700</p>
+                            <button class="remove">x حذف</button>
+                        </div>*@
+                        @*<div class="cart-controls text-center"> <a href="#" class="checkout">پرداخت</a> <a href="#" class="viewcart">نمایش سبد</a> <a href="#" class="addcourse">افزودن دوره</a> </div>
+                            </div>
+                        </div>*@
+                        <div class="search">
+                            <a href="#" class="search"><i class="zmdi zmdi-search zmdi-hc-lg"></i></a>
+                            <div class="search-something">
+                                <input type="search" placeholder="دنبال چه چیزی هستید؟">
+                                <a href="#"><i class="zmdi zmdi-search"></i></a>
+                            </div>
+                        </div>
+                    </div>
+
+                </div>
+                @if (isHomePage)
+                {
+                    <h1 class="logo">
+                        <a class="no-text-decoration-white" href="/">
+                          @setting.NameFa
+                        </a>
+                    </h1>
+                    <div class="row">
+                        <div class="col-md-8 col-md-offset-2 text-center">
+                            <p class="pretitle" id="mainpreTitleForchangingSlider">آموزش آنلاین ویدیویی</p>
+                            <h2 class="wow pulse" id="mainTitleForchangingSlider">توانایی هاتو افزایش بده</h2>
+                            <p id="mainDescriptionForchangingSlider">هر روز مطالبی جدید یاد گرفته و از تنوع یادگیری آنلاین لذت ببرید.</p>
+                            <a href="/home/ShowAllClasses" style="display:inline-block;width:200px;margin-top:25px;line-height:25px;" class="bluebutton wow fadeInDown">میخواهم لیست دوره هاتون رو ببینم</a>
+                            <a href="/home/JoinUs" style="display:inline-block;width:200px;margin-top:25px;line-height:25px;" class="bluebutton wow fadeInDown">می خواهم باهاتون همکار بشم</a>
+                            <a href="/Support/Index" style="display:inline-block;width:200px;margin-top:25px;line-height:25px;" class="bluebutton wow fadeInDown">پشتیبانی و راهنمائی کلاسهای آنلاین</a>
+                            <a href="/paper/index" style="display:inline-block;width:200px;margin-top:25px;line-height:25px;" class="bluebutton wow fadeInDown">میخواهم مقالات رو ببینم</a>
+                            <a href="/Books/index" style="display:inline-block;width:200px;margin-top:25px;line-height:25px;" class="bluebutton wow fadeInDown">میخواهم کتاب مورد نظرم رو تهیه کنم</a>
+
+                        </div>
+                    </div>
+                }
+            </div>
+        </div>
+        @if (isHomePage)
+        {
+            var listSlider = SenakLearn.Biz.SlidersBiz.Instance.GetAll();
+            if (listSlider.Count() > 0)
+            {
+                <ul class="rslides-header">
+                    @foreach (var item in listSlider)
+                    {
+                        var idInput = "idInput" + item.Id;
+                        <li>
+                            <img src="~/images/slider/@item.IconPath" class="resp-img" alt="@item.DropDownTitle" id="@idInput">
+                        </li>
+                    }
+                </ul>
+                foreach (var item in listSlider)
+                {
+                    var idInputTitle = "idInput" + item.Id + "Title";
+                    var idInputpreTitle = "idInput" + item.Id + "preTitle";
+                    var idInputDescription = "idInput" + item.Id + "Description";
+                    var idInputColor = "idInput" + item.Id + "Color";
+                    <input type="hidden" value="@item.PreTitle" id="@idInputpreTitle" />
+                    <input type="hidden" value="@item.DropDownTitle" id="@idInputTitle" />
+                    <input type="hidden" value="@item.Description" id="@idInputDescription" />
+                        <input type="hidden" value="@item.Color" id="@idInputColor" />
+                }
+            }
+            else
+            {
+                <ul class="rslides-header">
+                    <li><img src="/assets/img/slide-2.jpg" class="resp-img" alt="Slide"></li>
+                    <li><img src="/assets/img/slide-1.jpg" class="resp-img" alt="Slide"></li>
+                </ul>
+            }
+            <a href="#" class="scrolldown"><span></span></a>
+        }
+    </header>
+    <main>
+        @RenderBody()
+    </main>
+    <footer>
+        <div class="container">
+            <div class="row">
+                <div class="col-md-4 col-sm-6 col-xs-12">
+                    <h1 class="logo float-none"><a class="no-text-decoration-white" href="/">سامانه @setting.Name</a></h1>
+                    <ul class="contactinfo">
+                        <li class="address"><strong>آدرس: </strong>@setting.Address</li>
+                        <li class="phone"><strong>تلفن تماس: </strong>@setting.tel @setting.Mobile</li>
+                        <li class="email"><strong>پست الکترونیکی: </strong>@setting.EmailInfo</li>
+                    </ul>
+                    <ul class="social">
+                        <li><a href="@setting.Telegram"><i class="zmdi zmdi-facebook"></i></a></li>
+                        <li> <a href="@setting.WhatsUp"><i class="zmdi zmdi-google-old"></i></a></li>
+                        <li> <a href="@setting.Skype"><i class="zmdi zmdi-pinterest"></i></a></li>
+                        <li> <a href="@setting.Twitter"><i class="zmdi zmdi-twitter"></i></a></li>
+                        <li> <a href="@setting.Instagram"><i class="zmdi zmdi-instagram"></i></a></li>
+                    </ul>
+                </div>
+                <div class="col-md-2 col-sm-6 col-xs-12">
+                    <h6>راهنمای سایت</h6>
+                    <ul class="information">
+                        <li><a href="/Support/Index">راهنما و سوالات متداول</a></li>
+                        <li><a href="/home/ShowAllClasses">دوره ها</a></li>
+                        <li><a href="#">سفارش آنلاین</a></li>
+                        <li><a href="/UserComment/ContactUs">پشتیبانی آنلاین</a></li>
+                    </ul>
+                </div>
+                <div class="col-md-2 col-sm-6 col-xs-12">
+                    <h6>اطلاعات</h6>
+                    <ul class="information">
+                        <li><a href="/Home/Details/10">درباره ما</a></li>
+                        <li><a href="/Home/Details/13">خدمات ما</a></li>
+                        <li><a href="/Home/Details/9">تاریخچه </a></li>
+                        <li><a href="/Home/Details/11">اطلاعات</a></li>
+                    </ul>
+                </div>
+                <div class="col-md-2 col-sm-6 col-xs-12">
+                    <h6>حساب من</h6>
+                    <ul class="information">
+                        <li><a href="/Home/Teacher">اساتید</a></li>
+                        <li><a href="/home/OnlineClass">کلاس ها</a></li>
+                        <li><a href="/Users/ShowProfile">دانش پذیران</a></li>
+                        <li><a href="/Users/Login">ورود</a></li>
+                    </ul>
+                </div>
+                <div class="col-md-2 col-sm-12 col-xs-12">
+                    <h6>دسترسی سریع</h6>
+                    <ul class="information">
+                        <li><a href="/home/cours">آموزش های ویدیویی</a></li>
+                        <li><a href="/home/OnlineClass">دوره های آنلاین</a></li>
+                        <li><a href="/home/JoinUs">مدرس شوید</a></li>
+                        <li><a href="/Home/Details/14">تماس با ما</a></li>
+                    </ul>
+                </div>
+            </div>
+            <div class="row botbar">
+                <div class="col-sm-7 float-right">
+                    <p class="copyright">&copy;      کپی رایت 2019 @setting.NameFa - تمامی حقوق برای @setting.NameFa محفوظ است.</p>
+                </div>
+                <div class="col-sm-5">
+                    <ul class="pull-right payments">
+                        <li>
+                            <script src="https://www.zarinpal.com/webservice/TrustCode" type="text/javascript"></script>
+                        </li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+    </footer>
+    <script src="/assets/libs/jquery/jquery.js"></script>
+    <script src="/assets/libs/bootstrap/js/bootstrap.min.js"></script>
+    <script src="/assets/libs/rslides/responsiveslides.min.js"></script>
+    <script src="/assets/libs/jquery-ui/jquery-ui.min.js"></script>
+    <script src="/assets/libs/slick/slick.min.js"></script>
+    <script src="/assets/js/main.js"></script>
+    @Html.Partial("~/Views/Shared/SweetAlert.cshtml")
+</body>
+</html>

@@ -1,0 +1,356 @@
+﻿@{
+    Layout = "~/Views/Shared/_Layout.cshtml";
+    SiteSetting.SiteSetting setting = (SiteSetting.SiteSetting)ViewBag.SiteSetting;
+}
+<div class="features-carousel wow fadeInUp">
+    <div class="slick-features">
+        <div class="feature">
+            <img src="/assets/img/features/feature-1.png" alt="Feature">
+            <h6>آموزش آنلاین از کارشناسان</h6>
+            <p> دور هاي آنلاين (غير حضوري) حاصل ماه ها تحقيق و تلاش گروه بزرگي از اساتيد، كارشناسان و متخصصان IT اين موسسه مي باشد كه در اين دوره ها تاكيد بر افزايش مهارتهاي دانشجويان داشته ايم.</p>
+            <a href="#" class="readmore"><span>خواندن ادامه&nbsp;&nbsp;&nbsp;</span><i class="zmdi zmdi-long-arrow-right"></i></a>
+        </div>
+        <div class="feature">
+            <img src="/assets/img/features/feature-2.png" alt="Feature">
+            <h6>در همه جا یاد بگیرید</h6>
+            <p>با توجه به پيشرفت روزافزون علم و تكنولوژي و در دسترس بودن اينترنت و برنامه هاي آموزشي آنلاين، با كمك دوره هاي آموزشي ما مي توانيد در همه جا مشغول يادگيري و افزايش مهارتهايتان باشيد.</p>
+            <a href="#" class="readmore"><span>خواندن ادامه&nbsp;&nbsp;&nbsp;</span><i class="zmdi zmdi-long-arrow-right"></i></a>
+        </div>
+        <div class="feature">
+            <img src="/assets/img/features/feature-3.png" alt="Feature">
+            <h6>پشتیبانی از ویدیو ها در همه دستگاه ها</h6>
+            <p>يكي از ويژگيهاي مهم فيلمهاي آموزشي اين موسسه، پشتيباني همه دستگاه هاي پخش فيلم از آنهاست. پس از ديدن فيلمهاي آموزشي ما لذت ببريد.</p>
+            <a href="#" class="readmore"><span>خواندن ادامه&nbsp;&nbsp;&nbsp;</span><i class="zmdi zmdi-long-arrow-right"></i></a>
+        </div>
+        <div class="feature">
+            <img src="/assets/img/features/feature-4.png" alt="Feature">
+            <h6>یادگیری مهارت های جدید</h6>
+            <p>همواره مدرسان و متخصصان اين موسسه سعي در آموزش جديدترين دوره هاي آموزشي بصورت كاربردي دارند تا بتوانند مهارتهاي شما را در حل مسائل و مشكلات كاريتان افزايش دهند.</p>
+            <a href="#" class="readmore"><span>خواندن ادامه&nbsp;&nbsp;&nbsp;</span><i class="zmdi zmdi-long-arrow-right"></i></a>
+        </div>
+        <div class="feature">
+            <img src="/assets/img/features/feature-5.png" alt="Feature">
+            <h6>بروزرسانی ویدیو ها</h6>
+            <p>يكي از كارها و برنامه روزانه متخصصان اين موسسه بررسي ويديوهاي آموزشي و بروز رساني آنها مي باشد. تا همواره دانشجويان فيلمهاي آموزشي بروز را در اختيار داشته باشند.</p>
+            <a href="#" class="readmore"><span>خواندن ادامه&nbsp;&nbsp;&nbsp;</span><i class="zmdi zmdi-long-arrow-right"></i></a>
+        </div>
+        <div class="feature">
+            <img src="/assets/img/features/feature-2.png" alt="Feature">
+            <h6>سوالات خود را بپرسید</h6>
+            <p>با ثبت نام در يك دوره آموزشي شما مي توانيد همواره با استاد دوره در ارتباط بوده و سوالات خودتان را از ايشان بپرسيد.</p>
+            <a href="#" class="readmore"><span>خواندن ادامه&nbsp;&nbsp;&nbsp;</span><i class="zmdi zmdi-long-arrow-right"></i></a>
+        </div>
+        <div class="feature">
+            <img src="/assets/img/features/feature-4.png" alt="Feature">
+            <h6>نظرات کاربران را بخوانید</h6>
+            <p>براي تكميل كردن آموزشها و توسعه كتابخواني، كتابخانه آنلاين موسسه سعي در تهيه و در اختيار گذاشتن كتاب هاي بروز و جديد را دارد.</p>
+            <a href="#" class="readmore"><span>خواندن ادامه&nbsp;&nbsp;&nbsp;</span><i class="zmdi zmdi-long-arrow-right"></i></a>
+        </div>
+    </div>
+</div>
+<div class="container categories text-center">
+    <div class="row">
+        <div class="col-sm-10 col-sm-offset-1">
+            <h3 class="wow flipInX">کاوش در @setting.NameFa</h3>
+            <p>آموزش مجازی كيش با توجه به هدف و برنامه هاي خود سعي در توسعه آموزشي هاي علمي و كاربردي نموده است. اين شركت با در اختيار داشتن متخصصين علوم مختلف مانند مديريت، كسب و كار، فناوري و غيره ... سعي در طراحي دوره هاي آموزشي مختلف به شرح زير نموده است كه اميد است شما را در رسيدن به اهداف و برنامه هاي مختلفتان كمك و ياري نمايد.</p>
+        </div>
+    </div>
+    @{ var group = SenakLearn.Biz.CourseBiz.Instance.FindAllGroup(null, null, null, null, null);
+        double delay = 0.1;
+        var count = 0;
+        foreach (var item in group)
+        {
+            if (count % 4 == 0)
+            {
+                if (count != 0)
+                {
+                    @Html.Raw("</div>")
+                }
+                @Html.Raw("<div class='row '>")
+
+            }
+            count++;
+            string delayS = delay + "s";
+            delay += 0.2;
+            <div class="col-md-3 col-sm-6 category wow fadeInUpBig float-right" data-wow-delay="@delayS" style="visibility: visible; animation-delay: @delayS; animation-name: fadeInUpBig;">
+                <img src="/images/Group/@item.ImageUrl" alt="Category">
+                <h5>@item.name</h5>
+                <div class="overlay text-center">
+                    <a href="/home/ShowAllClasses?groupId=@item.id">نمایش اطلاعات</a>
+                    @if (item.Paper)
+                    {
+                        <h6 class=""><span>@item.PaperCount</span>مقاله</h6>
+                    }
+                    @if (item.Book)
+                    {
+                        <h6 class=""><span>@item.BookCount</span>کتاب</h6>
+                    }
+                    @if (item.Booklet)
+                    {
+                        <h6 class=""><span>@item.BookletCount</span>جزوه</h6>
+                    }
+                    @if (item.Online)
+                    {
+                        <h6 class=""><span>@item.OnlineCount</span>کلاس آنلاین</h6>
+                    }
+                    @if (item.Offline)
+                    {
+                        <h6 class=""><span>@item.OfflineCount</span>دروه</h6>
+                    }
+                    @*<p>@item.Description</p>*@
+                    <h5>@item.name</h5>
+
+                </div>
+            </div>
+        }
+
+    }
+    @Html.Raw("</div>")
+</div>
+<div class="container pros">
+    <div class="row">
+        <div class="col-sm-10 col-sm-offset-1 text-center">
+            <h3>برخی از حرفه ای ترین مدرسان را بررسی کنید</h3>
+            <p> همه مدرسین در @setting.NameFa دارای گوهینامه تایید شده و معتبر هستند. مدرسین @setting.NameFa از مراحل مختلف پذیرش گذشته اند و دانش آنها توسط @setting.NameFa کاملا تایید شده است. هدف ما افزایش کیفیت ویدیو های آموزشی و درنتیجه رضایت شما دربرابر خریدتان است. </p>
+            <a href="/Home/Teacher" class="blueplay">بررسی همه مدرسان</a>
+        </div>
+    </div>
+    <div class="row text-center">
+        @{
+            //<p style="font-size:small"> @Html.DisplayFor(modelItem => item.code)</p>
+            //<a class="btn-link btn-sm" onclick="list(@item.id)">دوره ها</a>
+            var list = SenakLearn.Biz.TeacherBiz.Instance.FindAll();
+            foreach (var item in list)
+            {
+                <div class="col-md-2 col-sm-4 col-xs-6">
+                    <div class="teacher">
+                        <div class="imgcontainer">
+                            <img src="/images/teacher/@item.image" alt="@item.FullName" style="width:130px;height:130px">
+                            <div class="overlay">
+                                <img src="/assets/img/profile.png" alt="Profile">
+                                <p>@item.CourseCount دوره</p>
+                            </div>
+                        </div>
+                        <a href="/Home/TeacherCours/@item.id">@item.FullName</a>
+                        <p>@item.education</p>
+                    </div>
+                </div>
+            }
+        }
+
+    </div>
+</div>
+
+<div class="container success">
+    <div class="row">
+        <div class="col-sm-10 col-sm-offset-1 text-center">
+            <h3 class="wow wobble" data-wow-delay="1s">در 6 مرحله ساده به موفقیت خود دست پیدا کنید</h3>
+            <p class="wow fadeInUpBig" data-wow-delay="1.3s">  همه مدرسین در @setting.NameFa دارای گوهینامه تایید شده و معتبر هستند. مدرسین @setting.NameFa از مراحل مختلف پذیرش گذشته اند و دانش آنها توسط متخصصين @setting.NameFa کاملا تایید شده است. هدف ما افزایش کیفیت ویدیو های آموزشی و درنتیجه رضایت شما دربرابر خریدتان است.  </p>
+        </div>
+    </div>
+    <div class="horizontal-divider">
+        <div class="divider"></div>
+        <div class="row">
+            @{
+                var detailList = SenakLearn.Biz.MenuBiz.Instance.Get6StepMenu();
+            }
+            <div class="col-sm-4 step">
+                <a class="wow fadeInLeftBig" data-wow-delay="0.5s" href="@detailList[0]">1</a>
+                <h6>هدف تان را انتخاب کنید</h6>
+                <p class="wow fadeInUp" data-wow-delay="0.5s" data-wow-duration="0.7s"> همواره يكي از مهمترين عواملي كه مي تواند باعث موفقيت و يا عدم موفقيت افراد باشد انتخاب هدف مناسب است. با ما همراه باشيد تا نكاتي را درباره انتخاب هدف مناسب مرور كنيم.</p>
+            </div>
+            <div class="col-sm-4 step">
+                <a class="wow fadeInLeftBig" data-wow-delay="0.7s" href="@detailList[1]">2</a>
+                <h6>در سايت @setting.NameFa ثبت نام کنید</h6>
+                <p class="wow fadeInUp" data-wow-delay="0.7s" data-wow-duration="0.7s"> پس از انتخاب هدف، كسب مهارتهاي لازم جهت رسيدن به هدف مورد نظر يكي از مهمترين عوامل محسوب ميشود. لذا با ثبت نام در سايت @setting.NameFa  مي توانيد با اين مهارتها آشناشويد. </p>
+            </div>
+            <div class="col-sm-4 step">
+                <a class="wow fadeInLeftBig" data-wow-delay="0.9s" href="@detailList[2]">3</a>
+                <h6>دوره مورد نظرتان را با توجه به هدف تان انتخاب كنيد</h6>
+                <p class="wow fadeInUp" data-wow-delay="0.9s" data-wow-duration="0.7s"> سومين مرحله انتخاب دوره هاي آموزشي مناسب جهت رسيدن به مهارتهاي لازم براي دست يافتن به هدف مي باشد. انتخاب دوره هاي مناسب كه شما را بتواند به مهارتهاي لازم برساند بسيار مهم و حياتي مي باشد. </p>
+            </div>
+        </div>
+
+    </div>
+    <div class="horizontal-divider">
+        <div class="divider"></div>
+        <div class="row">
+            <div class="col-sm-4 step">
+                <a class="wow fadeInLeftBig" data-wow-delay="1.1s" href="@detailList[3]">4</a>
+                <h6>در آزمونهاي پايان دوره شركت كنيد</h6>
+                <p class="wow fadeInUp" data-wow-delay="0.5s" data-wow-duration="0.7s"> در آزمونهاي پايان دوره شركت نموده و مهارتهاي كسب كرده را محك بزنيد. كسب نمره قبولي و موفقيت در آزمونهاي پاياني نشانه مهارت و تبحر شما در كسب و كار آينده تان خواهد بود.</p>
+            </div>
+            <div class="col-sm-4 step">
+                <a class="wow fadeInLeftBig" data-wow-delay="1.3s" href="@detailList[4]">5</a>
+                <h6>گواهينامه معتبر دريافت كنيد</h6>
+                <p class="wow fadeInUp" data-wow-delay="0.7s" data-wow-duration="0.7s"> داشتن يك مدرك معتبر جهت ارائه به محل كارتان و يا اثبات مهارت هايتان لازم و ضروري است. با گذراندن دوره هاي مورد نظر و قبولي در آزمون مي توانيد گواهينامه معتبري را دريافت نمائيد كه نشانه تبحر و مهارت شماست. </p>
+            </div>
+            <div class="col-sm-4 step">
+                <a class="wow fadeInLeftBig" data-wow-delay="1.5s" href="@detailList[5]">6</a>
+                <h6>از كار و زندگيتان لذت ببريد</h6>
+                <p class="wow fadeInUp" data-wow-delay="0.9s" data-wow-duration="0.7s">حالا شما با توجه به گذراندن مراحل قبل و كسب مهارتهاي لازم و اخذ گواهينامه هاي معتبر مي توانيد با توجه به هدف تان كسب و كار مناسب را انتخاب نمود و از آن همواره لذت ببريد.</p>
+            </div>
+        </div>
+    </div>
+</div>
+<div class="container-fluid signup text-center">
+    <div class="row">
+        <div class="col-sm-12">
+            <p class="wow fadeIn" data-wow-delay="0.3s">آموزش آنلاین در هرکجا</p>
+            <h4 class="wow tada" data-wow-delay="0.5s">آیا آماده شروع یادگیری هستید؟</h4>
+            <a href="/Users/Register" class="bluebutton wow shake" data-wow-delay="1s">همین امروز ثبت نام کنید</a>
+        </div>
+    </div>
+</div>
+<div class="container popular">
+    <div class="row">
+        <div class="col-sm-12 text-center margin-top-50 wow fadeInUpBig" data-wow-delay="0.5s">
+            <h3>محبوب ترین آموزش های آنلاین</h3>
+            <div class="scrolldown-placeholder"> <a href="#" class="popular-scrolldown"><i class="zmdi zmdi-chevron-down zmdi-hc-lg"></i></a> </div>
+        </div>
+    </div>
+    <div class="row tutorials">
+        @{
+            var onlineClass = SenakLearn.Biz.OnlineClassBiz.Instance.GetAllPage(x => x.IsFavorite && x.ClassType != SenakLearn.Enums.OnlineClassType.Archived, 0, 3);
+            foreach (var item in onlineClass)
+            {
+                var img = "/images/Interview/" + item.InterviewPathImage;
+                if (string.IsNullOrEmpty(item.InterviewPathImage))
+                {
+                    img = "/images/logo.png";
+                }
+                <div class="col-xs-12 col-sm-6 col-md-4">
+                    <div class="tutorial wow fadeInRightBig" data-wow-delay="0.8s">
+                        <img src="@img" class="resp-img" alt="@item.name" style="width:370px;height:220px">
+                        <div class="tutorial-details">
+                            <h6>@item.name</h6>
+                            <p>
+                                <span class="lessons"><i class="zmdi zmdi-assignment"></i>@item.SessionCount جلسه</span>
+                                <span class="duration"><i class="zmdi zmdi-time"></i>@item.Duration ساعت</span>
+                            </p>
+                            <p class="abs">@item.Description</p>
+                            <a href="/DetailsOnlineClass/Index?type=2&id=@item.Id" class="greybutton">نمایش دوره</a>
+                        </div>
+                    </div>
+                </div>
+            }
+        }
+
+    </div>
+</div>
+<div class="container popular">
+    <div class="row">
+        <div class="col-sm-12 text-center margin-top-50 wow fadeInUpBig" data-wow-delay="0.5s">
+            <h3>محبوب ترین فیلمهای آموزشی</h3>
+            <div class="scrolldown-placeholder"> <a href="#" class="popular-scrolldown"><i class="zmdi zmdi-chevron-down zmdi-hc-lg"></i></a> </div>
+        </div>
+    </div>
+    <div class="row tutorials">
+        @{
+            var listCourse = SenakLearn.Biz.CourseBiz.Instance.FindAll(x => x.status && x.IsFavorite, 3);
+            foreach (var item in listCourse)
+            {
+                <div class="col-xs-12 col-sm-6 col-md-4">
+                    <div class="tutorial wow fadeInRightBig" data-wow-delay="0.8s">
+                        <img src="/images/cours/@item.image" class="resp-img" alt="@item.name" style="width:370px;height:220px">
+                        <div class="tutorial-details">
+                            <h6>@item.name</h6>
+                            <p><span class="lessons"><i class="zmdi zmdi-assignment"></i>@item.num_present جلسه</span><span class="duration"><i class="zmdi zmdi-time"></i>3:15 ساعت</span></p>
+                            <p class="abs">@item.doc</p>
+                            <a href="/DetailsCours/Index?type=1&id=@item.id" class="greybutton">نمایش دوره</a>
+                        </div>
+                    </div>
+                </div>
+            }
+        }
+
+    </div>
+</div>
+
+<div class="container testimonials">
+    <div class="row">
+        <div class="col-sm-10 col-sm-offset-1 text-center">
+            <h3 class="wow fadeInUpBig" data-wow-delay="0.5s">کاربران درمورد @setting.NameFa چه میگویند</h3>
+            <p class="wow fadeInUpBig" data-wow-delay="0.7s"> لطفا نظر خود درباره @setting.NameFa را ثبت کنید. </p>
+            <a href="/UserComment/ContactUs" class="bluebutton wow shake" style="padding:20px">ثبت نظر</a>
+        </div>
+    </div>
+    <div class="row text-center">
+        <div class="col-sm-12">
+            <div class="slick-testimonials wow bounceInDown" data-wow-delay="0.5s">
+                @{var comments = SenakLearn.Biz.UserCommnetBiz.Instance.GetAll(x => x.PageTypeId == SenakLearn.Models.PageType.None && x.Status);
+                    var avatar = "man.png";}
+                @foreach (var item in comments)
+                {
+                    if (item.learn_user != null && !string.IsNullOrEmpty(item.learn_user.ImageUrl))
+                    {
+                        avatar = item.learn_user.ImageUrl;
+                    }
+                    else
+                    {
+                        avatar = "man.png";
+                    }
+                    if (item.learn_user != null && !string.IsNullOrEmpty(item.learn_user.Name) && !string.IsNullOrEmpty(item.learn_user.Family))
+                    {
+                        item.Name = item.learn_user.Name + " " + item.learn_user.Family;
+                    }
+
+                    <div class="testimonial">
+                        <img src="/images/Users/@avatar" alt="Avatar" style="max-width: 80px;">
+                        <p class="name">@item.Name<em></em></p>
+                        <em>@item.Description</em>
+                    </div>
+                }
+            </div>
+        </div>
+    </div>
+</div>
+<div class="container partners">
+    <div class="row">
+        <div class="col-sm-12 text-center">
+            <h3>چه کسانی از @setting.NameFa استفاده می کنند</h3>
+            <p> شرکتها و موسسات بسیاری از آموزشها و فضای مجازی ما جهت ارتقاء سطح علمی خود بهره می برند که تعدادی از آنها عبارتند از: </p>
+        </div>
+    </div>
+    <div class="row text-center">
+        <div class="col-md-4 col-sm-6 col-xs-12 partner"> <a href="#"><img src="/assets/img/clients/01.png" alt="Partner"></a> </div>
+        <div class="col-md-4 col-sm-6 col-xs-12 partner"> <a href="#"><img src="/assets/img/clients/02.png" alt="Partner"></a> </div>
+        <div class="col-md-4 col-sm-6 col-xs-12 partner"> <a href="#"><img src="/assets/img/clients/03.png" alt="Partner"></a> </div>
+        <div class="col-md-4 col-sm-6 col-xs-12 partner"> <a href="#"><img src="/assets/img/clients/04.png" alt="Partner"></a> </div>
+        <div class="col-md-4 col-sm-6 col-xs-12 partner"> <a href="#"><img src="/assets/img/clients/05.png" alt="Partner"></a> </div>
+        <div class="col-md-4 col-sm-6 col-xs-12 partner"> <a href="#"><img src="/assets/img/clients/06.png" alt="Partner"></a> </div>
+    </div>
+</div>
+<div class="whyus">
+    <div class="container">
+        <div class="row">
+            <div class="col-sm-12">
+                <h3 class="wow fadeInLeftBig" data-wow-delay="0s" data-wow-duration="2s">چرا @setting.NameFa را انتخاب کنید</h3>
+            </div>
+        </div>
+        <div class="row">
+            <div class="col-md-8 col-sm-12 float-right">
+                <h6>آموزش آنلاین</h6>
+                <p>با استفاده از اینترنت و در محیط آرام خانه و در کنار خانواده خود مشغول یادگیری دوره های آموزشی مورد نظر خود باشید. کافیست در کلاس مورد نظرتان ثبت نام کرده و در آرامش کامل در کلاس خود شرکت کنید. در کلاسهای آنلاین می توانید با استاد خود در تعامل بوده و از آموزش و یادگیری خود لذت ببرید. </p>
+            </div>
+            <div class="col-md-8 col-sm-12 float-right">
+                <h6>یادگیری از مدرسان پیشرفته و تایید شده</h6>
+                <p style="color: floralwhite;">همه مدرسین در @setting.NameFa دارای گوهینامه تایید شده و معتبر هستند. مدرسین @setting.NameFa از مراحل مختلف پذیرش گذشته اند و دانش آنها توسط @setting.NameFa کاملا تایید شده است. هدف ما افزایش کیفیت ویدیو های آموزشی و درنتیجه رضایت شما دربرابر خریدتان است. </p>
+            </div>
+            <div class="col-md-8 col-sm-12 float-right">
+                <h6>تبدیل شدن به یک متخصص در کسب و کارتان</h6>
+                <p>با استفاده از پکیجهای آموزشی ما می توانید به یک متخصص در کار و حرفه خودتان تبدیل شوید. گروه آموزشی @setting.NameFa، همواره در حال طراحی دوره های آموزشی مناسب جهت پیشبرد اهداف شماست. پکیجهای آموزشی ما شامل کتاب الکترونیکی، فیلمهای آموزشی و کلاسهای آنلاین است که می تواند شما را به یک متخصص در رشته مورد نظر تبدیل کند. </p>
+            </div>
+        </div>
+    </div>
+</div>
+<div class="ready">
+    <div class="container">
+        <div class="row">
+            <a href="/Users/Register" class="whitebutton">هم اکنون ثبت نام کنید</a>
+            <p>آموزش آنلاین در هرکجا</p>
+            <h4>آیا شما آماده شروع یادگیری هستید؟</h4>
+        </div>
+    </div>
+</div>
+

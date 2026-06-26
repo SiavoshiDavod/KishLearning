@@ -1,0 +1,78 @@
+﻿@model SurveyWeb.Models.JobBoard.JobPositionWrapper
+@{
+    ViewBag.Title = "جزئیات موقعیت شغلی";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<section class="page-section-ptb">
+    <div class="container">
+        <div class="row">
+            <div class="job-container col-md-8">
+                <a href="">
+                    <h2 style="font-size:22px" class="job-title">@Model.Title</h2>
+                </a>
+                <div class="mt-2"><i class="fa fa-building mr-3"></i>@Model.CompanyName</div>
+                <div class="mt-2"><i class="fa fa-map-marker mr-3"></i>@Model.Location</div>
+                <div class="mt-2"><i class="fa fa-paperclip mr-3"></i>قرارداد @Model.CooperationTypeName</div>
+                <div class="mt-2"><i class="fa fa-money mr-3"></i>قرارداد<span>حقوق از</span> @Model.SalaryFrom ريال <span>تا</span> @Model.SalaryTo ريال</div>
+                <div style="margin-top:15px">
+                    @foreach (var item in Model.RequiredSkills.Split(','))
+                    {
+                        <span style="font-size:16px" class="badge badge-primary mr-2">@item</span>
+                    }
+                </div>
+                <h3 class="mt-3" style="font-size:18px">جزئیات</h3>
+                <div class="text-body">@Model.Description</div>
+            </div>
+
+            <div class="col-md-4" id="req-div">
+                <h3>ارسال درخواست</h3>
+                @*<input type="hidden" value="@Model.ID" id="ID" />
+                <input type="file" id="resume" accept="application/pdf" />
+                <input class="btn btn-success" type="button" value="ارسال رزومه" onclick="submitRequest()" />*@
+                <p class="mt-3">برای ارسال درخواست ثبت نام کنید و سپس وارد محیط کاربری خود شوید</p>
+            </div>
+        </div>
+    </div>
+</section>
+
+<script>
+    function submitRequest() {
+        var ID = $('#ID').val();
+        var resume = $('#resume')[0].files[0];
+
+        var formData = new FormData();
+        formData.append("JobPositionId", ID);
+        formData.append("resume", resume);
+
+         $.ajax({
+            url: "/JobRequest/Add",
+            type: "post",
+            processData: false,
+            contentType: false,
+            data: formData,
+            success: function () {
+                alert("درخواست شما با موفقیت ثبت شد.")
+            },
+            failure: function (res) {
+                alert(res)
+            }
+        })
+    }
+
+
+        $.ajax({
+            url: "/JobRequest/AppliedBefore?jobPositionId=" + @Model.ID,
+            type: "post",
+            success: function (res) {
+                if (res) {
+                    $('#req-div').html("شما قبلا برای این موقعیت ثبت نام کرده اید.")
+                }
+            },
+            failure: function (res) {
+                alert(res)
+            }
+        })
+
+
+</script>

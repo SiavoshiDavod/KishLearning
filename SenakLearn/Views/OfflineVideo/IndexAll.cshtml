@@ -1,0 +1,132 @@
+﻿
+@model SenakLearn.Models.OfflineVideo
+
+@{
+    Layout = "~/Views/Shared/_LayoutAdmin.cshtml";
+    ViewBag.Title = " مدیریت ویدیوها";
+}
+
+<!-- Page-Title -->
+<div class="row">
+    <div class="col-sm-12">
+        <div class="page-title-box">
+            <ol class="breadcrumb pull-right">
+                <li><a href="#">@ViewBag.Title</a></li>
+                <li class="active">Dashboard</li>
+            </ol>
+            <h4 class="page-title">@Html.ActionLink("افزودن", "Create") </h4>
+        </div>
+    </div>
+</div>
+<input type="hidden" id="learncoursId" value="@ViewBag.learn_coursId" />
+
+<div class="row">
+    <div style="vertical-align: top;" class="col-xs-12 col-sm-6 col-md-4">
+        <div id="TadGroupGoodsTreeDiv">
+
+
+            <fieldset>
+                @using MVC.Controls
+                <div id="OfflineVideo" style="width: 20%; height: 100%" class="span-3">
+                </div>
+                @(Html.TreeView1(new List<SenakLearn.Models.OfflineVideo>(), "OfflineVideo", "Id")
+          .EmptyContent("هیچ موردی یافت نشد.")
+          .IsAjax()
+          .OpenAll(true)
+          .ShowContextMenu(true)
+          .showContextCreate(true, "createOfflineVideoChild")
+          .showContextEdit(true, "editOfflineVideo")
+          .showContextRemove(true, "deleteOfflineVideo")
+          .SetSearchable(true)
+          .Sortable(false)
+          //.ShowCheckbox(ViewBag.SelectedIds != null)
+          .LanguageDirection("rtl")
+          .AjaxUrl(ViewBag.Url, true))
+
+                <script type="text/javascript">
+                        function createOfflineVideoChild(obj, id) {
+                            $.ajax(
+                                {
+                                    type: 'Get',
+                                    //data: { Code:  },
+                                    url: '/OfflineVideo/Create' ,
+                                    success: function (result) {
+                                        $('#OfflineVideo').jstree("refresh");
+                                        $('#OnlineClassDetailsDiv').html(result);
+                                    },
+                                    error: function (error) {
+                                        alert(error.toString());
+                                    }
+                                });
+                            return false;
+                        }
+
+                        function editOfflineVideo(obj, id) {
+                            $.ajax(
+                                {
+                                    type: 'Get',
+                                    //data: { Code:  },
+                                    url: '/OfflineVideo/Edit?id=' + (obj != null ? obj.id : id),
+                                    success: function (result) {
+                                        $('#OfflineVideo').jstree("refresh");
+                                        $('#OnlineClassDetailsDiv').html(result);
+                                    },
+                                    error: function (error) {
+                                        alert(error.toString());
+                                    }
+                                });
+                            return false;
+                        }
+
+                        function deleteOfflineVideo(obj) {
+                            var deleted = function () {
+                                $.post('/OfflineVideo/Delete?id=' + obj.id,
+                                     function (data) {
+                                         $('#OfflineVideo').jstree("refresh");
+                                         //$("#OnlineClassFormId").reset();
+                                         //  $("#NewBtn").trigger("click");
+                                     });
+                            }
+                            confirmDelete(deleted);
+                        }
+                        function deleted() {
+
+                            //$('#SubUnitTbl').hide();
+                        }
+
+                        $("#OfflineVideo").delegate("a",
+                            "click",
+                            function (e) {
+                                editOfflineVideo(null, $(this).parent().attr('id'));
+                                //$("#OfflineVideo").jstree("open_node", $(this).parent());
+
+                                //$("#OfflineVideo").jstree("select_node", $(this).parent());
+                                ////load process sequence
+                                //loadOnlineClassByCode($(this).parent().attr('id'));
+
+                                //lastCode = $(this).parent().attr('id');
+                            });
+
+                        $('#myForm').submit(function (e) {
+                            
+                            e.preventDefault();
+                            var url = $(this).closest('form').attr('action'),
+                     data = $(this).closest('form').serialize();
+                            $.ajax({
+                                url: url,
+                                type: 'post',
+                                data: data,
+                                success: function () {
+                                    $('#OfflineVideo').jstree("refresh");
+                                }
+                            });
+                        });
+                </script>
+
+            </fieldset>
+        </div>
+    </div>
+    <div id="OnlineClassDetailsDiv" style="vertical-align: top;" class="col-md-8">
+        @Html.Partial("~/Views/OfflineVideo/Create.cshtml")
+    </div>
+</div>

@@ -1,0 +1,398 @@
+﻿@Html.Partial("~/Views/Shared/Banner.cshtml")
+
+@{
+    SiteSetting.SiteSetting setting = (SiteSetting.SiteSetting)ViewBag.SiteSetting;
+    var list = SurveyWeb.Biz.MenuBiz.Instance.GetActiveMenu();
+    foreach (var item in list)
+    {
+
+        <section class="education page-section-ptb" style="background:url(lib/SeoHub/images/bg-element/01.png) no-repeat 150px 70px;">
+            <div class="container">
+                <div class="row">
+                    <div class="col-md-12">
+                        <div class="section-title text-center">
+                            <span>میز خدمت @item.Title</span>
+                            <h3 class="text-center">@item.Title</h3>
+                        </div>
+                    </div>
+                    @if (item.MenuSubs != null && item.MenuSubs.Count > 0)
+                    {
+                        foreach (var submenu in item.MenuSubs@*.OrderBy(x => x.Order)*@)
+{
+if (string.IsNullOrEmpty(submenu.Url))
+{
+submenu.Url = "/Home/SubMenu/" + submenu.Id;
+}
+<div class="col-md-4">
+    <div class="feature-box-01 round text-center">
+        <div class="feature-box-img mb-2">
+            <a href="@submenu.Url">
+                <img class="img-fluid" src="~/images/MenuSub/@submenu.Image" alt="@submenu.Title">
+            </a>
+
+        </div>
+        <div class="feature-box-info mt-2">
+            <a href="@submenu.Url">
+                <h5 class="text-blue mb-2">@submenu.Title</h5>
+            </a>
+        </div>
+    </div>
+</div>
+}
+}
+                </div>
+            </div>
+        </section>
+    }
+}
+
+<section class="our-blog page-section-ptb" style="padding:100px 0 0 0;">
+    <div class="container">
+        <div class="row">
+            <div class="col-md-12">
+                <div class="section-title text-center">
+                    <span> بهترین </span>
+                    <h3 class="text-center"> رستوران ها با موزیک زنده</h3>
+                </div>
+            </div>
+        </div>
+        <div class="row">
+            <div class="col-md-12">
+                <div class="owl-carousel" data-nav-dots="false" data-nav-arrow="true" data-items="3"
+                     data-xs-items="2" data-sm-items="2" data-md-items="3" data-lg-items="3" data-autoplay="false"
+                     data-loop="true">
+                    @{
+                        var advertisingMusical = SurveyWeb.Biz.AdvertisingBiz.Instance.GetAllInView(false, true);
+                        foreach (var item in advertisingMusical)
+                        {
+                            var typeAdverUrl = "/Home/AllAdvertising?typeId=" + item.Resturant.ResturantTypeId + "&typeName=" + item.Resturant.ResturantType.DropDownTitle;
+                            <div class="item">
+                                <div class="blog-entry">
+                                    <div class="entry-image clearfix">
+                                        <a href="/Home/Advertising/@item.Id"> <img class="img-fluid" src="~/Images/Advertising/@item.ImageUrl" alt="@item.Resturant.Name"></a>
+                                    </div>
+                                    <div class="blog-detail">
+                                        <div class="entry-title mb-1">
+                                            <a href="/Home/Advertising/@item.Id">@item.ResturantName</a>
+                                        </div>
+                                        <div class="entry-meta mb-1">
+                                            <ul>
+                                                <li><a href="@typeAdverUrl"><i class="ti-folder"></i> @item.Resturant.ResturantType.DropDownTitle</a></li>
+                                                @*<li><a href="#"> @item.VisitCount<i class="ti-comments"></i></a></li>*@
+                                                @*<li><a href="#"><i class="ti-calendar"></i> @item.CreatedDateShamsi</a></li>*@
+                                            </ul>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+
+                        }
+                    }
+
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+
+<section class="our-blog page-section-ptb" style="padding:0 0 100px 0;">
+    <div class="container">
+        <div class="row">
+            <div class="col-md-12">
+                <div class="section-title text-center">
+                    <span> بهترین و</span>
+                    <h3 class="text-center"> محبوب ترین مراکز پذیرایی</h3>
+                </div>
+            </div>
+        </div>
+        <div class="row">
+            <div class="col-md-12">
+                <div class="owl-carousel" data-nav-dots="false" data-nav-arrow="true" data-items="3"
+                     data-xs-items="2" data-sm-items="2" data-md-items="3" data-lg-items="3" data-autoplay="false"
+                     data-loop="true">
+                    @{
+                        var advertisings = SurveyWeb.Biz.AdvertisingBiz.Instance.GetAllInView();
+                        foreach (var item in advertisings)
+                        {
+                            var typeAdverUrl = "/Home/AllAdvertising?typeId=" + item.Resturant.ResturantTypeId + "&typeName=" + item.Resturant.ResturantType.DropDownTitle;
+                            <div class="item">
+                                <div class="blog-entry">
+                                    <div class="entry-image clearfix">
+                                        <a href="/Home/Advertising/@item.Id"> <img class="img-fluid" src="~/Images/Advertising/@item.ImageUrl" alt="@item.Resturant.Name"></a>
+                                    </div>
+                                    <div class="blog-detail">
+                                        <div class="entry-title mb-1">
+                                            <a href="/Home/Advertising/@item.Id">@item.ResturantName</a>
+                                        </div>
+                                        <div class="entry-meta mb-1">
+                                            <ul>
+                                                <li><a href="@typeAdverUrl"><i class="ti-folder"></i> @item.Resturant.ResturantType.DropDownTitle</a></li>
+                                                @*<li><a href="#"> @item.VisitCount<i class="ti-comments"></i></a></li>*@
+                                                @*<li><a href="#"><i class="ti-calendar"></i> @item.CreatedDateShamsi</a></li>*@
+                                            </ul>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+
+                        }
+                    }
+
+                </div>
+            </div>
+            <a class="button mt-3" href="/Home/AllAdvertising">مشاهده همه مراکز پذیرایی</a>
+        </div>
+    </div>
+</section>
+
+<section class="our-blog page-section-ptb">
+    <div class="container">
+        <div class="row">
+            <div class="col-md-12">
+                <div class="section-title text-center">
+                    <span>اخبار مورد نیاز شما</span>
+                    <h3 class="text-center">آخرین اخبار @setting.NameFa</h3>
+                </div>
+            </div>
+        </div>
+        <div class="row">
+            <div class="col-md-12">
+                <div class="owl-carousel" data-nav-dots="false" data-nav-arrow="true" data-items="3"
+                     data-xs-items="2" data-sm-items="2" data-md-items="3" data-lg-items="3" data-autoplay="false"
+                     data-loop="true">
+                    @{
+                        var news = SurveyWeb.Biz.NewsBiz.Instance.GetActiveMenu();
+                        foreach (var item in news)
+                        {
+                            <div class="item">
+                                <div class="blog-entry">
+                                    <div class="entry-image clearfix">
+                                        <img class="img-fluid" src="~/Images/News/@item.ImageUrl" alt="@item.Title">
+                                    </div>
+                                    <div class="blog-detail">
+                                        <div class="entry-title mb-1">
+                                            <a href="/Home/News/@item.Id">@item.Title</a>
+                                        </div>
+                                        <div class="entry-meta mb-1">
+                                            <ul>
+                                                <li><a href="#"><i class="ti-folder"></i> @item.NewsGroup.Title</a></li>
+                                                <li><a href="#"> @item.VisitCount<i class="ti-comments"></i></a></li>
+                                                <li><a href="#"><i class="ti-calendar"></i> @item.CreatedDateShamsi</a></li>
+                                            </ul>
+                                        </div>
+                                        <div class="entry-content">
+                                            <p>
+                                                @item.Summary
+                                            </p>
+                                            @if (item.Author != null)
+                                            {
+                                                <cite class="text-white">  @item.Author.FullName</cite>
+                                            }
+                                        </div>
+                                        <div class="entry-share clearfix">
+                                            <div class="entry-button">
+                                                <a class="button arrow" href="/Home/News/@item.Id">
+                                                    بیشتر بخوانید<i class="fa fa-angle-left"
+                                                                    aria-hidden="true"></i>
+                                                </a>
+                                            </div>
+                                            <div class="social list-style-none pull-left">
+                                                <strong>انتشار: </strong>
+                                                <ul>
+                                                    <li>
+                                                        <a href="#"> <i class="fa fa-facebook"></i> </a>
+                                                    </li>
+                                                    <li>
+                                                        <a href="#"> <i class="fa fa-twitter"></i> </a>
+                                                    </li>
+                                                    <li>
+                                                        <a href="#"> <i class="fa fa-pinterest-p"></i> </a>
+                                                    </li>
+                                                    <li>
+                                                        <a href="#"> <i class="fa fa-dribbble"></i> </a>
+                                                    </li>
+                                                </ul>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+
+                        }
+                    }
+
+                </div>
+            </div>
+            <a class="button mt-3" href="/Home/Allnews">مشاهده همه اخبار</a>
+        </div>
+    </div>
+</section>
+
+<section class="newsletter page-section-ptb">
+    <div class="container">
+        <div class="row justify-content-center">
+            <div class="col-lg-8 col-md-12 text-center">
+                <div class="newsletter-info">
+                    <h4 class="text-white mb-3">مشترک خبرنامه ما شوید</h4>
+                    <p class="mb-4 text-white">برای دریافت آخرین اخبار @setting.NameFa، با ثبت ایمیل خود، عضو خبرنامه ما شوید.</p>
+                </div>
+                <form class="form-inline d-inline" role="form" method="post" action="/Home/NewsSubscription">
+                    <div class="row">
+                        <div class="col-md-8 col-sm-8">
+                            <div class="form-group">
+                                <input type="email" class="form-control" id="Email" name="Email" placeholder="آدرس ایمیل خود را وارد کنید">
+                            </div>
+                        </div>
+                        <div class="col-md-4 col-sm-4 text-right">
+                            <input type="submit" value="حالا مشترک می شوم" class="button" />
+                        </div>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+</section>
+
+<section class="testimonial testimonial-02 page-section-ptb">
+    <div class="container">
+        <div class="row row-eq-height testimonial-bg">
+            <div class="col-lg-4 col-md-4 blue-bg">
+                <div class="testimonial-title">
+                    <div class="mt-4">
+                        <span class="text-white text-uppercase">اونا میگن ما کار بزرگی انجام دادیم!</span>
+                        <h3 class="text-white mt-1">بازخورد کاربران سایت</h3>
+                    </div>
+                </div>
+            </div>
+            <div class="col-lg-8 col-md-8 white-bg">
+                <div class="owl-carousel" data-nav-dots="false" data-nav-arrow="true" data-items="1"
+                     data-sm-items="1" data-lg-items="1" data-md-items="1" data-autoplay="true" data-loop="true">
+                    <div class="item">
+                        <div class="testimonial-block text-center">
+                            <div class="testimonial-avtar mb-3">
+                                <img class="img-fluid center-block" src="~/lib/SeoHub/images/team/02.png" alt="@setting.NameFa">
+                            </div>
+                            <div class="testimonial-info">
+                                <div class="testimonial-name mb-1">
+                                    <h5 class="text-blue">رضا سلهشور</h5>
+                                    <span class="text-black">از تهران</span>
+                                </div>
+                                <p>با تشکر از مسئولین سازمان بابت طراحی و پیاده سازی این سیستم خوب و جامع که تمام خدمات را پوشش داده و کار ما رو آسان کرده است. انشاالله که پایدار بمونه.</p>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="item">
+                        <div class="testimonial-block text-center">
+                            <div class="testimonial-avtar mb-3">
+                                <img class="img-fluid center-block" src="~/lib/SeoHub/images/team/02.png" alt="@setting.NameFa">
+                            </div>
+                            <div class="testimonial-info">
+                                <div class="testimonial-name mb-1">
+                                    <h5 class="text-blue">مریم محمدی</h5>
+                                    <span class="text-black">گردشگر</span>
+                                </div>
+                                <p>سالها بود که به @setting.Address سفر می کردیم، ولی همیشه برای پیدا کردن آدرس مراکز و خدمات آنها دچار مشکل می شدیم. ولی حالا با استفاده از این سیستم و این سایت به راحتی تونستیم به مراکز مختلف سر بزنیم و به کار ها مون برسیم.</p>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="item">
+                        <div class="testimonial-block text-center">
+                            <div class="testimonial-avtar mb-3">
+                                <img class="img-fluid center-block" src="~/lib/SeoHub/images/team/02.png" alt="@setting.NameFa">
+                            </div>
+                            <div class="testimonial-info">
+                                <div class="testimonial-name mb-1">
+                                    <h5 class="text-blue">سپهر حسینی</h5>
+                                    <span class="text-black">از تهران</span>
+                                </div>
+                                <p>می خواستم شرکتی را ثبت کنم، ولی سر در گم بودم که از کجا باید شروع کنم. از طریق این سایت و راهنمائیهای آن، این کار را خیلی راحت و سریع انجام دادم. از مسئولین بابت راه اندازی این سایت کمال تشکر را دارم. </p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+
+
+<section class="our-team page-section-ptb">
+    <div class="container">
+        <div class="row">
+            <div class="col-lg-12 col-md-12 mb-3">
+                <div class="section-title text-center">
+                    <span>منابع ارزشمند ما</span>
+                    <h3 class="text-center">اعضای هیأت مدیره و همکاران ما</h3>
+                </div>
+            </div>
+            <div class="col-sm-12">
+                <div class="owl-carousel" data-nav-dots="true" data-nav-arrow="true" data-items="4"
+                     data-md-items="3" data-sm-items="3" data-xs-items="2" data-autoplay="false" data-loop="true">
+                    @{
+                        var teacherlist =  SurveyWeb.Biz.BoardDirectorBiz.Instance.FindAll();
+                        foreach (var item in teacherlist)
+                        {
+                            var imeage = "/lib/SeoHub/images/team/02.png";
+                            if (!string.IsNullOrEmpty(item.image)&& item.image!=".")
+                            {
+                                imeage ="/images/BoardDirector/"+item.image ;
+                            }
+                            <div class="item">
+                                <div class="team">
+                                    <div class="team-images">
+                                        <img class="img-fluid" src="@imeage" alt="@item.FullName">
+                                    </div>
+                                    <div class="team-description">
+                                        <a href="/Home/BoardDirector/@item.Id">
+                                            <h6>@item.FullName</h6>
+                                            <p>@item.education</p>
+                                        </a>
+                                    </div>
+                                    <div class="team-social">
+                                        <ul>
+                                            <li>
+                                                <a href="#"> <i class="fa fa-facebook"></i> </a>
+                                            </li>
+                                            <li>
+                                                <a href="#"> <i class="fa fa-twitter"></i> </a>
+                                            </li>
+                                            <li>
+                                                <a href="#"> <i class="fa fa-pinterest-p"></i> </a>
+                                            </li>
+                                            <li>
+                                                <a href="#"> <i class="fa fa-dribbble"></i> </a>
+                                            </li>
+                                        </ul>
+                                    </div>
+                                </div>
+                            </div>
+                        }
+                    }
+
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+
+<section class="our-clients page-section-pb">
+    <div class="container">
+        <div class="row">
+            <div class="col-md-12">
+                <div class="owl-carousel" data-nav-dots="true" data-nav-arrow="false" data-items="5"
+                     data-md-items="4" data-sm-items="3" data-xs-items="2" data-xx-items="1" data-autoplay="false"
+                     data-loop="true">
+                    @{
+                        foreach (var item in SurveyWeb.Biz.CompanyLogoAndLinkBiz.Instance.GetAllSync())
+                        {
+                            <div class="item" title="@item.Name">
+                                <a href="@item.Link" title="@item.Name"><img title="@item.Name" class="img-fluid center-block" src="~/Images/Logo/@item.ImageUrl" alt="@item.Name"></a>
+                            </div>
+                        }
+                    }
+
+                </div>
+            </div>
+        </div>
+    </div>
+</section>

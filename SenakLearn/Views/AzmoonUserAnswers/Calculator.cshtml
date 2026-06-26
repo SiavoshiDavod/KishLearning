@@ -1,0 +1,149 @@
+﻿@model SenakLearn.Models.AzmoonUserAnswer
+
+@{
+    ViewBag.Title = "تصحیح";
+    Layout = "~/Views/Shared/_LayoutAdmin.cshtml";
+    string name = Model.User?.NameForEmail ?? "";
+     string rank = $"رتبه شما {Model.TotalRank} از {Model.TotalCount}";
+}
+<div class="row">
+    <div class="col-sm-12">
+        <div class="page-title-box">
+            <ol class="breadcrumb pull-right">
+                @*<li><a href="#">@ViewBag.Title</a></li>
+                    <li class="active">Dashboard</li>*@
+                <li>
+                    <a id="dlink" style="display:none;"></a>
+                    @if (Model.User == null)
+                    {
+                        <input type="text" disabled="disabled" class="text-center" value="@Model.Ip">
+                    }
+                    else
+                    {
+                        <input type="text" disabled="disabled" class="text-center" value="@Model.User.user_name">
+                    }
+                    <input type="text" disabled="disabled" class="text-center" value="@rank">
+                </li>
+            </ol>
+            <h4 class="page-title">پاسخ  @name به آزمون @Model.AzmoonEntity.Name</h4>
+            <h4 class="page-title">
+                نمره دریافت شده : <input style="width: 50px;" type="text" disabled="disabled" class="text-center" value="@Model.TotalScore"> از <input type="button" value="@Model.AzmoonEntity.TotalScore" class="btn" disabled="disabled" />
+                تعداد پاسخ صحیح : <input style="width: 50px;" type="text" disabled="disabled" class="text-center" value="@Model.CorrectAnswerd">
+                تعداد پاسخ غلط : <input style="width: 50px;" type="text" disabled="disabled" class="text-center" value="@Model.WrongAnswerd">
+                تعداد پاسخ داده نشده : <input style="width: 50px;" type="text" disabled="disabled" class="text-center" value="@Model.NoAnswerd">
+            </h4>
+        </div>
+    </div>
+</div>
+<div>
+
+    <table class="table table-striped table-bordered">
+        <thead>
+            <tr>
+                <td>
+                    نوع سوال
+                </td>
+                <td>
+                    سوال
+                </td>
+                <td>
+                    پاسخ صحیح
+                </td>
+                <td>
+                    پاسخ داده شده
+                </td>
+                <td>
+                    بارم
+                </td>
+                <td>
+                    نمره محاسبه شده
+                </td>
+                <td>
+                    ثبت و تغییر نمره
+                </td>
+            </tr>
+        </thead>
+        <tbody>
+
+            @foreach (var item in Model.AzmoonEntity.AzmoonQuestions.OrderBy(x=>x.AzmoonOrder))
+            {
+            <tr>
+                <td>
+                    @item.QuestionTypeName
+                </td>
+                <td>
+                    @item.Question
+                </td>
+                <td>
+                    @string.Join(",", item.AzmoonQuestionOptions.Where(x => x.IsCorrect).Select(x => x.QuestionOption))
+                </td>
+                <td>
+                    @{
+                        string res = "";
+                        double scor = 0;
+                        double ZaribManfi = Model.AzmoonEntity.ZaribManfi*item.Score;
+                        int resId = 0;
+                        var objRes = Model.AzmoonAnswers.FirstOrDefault(x => x.AzmoonQuestionId == item.Id);
+                        if (objRes != null)
+                        {
+                            scor = objRes.Score;
+                            resId = objRes.Id;
+                            res = string.Join(",", item.AzmoonQuestionOptions.Where(x => objRes.AzmoonAnswerQuestionOptionId.Contains(x.Id)).Select(x => x.QuestionOption));
+                            if (string.IsNullOrEmpty(res))
+                            {
+                                res = objRes.Result;
+                            }
+                        }
+
+                    }
+                    @res
+                </td>
+                <td>
+                    @item.Score
+                </td>
+                <td>
+                    <input type="number" value="@scor" id="@resId" min="@ZaribManfi" max="@item.Score" />
+                </td>
+                <td>
+                    @if (objRes != null && item.Score>0)
+                    {
+                        <input value="ثبت" type="button" class="btn btn-success btn-sm" onclick="return calcScore('@resId');"/>
+                    }
+                </td>
+            </tr>
+            }
+        </tbody>
+    </table>
+</div>
+
+<div>
+    <p>
+        @Html.ActionLink("بازگشت", "Index")
+    </p>
+</div>
+<script>
+
+    function calcScore(id) {
+        var score = $('#' + id).val();
+         pw.openLoading();
+        $.ajax({
+            type: 'get',
+            url: '/AzmoonUserAnswers/ReCalculator',
+            // data: fdata,
+            //processData: false,
+            //contentType: false
+            data: { id: id, score: score },
+                contentType: 'application/json; charset=utf-8',
+                dataType: 'json'
+            }).done(function (response) {
+                pw.closeLoading();
+                if (response.success) {
+                    SwalSuccessMessage(response.Message);
+                } else {
+                    showError(response.ErrorMessage);
+                }
+
+            });
+        return false;
+    }
+</script>

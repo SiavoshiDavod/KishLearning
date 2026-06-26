@@ -1,0 +1,82 @@
+﻿@model IEnumerable<SenakLearn.Models.OnlineClass>
+@{
+    Layout = "~/Views/Shared/_Layout.cshtml";
+    ViewBag.Title = "آموزش های آنلاین";
+}
+
+@Html.Raw("<div class='container courses-browse popular'>")
+<div class="row ">
+    <div class="col-md-3 col-sm-6 col-xs-12   search-button select-categories">
+
+        @Html.Cours_Group_DropDown("CoursGroupId", false, new { @class = "jquery-select" }, "یک دسته را انتخاب کنید", (int?)ViewBag.groupId, null, true)
+    </div>
+    <div class="col-md-3 col-sm-6 col-xs-12  search-button select-numofvids">
+        @Html.Teacher_DropDown("TeacherId", false, new { @class = "jquery-select" }, "یک مدرس را انتخاب کنید", (int?)ViewBag.teacherId)
+    </div>
+
+    <div class="col-sm-3 col-xs-6  search-button text-keywords float-right">
+        <input class="keywords form-control placeholder" name="keywords" id="keywords" type="text" placeholder="کلمات کلیدی" value="@ViewBag.keyword">
+    </div>
+    <div class="col-sm-3 col-xs-6 search-button text-center">
+        <button class="search-teachers button " onclick="ReloadPage()">جستجو</button>
+    </div>
+</div>
+<section class="shop grid page-section-ptb">
+    <div class="container">
+        <div class="row">
+            @foreach (var item in Model)
+            {
+                <div class="col-md-4">
+                    <div class="product text-center mb-4">
+                        <div class="product-image">
+                            <img class="img-fluid center-block" src="/images/Interview/@item.InterviewPathImage" alt="@item.name">
+                            <div class="product-overlay">
+                                <div class="add-to-cart">
+                                    <a href="/DetailsOnlineClass/Index?type=2&id=@item.Id">نمایش دوره</a>
+                                </div>
+                                <div class="add-to-cart">
+                                    <p class="button border-black" style="padding-top:0;padding-bottom:0;margin-top:10px;"> کلاس @item.ClassTypeString است</p>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="product-des">
+                            @*<div class="product-title">
+                                    <a href="/DetailsCours/Index?type=1&id=@item.id">@item.name</a>
+                                </div>*@
+                            <div class="product-title">
+                                <a href="/DetailsOnlineClass/Index?type=2&id=@item.Id">@item.name</a>
+                            </div>
+                            <div class="product-price">
+                                @item.Description
+                            </div>
+                            <div class="product-rating">
+                                <span class="lessons">
+                                    <i class="fa fa-building-o"></i>
+                                    @item.SessionCount جلسه
+                                </span>
+                                <span class="duration">
+                                    <i class="fa fa-clock-o"></i>
+                                    @item.Time ساعت
+                                </span>
+                            </div>
+                            @*<div class="product-price">
+                                    <del>26 ه ت</del> <ins>13 ه ت</ins>
+                                </div>*@
+                        </div>
+                    </div>
+                </div>
+
+            }
+
+        </div>
+    </div>
+</section>
+
+<script>
+    function ReloadPage() {
+        window.location.href = "/home/OnlineClass?groupId=" + $('#CoursGroupId').val() + "&teacherId=" + $('#TeacherId').val() + "&keyword=" + $('#keywords').val();
+    }
+   
+</script>
+
+

@@ -1,0 +1,91 @@
+﻿<script src="~/Scripts/sweetalert.js"></script>
+
+<script>
+    function confirmDelete(successFunction) {
+        Swal.fire({
+            title: 'آیا مطمئن هستید?',
+            text: "آیا رکورد حدف شود!",
+            type: 'warning',
+            showCancelButton: true,
+            confirmButtonColor: '#3085d6',
+            cancelButtonColor: '#d33',
+            confirmButtonText: 'بله حذف شود!',
+            cancelButtonText: 'نه!'
+        }).then((result) => {
+            if (result.value) {
+                //console.log(successFunction);
+                if (successFunction !== undefined && successFunction !== null) {
+                    successFunction();
+                }
+                Swal.fire(
+                    'حذف!',
+                    'حذف با موفقیت انجام شد.',
+                    'success'
+                )
+            }
+        });
+        return false;
+    }
+    function SwalSuccessMessage(message, successFunction) {
+        if (message == '') {
+            Swal.fire({
+                position: 'top-end',
+                type: 'success',
+                title: 'عملیات با موفقیت انجام شد',
+                text: message,
+                showConfirmButton: false,
+                timer: 3500
+            });
+        } else {
+            Swal.fire({
+                position: 'top-end',
+                type: 'success',
+                title: 'عملیات با موفقیت انجام شد',
+                //text: message,
+                html: message,
+                showConfirmButton: true,
+            }).then((result) => {
+                if (successFunction !== undefined && successFunction !== null) {
+                    successFunction();
+                }
+            });
+        }
+    }
+    function SwalErrorMessage(message) {
+        Swal.fire({
+            position: 'top-end',
+            type: 'error',
+            title: 'خطا',
+            text: message,
+            // footer: '<a href>Why do I have this issue?</a>',
+            //showConfirmButton: false,
+            //timer: 3500
+        });
+    }
+    function SwalShowImage(url, alt) {
+        Swal.fire({
+            //title: 'Sweet!',
+            //text: 'Modal with a custom image.',
+            imageUrl: url,
+            //imageWidth: 400,
+            //imageHeight: 200,
+            imageAlt: alt,
+            animation: false
+        })
+    }
+    function showError(message) {
+        SwalErrorMessage(message);
+    }
+</script>
+@if (ViewData["SuccessMessage"] != null)
+{
+    <script>
+        SwalSuccessMessage( '@ViewData["SuccessMessage"]')
+    </script>
+}
+@if (ViewData["ErrorMessage"] != null)
+{
+    <script>
+        SwalErrorMessage('@ViewData["ErrorMessage"]')
+    </script>
+}

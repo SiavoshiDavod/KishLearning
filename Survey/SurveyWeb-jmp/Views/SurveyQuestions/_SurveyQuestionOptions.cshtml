@@ -1,0 +1,162 @@
+﻿@model SurveyWeb.Models.SurveyQuestion
+@{
+    Layout = null;
+}
+<div>
+    @{
+        if (Model.SurveyQuestionOptions?.Count > 0)
+        {
+            foreach (var item in Model.SurveyQuestionOptions)
+            {
+                    <input class="btn btn-danger" style="margin:10px" value="@item.QuestionOption" />
+                if (Model.QuestionType.ToString().Contains("Image"))
+                {
+                    <img src="~/images/QuestionOption/@item.QuestionOptionUrl" height="50" />
+                    <a onclick="return UpdateImageOptions('@Model.Id','@Model.SurveyEntityId','@item.Id','@item.QuestionOption','@item.Width','@item.Height')" style="cursor: pointer;" title="ویرایش">ویرایش</a>
+                }
+<a onclick="return RemoveOptions('@Model.Id','@item.Id','@Model.SurveyEntityId')" style="cursor: pointer;" title="حذف">حذف</a>  <br />
+            }
+        }
+        if (Model?.Id > 0)
+        {
+            if (Model.QuestionType.ToString().Contains("Image"))
+            {
+                <label class="btn btn-default"> افزودن عکس به لیست <input onchange="return AddImageOptions('@Model.Id','@Model.SurveyEntityId',this,event)" accept="image/*" class="fileChosen" type="file" hidden @*id="File" name="File"*@></label><span class="fileChosenText"> </span>
+            }
+            else
+            {
+                <button class="btn btn-primary" onclick="return AddOptions('@Model.Id','@Model.SurveyEntityId')" title="افزودن موارد لیست">افزودن موارد لیست</button>
+            }
+        }
+    }
+
+</div>
+
+<script>
+    function AddOptions(id, surveyEntityId) {
+        //e.preventDefault();
+        Swal.fire({
+            title: 'افزودن موارد لیست',
+            input: 'text',
+            inputAttributes: {
+                autocapitalize: 'off'
+            },
+            showCancelButton: false,
+            confirmButtonText: 'ثبت',
+            showLoaderOnConfirm: false,
+
+            allowOutsideClick: () => !Swal.isLoading()
+        }).then((result) => {
+            if (result.value) {
+
+                pw.post("/SurveyQuestionOptions/Create?SurveyQuestionId=" + id + "&QuestionOption=" + result.value,
+               { SurveyQuestionId: id, QuestionOption: result.value },
+               'json',
+               function (response) {
+                   window.location.href = '/SurveyQuestions/Create?surveyEntityId=' + surveyEntityId + '&Id=' + id;
+                   SwalSuccessMessage("");
+               });
+                return false;
+            }
+        })
+        return false;
+    }
+    function RemoveOptions(id, model, surveyEntityId) {
+        var url = "/SurveyQuestionOptions/Delete";
+        var successFunction = function () {
+            pw.post(url,
+                { id: model },
+                'json',
+                function (response) {
+                    if (response) {
+                        window.location.href = '/SurveyQuestions/Create?surveyEntityId=' + surveyEntityId + '&Id=' + id;
+                        SwalSuccessMessage("");
+                    } else {
+                        showError("خطا");
+                    }
+                   
+                });
+
+        }
+        confirmDelete(successFunction)
+        return;
+    }
+
+    function AddImageOptions(id, surveyEntityId, value, event) {
+        if (value == null || value.files == null || value.files[0] == null) {
+            return false;
+        }
+        var fdata = new FormData();
+        var file = value.files[0];
+       
+        fdata.append("file", file);
+        pw.openLoading();
+        $.ajax({
+            type: 'post',
+            url: "/SurveyQuestionOptions/CreateImage?SurveyQuestionId=" + id ,//+ "&QuestionOption=",
+            data: fdata,
+            processData: false,
+            contentType: false
+        }).done(function (response) {
+            pw.closeLoading();
+            
+            if (response) {
+                window.location.href = '/SurveyQuestions/Create?surveyEntityId=' + surveyEntityId + '&Id=' + id;
+                SwalSuccessMessage("");
+            } else {
+                showError("انتخاب فایل الزامی است");
+            }
+           
+        });
+        return false;
+    }
+    function UpdateImageOptions(id, surveyEntityId, model, desc, wid, hei) {
+        swal({
+            title: 'ویرایش ویژگی های عکس',
+            showCancelButton: false,
+            confirmButtonText: 'ثبت',
+            showLoaderOnConfirm: false,
+
+            allowOutsideClick: () => !Swal.isLoading(),
+            html:
+              '<span>متن عکس<span><input id="swal-input1" class="swal2-input" ' + desc + '>' +
+              '<span>عرض <span><input type="number" id="swal-input2" class="swal2-input" ' + wid + '>' +
+              '<br><span>ارتفاع <span><input type="number" id="swal-input3" class="swal2-input" ' + hei + '>',
+            preConfirm: function () {
+                return new Promise(function (resolve) {
+                    resolve([
+                      $('#swal-input1').val(),
+                      $('#swal-input2').val(),
+                      $('#swal-input3').val()
+                    ])
+                })
+            },
+            onOpen: function () {
+                $('#swal-input1').focus()
+            }
+        }).then(function (result) {
+            
+            if (result.value[0] != '' && result.value[1] != '' && result.value[2] != '') {
+
+                pw.post("/SurveyQuestionOptions/UpdatImage?SurveyQuestionOptionId=" + model + "&QuestionOption=" + result.value[0] + "&width=" + result.value[1] + "&height=" + result.value[2],
+               { SurveyQuestionOptionId: model, QuestionOption: result.value[0] },
+               'json',
+               function (response) {
+                   if (response) {
+                       window.location.href = '/SurveyQuestions/Create?surveyEntityId=' + surveyEntityId + '&Id=' + id;
+                       SwalSuccessMessage("");
+                   } else {
+                       showError("خطا");
+                   }
+                   
+               });
+                return false;
+            }
+            showError("لطفا همه فیلدها را پر کنید");
+            return false;
+        }).catch(swal.noop)
+        return false;
+       
+    }
+</script>
+

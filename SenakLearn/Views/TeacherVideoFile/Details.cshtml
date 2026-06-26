@@ -1,0 +1,13 @@
+﻿@model SenakLearn.Models.VideoFile
+
+@{
+    Layout = "~/Views/Shared/_LayoutAdmin.cshtml";
+    string source = "/images/VideoFile/"+ Model.myFile;
+}
+
+<h2>@ViewBag.Title</h2>
+@Html.Partial("~/Views/Shared/_PartialVideo.cshtml", source);
+<p>
+    @*@Html.ActionLink("ویرایش", "Edit", new { id = Model.VideoId }) |*@
+    @Html.ActionLink("نمایش لیست", "Index")
+</p>

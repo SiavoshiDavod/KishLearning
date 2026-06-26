@@ -1,0 +1,56 @@
+﻿@model IEnumerable<SenakLearn.Models.SurveyUserAnswer>
+
+@{
+    Layout = "~/Views/Shared/_LayoutAdmin.cshtml";
+}
+
+@{
+    Layout = "~/Views/Shared/_LayoutAdmin.cshtml";
+    var urlList = "/SurveyUserAnswers/LoadList";
+    ViewBag.Title = "شرکت کنندگان";
+}
+<!-- Page-Title -->
+<div class="row">
+    <div class="col-sm-12">
+        <div class="page-title-box">
+            <ol class="breadcrumb pull-right">
+                <li><a href="#">@ViewBag.Title</a></li>
+                <li class="active">Dashboard</li>
+            </ol>
+            <h4 class="page-title"> </h4>
+        </div>
+    </div>
+</div>
+<div id="TadGoodsField">
+    @using MVC.Controls
+
+    @Html.Grid(
+    new GridControl().SetName("SurveyUserAnswerGrid").
+    SetPageSize(10).
+    SetShrinkToFit(false).
+    SetIsAutoSize(true).
+    SetIsFilterToolbar(true).
+    IsRTL().
+    SetListUrl(urlList).
+        SetCaption("کاربران").
+    SetOnLoadCompleteEvent("loadSurveyUserAnswerGridCompleteEvent").
+        UseColumns(SenakLearn.Controllers.SurveyUserAnswersController.SurveyUserAnswerColumns)
+)
+    <script type="text/javascript">
+	function loadSurveyUserAnswerGridCompleteEvent() {
+		var ids = $("#SurveyUserAnswerGrid").jqGrid('getDataIDs');
+		for (var i = 0; i < ids.length; i++) {
+			var cl = ids[i];
+			ed = '<a class="ajaxLink"  href="/SurveyUserAnswers/Create?Id=' + cl + '" title="ویرایش"><div class="fa fa-pencil"></div></a>';
+			dl = '<a class="ajaxLink delete"href="/SurveyUserAnswers/Delete?Id=' + cl + '" title="حذف"   ><div class="fa fa-times"></div></a>';
+			de = '<a class="ajaxLink "href="/SurveyUserAnswers/Details?Id=' + cl + '" title="جزئیات"   ><div class="fa fa-building"></div></a>';
+			$('#SurveyUserAnswerGrid').jqGrid('setRowData', ids[i], { act: "" });
+		}
+    }
+
+    </script>
+</div>
+
+
+
+

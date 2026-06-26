@@ -1,0 +1,68 @@
+﻿
+.QuestionSurveyFooter {
+    text-align: center !important;
+}
+
+.SurveyAnswer {
+    width: 99% !important;
+}
+
+.table-scroled {
+    overflow: scroll !important;
+    direction: rtl !important;
+    width: 100%;
+    height: 100%;
+}
+
+.page-title-box {
+    padding-top: 5px !important;
+}
+
+.table-scroled-body-tr {
+    max-height: 70px !important;
+}
+
+.table-scroled-body-td {
+    max-height: 70px !important;
+}
+
+.tableDeleteLink {
+    float: right;
+    padding: 0px 5px;
+    color: red;
+}
+
+    .tableDeleteLink > a {
+        color: red !important;
+    }
+
+.tableEditLink {
+    float: right;
+    padding: 0px 5px;
+    color: orange;
+}
+
+    .tableEditLink > a {
+        color: orange !important;
+    }
+
+.tableDetailLink {
+    float: right;
+    padding: 0px 5px;
+    color: green;
+}
+
+    .tableDetailLink > a {
+        color: green !important;
+    }
+
+.ui-dialog {
+    z-index: 1000;
+}
+
+.vakata-context {
+    z-index: 1001;
+}
+.ajaxLink {
+    cursor: pointer;
+}

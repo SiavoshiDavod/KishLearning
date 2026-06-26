@@ -1,0 +1,58 @@
+﻿@model SenakLearn.Models.learn_user
+
+@{
+     ViewBag.Title = SenakLearn.Models.Dictionary.ModelDictionary[typeof(SenakLearn.Models.learn_user)];
+    Layout = "~/Views/Shared/_LayoutAdmin.cshtml";
+}
+
+<h2>@ViewBag.Title</h2>
+
+<div>
+    <dl class="dl-horizontal">
+        <dt>
+            @Html.DisplayNameFor(model => model.user_name)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.user_name)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.password)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.password)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.date_register)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.date_register)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.status)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.status)
+        </dd>
+
+        @*<dt>
+            @Html.DisplayNameFor(model => model.learn_Role.RoleName)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.learn_Role.RoleName)
+        </dd>*@
+
+      
+    </dl>
+</div>
+<p>
+    @Html.ActionLink("ویرایش", "Edit", new { id = Model.id }) |
+    @Html.ActionLink("نمایش لیست", "Index")
+</p>

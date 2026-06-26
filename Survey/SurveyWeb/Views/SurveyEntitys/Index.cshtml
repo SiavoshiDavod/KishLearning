@@ -1,0 +1,67 @@
+﻿@{
+    Layout = "~/Views/Shared/_LayoutAdmin.cshtml";
+}
+
+@{
+    Layout = "~/Views/Shared/_LayoutAdmin.cshtml";
+    var urlList = "/SurveyEntitys/LoadList";
+    ViewBag.Title = "پرسشنامه";
+    var user = (SurveyWeb.Models.User)ViewBag.User;
+}
+
+<div class="row">
+    <div class="col-sm-12">
+        <div class="page-title-box">
+            <ol class="breadcrumb pull-right">
+                <li><a href="#">@ViewBag.Title</a></li>
+                <li class="active">Dashboard</li>
+            </ol>
+            <h4 class="page-title">@Html.ActionLink("افزودن", "Create") </h4>
+        </div>
+    </div>
+</div>
+<div id="TadGoodsField">
+    @using MVC.Controls
+
+    @Html.Grid(
+    new GridControl().SetName("SurveyEntityGrid").
+    SetPageSize(10).
+    SetShrinkToFit(false).
+    SetIsAutoSize(true).
+    SetIsFilterToolbar(true).
+    IsRTL().
+    SetListUrl(urlList).
+        SetCaption("پرسشنامه").
+    SetOnLoadCompleteEvent("loadSurveyEntityGridCompleteEvent").
+        UseColumns(SurveyWeb.Controllers.SurveyEntitysController.SurveyEntityColumns)
+)
+    <script >
+	function loadSurveyEntityGridCompleteEvent() {
+		var ids = $("#SurveyEntityGrid").jqGrid('getDataIDs');
+		for (var i = 0; i < ids.length; i++) {
+			var cl = ids[i];
+			ed = '<a class="ajaxLink"  href="/SurveyEntitys/Create?Id=' + cl + '" title="ویرایش"><div class="fa fa-pencil"></div></a>';
+			dl = '<a class="ajaxLink delete"href="/SurveyEntitys/Delete?Id=' + cl + '" title="حذف"   ><div class="fa fa-times"></div></a>';
+			de = '<a class="ajaxLink "href="/SurveyEntitys/Details?Id=' + cl + '" title="پیش نمایش"   ><div class="fa fa-building"> </div></a>';
+			var qug = '';
+			var qu = '';
+			var ans = '';
+             @if (user.Permisstions.Any(x => x == SurveyWeb.Models.Permisstion.SurveyGroupQuestions)){
+			    @: qug = '<a class="ajaxLink"  href="/SurveyGroupQuestions/index?surveyEntityId=' + cl + '" title="گروه"><div class="fa fa-object-group"></div></a>';
+			}
+			@if (user.Permisstions.Any(x => x == SurveyWeb.Models.Permisstion.SurveyQuestions)){
+		        @: qu = '<a class="ajaxLink"  href="/SurveyQuestions/index?surveyEntityId=' + cl + '" title="سوالات"><div class="fa fa-calendar"></div></a>';
+			}
+            @if (user.Permisstions.Any(x => x == SurveyWeb.Models.Permisstion.SurveyAnswers)){
+		        @: ans = '<a class="ajaxLink"  href="/SurveyAnswers/index?surveyEntityId=' + cl + '" title="پاسخ ها"><div class="fa fa-calendar-check-o"> </div></a>';
+            }
+			$('#SurveyEntityGrid').jqGrid('setRowData', ids[i], { act: ed + dl + de + qu + ans + qug });
+		}
+    }
+
+    </script>
+</div>
+
+
+
+

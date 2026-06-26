@@ -1,0 +1,254 @@
+﻿@model SurveyWeb.Models.Advertising
+@{
+    ViewBag.Title = Model.ResturantName;
+}
+<style>
+    .SliderAdvertisment {
+        height: 400px;
+        background-size: auto 100%;
+        background-repeat: no-repeat;
+    }
+
+    #ImageLableResturant {
+        position: absolute;
+        right: 0;
+        bottom: 0;
+        opacity: 0.9;
+        padding: 50px;
+        font-size: 60px;
+        font-weight: bold;
+        cursor: pointer;
+        color: white;
+    }
+
+    .ImageLableResturantDetail {
+        font-size: 20px !important;
+        padding: 20px;
+    }
+
+    #ImageLableResturant:hover {
+        opacity: 1 !important;
+        color: black;
+    }
+</style>
+<div class="container">
+    <div class="row">
+        <div class="entry-image clearfix" style="position:relative;width:100% ; height:auto;margin-bottom:10px;">
+            <img style="width:100%" src="~/Images/Advertising/@Model.ImageUrl" alt="@Model.ResturantName">
+            <div id="ImageLableResturant">
+                @Model.ResturantName
+            <div class="ImageLableResturantDetail"> @Model.Resturant.ResturantType.DropDownTitle</div>
+
+        </div>
+    </div>
+</div>
+
+<div class="row">
+    <div class=" col-md-6 col-sm-12 col-xs-12">
+        <div class="row">
+            <div class=" col-md-6 col-sm-12 col-xs-12 ">
+
+                <table class="table center-detail-table">
+                    <tr>
+                        <td>نام مدیر</td>
+                        <td>@Model.Resturant.Manager</td>
+                    </tr>
+                    <tr>
+                        <td>آدرس</td>
+                        <td>@Model.Resturant.Address</td>
+                    </tr>
+                    <tr>
+                        <td>تلفن</td>
+                        <td>@Model.Resturant.Tel</td>
+                    </tr>
+                    <tr>
+                        <td>تلفن مدیر</td>
+                        <td>@Model.Resturant.ManagerTel</td>
+                    </tr>
+                    <tr>
+                        <td>توضیحات</td>
+                        <td>
+                            @Model.Resturant.ResturantServiceType
+                            @if (Model.Resturant.IsMusical)
+                            {
+                                <br />
+                                <span>این رستوران موزیکال است</span>
+                            }
+                            @if (Model.Resturant.babyseat)
+                            {
+                                <br />
+                                <span>این صندلی کودک دارد</span>
+                            }
+                            @if (Model.Resturant.HasBreakfast)
+                            {
+                                <br />
+                                <span>این رستوران صبحانه هم دارد </span>
+                            }
+                        </td>
+                    </tr>
+                </table>
+            </div>
+            <div class=" col-md-6 col-sm-12 col-xs-12 ">
+                <div class="ratings">
+                    <h4 style="text-align:center">امتیاز مرکز</h4>
+                    @Html.Action("ShowRating", "StarRating", new { id = Model.Id, type = SurveyWeb.Models.PageType.Advertising })
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class=" col-md-6 col-sm-12 col-xs-12">
+        <div class="owl-carousel" data-nav-dots="true" data-nav-arrow="false" data-items="1" data-sm-items="1" data-lg-items="1" data-md-items="1" data-autoplay="true">
+            @{
+                foreach (var item in Model.AdvertisingAttachements.Where(x => !x.IsVideo).ToList())
+                {
+                    var img = "/images/Advertising/" + item.ImageUrl;
+                    if (string.IsNullOrEmpty(item.ImageUrl))
+                    {
+                        continue;
+                    }
+                    <div class="item">
+                        <div class="">
+                            <div class=" text-center SliderAdvertisment" style=" background-image:url(@img.Replace(" ","%20")); ">
+                                <div class="">
+                                    <div style="opacity: 0.5;" class="">
+                                        <a style="font-weight: bold;" href="" class="testimonial-info">
+                                            <br />
+                                            <h5 style="font-weight: bold;">@Model.ResturantName</h5>
+                                            <br />
+                                        </a>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                }
+            }
+        </div>
+    </div>
+</div>
+<div class="entry-content">
+    @Html.Raw(Model.Description)
+</div>
+<div class="row">
+    <div class=" col-md-6 col-sm-12 col-xs-12 ">
+        @if (Model.Resturant.ResturantMenu.Any(x => x.Active && x.Accepted && x.ResturantDetailMenus.Any()))
+        {
+            <table class="table table-active table-bordered">
+                <thead>
+                    <tr>
+                        <th>نام غذا</th>
+                        <th>توضیحات</th>
+                        <th>قیمت(ریال)</th>
+                        <th>نوع</th>
+                    </tr>
+                </thead>
+                @foreach (var item in Model.Resturant.ResturantMenu.Where(x => x.Active && x.Accepted).ToList())
+                {
+                    foreach (var sub in item?.ResturantDetailMenus.OrderBy(x => x.AdvertisingMenuTypeId).ToList())
+                    {
+                        <tr>
+                            <td>
+                                @sub.Name
+                            </td>
+                            <td>
+                                @sub.Description
+                            </td>
+                            <td>
+                                @sub.FinalPrice.ToString("N0")
+                            </td>
+                            <td>
+                                @sub.AdvertisingMenuTypeName
+                            </td>
+                        </tr>
+                    }
+
+                }
+            </table>
+
+        }
+
+    </div>
+    <div class=" col-md-6 col-sm-12 col-xs-12 ">
+
+        @foreach (var item in Model.AdvertisingAttachements.Where(x => x.IsVideo).ToList())
+        {
+            var img = "/images/Advertising/" + item.ImageUrl;
+            <video width="100%" height="auto" controls="">
+                <source src="@img" type="video/mp4">
+            </video>
+        }
+
+    </div>
+
+</div>
+<div>
+    @if (!string.IsNullOrEmpty(Model.LinkReserve))
+    {
+        <a href="@Model.LinkReserve" class="button" style="width:100%" title="رزرو">رزرو</a>
+    }
+</div>
+<div class="blog-comments mt-4">
+    @{
+        var comments = SurveyWeb.Biz.UserCommentBiz.Instance.GetAllsync(x => x.PageTypeId == SurveyWeb.Models.PageType.Advertising && x.TypeId == Model.Id && x.Status);
+        var parents = comments.Where(x => x.ParentId == null).ToList();
+        string avatar = "";
+
+        foreach (var item in parents)
+        {
+            if (item.user != null && !string.IsNullOrEmpty(item.user.UserImageUrl))
+            {
+                avatar = item.user.UserImageUrl;
+            }
+            else
+            {
+                avatar = "man.png";
+            }
+            if (item.user != null && !string.IsNullOrEmpty(item.user.Name) && !string.IsNullOrEmpty(item.user.Family))
+            {
+                item.Name = item.user.Name + " " + item.user.Family;
+            }
+            var child = comments.Where(x => x.ParentId == item.Id).ToList();
+            <div class="comments-1">
+                <div class="comments-photo">
+                    <img src="/images/User/@avatar" alt="@item.Name">
+                </div>
+                <div class="comments-info">
+                    <h6> @item.Name <span>@item.CreatedDateShamsi</span></h6>
+                    <div class="port-post-social float-left">
+                        @*<a href="#">پاسخ</a>*@
+                    </div>
+                    <p class="mt-1">
+                        @item.Description
+                    </p>
+                </div>
+            </div>
+
+            foreach (var item2 in child)
+            {
+                <div class="comments-1 comments-2">
+                    <div class="comments-photo">
+                        <img src="/images/User/@avatar" alt="@item.Name">
+                    </div>
+                    <div class="comments-info">
+                        <h6> @item.Name <span>@item.CreatedDateShamsi</span></h6>
+                        <div class="port-post-social float-left">
+                            @*<a href="#">پاسخ</a>*@
+                        </div>
+                        <p class="mt-1">
+                            @item.Description
+                        </p>
+                    </div>
+                </div>
+            }
+
+        }
+
+    }
+
+</div>
+<div class="blog-form mt-6">
+    <h4 class="mb-3">ارسال نظر</h4>
+    @Html.Action("UserComment", "Home", new { id = Model.Id, type = SurveyWeb.Models.PageType.Advertising })
+
+</div>
+</div>

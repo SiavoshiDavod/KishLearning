@@ -1,0 +1,74 @@
+﻿
+@model IEnumerable<AdobeConnectSDK.Model.EventInfoViewModel>
+@{
+    ViewBag.Title = "MeetingItem";
+    Layout = "~/Views/Shared/_LayoutAdmin.cshtml";
+}
+@if (Model != null)
+{
+    <table class="table table-bordered table-responsive">
+        <tr>
+            <th>
+                @Html.DisplayNameFor(model => model.ScoIdVm)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.TreeIdVm)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.ItemTypeRawVm)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.PermissionIdRawVm)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.NameVm)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.DomainNameVm)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.UrlPathVm)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.ExpiredVm)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.DurationVm)
+            </th>
+            
+        </tr>
+        @foreach (var item in Model)
+        {
+            <tr>
+                <th>
+                    @Html.DisplayFor(modelItem => item.ScoIdVm)
+                </th>
+                <th>
+                    @Html.DisplayFor(model => item.TreeIdVm)
+                </th>
+                <th>
+                    @Html.DisplayFor(model => item.ItemTypeRawVm)
+                </th>
+                <th>
+                    @Html.DisplayFor(model => item.PermissionIdRawVm)
+                </th>
+                <th>
+                    @Html.DisplayFor(modelItem => item.NameVm)
+                </th>
+                <th>
+                    @Html.DisplayFor(modelItem => item.DomainNameVm)
+                </th>
+                <th>
+                    @Html.DisplayFor(modelItem => item.UrlPathVm)
+                </th>
+                <th>
+                    @Html.DisplayFor(modelItem => item.ExpiredVm)
+                </th>
+                <th>
+                    @Html.DisplayFor(model => item.DurationVm)
+                </th>
+                
+            </tr>
+        }
+    </table>
+}

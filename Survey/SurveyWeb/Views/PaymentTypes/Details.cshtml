@@ -1,0 +1,12 @@
+﻿@model SurveyWeb.Models.Resturan.PaymentType
+@{
+    ViewBag.Title = "امورمالي";
+    Layout = "~/Views/Shared/_LayoutAdmin.cshtml";
+}
+@Html.Partial("_PartialDetailObject", Model)
+<div>
+    <p>
+        @Html.ActionLink("ویرایش", "Create", new { id = Model.Id }) |
+        @Html.ActionLink("بازگشت", "Index")
+    </p>
+</div>

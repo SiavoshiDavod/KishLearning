@@ -1,0 +1,66 @@
+﻿@model SenakLearn.Models.UserCommnet
+@{
+    string header = "";
+    if (Model == null || Model.PageTypeId == SenakLearn.Models.PageType.None)
+    {
+        Layout = "~/Views/Shared/_Layout.cshtml";
+        header = "<div class='page-heading text-center'><div class='container'> <h2>ثبت نظرات</h2></div></div>";
+    }
+
+}
+
+@Html.Raw(header)
+<div class=" success">
+    @*<h4>با ما در تماس باشید</h4>*@
+    @using (Html.BeginForm("Create", "UserComment", FormMethod.Post, new { @class = "contact" }))
+    {
+        @Html.Partial("~/Views/Users/_PartialGoogleRecapcha.cshtml", "login")
+        @Html.ValidationSummary(false, "", new { @class = "text-danger" })
+        @Html.HiddenFor(x => x.PageTypeId)
+        @Html.HiddenFor(x => x.TypeId)
+        @*<form class="contact">*@
+        <div class="row">
+            <div class="col-sm-3">
+                <label class="req">نام</label>
+                @Html.TextBoxFor(x => x.Name, new { @placeholder = "نام خود را وارد کنید" })
+                @*<input type="text" name="name" placeholder="نام خود را وارد کنید" required="">*@
+            </div>
+            <div class="col-sm-3">
+                <label class="req">پست الکترونیکی</label>
+                @Html.TextBoxFor(x => x.Email, new { @placeholder = "پست الکترونیکی خود را وارد کنید" })
+                @*<input type="text" name="email" placeholder="پست الکترونیکی خود را وارد کنید" required="">*@
+            </div>
+            <div class="col-sm-3">
+                <label>تلفن تماس</label>
+                @Html.TextBoxFor(x => x.Mobile, new { @placeholder = " تلفن تماس خود را وارد کنید" })
+                @*<input type="text" name="site" placeholder="https://">*@
+            </div>
+            <div class="col-sm-3">
+                <label>موضوع</label>
+                @Html.TextBoxFor(x => x.Title, new { @placeholder = " موضوع" })
+                @*<input type="text" name="site" placeholder="موضوع">*@
+            </div>
+        </div>
+        <div class="row">
+            <div class="col-sm-12">
+                <label class="req">پیام</label>
+                @Html.TextAreaFor(x => x.Description, new { @class= "form-control", @style="height : auto", @placeholder = " پیامتان را بنویسید" })
+                @*<textarea name="name" placeholder="پیامتان را بنویسید" required=""></textarea>*@
+            </div>
+        </div>
+        <div class="row clearfix" >
+            <div class="col-sm-12">
+                <div >
+                    <button class="greybutton">ثبت نظر</button>
+                </div>
+            </div>
+        </div>
+            @*</form>*@
+    }
+</div>
+<script src="~/Scripts/jquery.validate.min.js"></script>
+<script src="~/Scripts/jquery.validate.unobtrusive.min.js"></script>
+<script>
+    $(".k-textbox").removeClass("k-textbox");
+</script>
+

@@ -1,0 +1,96 @@
+﻿@model SurveyWeb.Models.Resturant
+
+@{
+    ViewBag.Title = "کارمندان";
+      Layout = "~/Views/Shared/_LayoutAdmin.cshtml";
+}
+<div class="row">
+    <div class="col-sm-12">
+        <div class="page-title-box">
+            <div class="page-title">
+                @*@using (Html.BeginForm("SaveResturantPersonel", "CheckListTypeCartables", FormMethod.Post))
+                {
+                @Html.Hidden("ResturantId", Model.Id)
+                @Html.TextBox("PersonelName","",new { placeholder="نام و نام خانوادگی "})
+                <input type="submit" value="افزودن پرسنل" class="btn btn-default" onclick="return SaveResturantPersonel()" />
+                }*@
+                <input type="submit" value="افزودن پرسنل" class="btn btn-default" onclick="return FindResturantPersonel('')" />
+            </div>
+        </div>
+    </div>
+</div>
+<div class="row">
+    <table class="table table-bordered">
+        @foreach (var item in Model.ResturantPersonel)
+        {
+        <tr>
+            <td> @item.Name</td>
+            <td> @item.LastName</td>
+            <td> @item.NationalCode</td>
+            <td>
+                @if (!string.IsNullOrEmpty(item.ImageUrl))
+                {
+                    <a href="~/images/Resturant/@item.ImageUrl" target="_blank">
+                        <img src="~/images/Resturant/@item.ImageUrl" title="دانلود" height="50" />
+                    </a>
+                }
+            </td>
+            <td>
+                <button class="btn btn-warning" value="ویرایش" title="ویرایش" onclick="FindResturantPersonel('@item.Id')">ویرایش</button>
+            </td>
+            <td>
+                <button class="btn btn-danger " value="حذف" title="حذف" onclick="RemovePersonel('@item.Id')">حذف</button>
+            </td>
+            <td>
+                <button class="btn btn-default " value="سوابق تحصیلی" title="سوابق تحصیلی" onclick="EducationPersonel('@item.Id')">سوابق تحصیلی</button>
+            </td>
+            <td>
+                <button class="btn btn-default " value="زبان خارجی" title="زبان خارجی" onclick="LanguagePersonel('@item.Id')">زبان خارجی</button>
+            </td>
+            <td>
+                <button class="btn btn-default " value="دوره های آموزشی" title="دوره های آموزشی" onclick="CoursePersonel('@item.Id')">دوره های آموزشی</button>
+            </td>
+            <td>
+                <button class="btn btn-default " value="سوابق شغلی" title="سوابق شغلی" onclick="JobPersonel('@item.Id')">سوابق شغلی</button>
+            </td>
+        </tr>
+        }
+
+    </table>
+
+</div>
+<div>
+    @Html.ActionLink("بازگشت", "Index")
+</div>
+<script>
+    function EducationPersonel(id) {
+
+    }
+    function RemovePersonel(id) {
+        var url = '/CheckListTypeCartables/RemoveResturantPersonel?id=' + id;
+        var sf = function () {location.reload(); };
+        //confirmDelete(sf);
+        confirmSwalFire(url, sf, "حذف")
+    }
+    function FindResturantPersonel(id) {
+        var ResturantId = '@Model.Id';
+        var url = '/CheckListTypeCartables/FindResturantPersonel?ResturantId=' + ResturantId + '&id=' + id;
+        pw.modal('FindResturantPersonelInModal', "ذخیره سازی پرسنل", url, null, 'modal-full', true, null, null);
+    }
+
+    function SaveResturantPersonel(id) {
+
+        var success = function () {
+            pw.closeModal('FindResturantPersonelInModal');
+            //SwalSuccessMessage();
+            location.reload();
+        };
+       // setTimeout(success, 2000);
+        var validate = $("#FormPersonel").valid();
+        if (validate) {
+            pw.submitForm('FormPersonel', success);
+        }
+        
+
+    }
+</script>

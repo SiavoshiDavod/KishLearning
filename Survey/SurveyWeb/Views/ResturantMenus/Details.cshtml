@@ -1,0 +1,246 @@
+﻿@model SurveyWeb.Models.ResturantMenu
+
+@{
+    ViewBag.Title = "لیست منو " + Model.Description;
+    Layout = "~/Views/Shared/_LayoutAdmin.cshtml";
+    var excelname = SurveyWeb.DateTimeExtensions.DateTimeNowPersian("",true) + "ResturantMenu.xls";
+}
+
+<div class="row">
+    <div class="col-sm-12">
+        <div class="page-title-box">
+            <ol class="breadcrumb pull-right">
+                <li><a href="#">@ViewBag.Title</a></li>
+                <li class="active">Dashboard</li>
+            </ol>
+            <h4 class="page-title">
+                @*<button class="btn btn-primary" onclick="return AddResturantDetailMenu()" title=" افزودن غذاومحتویات آن">افزودن غذاومحتویات آن </button>*@
+                <a id="dlink" style="display:none;"></a>
+
+                <input type="button" class="btn btn-success" onclick="tableToExcel('ResturantMenu', '@Model.Code', '@excelname')" value="خروجی اکسل" />
+                @Html.ActionLink("بازگشت", "Index", null, new { @class = "btn btn-default" })
+
+            </h4>
+        </div>
+    </div>
+</div>
+<table class="table" id="ResturantMenu">
+    <tr>
+        <th>
+            نام غذا
+        </th>
+        <th>
+            توضیحات
+        </th>
+        <th>
+            قیمت قدیم(ریال)
+        </th>
+        <th>
+            قیمت جدید(ریال)
+        </th>
+        <th>
+            قیمت نهایی(ریال)
+        </th>
+        <th>
+            نوع
+        </th>
+        <th></th>
+    </tr>
+
+    @foreach (var item in Model.ResturantDetailMenus)
+    {
+        <tr>
+            <td>
+                @Html.DisplayFor(modelItem => item.Name)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.Description)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.OldPrice)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.NewPrice)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.FinalPrice)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.AdvertisingMenuTypeName)
+            </td>
+            <td class="PieChart">
+                @*@if (!Model.Accepted)
+        {
+            <button class="btn btn-default" value="ویرایش" title="ویرایش" onclick="EditResturantDetailMenu('@item.Id')">ویرایش</button>
+                }*@
+            <button class="btn btn-danger" value="حذف" title="حذف" onclick="RemoveResturantDetailMenu('@item.Id')">حذف</button>
+                <button class="btn btn-default" value="ثبت قیمت نهایی" title="ثبت قیمت نهایی" onclick="SetFinalPrice('@item.Id')">ثبت قیمت نهایی</button>
+                <button class="btn btn-default" value="ویرایش نام غذا" title="ویرایش نام غذا" onclick="SetNameMenu('@item.Id')">ویرایش نام غذا</button>
+                <button class="btn btn-default" value="ویرایش توضیحات" title="ویرایش توضیحات" onclick="SetDescriptionPrice('@item.Id')">ویرایش توضیحات</button>
+            </td>
+        </tr>
+    }
+</table>
+<div id="output"></div>
+<script>
+       function SetNameMenu(id) {
+        //e.preventDefault();
+        Swal.fire({
+            title: 'نام غذا را وارد کنید',
+            input: 'text',
+            inputAttributes: {
+                autocapitalize: 'off'
+            },
+            showCancelButton: false,
+            confirmButtonText: 'ثبت',
+            showLoaderOnConfirm: false,
+
+            allowOutsideClick: () => !Swal.isLoading()
+        }).then((result) => {
+            if (result.value) {
+                pw.post("/ResturantMenus/SetName?name=" + result.value/*.replace(/,/g, '')*/+'&id='+id,
+                    { price:  result.value/*.replace(/,/g, '')*/,id:id },
+                    'json',
+                    function (response) {
+                       if (response.success) {
+                           SwalSuccessMessage("");
+                            location.reload();  
+                        } else {
+                            showError(response.ErrorMessage);
+                        }
+                    });
+                return false;
+            }
+        })
+        return false;
+    }
+     function SetDescriptionPrice(id) {
+        //e.preventDefault();
+        Swal.fire({
+            title: 'توضیحات را وارد کنید',
+            input: 'text',
+            inputAttributes: {
+                autocapitalize: 'off'
+            },
+            showCancelButton: false,
+            confirmButtonText: 'ثبت',
+            showLoaderOnConfirm: false,
+
+            allowOutsideClick: () => !Swal.isLoading()
+        }).then((result) => {
+            if (result.value) {
+                pw.post("/ResturantMenus/SetDescription?desc=" + result.value/*.replace(/,/g, '')*/+'&id='+id,
+                    { price:  result.value/*.replace(/,/g, '')*/,id:id },
+                    'json',
+                    function (response) {
+                       if (response.success) {
+                           SwalSuccessMessage("");
+                            location.reload();  
+                        } else {
+                            showError(response.ErrorMessage);
+                        }
+                    });
+                return false;
+            }
+        })
+        return false;
+    }
+  
+
+     function SetFinalPrice(id) {
+        //e.preventDefault();
+        Swal.fire({
+            title: 'مبلغ نهایی را وارد کنید',
+            input: 'number',
+            inputAttributes: {
+                autocapitalize: 'off'
+            },
+            showCancelButton: false,
+            confirmButtonText: 'ثبت',
+            showLoaderOnConfirm: false,
+
+            allowOutsideClick: () => !Swal.isLoading()
+        }).then((result) => {
+            if (result.value) {
+                pw.post("/ResturantMenus/SetFinalPrice?price=" + result.value/*.replace(/,/g, '')*/+'&id='+id,
+                    { price:  result.value/*.replace(/,/g, '')*/,id:id },
+                    'json',
+                    function (response) {
+                       if (response.success) {
+                           SwalSuccessMessage("");
+                            location.reload();  
+                        } else {
+                            showError(response.ErrorMessage);
+                        }
+                    });
+                return false;
+            }
+        })
+        return false;
+    }
+    function RemoveResturantDetailMenu(id) {
+        var url = '/ResturantMenus/RemoveDetail?id=' + id;
+        var functionR = function () {
+            pw.post(url,
+                { id: id },
+                'json',
+                function (response) {
+                    if (response.success) {
+                        SwalSuccessMessage("");
+                        location.reload();
+                    } else {
+                        showError(response.ErrorMessage);
+                    }
+                });
+            return false;
+        };
+        confirmDelete(functionR);
+    }
+    function EditResturantDetailMenu(id) {
+        var url = '/ResturantMenus/Create?menuId='+'@Model.Id'+'&id=' + id;
+         pw.modal('ResturantDetailMenuInModal', "ویرایش غذاومحتویات آن", url, null, 'modal-md', true, null, null);
+    }
+    function AddResturantDetailMenu() {
+        var url = '/ResturantMenus/Create?menuId=' + '@Model.Id';
+         pw.modal('ResturantDetailMenuInModal', "افزودن غذاومحتویات آن", url, null, 'modal-md', true, null, null);
+    }
+    function ResturantDetailMenuSave() {
+        var success = function () {
+            pw.closeModal('ResturantDetailMenuInModal');
+             location.reload();
+        }
+        pw.submitForm('FormResturantMenuDetail', success);
+    }
+    </script>
+<script>
+    var tableToExcel = (function () {
+        var uri = 'data:application/vnd.ms-excel;base64,'
+            //, template = '<html xmlns:o="urn:schemas-microsoft-com:office:office" xmlns:x="urn:schemas-microsoft-com:office:excel" xmlns="http://www.w3.org/TR/REC-html40"><head><!--[if gte mso 9]><xml><x:ExcelWorkbook><x:ExcelWorksheets><x:ExcelWorksheet><x:Name>{worksheet}</x:Name><x:WorksheetOptions><x:DisplayGridlines/></x:WorksheetOptions></x:ExcelWorksheet></x:ExcelWorksheets></x:ExcelWorkbook></xml><![endif]--></head><body><table>{table}</table></body></html>'
+            , template = '<html xmlns:o="urn:schemas-microsoft-com:office:office" xmlns:x="urn:schemas-microsoft-com:office:excel" xmlns="http://www.w3.org/TR/REC-html40"><meta charset="utf-8"/><head><!--[if gte mso 9]><xml><x:ExcelWorkbook><x:ExcelWorksheets><x:ExcelWorksheet><x:Name>{worksheet}</x:Name><x:WorksheetOptions><x:DisplayGridlines/></x:WorksheetOptions></x:ExcelWorksheet></x:ExcelWorksheets></x:ExcelWorkbook></xml><![endif]--></head><body><table>{table}</table></body></html>'
+            , base64 = function (s) { return window.btoa(unescape(encodeURIComponent(s))) }
+            , format = function (s, c) { return s.replace(/{(\w+)}/g, function (m, p) { return c[p]; }) }
+        return function (table, name, filename) {
+            var form = document.getElementById(table),
+                exportForm = form.cloneNode(true),
+                elementsToRemove = exportForm.querySelectorAll('.PieChart');
+            for (var i = elementsToRemove.length; i--;) {
+                var td = elementsToRemove[i];//.parentElement
+                if (td) {
+                    td.remove();
+                    //td.parentElement.removeChild(td)
+                }
+            }
+
+            var output = document.getElementById('output');
+            output.appendChild(exportForm);
+
+            if (!exportForm.nodeType) table = document.getElementById(exportForm)
+            var ctx = { worksheet: name || 'Worksheet', table: exportForm.innerHTML }
+
+            document.getElementById("dlink").href = uri + base64(format(template, ctx));
+            document.getElementById("dlink").download = filename;
+            document.getElementById("dlink").click();
+            $("#output").html("");
+        }
+    })()
+</script>

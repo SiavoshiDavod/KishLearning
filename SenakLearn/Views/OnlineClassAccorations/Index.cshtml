@@ -1,0 +1,51 @@
+﻿@model IEnumerable<SenakLearn.Models.OnlineClassAccoration>
+
+@{
+    Layout = "~/Views/Shared/_LayoutAdmin.cshtml";
+    var urlList = "/OnlineClassAccorations/LoadList";
+    ViewBag.Title = "توضیحات مرتبط با کلاس";
+}
+<!-- Page-Title -->
+<div class="row">
+    <div class="col-sm-12">
+        <div class="page-title-box">
+            <ol class="breadcrumb pull-right">
+                <li><a href="#">@ViewBag.Title</a></li>
+                <li class="active">Dashboard</li>
+            </ol>
+            <h4 class="page-title">@Html.ActionLink("افزودن", "Create") </h4>
+        </div>
+    </div>
+</div>
+<div id="TadGoodsField">
+    @using MVC.Controls
+
+    @Html.Grid(
+    new GridControl().SetName("OnlineClassAccorationGrid").
+    SetPageSize(10).
+    SetShrinkToFit(false).
+    SetIsAutoSize(true).
+    SetIsFilterToolbar(true).
+    IsRTL().
+    SetListUrl(urlList).
+        SetCaption("توضیحات مرتبط با کلاس").
+    SetOnLoadCompleteEvent("loadOnlineClassAccorationGridCompleteEvent").
+        UseColumns(SenakLearn.Controllers.OnlineClassAccorationsController.Columns)
+)
+    <script type="text/javascript">
+	function loadOnlineClassAccorationGridCompleteEvent() {
+		var ids = $("#OnlineClassAccorationGrid").jqGrid('getDataIDs');
+		for (var i = 0; i < ids.length; i++) {
+			var cl = ids[i];
+			ed = '<a class="ajaxLink"  href="/OnlineClassAccorations/Edit?Id=' + cl + '" title="ویرایش"><div class="tableEditLink">ویرایش</div></a>';
+			dl = '<a class="ajaxLink delete"href="/OnlineClassAccorations/Delete?Id=' + cl + '" title="حذف"   ><div class="tableDeleteLink">حذف</div></a>';
+			de = '<a class="ajaxLink "href="/OnlineClassAccorations/Details?Id=' + cl + '" title=" درخت جزئیات"   ><div class="tableDeleteLink"> درخت جزئیات</div></a>';
+			$('#OnlineClassAccorationGrid').jqGrid('setRowData', ids[i], { act: ed + dl +de});
+		}
+    }
+
+    </script>
+</div>
+
+
+

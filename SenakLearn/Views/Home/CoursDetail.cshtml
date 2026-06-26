@@ -1,0 +1,73 @@
+﻿@model SenakLearn.Models.learn_cours
+@{
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+<div>
+    <dl class="dl-horizontal">
+        <dt>
+            @Html.DisplayNameFor(model => model.learn_cours_group.name)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.learn_cours_group.name)
+        </dd>
+        <dt>
+            @Html.DisplayNameFor(model => model.name)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.name)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.time)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.time)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.doc)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.doc)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.doc2)
+        </dt>
+
+        <dd>
+            @Html.Raw(Model.doc2)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.learn_teacher.name)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.learn_teacher.name)
+        </dd>
+        <dt>
+            @Html.DisplayNameFor(model => model.image)
+        </dt>
+
+        <dd>
+            <img src="/images/cours/@Model.image" alt="@Model.name" class="thumbnail" width="200" height="100"/>
+        </dd>
+    </dl>
+</div>
+<div class="panel panel-default">
+    <div class="panel-heading">
+        <h3 class="panel-title">دیدگاه کاربران</h3>
+    </div>
+    <div class="panel-body">
+        <div id="list">
+            @Html.Action("ShowComments")
+        </div>
+        <hr />
+        @Html.Action("CreateComment")
+    </div>
+</div>

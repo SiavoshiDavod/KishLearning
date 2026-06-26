@@ -1,0 +1,77 @@
+﻿@model int
+@{
+    Layout = "~/Views/Shared/_LayoutAdmin.cshtml";
+    var urlList = "/SurveyPrivateGroupUsers/LoadList?id=" + Model;
+    ViewBag.Title = " کاربران " + (string)ViewBag.Name;
+}
+<!-- Page-Title -->
+<div class="row">
+    <div class="col-sm-12">
+        <div class="page-title-box">
+            <ol class="breadcrumb pull-right">
+                <li><a href="#">@ViewBag.Title</a></li>
+                <li class="active">Dashboard</li>
+            </ol>
+            <div class="page-title">
+                @using (Html.BeginForm("Create", "SurveyPrivateGroupUsers", FormMethod.Post))
+                {
+                    @Html.Hidden("SurveyPrivateGroupId", Model)
+                    @Html.UserDropDown("UserId", true, false)
+                    <input type="submit" value="ثبت" class="btn btn-default" @*onclick="return SaveSurveyPrivateGroupUser()"*@ />
+                }
+            </div>
+        </div>
+    </div>
+</div>
+<div id="TadGoodsField">
+    @using MVC.Controls
+
+    @Html.Grid(
+    new GridControl().SetName("SurveyPrivateGroupUserGrid").
+    SetPageSize(10).
+    SetShrinkToFit(false).
+    SetIsAutoSize(true).
+    SetIsFilterToolbar(true).
+    IsRTL().
+    SetListUrl(urlList).
+        SetCaption((string)ViewBag.Title).
+    SetOnLoadCompleteEvent("loadSurveyPrivateGroupUserGridCompleteEvent").
+        UseColumns(SenakLearn.Controllers.SurveyPrivateGroupUsersController.UserSurveyPrivateGroupColumns)
+)
+    <script type="text/javascript">
+        function deleteSurveyPrivateGroupUser(cl) {
+            var url = "/SurveyPrivateGroupUsers/Delete";
+            var successFunction = function () {
+                pw.post(url,
+                    { id: cl },
+                    'json',
+                    function (response) {
+                        if (response) {
+                            reloadJqGrid("SurveyPrivateGroupUserGrid" );
+                            SwalSuccessMessage("");
+                        } else {
+                            showError("خطا");
+                        }
+                    });
+
+            }
+            confirmDelete(successFunction);
+            return false;
+        }
+	function loadSurveyPrivateGroupUserGridCompleteEvent() {
+	    var ids = $("#SurveyPrivateGroupUserGrid").jqGrid('getDataIDs');
+
+		for (var i = 0; i < ids.length; i++) {
+		    var cl = ids[i];
+
+		    dl = '<a class="ajaxLink" onclick="return deleteSurveyPrivateGroupUser(\'' + cl + '\')" title="حذف"   ><div class="fa fa-times"></div></a>';
+		    $('#SurveyPrivateGroupUserGrid').jqGrid('setRowData', ids[i], { act: dl });
+		}
+    }
+
+    </script>
+</div>
+
+
+
+

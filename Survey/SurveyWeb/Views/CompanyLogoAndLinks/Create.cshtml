@@ -1,0 +1,70 @@
+﻿@model SurveyWeb.Models.CompanyLogoAndLink
+
+
+@{
+    ViewBag.Title = SurveyWeb.Models.Dictionary.ModelDictionary[typeof(SurveyWeb.Models.CompanyLogoAndLink)];
+    Layout = "~/Views/Shared/_LayoutAdmin.cshtml";
+}
+<div class="row">
+    <div class="col-sm-12">
+        <div class="page-title-box">
+            <ol class="breadcrumb pull-right">
+                <li><a href="#">ذخیره سازی</a></li>
+                <li><a href="#">@ViewBag.Title</a></li>
+                <li class="active">Dashboard</li>
+            </ol>
+            <h4 class="page-title">ذخیره سازی @ViewBag.Title </h4>
+        </div>
+    </div>
+</div>
+@using (Html.BeginForm("Create", "CompanyLogoAndLinks", FormMethod.Post, new { enctype = "multipart/form-data" }))
+{
+    @Html.AntiForgeryToken()
+    @Html.HiddenFor(x=>x.Id)
+    <div class="form-horizontal">
+        @Html.ValidationSummary(true, "", new { @class = "text-danger" })
+        <div class="form-group">
+            @Html.LabelFor(model => model.Name, htmlAttributes: new { @class = "control-label col-md-2" })
+            <div class="col-md-10">
+                @Html.EditorFor(model => model.Name, new { htmlAttributes = new { @class = "form-control" } })
+                @Html.ValidationMessageFor(model => model.Name, "", new { @class = "text-danger" })
+            </div>
+        </div>
+
+        <div class="form-group">
+            @Html.LabelFor(model => model.ImageUrl, htmlAttributes: new { @class = "control-label col-md-2" })
+            <div class="col-md-10">
+                @*@Html.EditorFor(model => model.ImageUrl, new { htmlAttributes = new { @class = "form-control" } })
+                    @Html.ValidationMessageFor(model => model.ImageUrl, "", new { @class = "text-danger" })*@
+                <div class="col-md-10">
+                    <label class="btn btn-default" title="@ViewBag.AttachFileTitle"> انتخاب فایل   <input @*accept=".pdf, .doc , .docx"  accept="video/*"*@ accept="image/*" class="fileChosen" type="file" hidden id="File" name="File"></label><span class="fileChosenText">
+                        @if (Model != null && !string.IsNullOrEmpty(Model.ImageUrl))
+                        {
+                            <a href="~/images/Logo/@Model.ImageUrl"><img src="~/images/Logo/@Model.ImageUrl" title="دانلود" height="50" /></a>
+                        }
+                    </span>
+                    @Html.HiddenFor(x => x.ImageUrl)
+                    @Html.ValidationMessageFor(model => model.ImageUrl, "", new { @class = "text-danger" })
+                </div>
+            </div>
+
+        </div>
+
+        <div class="form-group">
+            @Html.LabelFor(model => model.Link, htmlAttributes: new { @class = "control-label col-md-2" })
+            <div class="col-md-10">
+                @Html.EditorFor(model => model.Link, new { htmlAttributes = new { @class = "form-control" } })
+                @Html.ValidationMessageFor(model => model.Link, "", new { @class = "text-danger" })
+            </div>
+        </div>
+        <div class="form-group">
+            <div class="col-md-offset-2 col-md-10">
+                <input type="submit" value="ثبت" class="btn btn-default" />
+            </div>
+        </div>
+    </div>
+}
+
+<div>
+    @Html.ActionLink("بازگشت", "Index")
+</div>

@@ -1,0 +1,58 @@
+﻿@model IEnumerable<SenakLearn.Models.Security.SurveyPrivateGroup>
+
+@{
+    Layout = "~/Views/Shared/_LayoutAdmin.cshtml";
+    var urlList = "/SurveyPrivateGroups/LoadList";
+    ViewBag.Title = "گروه اختصاصی نظرسنجی";
+    var user = (SenakLearn.Models.learn_user)ViewBag.User;
+}
+<!-- Page-Title -->
+<div class="row">
+    <div class="col-sm-12">
+        <div class="page-title-box">
+            <ol class="breadcrumb pull-right">
+                <li><a href="#">@ViewBag.Title</a></li>
+                <li class="active">Dashboard</li>
+            </ol>
+            <h4 class="page-title">@Html.ActionLink("افزودن", "Create") </h4>
+        </div>
+    </div>
+</div>
+<div id="TadGoodsField">
+    @using MVC.Controls
+
+    @Html.Grid(
+    new GridControl().SetName("SurveyPrivateGroupGrid").
+    SetPageSize(10).
+    SetShrinkToFit(false).
+    SetIsAutoSize(true).
+    SetIsFilterToolbar(true).
+    IsRTL().
+    SetListUrl(urlList).
+        SetCaption("گروه اختصاصی نظرسنجی").
+    SetOnLoadCompleteEvent("loadSurveyPrivateGroupGridCompleteEvent").
+        UseColumns(SenakLearn.Controllers.SurveyPrivateGroupsController.SurveyPrivateGroupColumns)
+)
+    <script type="text/javascript">
+	function loadSurveyPrivateGroupGridCompleteEvent() {
+		var ids = $("#SurveyPrivateGroupGrid").jqGrid('getDataIDs');
+		for (var i = 0; i < ids.length; i++) {
+			var cl = ids[i];
+			ed = '<a class="ajaxLink"  href="/SurveyPrivateGroups/Create?Id=' + cl + '" title="ویرایش"><div class="fa fa-pencil"></div></a>';
+			dl = '<a class="ajaxLink delete"href="/SurveyPrivateGroups/Delete?Id=' + cl + '" title="حذف"   ><div class="fa fa-times"></div></a>';
+			de = '<a class="ajaxLink "href="/SurveyPrivateGroups/Details?Id=' + cl + '" title="جزئیات"   ><div class="fa fa-building"></div></a>';
+			var role = '';
+            @if (user.Permisstions.Any(x => x == SenakLearn.Models.Security.Permisstion.SurveyPrivateGroupUsers)){
+			    @: role = '<a class="ajaxLink "href="/SurveyPrivateGroupUsers/Index?Id=' + cl + '" title="کاربران"   ><div class="fa fa-calendar"></div></a>';
+			}
+
+			$('#SurveyPrivateGroupGrid').jqGrid('setRowData', ids[i], { act: ed + dl + de + role });
+		}
+    }
+
+    </script>
+</div>
+
+
+
+

@@ -1,0 +1,100 @@
+﻿@model SurveyWeb.Models.User
+<div class="container">
+
+    <div class="row justify-content-center">
+        <div class="col-md-8 text-center">
+            <div class="contact-form-title text-center mb-4">
+                <h4 class="mb-1">ثبت نام</h4>
+                @*<p>لورم ایپسوم متن ساختگی با تولید سادگی نامفهوم از صنعت چاپ و با استفاده از طراحان گرافیک است. لورم ایپسوم متن ساختگی با تولید سادگی نامفهوم از صنعت چاپ و با استفاده از طراحان گرافیک است.  </p>*@
+            </div>
+        </div>
+    </div>
+</div>
+<form class="gray-form mb-5 md-mb-0" action="/Home/Register" method="post" novalidate="novalidate">
+    @Html.Hidden("ReturnUrl", (string)ViewBag.ReturnUrl)
+    @{
+        var m = (string)ViewBag.Message;
+        if (!string.IsNullOrEmpty(m))
+        {
+            <div class="row">
+                <div class="col-md-12">
+                    <div class="form-group">
+                        <span style="color:red">@m</span>
+                    </div>
+                </div>
+            </div>
+        }
+    }
+    <div class="row">
+        <div class="col-md-12">
+            <div class="form-group">
+                <input type="email" class="form-control" id="UserName" name="UserName" placeholder="آدرس ایمیل">
+            </div>
+        </div>
+    </div>
+
+    <div class="row">
+        <div class="col-md-6">
+            <div class="form-group">
+                <input type="text" class="form-control" id="Name" name="Name" placeholder="نام* ">
+            </div>
+        </div>
+        <div class="col-md-6">
+            <div class="form-group">
+                <input type="text" class="form-control" id="Family" name="Family" placeholder="نام خانوادگی*">
+            </div>
+        </div>
+    </div>
+    <div class="row">
+        <div class="col-md-6">
+            <div class="form-group">
+                <input type="text" class="form-control" id="Job" name="Job" placeholder="شغل">
+            </div>
+        </div>
+        <div class="col-md-6">
+            <div class="form-group">
+                <input type="text" class="form-control" id="Mobile" name="Mobile" placeholder="موبایل*">
+            </div>
+        </div>
+    </div>
+    <div class="row">
+        <div class="col-md-6">
+            <div class="form-group">
+                <input type="text" class="form-control" id="OldYear" name="OldYear" placeholder="سن">
+            </div>
+        </div>
+        <div class="col-md-6">
+            <div class="form-group">
+                <input type="text" class="form-control" id="Education" name="Education" placeholder="مدرک تحصیلی">
+            </div>
+        </div>
+    </div>
+    <div class="row">
+        <div class="col-md-6">
+            <div class="form-group">
+                <div class="selected-box">
+                    <div class="select">
+                        @Html.ProvinceDropDown("Province", true, false, null, "استان محل سکونت")
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="col-md-6">
+            <div class="form-group">
+                @Html.BooleanDropDown("IsMarried", "متاهل", "مجرد", false, "وضعیت تاهل")
+            </div>
+        </div>
+    </div>
+    <div class="row">
+        <div class="col-md-12">
+            <div class="form-group">
+                <input type="password" class="form-control" id="Pass" name="Pass" placeholder="رمز عبور">
+            </div>
+        </div>
+    </div>
+    <div class="row">
+        <div class="col-md-12">
+            <input type="submit" value="ثبت نام در سایت" class="button" />
+        </div>
+    </div>
+</form>

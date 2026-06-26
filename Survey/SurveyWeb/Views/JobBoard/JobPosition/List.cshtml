@@ -1,0 +1,60 @@
+﻿
+@using MVC.Controls
+
+@Html.Grid(
+new GridControl().SetName("JobPositionGrid").
+SetPageSize(10).
+SetShrinkToFit(false).
+SetIsAutoSize(true).
+SetIsFilterToolbar(true).
+IsRTL().
+SetListUrl("/JobPosition/LoadList").
+    SetCaption((string)ViewBag.Title).
+SetOnLoadCompleteEvent("loadJobPositionGridCompleteEvent").
+    UseColumns(SurveyWeb.Controllers.JobBoard.JobPositionController.JobPositionColumns)
+)
+<script >
+    function loadJobPositionGridCompleteEvent() {
+        var ids = $("#JobPositionGrid").jqGrid('getDataIDs');
+        for (var i = 0; i < ids.length; i++) {
+            var cl = ids[i];
+            ed = '<a class="ajaxLink edit"   onclick="find(' + cl + ')" title="ویرایش"><div class="fa fa-pencil"></div></a>';
+            dl = '<a class="ajaxLink delete" onclick="remove(' + cl + ')" title="حذف"   ><div class="fa fa-times"></div></a>';
+            //de = '<a class="ajaxLink "href="/JobPosition/Find?Id=' + cl + '" title="جزئیات"   ><div class="fa fa-building"></div></a>';
+            $('#JobPositionGrid').jqGrid('setRowData', ids[i], { act: dl + ed });
+        }
+    }
+
+    function remove(id) {
+        var conf = window.confirm("آیا از حذف اطمینان دارید؟");
+        if (conf == true) {
+            $.ajax({
+                type: "post",
+                url: "/JobPosition/Remove?id=" + id,
+                success: function (resp) {
+                    //alert("Item deleted successfully.");
+                    $('#job-position-list').html(resp);
+                },
+                error: function () {
+                    alert("عملیات با خطا مواجه شد.")
+                }
+            })
+        }
+    }
+
+    function find(id) {
+        $.ajax({
+            type: "post",
+            url: "/JobPosition/Find?id=" + id,
+            success: function (resp) {
+                $("#job-position-details").html(resp)
+                //alert("Item deleted successfully.");
+                //$('#job-position-list').html(resp);
+            },
+            error: function () {
+                alert("عملیات با خطا مواجه شد.")
+            }
+        })
+    }
+
+</script>

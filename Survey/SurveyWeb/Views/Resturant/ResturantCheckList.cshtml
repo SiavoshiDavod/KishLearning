@@ -1,0 +1,80 @@
+﻿@model SurveyWeb.Models.Resturant
+
+@{
+    ViewBag.Title = "فایلهای پیوست";
+    Layout = null;
+}
+<div class="row">
+    <div class="col-sm-12">
+        <div class="page-title-box">
+            <div class="page-title">
+                @*@using (Html.BeginForm("SaveResturantCheckList", "Resturant", new AjaxOptions() { OnSuccess = "SaveResturantCheckList" }, FormMethod.Post, new { enctype = "multipart/form-data", id = "FormCheckList" }))
+        {
+            @Html.Hidden("ResturantId", Model.Id)
+            @Html.CheckListDropDown("CheckList", true, false)
+            <label class="btn btn-default">
+                انتخاب فایل پیوست
+                <input accept=".pdf, image/*" class="fileChosen" type="file" hidden id="File" name="File">
+            </label><span class="fileChosenText"></span>
+            <input type="submit" value="ثبت" class="btn btn-default" onclick=" SaveResturantCheckList()" />
+        }*@
+                <h4 class="page-title"><input type="submit" value="افزودن فایلهای پیوست" class="btn btn-default" onclick=" SaveResturantCheckList()" /> </h4>
+            </div>
+        </div>
+    </div>
+</div>
+<div class="row">
+    <table class="table table-bordered">
+        @foreach (var item in Model.ResturantCheckList)
+        {
+        <tr>
+            <td> @item.CheckListName</td>
+            <td> @item.Name</td>
+            <td>
+                <a href="~/images/Resturant/@item.ImageUrl" target="_blank">
+                    <img src="~/images/Resturant/@item.ImageUrl" title="دانلود" height="50" />
+                </a>
+            </td>
+            @if (Model.Cartable.IsFirstState)
+            {
+                <td>
+                    <button class="btn btn-danger" value="حذف" title="حذف" onclick="RemoveCheckList('@item.Id')">حذف</button>
+                </td>
+            }
+
+        </tr>
+        }
+
+    </table>
+
+</div>
+<script>
+        
+    function RemoveCheckList(id) {
+        var url = '/Resturant/RemoveResturanCheckList?id='+id;
+        var functionR = function () { partialPageResturant(url, 'پیوست ها') };
+        confirmDelete(functionR);
+        }
+    function SaveResturantCheckList(id) {
+         var ResturantId = '@Model.Id';
+        var url = '/Resturant/FindResturantCheckList?ResturantId=' + ResturantId + '&id='; //+ id;
+         pw.modal('FindResturantCheckListInModal', "ذخیره سازی فایلهای پیوست", url, null, 'modal-md', true, null, null);
+      
+        }
+      function ResturantCheckListSave() {
+        var file = $(".fileChosen")[0].files;
+
+        if (file[0] == null) {
+            SwalErrorMessage('لطفا فایل را انتخاب کنید')
+            return;
+        } else {
+            var success = function () {
+          pw.closeModal('FindResturantCheckListInModal');
+        OpenAttachement('@Model.Id');     
+            };
+               pw.submitForm ('FormCheckList', success);
+            }
+            
+            
+        }
+</script>

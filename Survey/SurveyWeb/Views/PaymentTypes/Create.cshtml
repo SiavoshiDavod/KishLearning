@@ -1,0 +1,100 @@
+﻿@model SurveyWeb.Models.Resturan.PaymentType
+
+@{
+    ViewBag.Title = "تنظيمات پرداخت";
+    Layout = "~/Views/Shared/_LayoutAdmin.cshtml";
+}
+<div class="row">
+    <div class="col-sm-12">
+        <div class="page-title-box">
+            <ol class="breadcrumb pull-right">
+                <li><a href="#">ذخیره سازی</a></li>
+                <li><a href="#">@ViewBag.Title</a></li>
+                <li class="active">Dashboard</li>
+            </ol>
+            <h4 class="page-title">ذخیره سازی @ViewBag.Title </h4>
+        </div>
+    </div>
+</div>
+
+
+@using (Html.BeginForm("Create", "PaymentTypes", FormMethod.Post, new {  onsubmit = "return PriceToNumber()" }))
+{
+    @Html.HiddenFor(model => model.Id)
+    @Html.HiddenFor(model => model.Archive)
+    @Html.AntiForgeryToken()
+
+    <div class="form-horizontal">
+        @Html.ValidationSummary(true, "", new { @class = "text-danger" })
+
+        <div class="form-group">
+            @Html.LabelFor(model => model.PaymentTypeEnumId, htmlAttributes: new { @class = "control-label col-md-2" })
+            <div class="col-md-10">
+                @Html.PaymentTypeEnumDropDown("PaymentTypeEnumId", true, false, htmlAttributes: new { @class = "form-control", @onchange = "changePaymentTypeEnumId();" })
+                @Html.ValidationMessageFor(model => model.PaymentTypeEnumId, "", new { @class = "text-danger" })
+            </div>
+        </div>
+        <div class="form-group DivForShow">
+            @Html.LabelFor(model => model.Title, htmlAttributes: new { @class = "control-label col-md-2" })
+            <div class="col-md-10">
+                @Html.EditorFor(model => model.Title, new { htmlAttributes = new { @class = "form-control" } })
+                @Html.ValidationMessageFor(model => model.Title, "", new { @class = "text-danger" })
+            </div>
+        </div>
+        <div class="form-group DivForHidden">
+            @Html.LabelFor(model => model.ResturantTypeId, htmlAttributes: new { @class = "control-label col-md-2" })
+            <div class="col-md-10">
+                @Html.ResturantTypeDropDown("ResturantTypeId", true, false, htmlAttributes: new { @class = "form-control" })
+                @Html.ValidationMessageFor(model => model.ResturantTypeId, "", new { @class = "text-danger" })
+            </div>
+        </div>
+        <div class="form-group DivForHidden">
+            @Html.LabelFor(model => model.Degree, htmlAttributes: new { @class = "control-label col-md-2" })
+            <div class="col-md-10">
+                @Html.ResturantDegreeDropDown("Degree", Model?.Degree, new { @class = "form-control" })
+                @Html.ValidationMessageFor(model => model.Degree, "", new { @class = "text-danger" })
+            </div>
+        </div>
+        <div class="form-group">
+            @Html.LabelFor(model => model.Price, htmlAttributes: new { @class = "control-label col-md-2" })
+            <div class="col-md-10">
+                @Html.TextBox("Price", Model?.Price.ToString("N0"), new { @class = "PriceFormat form-control" })
+                @Html.ValidationMessageFor(model => model.Price, "", new { @class = "text-danger" })
+            </div>
+        </div>
+        <div class="form-group">
+            @Html.LabelFor(model => model.Desc, htmlAttributes: new { @class = "control-label col-md-2" })
+            <div class="col-md-10">
+                @Html.EditorFor(model => model.Desc, new { htmlAttributes = new { @class = "form-control" } })
+                @Html.ValidationMessageFor(model => model.Desc, "", new { @class = "text-danger" })
+            </div>
+        </div>
+
+        <div class="form-group">
+            <div class="col-md-offset-2 col-md-10">
+                <input type="submit" value="ثبت" class="btn btn-default" />
+            </div>
+        </div>
+    </div>
+}
+
+<div>
+    @Html.ActionLink("بازگشت", "Index")
+</div>
+
+@section Scripts {
+    <script>
+        function changePaymentTypeEnumId() {
+            var val = $("#PaymentTypeEnumId").val();
+            if (val != "0") {
+                $(".DivForHidden").hide();
+                $(".DivForShow").show();
+            } else {
+                $(".DivForHidden").show();
+                $(".DivForShow").hide();
+            }
+        }
+        $(document).ready(function () { changePaymentTypeEnumId(); });
+    </script>
+    @Scripts.Render("~/bundles/jqueryval")
+}

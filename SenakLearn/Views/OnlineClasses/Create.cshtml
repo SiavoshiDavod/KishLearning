@@ -1,0 +1,221 @@
+﻿@model SenakLearn.Models.OnlineClass
+
+@{
+    Layout = "~/Views/Shared/_LayoutAdmin.cshtml";
+}
+
+<h2>ثبت  رکورد جدید</h2>
+
+
+@using (Html.BeginForm("Create", "OnlineClasses", FormMethod.Post, new { enctype = "multipart/form-data" }))
+{
+
+<div class="form-horizontal">
+    <h4>OnlineClass</h4>
+    <hr />
+    @Html.ValidationSummary(true, "", new { @class = "text-danger" })
+    <div class="form-group">
+        @Html.LabelFor(model => model.name, new { @class = "control-label col-md-2" })
+        <div class="col-md-10">
+            @Html.EditorFor(model => model.name, new { @class = "form-control" })
+            @Html.ValidationMessageFor(model => model.name, "", new { @class = "text-danger" })
+        </div>
+    </div>
+
+    <div class="form-group">
+        @Html.LabelFor(model => model.id_learn_cours_group, new { @class = "control-label col-md-2" })
+        <div class="col-md-10">
+            @Html.Cours_Group_DropDown("id_learn_cours_group", true, new { @class = "jquery-select" }, "یک دسته را انتخاب کنید", null, true, null, null)
+            @*@Html.EditorFor(model => model.id_learn_cours_group, new { @class = "form-control" } )*@
+            @Html.ValidationMessageFor(model => model.id_learn_cours_group, "", new { @class = "text-danger" })
+        </div>
+    </div>
+    <div class="form-group">
+        @Html.LabelFor(model => model.OnlineClassAccorationId, new { @class = "control-label col-md-2" })
+        <div class="col-md-10">
+            @Html.OnlineClassAccorationDropDown("OnlineClassAccorationId", true, new { @class = "form-control" })
+            @Html.ValidationMessageFor(model => model.OnlineClassAccorationId, "", new { @class = "text-danger" })
+        </div>
+    </div>
+    <div class="form-group">
+        @Html.LabelFor(model => model.SessionCount, new { @class = "control-label col-md-2" })
+        <div class="col-md-10">
+            @Html.EditorFor(model => model.SessionCount, new { @class = "form-control" })
+            @Html.ValidationMessageFor(model => model.SessionCount, "", new { @class = "text-danger" })
+        </div>
+    </div>
+
+    @*<div class="form-group">
+            @Html.LabelFor(model => model.id_user_register,  new { @class = "control-label col-md-2" })
+            <div class="col-md-10">
+                @Html.EditorFor(model => model.id_user_register, new { @class = "form-control" } )
+                @Html.ValidationMessageFor(model => model.id_user_register, "", new { @class = "text-danger" })
+            </div>
+        </div>*@
+
+    <div class="form-group">
+        @Html.LabelFor(model => model.id_learn_teacher, new { @class = "control-label col-md-2" })
+        <div class="col-md-10">
+            @*@Html.EditorFor(model => model.id_learn_teacher, new { @class = "form-control" } )*@
+            @Html.Teacher_DropDown("id_learn_teacher", true, new { @class = "jquery-select" }, "یک مدرس را انتخاب کنید")
+            @Html.ValidationMessageFor(model => model.id_learn_teacher, "", new { @class = "text-danger" })
+        </div>
+    </div>
+
+    <div class="form-group">
+        @Html.LabelFor(model => model.Amount, new { @class = "control-label col-md-2" })
+        <div class="col-md-10">
+            @Html.EditorFor(model => model.Amount, new { @class = "form-control" })
+            @Html.ValidationMessageFor(model => model.Amount, "", new { @class = "text-danger" })
+        </div>
+    </div>
+    <div class="form-group">
+        @Html.LabelFor(model => model.AdobeMeeting, new { @class = "control-label col-md-2" })
+        <div class="col-md-10">
+            @Html.EditorFor(model => model.AdobeMeeting, new { @class = "form-control" })
+            @Html.ValidationMessageFor(model => model.AdobeMeeting, "", new { @class = "text-danger" })
+        </div>
+    </div>
+
+    <div class="form-group">
+        @Html.LabelFor(model => model.Duration, new { @class = "control-label col-md-2" })
+        <div class="col-md-10">
+            @Html.EditorFor(model => model.Duration, new { @class = "form-control" })
+            @Html.ValidationMessageFor(model => model.Duration, "", new { @class = "text-danger" })
+        </div>
+    </div>
+
+    <div class="form-group">
+        @Html.LabelFor(model => model.Time, new { @class = "control-label col-md-2" })
+        <div class="col-md-10">
+            @Html.EditorFor(model => model.Time, new { @class = "form-control" })
+            @Html.ValidationMessageFor(model => model.Time, "", new { @class = "text-danger" })
+        </div>
+    </div>
+
+    <div class="form-group">
+        @Html.LabelFor(model => model.Days, new { @class = "control-label col-md-2" })
+        <div class="col-md-10">
+            @Html.DaysDropDown("DaysArr")
+            @Html.ValidationMessageFor(model => model.DaysArr, "", new { @class = "text-danger" })
+        </div>
+    </div>
+
+    <div class="form-group">
+        @Html.LabelFor(model => model.CreatedDate, new { @class = "control-label col-md-2" })
+        <div class="col-md-10">
+            <input type="text" class="form-control MyDate" id="CreatedDateShamsi" name="CreatedDateShamsi" placeholder="تاریخ" data-mddatetimepicker="true" data-placement="right" data-englishnumber="true" />
+            @*@Html.EditorFor(model => model.CreatedDateShamsi, new { @class = "form-control" } )*@
+            @Html.ValidationMessageFor(model => model.CreatedDateShamsi, "", new { @class = "text-danger" })
+        </div>
+    </div>
+
+    <div class="form-group">
+        @Html.LabelFor(model => model.UpdateDate, new { @class = "control-label col-md-2" })
+        <div class="col-md-10">
+            <input type="text" class="form-control MyDate" id="UpdateDateShamsi" name="UpdateDateShamsi" placeholder="تاریخ" data-mddatetimepicker="true" data-placement="right" data-englishnumber="true" />
+            @*@Html.EditorFor(model => model.UpdateDate, new { @class = "form-control" } )*@
+            @Html.ValidationMessageFor(model => model.UpdateDateShamsi, "", new { @class = "text-danger" })
+        </div>
+    </div>
+
+    <div class="form-group">
+        @Html.LabelFor(model => model.Capacity, new { @class = "control-label col-md-2" })
+        <div class="col-md-10">
+            @Html.EditorFor(model => model.Capacity, new { @class = "form-control" })
+            @Html.ValidationMessageFor(model => model.Capacity, "", new { @class = "text-danger" })
+        </div>
+    </div>
+
+    <div class="form-group">
+        @Html.LabelFor(model => model.IsFavorite, new { @class = "control-label col-md-2" })
+        <div class="col-md-10">
+            <div class="checkbox">
+                @*@Html.EditorFor(model => model.IsFavorite)*@
+                @Html.BooleanDropDownFor(x => x.IsFavorite, "بله", "خیر", true)
+                @Html.ValidationMessageFor(model => model.IsFavorite, "", new { @class = "text-danger" })
+            </div>
+        </div>
+    </div>
+
+    <div class="form-group">
+        @Html.LabelFor(model => model.InterviewPathVideo, new { @class = "control-label col-md-2" })
+        <div class="col-md-10">
+            @*@Html.File_DropDown("InterviewPathVideo", false)*@
+            @Html.VideoSelector("InterviewPathVideo", "VideoName", null, new { @class = "form-control" })
+            @Html.ValidationMessageFor(model => model.InterviewPathVideo, "", new { @class = "text-danger" })
+        </div>
+    </div>
+
+    <div class="form-group">
+        @Html.LabelFor(model => model.InterviewPathImage, new { @class = "control-label col-md-2" })
+        <div class="col-md-10">
+            <label class="btn btn-default"> انتخاب فایل  <input accept="image/*" class="fileChosen" type="file" hidden id="ImageFile" name="ImageFile"></label><span class="fileChosenText"></span>
+
+            @Html.ValidationMessageFor(model => model.InterviewPathImage, "", new { @class = "text-danger" })
+        </div>
+    </div>
+    <div class="form-group">
+        @Html.LabelFor(model => model.IsAutoClassType, new { @class = "control-label col-md-2" })
+        <div class="col-md-10">
+            @Html.EditorFor(x => x.IsAutoClassType, new { @class = "control-label col-md-2" })
+            @Html.ValidationMessageFor(model => model.IsAutoClassType, "", new { @class = "text-danger" })
+        </div>
+    </div>
+    <div class="form-group">
+        @Html.LabelFor(model => model.ClassType, new { @class = "control-label col-md-2" })
+        <div class="col-md-10">
+            @Html.OnlineClassTypeDropDownFor(x => x.ClassType, true)
+            @Html.ValidationMessageFor(model => model.ClassType, "", new { @class = "text-danger" })
+        </div>
+    </div>
+    <div class="form-group">
+        @Html.LabelFor(model => model.Description, new { @class = "control-label col-md-2" })
+        <div class="col-md-10">
+            @Html.EditorFor(model => model.Description, new { @class = "form-control" })
+            @Html.ValidationMessageFor(model => model.Description, "", new { @class = "text-danger" })
+        </div>
+    </div>
+    <div class="form-group">
+        @Html.LabelFor(model => model.doc2, new { @class = "control-label col-md-2" })
+        <div class="col-md-10">
+            @Html.ClassicEditorFor(model => model.doc2, new { @class = "form-control" })
+            @Html.ValidationMessageFor(model => model.doc2, "", new { @class = "text-danger" })
+        </div>
+    </div>
+    <div class="form-group">
+        @Html.LabelFor(model => model.CourseRelated, new { @class = "control-label col-md-2" })
+        <div class="col-md-10">
+            @Html.Cours_DropDown("CourseRelated", false, new { @class = "form-control" })
+            @Html.ValidationMessageFor(model => model.CourseRelated, "", new { @class = "text-danger" })
+        </div>
+    </div>
+    <div class="form-group">
+        @Html.LabelFor(model => model.BookRelated, new { @class = "control-label col-md-2" })
+        <div class="col-md-10">
+            @Html.Book_DropDown("BookRelated", false, new { @class = "form-control" })
+            @Html.ValidationMessageFor(model => model.BookRelated, "", new { @class = "text-danger" })
+        </div>
+    </div>
+    <div class="form-group">
+        @Html.LabelFor(model => model.BookletRelated, new { @class = "control-label col-md-2" })
+        <div class="col-md-10">
+            @Html.Booklet_DropDown("BookletRelated", false, new { @class = "form-control" })
+            @Html.ValidationMessageFor(model => model.BookletRelated, "", new { @class = "text-danger" })
+        </div>
+    </div>
+    <div class="form-group">
+        <div class="col-md-offset-2 col-md-10">
+            <input type="submit" value="ثبت" class="btn btn-default" />
+        </div>
+    </div>
+</div>
+}
+
+<div>
+    @Html.ActionLink("بازگشت به لیست", "Index")
+</div>
+@section Scripts {
+    @Scripts.Render("~/bundles/jqueryval")
+}
+

@@ -1,0 +1,181 @@
+﻿@model SurveyWeb.Models.SurveyQuestion
+
+@{
+    var colMd = "";
+    if (Model?.Id > 0)
+    {
+        colMd = "col-md-4";
+    }
+    Layout = "~/Views/Shared/_LayoutAdmin.cshtml";
+}
+
+<div class="row">
+
+    <div class="@colMd">
+        @using (Html.BeginForm("Create", "SurveyQuestions", FormMethod.Post, new { enctype = "multipart/form-data" }))
+        {
+            @Html.AntiForgeryToken()
+        <div class="form-horizontal">
+            @Html.HiddenFor(model => model.Id)
+            @Html.HiddenFor(model => model.SurveyEntityId)
+            @Html.HiddenFor(model => model.QuestionType)
+            <div>
+                نوع  : @SurveyWeb.EnumExtention.GetDescription(Model.QuestionType)
+            </div>
+            <div>
+                گروه سوال
+                @Html.SurveyGroupQuestionDropDown("SurveyGroupQuestionId", Model.SurveyEntityId, false)
+            </div>
+            <div>
+                <label class="btn btn-default" title="@ViewBag.AttachFileTitle"> انتخاب فایل عکس  <input @*accept=".pdf, .doc , .docx"  accept="video/*"*@ accept="image/*" class="fileChosen" type="file" hidden id="File" name="File"></label><span class="fileChosenText">
+                    @if (Model != null && !string.IsNullOrEmpty(Model.QuestionImageUrl))
+                    {
+                        <a href="~/images/Question/@Model.QuestionImageUrl"><img src="~/images/Question/@Model.QuestionImageUrl" title="دانلود" height="50" /></a>
+                    }
+                </span>
+                @Html.HiddenFor(x => x.QuestionImageUrl)
+            </div>
+            <div style="padding:5px;">
+                ارتفاع عکس
+                @Html.EditorFor(model => model.Height, new { htmlAttributes = new { @class = "col-md-2 col-sm-2 col-xl-6", @style = "position:absolute" } })
+            </div>
+            <div style="padding:7px;">
+                عرض عکس
+                @Html.EditorFor(model => model.Width, new { htmlAttributes = new { @class = "col-md-2 col-sm-2 col-xl-6", @style = "position:absolute" } })
+            </div>
+            <div>
+                @Html.TextAreaFor(x => x.Question, new { @class = "form-control col-md-12 col-sm-12 col-xl-12", @placeholder = "متن سوال" })
+            </div>
+
+            @if (Model.QuestionType == SurveyWeb.Models.QuestionEnum.Welcome || Model.QuestionType == SurveyWeb.Models.QuestionEnum.Goodbye || Model.QuestionType == SurveyWeb.Models.QuestionEnum.TextOnly)
+            {
+                <input type="hidden" id="required" name="required" value="true" />
+                <div style="padding:5px;">
+                    عنوان دکمه
+                    @Html.EditorFor(model => model.StringType, new { htmlAttributes = new { @class = "col-md-2 col-sm-2 col-xl-2", @style = "position:absolute" } })
+                </div>
+
+            }
+            else
+            {
+                <div style="margin:10px">
+                    اجباری بودن
+                    @Html.BooleanDropDownFor(model => model.required, "اجباری", "اختیاری", false)
+                </div>
+            }
+            <div style="margin:10px;">
+                ترتیب
+                @Html.EditorFor(model => model.SurveyOrder, new { htmlAttributes = new { @class = "col-md-2 col-sm-2 col-xl-2", @style = "position:absolute" } })
+            </div>
+            @if (Model.QuestionType == SurveyWeb.Models.QuestionEnum.number || Model.QuestionType == SurveyWeb.Models.QuestionEnum.range)
+            {
+                <div style="padding:5px;">
+                    کمترین مقدار
+                    @Html.EditorFor(model => model.MinType, new { htmlAttributes = new { @class = "col-md-2 col-sm-2 col-xl-2", @style = "position:absolute" } })
+                </div>
+            }
+            @if (Model.QuestionType == SurveyWeb.Models.QuestionEnum.number || Model.QuestionType == SurveyWeb.Models.QuestionEnum.range)
+            {
+                <div style="padding:5px;">
+                    بیشترین مقدار
+                    @Html.EditorFor(model => model.MaxType, new { htmlAttributes = new { @class = "col-md-2 col-sm-2 col-xl-2", @style = "position:absolute", @min = "1" } })
+                </div>
+            }
+            @if (Model.QuestionType == SurveyWeb.Models.QuestionEnum.file)
+            {
+                <div style="padding:5px;">
+                    حداکثر حجم فایل(کیلوبایت)
+                    @Html.EditorFor(model => model.MaxType, new { htmlAttributes = new { @class = "col-md-2 col-sm-2 col-xl-2", @style = "position:absolute", @min = "1" } })
+                </div>
+                <div style="padding:7px;">
+                    نوع فایل
+                    <select id="StringType" name="StringType">
+                        <option value="*">همه نوع فایل</option>
+                        <option value="video/*">ویدیو</option>
+                        <option value="image/*">عکس</option>
+                        <option value=".pdf">pdf</option>
+                        <option value=".doc , .docx">docوdocx</option>
+                        <option value=".pdf, .doc , .docx">docوdocxوpdf</option>
+                    </select>
+                </div>
+            }
+            @if (Model.QuestionType == SurveyWeb.Models.QuestionEnum.text)
+            {
+                <div style="padding:5px;">
+                    حداکثر حروف پاسخ
+                    @Html.EditorFor(model => model.MaxType, new { htmlAttributes = new { @class = "col-md-2 col-sm-2 col-xl-2", @style = "position:absolute", @min = "0", max = "1000" } })
+                </div>
+            }
+            @if (Model.QuestionType == SurveyWeb.Models.QuestionEnum.textArea)
+            {
+                <div style="padding:5px;">
+                    تعداد خطوط پاسخ
+                    @Html.EditorFor(model => model.MaxType, new { htmlAttributes = new { @class = "col-md-2 col-sm-2 col-xl-2", @style = "position:absolute", @min = "1", max = "10" } })
+                </div>
+            }
+            @*@if (Model.QuestionType == SurveyWeb.Models.QuestionEnum.range)
+        {
+            <div>
+                نوع
+                @Html.EditorFor(model => model.StringType, new { htmlAttributes = new { @class = "form-control" } })
+            </div>
+        }*@
+            @if (Model.QuestionType.ToString().Contains("Multi"))
+            {
+                <div style="padding:7px;">
+                    حداقل تعداد پاسخ
+                    @Html.EditorFor(model => model.MinType, new { htmlAttributes = new { @class = "col-md-2 col-sm-2 col-xl-2", @style = "position:absolute" } })
+                </div>
+                <div style="padding:7px;">
+                    حداکثر تعداد پاسخ
+                    @Html.EditorFor(model => model.MaxType, new { htmlAttributes = new { @class = "col-md-2 col-sm-2 col-xl-2", @style = "position:absolute", @min = "1" } })
+                </div>
+            }
+
+            @if (Model.QuestionType.ToString().Contains("Option") || Model.SurveyQuestionOptions?.Count > 0)
+            {
+                string selected = "";
+                if (Model.StringType == "1")
+                {
+                    selected = "selected";
+                }
+            <div style="padding:7px;">
+                نمایش گزینه ها در یک خط
+                <select id="StringType" name="StringType">
+
+                    <option value="0">خیر</option>
+                    <option value="1" @selected>بله</option>
+                </select>
+                @*<input type="number" id="StringType" name="StringType" value="@Model.StringType" class="col-md-2 col-sm-2 col-xl-6 text-box single-line" style="position:absolute" />
+            @Html.EditorFor(model => model.StringType, new { htmlAttributes = new { @class = "col-md-2 col-sm-2 col-xl-2", @style = "position:absolute" } })*@
+            </div>
+
+            @Html.Partial("_SurveyQuestionOptions", Model)
+        }
+
+            <div class="form-group">
+                <div class=" col-md-10" style="float:left ;text-align:center">
+                    <input type="submit" value="ثبت" class="btn btn-default" />
+                </div>
+                <div class="col-md-2">
+                    <a href="/SurveyQuestions/index?surveyEntityId=@Model.SurveyEntityId"><input type="button" value="بازگشت" class="btn btn-dark" /></a>
+                </div>
+            </div>
+        </div>
+}
+                    </div>
+                    @if (Model?.Id > 0)
+                    {
+                        <div class="col-md-8">
+                            @Html.Partial("_p" + Model.QuestionType.ToString(),Model)
+                        </div>
+                    }
+
+                </div>
+<script>
+    $(document).ready(function () {
+        $('#Id').val('@Model.Id');
+        $('#SurveyEntityId').val('@Model.SurveyEntityId');
+        $('#QuestionType').val('@Model.QuestionType');
+    });
+</script>

@@ -1,0 +1,50 @@
+﻿
+@{
+    Layout = "~/Views/Shared/_LayoutAdmin.cshtml";
+    var urlList = "/Book/LoadList";
+    ViewBag.Title = "کتاب";
+}
+<!-- Page-Title -->
+<div class="row">
+    <div class="col-sm-12">
+        <div class="page-title-box">
+            <ol class="breadcrumb pull-right">
+                <li><a href="#">@ViewBag.Title</a></li>
+                <li class="active">Dashboard</li>
+            </ol>
+            <h4 class="page-title">@Html.ActionLink("افزودن", "Create")  ||  @Html.ActionLink("اسلایدر", "Slide")</h4>
+        </div>
+    </div>
+</div>  
+<div id="TadGoodsField">
+    @using MVC.Controls
+
+    @Html.Grid(
+    new GridControl().SetName("BookGrid").
+    SetPageSize(10).
+    SetShrinkToFit(false).
+    SetIsAutoSize(true).
+    SetIsFilterToolbar(true).
+    IsRTL().
+    SetListUrl(urlList).
+        SetCaption("کتاب").
+    SetOnLoadCompleteEvent("loadBookGridCompleteEvent").
+        UseColumns(SenakLearn.Controllers.Admin.BookController.Columns)
+)
+    <script type="text/javascript">
+	function loadBookGridCompleteEvent() {
+		var ids = $("#BookGrid").jqGrid('getDataIDs');
+		for (var i = 0; i < ids.length; i++) {
+			var cl = ids[i];
+			ed = '<a class="ajaxLink"  href="/Book/Create?Id=' + cl + '" title="ویرایش"><div class="tableEditLink">ویرایش</div></a>';
+			dl = '<a class="ajaxLink delete"href="/Book/Delete?Id=' + cl + '" title="حذف"   ><div class="tableDeleteLink">حذف</div></a>';
+			de = '<a class="ajaxLink "href="/Book/Details?Id=' + cl + '" title="جزئیات"   ><div class="tableDeleteLink">جزئیات</div></a>';
+			$('#BookGrid').jqGrid('setRowData', ids[i], { act: ed + dl + de });
+		}
+    }
+
+    </script>
+</div>
+
+
+

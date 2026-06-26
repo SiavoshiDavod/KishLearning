@@ -1,0 +1,119 @@
+﻿@model SurveyWeb.Models.User
+
+<form class="gray-form mb-5 md-mb-0" action="/Home/RegisterCustomer" method="post" novalidate="novalidate">
+    @Html.Hidden("ReturnUrl", (string)ViewBag.ReturnUrl)
+    @{
+        var m = (string)ViewBag.Message;
+        if (!string.IsNullOrEmpty(m))
+        {
+            <div class="row">
+                <div class="col-md-12">
+                    <div class="form-group">
+                        <span style="color:red">@m</span>
+                        @Html.ValidationSummary(true, "", new { @class = "text-danger" })
+                    </div>
+                </div>
+            </div>
+        }
+    }
+    <div class="row">
+        <div class="col-md-6">
+            <div class="form-group">
+                <input type="text" class="form-control" id="Name" name="Name" placeholder="نام* ">
+                @Html.ValidationMessageFor(model => model.Name, "", new { @class = "text-danger" })
+            </div>
+        </div>
+        <div class="col-md-6">
+            <div class="form-group">
+                <input type="text" class="form-control" id="Family" name="Family" placeholder="نام خانوادگی*">
+                @Html.ValidationMessageFor(model => model.Family, "", new { @class = "text-danger" })
+            </div>
+        </div>
+    </div>
+    <div class="row">
+        <div class="col-md-6">
+            <div class="form-group">
+                @*@Html.EditorFor(model => model.UserName, new { htmlAttributes = new { @class = "form-control",@placeholder="آدرس ایمیل" } })*@
+                <input type="email" class="form-control" id="email" name="email" placeholder="آدرس ایمیل">
+                @Html.ValidationMessageFor(model => model.UserName, "", new { @class = "text-danger" })
+            </div>
+        </div>
+        <div class="col-md-6">
+            <div class="form-group">
+                <input type="text" class="form-control" id="UserName" name="UserName" placeholder="نام کاربری*">
+                @Html.ValidationMessageFor(model => model.UserName, "", new { @class = "text-danger" })
+            </div>
+        </div>
+        @*<div class="col-md-6">
+            <div class="form-group">
+                <input type="text" class="form-control" id="Job" name="Job" placeholder="شغل">
+                @Html.ValidationMessageFor(model => model.Job, "", new { @class = "text-danger" })
+            </div>
+        </div>*@
+        <div class="col-md-6">
+            <div class="form-group">
+                <input type="text" class="form-control" id="Mobile" name="Mobile" placeholder="موبایل*">
+                @Html.ValidationMessageFor(model => model.Mobile, "", new { @class = "text-danger" })
+            </div>
+        </div>
+    </div>
+    @*<div class="row">
+        <div class="col-md-6">
+            <div class="form-group">
+                <input type="text" class="form-control" id="OldYear" name="OldYear" placeholder="سن">
+            </div>
+        </div>
+        <div class="col-md-6">
+            <div class="form-group">
+                <input type="text" class="form-control" id="Education" name="Education" placeholder="مدرک تحصیلی">
+                @Html.ValidationMessageFor(model => model.Education, "", new { @class = "text-danger" })
+            </div>
+        </div>
+    </div>
+    <div class="row">
+        <div class="col-md-6">
+            <div class="form-group">
+                <div class="selected-box">
+                    <div class="select">
+                        @Html.ProvinceDropDown("Province", true, false, null, "استان محل سکونت")
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="col-md-6">
+            <div class="form-group">
+                @Html.BooleanDropDown("IsMarried", "متاهل", "مجرد", false, "وضعیت تاهل")
+            </div>
+        </div>
+    </div>*@
+<div class="row">
+    <div class="col-md-6">
+        <div class="form-group">
+            <input type="password" class="form-control" id="Pass" name="Pass" placeholder="کلمه عبور">
+        </div>
+    </div>
+    <div class="col-md-6">
+        <div class="form-group">
+            <input type="password" class="form-control" id="confirm_password" name="confirm_password" placeholder="تکرار کلمه عبور">
+            <span id='passwordmessage'></span>
+        </div>
+    </div>
+</div>
+    <div class="row">
+        <div class="col-md-12">
+            <input type="submit" value="ثبت نام در سایت" class="button" />
+        </div>
+    </div>
+</form>
+
+@section Scripts {
+    @Scripts.Render("~/bundles/jqueryval")
+<script>
+    $('#password, #confirm_password').on('keyup', function () {
+  if ($('#password').val() == $('#confirm_password').val()) {
+    $('#passwordmessage').html('').css('color', 'green');
+  } else 
+    $('#passwordmessage').html('تکرار کلمه عبور اشتباه است').css('color', 'red');
+});
+    </script>
+}

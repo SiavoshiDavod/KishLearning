@@ -1,0 +1,90 @@
+﻿@model SenakLearn.Models.ZarinpalPayment
+
+@{
+    Layout = "~/Views/Shared/_LayoutAdmin.cshtml";
+}
+
+<h2>جزئیات</h2>
+
+<div>
+    <h4>ZarinpalPayment</h4>
+    <hr />
+    <dl class="dl-horizontal">
+        <dt>
+            @Html.DisplayNameFor(model => model.UserId)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.UserId)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.CourseId)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.CourseId)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.OnlineClassId)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.OnlineClassId)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.Autohority)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.Autohority)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.RefId)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.RefId)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.Amount)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.Amount)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.Status)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.Status)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.CreatedDate)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.CreatedDateShamsi)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.UpdateDate)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.UpdateDateShamsi)
+        </dd>
+
+    </dl>
+</div>
+<p>
+    @Html.ActionLink("ویرایش", "Edit", new { id = Model.Id }) |
+   @Html.ActionLink("بازگشت به لیست", "Index")
+</p>

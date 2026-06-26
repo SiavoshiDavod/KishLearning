@@ -1,0 +1,92 @@
+﻿@model SenakLearn.Models.OnlineClassAccorationDetails
+
+<h2>Edit</h2>
+
+@using (Html.BeginForm(null, null, FormMethod.Post, new
+{
+    @id = "myForm",
+    @name = "myForm"
+}))
+{
+    @**@
+
+    <div class="form-horizontal">
+        <h4>OnlineClassAccorationDetails</h4>
+        <hr />
+        @Html.ValidationSummary(true, "", new { @class = "text-danger" })
+        @Html.HiddenFor(model => model.Id)
+
+        <div class="form-group">
+            @Html.LabelFor(model => model.OnlineClassAccorationId, "OnlineClassAccorationId", new { @class = "control-label col-md-2" })
+            <div class="col-md-10">
+                @Html.OnlineClassAccorationDropDown("OnlineClassAccorationId", true, new { @class = "form-control" })
+                @Html.ValidationMessageFor(model => model.OnlineClassAccorationId, "", new { @class = "text-danger" })
+            </div>
+        </div>
+
+        <div class="form-group">
+            @Html.LabelFor(model => model.ParentId, "ParentId", new { @class = "control-label col-md-2" })
+            <div class="col-md-10">
+                @Html.OnlineClassAccorationDetialDropDown("ParentId", false, new { @class = "form-control" })
+                @Html.ValidationMessageFor(model => model.ParentId, "", new { @class = "text-danger" })
+            </div>
+        </div>
+
+        <div class="form-group">
+            @Html.LabelFor(model => model.Order, new { @class = "control-label col-md-2" })
+            <div class="col-md-10">
+                @Html.EditorFor(model => model.Order, new { @class = "form-control" })
+                @Html.ValidationMessageFor(model => model.Order, "", new { @class = "text-danger" })
+            </div>
+        </div>
+
+        <div class="form-group">
+            @Html.LabelFor(model => model.Description, new { @class = "control-label col-md-2" })
+            <div class="col-md-10">
+                @Html.EditorFor(model => model.Description, new { @class = "form-control" })
+                @Html.ValidationMessageFor(model => model.Description, "", new { @class = "text-danger" })
+            </div>
+        </div>
+
+
+        <div class="form-group">
+            <div class="col-md-offset-2 col-md-10">
+                <input type="button" value="ویرایش" onclick=" createForm()" class="btn btn-default" />
+            </div>
+        </div>
+    </div>
+
+    <script>
+        function createForm() {
+           // e.preventDefault();
+            $.ajax({
+                url: '/OnlineClassAccorationDetails/edit',
+                type: 'post',
+                data: $('#myForm').serialize(),
+                success: function () {
+                    $('#OnlineClassTree').jstree("refresh");
+                }
+            });
+        };
+    </script>
+}
+
+<div>
+    @Html.ActionLink("Back to List", "Index")
+</div>
+@section Scripts {
+    @Scripts.Render("~/bundles/jqueryval")
+}
+    <script>
+        $('#myForm').submit(function (e) {
+            e.preventDefault();
+            $.ajax({
+                url: '/OnlineClassAccorationDetails/Edit',
+                type: 'post',
+                data: $('#myForm').serialize(),
+                success: function () {
+                    $('#OnlineClassTree').jstree("refresh");
+                }
+            });
+        });
+</script>

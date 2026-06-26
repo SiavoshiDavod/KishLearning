@@ -1,0 +1,130 @@
+﻿@model SurveyWeb.Models.Resturan.ResturantPayment
+
+@{
+    ViewBag.Title = "فيش پرداختي";
+    List<SurveyWeb.Models.Resturan.PaymentType> payments = ViewBag.PaymentTypeList;
+    Layout = "~/Views/Shared/_LayoutAdmin.cshtml";
+}
+<div class="row">
+    <div class="col-sm-12">
+        <div class="page-title-box">
+            <ol class="breadcrumb pull-right">
+                <li><a href="#">ذخیره سازی</a></li>
+                <li><a href="#">@ViewBag.Title</a></li>
+                <li class="active">Dashboard</li>
+            </ol>
+            <h4 class="page-title">ذخیره سازی @ViewBag.Title </h4>
+        </div>
+    </div>
+</div>
+
+
+@using (Html.BeginForm("Create", "ResturantPayment", FormMethod.Post, new { enctype = "multipart/form-data",onsubmit = "return PriceToNumber()" }))
+{
+    @Html.HiddenFor(model => model.Id)
+    @Html.HiddenFor(model => model.ResturantId)
+    @Html.HiddenFor(model => model.UserId)
+    @Html.HiddenFor(model => model.IsOnlinePayment)
+    @Html.HiddenFor(model => model.IsAccepted)
+    @Html.HiddenFor(model => model.PaymentTypeEnumId)
+
+
+    @Html.AntiForgeryToken()
+<div class="form-horizontal">
+    @Html.ValidationSummary(true, "", new { @class = "text-danger" })
+    @if (Model.Id > 0)
+    {
+        <div class="form-group">
+            @Html.LabelFor(model => model.Price, htmlAttributes: new { @class = "control-label col-md-2" })
+            <div class="col-md-10">
+
+                @Html.TextBox("Price",Model?.Price.ToString("N0"), new { @class = "PriceFormat form-control", @readonly = "readonly" } )
+                @Html.ValidationMessageFor(model => model.Price, "", new { @class = "text-danger" })
+            </div>
+        </div>
+        @Html.HiddenFor(model => model.PaymentTypeId)
+
+    }
+    else
+    {
+        <div class="form-group">
+            @Html.LabelFor(model => model.PaymentTypeId, htmlAttributes: new { @class = "control-label col-md-2" })
+            <div class="col-md-10">
+                @Html.DropDownListFor(model => model.PaymentTypeId, payments.Select(x => new SelectListItem() { Text = x.Title + " به مبلغ:" + x.Price.ToString("N0")+" ريال", Value = x.Id.ToString() }))
+                @Html.ValidationMessageFor(model => model.PaymentTypeId, "", new { @class = "text-danger" })
+            </div>
+        </div>
+        @Html.HiddenFor(model => model.Price)
+    }
+
+
+
+
+    <div class="form-group">
+        @Html.LabelFor(model => model.FishPic, htmlAttributes: new { @class = "control-label col-md-2" })
+        <div class="col-md-10">
+            <label class="btn btn-default" title="@ViewBag.AttachFileTitle"> انتخاب فایل عکس  <input @*accept=".pdf, .doc , .docx"  accept="video/*"*@ accept="image/*" class="fileChosen" type="file" hidden id="File" name="File"></label>
+            <span class="fileChosenText">
+                @if (!string.IsNullOrEmpty(Model.FishPic))
+                {
+                    <a href="~/images/ResturantPayment/@Model.FishPic"><img src="~/images/ResturantPayment/@Model.FishPic" title="دانلود" height="50" /></a>
+                }
+            </span>
+            @Html.HiddenFor(x => x.FishPic)
+            @Html.ValidationMessageFor(model => model.FishPic, "", new { @class = "text-danger" })
+        </div>
+    </div>
+
+    <div class="form-group">
+        @Html.LabelFor(model => model.PaymentDate, htmlAttributes: new { @class = "control-label col-md-2" })
+        <div class="col-md-10">
+            @if (Model.PaymentDate == null)
+            {
+                <input type="text" class="form-control MyDate  " id="PaymentDateShamsi" name="PaymentDateShamsi" placeholder="تاریخ" data-mddatetimepicker="true" data-placement="right" data-englishnumber="true" />
+            }
+            else
+            {
+                <input type="text" class="form-control MyDate " id="PaymentDateShamsi" name="PaymentDateShamsi" placeholder="تاریخ" data-mddatetimepicker="true" data-placement="right" data-englishnumber="true" value="@Model.PaymentDateShamsi" />
+            }
+            @Html.ValidationMessageFor(model => model.PaymentDate, "", new { @class = "text-danger" })
+        </div>
+    </div>
+
+    <div class="form-group">
+        @Html.LabelFor(model => model.VarizKonande, htmlAttributes: new { @class = "control-label col-md-2" })
+        <div class="col-md-10">
+            @Html.EditorFor(model => model.VarizKonande, new { htmlAttributes = new { @class = "form-control" } })
+            @Html.ValidationMessageFor(model => model.VarizKonande, "", new { @class = "text-danger" })
+        </div>
+    </div>
+
+    <div class="form-group">
+        @Html.LabelFor(model => model.RefId, htmlAttributes: new { @class = "control-label col-md-2" })
+        <div class="col-md-10">
+            @Html.EditorFor(model => model.RefId, new { htmlAttributes = new { @class = "form-control" } })
+            @Html.ValidationMessageFor(model => model.RefId, "", new { @class = "text-danger" })
+        </div>
+    </div>
+    @if (!Model.IsAccepted)
+    {
+        <div class="form-group">
+            <div class="col-md-offset-2 col-md-10">
+                <input type="submit" value="ثبت" class="btn btn-default" />
+            </div>
+        </div>
+    }
+    else
+    {
+        <label> بدلیل تایید این پرداخت ،امکان ویرایش آن وجود ندارد</label>
+    }
+
+</div>
+}
+
+<div>
+    @Html.ActionLink("بازگشت", "Index")
+</div>
+
+@section Scripts {
+    @Scripts.Render("~/bundles/jqueryval")
+}

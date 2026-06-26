@@ -1,0 +1,89 @@
+﻿
+
+@{
+    var user = (SurveyWeb.Models.User)ViewBag.User;
+    Layout = "~/Views/Shared/_LayoutAdmin.cshtml";
+    var urlList = "/CheckListTypeCartables/LoadList";
+    ViewBag.Title = SurveyWeb.Models.Dictionary.ModelDictionary[typeof(SurveyWeb.Models.CheckListTypeCartable)];
+}
+
+<div class="row">
+    <div class="col-sm-12">
+        <div class="page-title-box">
+            <ol class="breadcrumb pull-right">
+                <li><a href="#">@ViewBag.Title</a></li>
+                <li class="active">Dashboard</li>
+            </ol>
+            <h4 class="page-title">@ViewBag.Title </h4>
+        </div>
+    </div>
+</div>
+<div id="TadGoodsField">
+    <select id="LastDateExtendedLicenseFilter" name="LastDateExtendedLicenseFilter" onchange="reloadCheckListTypeCartableGrid()">
+        <option value="">  همه @ViewBag.Title  </option>
+        <option value="true"> @ViewBag.Title درحال منقضی</option>
+        <option value="false"> @ViewBag.Title منقضی شده</option>
+    </select>
+    @using MVC.Controls
+
+    @Html.Grid(
+    new GridControl().SetName("CheckListTypeCartableGrid").
+    SetPageSize(10).
+    SetShrinkToFit(false).
+    SetIsAutoSize(true).
+    SetIsFilterToolbar(true).
+    IsRTL().
+    SetListUrl(urlList).
+        SetCaption((string)ViewBag.Title).
+    SetOnLoadCompleteEvent("loadCheckListTypeCartableGridCompleteEvent").
+        UseColumns(SurveyWeb.Controllers.ResturantsController.ResturantColumns)
+)
+    <script>
+        function loadCheckListTypeCartableGridCompleteEvent() {
+             var $grid = $('#CheckListTypeCartableGrid');
+            var ids = $("#CheckListTypeCartableGrid").jqGrid('getDataIDs');
+            for (var i = 0; i < ids.length; i++) {
+                var cl = ids[i];
+                var AddorEdit = '';
+                var row = $grid.jqGrid('getRowData', cl);
+                if (row.AddorEditnote != '0') {
+                     AddorEdit = '<a class="ajaxLink " onclick="return AddorEditnoteChange(\'' + cl + '\')" title="تغییرات دیده شد"   ><div class="fa fa-check-circle"></div></a>';
+                    $("#" + cl).css("background", "lightgreen");
+                }
+
+                ed = '<a class="ajaxLink"  href="/CheckListTypeCartables/Create?Id=' + cl + '" title="ویرایش"><div class="fa fa-pencil"></div></a>';
+                dl = '<a class="ajaxLink delete"href="/CheckListTypeCartables/Delete?Id=' + cl + '" title="حذف"   ><div class="fa fa-times"></div></a>';
+                per = '<a class="ajaxLink "href="/CheckListTypeCartables/ResturantPersonel?ResturantId=' + cl + '" title="پرسنل "   ><div class="fa fa-users"></div></a>';
+                che = '<a class="ajaxLink "href="/CheckListTypeCartables/CheckList?ResturantId=' + cl + '" title="پیوست "   ><div class="fa fa-building"></div></a>';
+                var Advertisings = '';
+                @if (user.Permisstions.Any(x => x == SurveyWeb.Models.Permisstion.Advertisings)){
+                    @: Advertisings = '<a class="ajaxLink "href="/Advertisings/Create?ResturantId=' + cl + '" title="تبليغات"   ><div class="fa fa-desktop"></div></a>';
+                }
+                $('#CheckListTypeCartableGrid').jqGrid('setRowData', ids[i], { act: ed + dl + per+che+Advertisings+AddorEdit });
+            }
+        }
+         function reloadCheckListTypeCartableGrid() {
+            var url = '@urlList' + '?LastDateExtendedLicenseFilter='+$("#LastDateExtendedLicenseFilter").val();
+            reloadJqGrid("CheckListTypeCartableGrid",url);
+        }
+        function AddorEditnoteChange(id) {
+        pw.post('/CheckListTypeCartables/AddorEditnoteChange?id='+id,
+                        {id:id },
+                        'json',
+                        function (response) {
+                            if (response) {
+                                SwalSuccessMessage("");
+                                reloadCheckListTypeCartableGrid();
+                            } else {
+                                showError("خطا");
+                            }
+                            return false;
+                        });
+                    return false;
+    }
+    </script>
+</div>
+
+
+
+

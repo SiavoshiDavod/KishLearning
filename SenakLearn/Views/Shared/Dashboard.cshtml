@@ -1,0 +1,659 @@
+﻿@{
+    Layout = "~/Views/Shared/_LayoutAdmin.cshtml";
+    ViewBag.Title = "داشبورد";
+}
+<script src="~/Highcharts-7.1.1Persian/code/highcharts.js"></script>
+<script src="~/Highcharts-7.1.1Persian/code/highcharts-more.js"></script>
+<script src="~/Highcharts-7.1.1Persian/code/modules/series-label.js"></script>
+<script src="~/Highcharts-7.1.1Persian/code/modules/data.js"></script>
+<script src="~/Highcharts-7.1.1Persian/code/modules/exporting.js"></script>
+<script src="~/Highcharts-7.1.1Persian/code/modules/export-data.js"></script>
+<script src="~/Highcharts-7.1.1Persian/pw.js"></script>
+<script src="~/Highcharts-7.1.1Persian/Dashboard.js"></script>
+<div class="container" id="main-content" style="height: 636px;">
+
+
+    <div style="margin-bottom: 25px;display: block;overflow: hidden;"></div>
+    <div class="col-lg-12" id="desktop">
+        @if (User.Identity.IsAuthenticated)
+        {
+            var user = (SenakLearn.Models.learn_user)ViewBag.User;
+
+            if (user == null)
+            {
+
+            }
+            else if (user.RoleId == SenakLearn.Models.Roles.User)
+            {
+                <div class="col-xs-12 col-sm-6 col-md-3 text-center">
+                    <a href="/Users/EditeProfile">
+
+                        <div class="card-box">
+                            <i class="fa fa-user fa-f4"></i>
+                            <br>
+                            <br>
+                            <h4 class="text-dark  header-title m-t-0">تکمیل اطلاعات کاربری</h4>
+                        </div>
+
+                    </a>
+                </div>
+                <div class="col-xs-12 col-sm-6 col-md-3 text-center">
+                    <a href="/MyPayment/Index">
+
+                        <div class="card-box">
+                            <i class="fa fa-tv fa-f4"></i>
+                            <br>
+                            <br>
+                            <h4 class="text-dark  header-title m-t-0">پرداخت ها</h4>
+                        </div>
+
+                    </a>
+                </div>
+                <div class="col-xs-12 col-sm-6 col-md-3 text-center">
+                    <a href="/MyClass/Index">
+
+                        <div class="card-box">
+                            <i class="fa fa-qrcode fa-f4"></i>
+                            <br>
+                            <br>
+                            <h4 class="text-dark  header-title m-t-0"> کلاس ثبت نام شده</h4>
+                        </div>
+
+                    </a>
+                </div>
+                <div class="col-xs-12 col-sm-6 col-md-3 text-center">
+                    <a href="/MyAzmoon/Index">
+
+                        <div class="card-box">
+                            <i class="fa fa-book fa-f4"></i>
+                            <br>
+                            <br>
+                            <h4 class="text-dark  header-title m-t-0">آزمون های من </h4>
+                        </div>
+
+                    </a>
+                </div>
+                <div class="col-xs-12 col-sm-6 col-md-3 text-center">
+                    <a href="/MyCertificate/Index">
+
+                        <div class="card-box">
+                            <i class="fa fa-certificate fa-f4"></i>
+                            <br>
+                            <br>
+                            <h4 class="text-dark  header-title m-t-0">مدارک صادر شده </h4>
+                        </div>
+
+                    </a>
+                </div>
+                <div class="col-xs-12 col-sm-6 col-md-3 text-center">
+                    <a href="/home/cours">
+
+                        <div class="card-box">
+                            <i class="fa fa-file-movie-o fa-f4"></i>
+                            <br>
+                            <br>
+                            <h4 class="text-dark  header-title m-t-0">فیلم آموزشی</h4>
+                        </div>
+
+                    </a>
+                </div>
+                <div class="col-xs-12 col-sm-6 col-md-3 text-center">
+                    <a href="/home/podcast">
+
+                        <div class="card-box">
+                            <i class="fa fa-music fa-f4"></i>
+                            <br>
+                            <br>
+                            <h4 class="text-dark  header-title m-t-0">پادکست</h4>
+                        </div>
+
+                    </a>
+                </div>
+                <div class="col-xs-12 col-sm-6 col-md-3 text-center">
+                    <a href="/books/index">
+
+                        <div class="card-box">
+                            <i class="fa fa-book fa-f4"></i>
+                            <br>
+                            <br>
+                            <h4 class="text-dark  header-title m-t-0">کتابخانه</h4>
+                        </div>
+
+                    </a>
+                </div>
+                <div class="col-xs-12 col-sm-6 col-md-3 text-center">
+                    <a href="/Home/Allnews">
+
+                        <div class="card-box">
+                            <i class="fa fa-bookmark fa-f4"></i>
+                            <br>
+                            <br>
+                            <h4 class="text-dark  header-title m-t-0">اخبار</h4>
+                        </div>
+
+                    </a>
+                </div>
+                <div class="col-xs-12 col-sm-6 col-md-3 text-center">
+                    <a href="/Home/AllActiveAzmoon">
+
+                        <div class="card-box">
+                            <i class="fa fa-question fa-f4"></i>
+                            <br>
+                            <br>
+                            <h4 class="text-dark  header-title m-t-0">آزمون</h4>
+                        </div>
+
+                    </a>
+                </div>
+                <div class="col-xs-12 col-sm-6 col-md-3 text-center">
+                    <a href="/Home/AllActiveSurvey">
+
+                        <div class="card-box">
+                            <i class="fa fa-microphone fa-f4"></i>
+                            <br>
+                            <br>
+                            <h4 class="text-dark  header-title m-t-0">نظرسنجی</h4>
+                        </div>
+
+                    </a>
+                </div>
+                <div class="col-xs-12 col-sm-6 col-md-3 text-center">
+                    <a href="/FactorAdmin/Index">
+
+                        <div class="card-box">
+                            <i class="fa fa-money fa-f4"></i>
+                            <br>
+                            <br>
+                            <h4 class="text-dark  header-title m-t-0">فاکتور</h4>
+                        </div>
+
+                    </a>
+                </div>
+            }
+            else if (user.RoleId == SenakLearn.Models.Roles.Admin || user.RoleId == SenakLearn.Models.Roles.SuperAdmin)
+            {
+
+                <div class="row" style="max-height:300px;">
+                    <div class="col-xs-12 col-sm-6 col-md-3 text-center" style="margin-bottom:10px">
+                        <div id="Gaugechart"> </div>
+                    </div>
+                    <div class="col-xs-12 col-sm-12 col-md-6 text-center" style="margin-bottom:10px">
+                        <div id="chartMultiLine"> </div>
+                    </div>
+                    <div class="col-xs-12 col-sm-6 col-md-3 text-center">
+                        <div class="card-box">
+                            <h1 id="OnlineUserCount"></h1>
+                            <br>
+                            <br>
+                            <h4 class="text-dark  header-title m-t-0"> تعداد افراد فعال</h4>
+                        </div>
+                        <div class="card-box">
+                            <h1 id="AllUserCount"></h1>
+                            <br>
+                            <br>
+                            <h4 class="text-dark  header-title m-t-0"> تعداد کل کاربران</h4>
+                        </div>
+                    </div>
+
+                </div>
+
+                <div class="row">
+                    <div class="col-xs-12 col-sm-12 col-md-6 text-center" style="margin-bottom:10px">
+                        <div>آخرین کاربران ثبت نام کرده در سایت</div>
+                        <div id="10Registration"> </div>
+                        <div> <a href="/UsersAdmin" class="btn btn-default">مشاهده همه کاربران ثبت نام کرده</a></div>
+                    </div>
+                    <div class="col-xs-12 col-sm-12 col-md-6 text-center" style="margin-bottom:10px">
+                        <div>آخرین درخواست های همکاری با ما </div>
+                        <div id="10JoinUs"> </div>
+                        <div> <a href="/JoinUs" class="btn btn-default">مشاهده همه درخواست های همکاری با ما</a></div>
+                    </div>
+                    @*<div class="col-xs-12 col-sm-6 col-md-3 text-center" style="margin-bottom:10px">
+                        <div id="10Payment"> </div>
+                        <div> <a href="/ZarinpalPayments" class="btn btn-default" >مشاهده همه</a></div>
+                    </div>*@
+                    @*در داشبورد باید موارد زیر را بتوان مشاهد نمود:
+                    1- حداقل 10 ثبت نامی آخر را بتوان مشاهد کرد و سپس با کلیک روی دکمه ای بتوان تمام ثبت نامی ها را مشاهد نمود.
+                    2- اساتیدی که درخواست همکاری کرده اند را بتوان دید (حداقل 10 درخواست آخر). با کلیک روی یک دکمه بتوان تمام درخواستها را دید.
+                    3- اگر فروش کتاب و مقاله نیز داشتیم بتوانیم آخرین فروشها را مشاهده نمائیم.
+                    4- در هنگام ثبت نام استاد یا دانشجو باید برای ادمین یا افرادی که مشخص شده است، مانند استاد یا مسئول آموزش ایمیل و اس ام اس ارسال شود.
+                    5- .....*@
+
+                </div>
+                <div class="col-xs-12 col-sm-6 col-md-3 text-center">
+                    <a href="/Sliders/Index">
+                        <div class="card-box">
+                            <i class="fa fa-sliders fa-f4"></i>
+                            <br>
+                            <br>
+                            <h4 class="text-dark  header-title m-t-0">بنر سایت</h4>
+                        </div>
+                    </a>
+                </div>
+                if (user.Permisstions.Any(x => x == SenakLearn.Models.Security.Permisstion.Cours))
+                {
+                    <div class="col-xs-12 col-sm-6 col-md-3 text-center">
+                        <a href="/Cours/Index">
+                            <div class="card-box">
+                                <i class="fa fa-film fa-f4"></i>
+                                <br>
+                                <br>
+                                <h4 class="text-dark  header-title m-t-0">فیلم های آموزشی</h4>
+                            </div>
+                        </a>
+                    </div>
+                }
+                if (user.Permisstions.Any(x => x == SenakLearn.Models.Security.Permisstion.OnlineClasses))
+                {
+                    <div class="col-xs-12 col-sm-6 col-md-3 text-center">
+                        <a href="/OnlineClasses/Index">
+                            <div class="card-box">
+                                <i class="fa fa-qrcode fa-f4"></i>
+                                <br>
+                                <br>
+                                <h4 class="text-dark  header-title m-t-0">کلاس های آنلاین</h4>
+                            </div>
+                        </a>
+                    </div>
+                }
+                if (user.Permisstions.Any(x => x == SenakLearn.Models.Security.Permisstion.Teacher))
+                {
+                    <div class="col-xs-12 col-sm-6 col-md-3 text-center">
+                        <a href="/Teacher/Index">
+                            <div class="card-box">
+                                <i class="fa fa-users fa-f4"></i>
+                                <br>
+                                <br>
+                                <h4 class="text-dark  header-title m-t-0">اساتید</h4>
+                            </div>
+                        </a>
+                    </div>
+                }
+                if (user.Permisstions.Any(x => x == SenakLearn.Models.Security.Permisstion.Book))
+                {
+                    <div class="col-xs-12 col-sm-6 col-md-3 text-center">
+                        <a href="/Book/Index">
+                            <div class="card-box">
+                                <i class="fa fa-book fa-f4"></i>
+                                <br>
+                                <br>
+                                <h4 class="text-dark  header-title m-t-0">کتاب</h4>
+                            </div>
+                        </a>
+                    </div>
+                }
+                if (user.Permisstions.Any(x => x == SenakLearn.Models.Security.Permisstion.Papers))
+                {
+                    <div class="col-xs-12 col-sm-6 col-md-3 text-center">
+                        <a href="/Papers/Index">
+                            <div class="card-box">
+                                <i class="fa fa-building fa-f4"></i>
+                                <br>
+                                <br>
+                                <h4 class="text-dark  header-title m-t-0">مقاله</h4>
+                            </div>
+                        </a>
+                    </div>
+                }
+                if (user.Permisstions.Any(x => x == SenakLearn.Models.Security.Permisstion.VideoFile))
+                {
+                    <div class="col-xs-12 col-sm-6 col-md-3 text-center">
+                        <a href="/VideoFile/Index">
+                            <div class="card-box">
+                                <i class="fa fa-cloud-upload fa-f4"></i>
+                                <br>
+                                <br>
+                                <h4 class="text-dark  header-title m-t-0">آپلود ویدیو</h4>
+                            </div>
+                        </a>
+                    </div>
+
+                }
+                if (user.Permisstions.Any(x => x == SenakLearn.Models.Security.Permisstion.ZarinpalPayments))
+                {
+                    <div class="col-xs-12 col-sm-6 col-md-3 text-center">
+                        <a href="/ZarinpalPayments/Index">
+                            <div class="card-box">
+                                <i class="fa fa-tv fa-f4"></i>
+                                <br>
+                                <br>
+                                <h4 class="text-dark  header-title m-t-0">پرداخت ها</h4>
+                            </div>
+                        </a>
+                    </div>
+                }
+                if (user.Permisstions.Any(x => x == SenakLearn.Models.Security.Permisstion.SendSms))
+                {
+                    <div class="col-xs-12 col-sm-6 col-md-3 text-center">
+                        <a href="/SendSms/Index">
+
+                            <div class="card-box">
+                                <i class="fa fa-inbox fa-f4"></i>
+                                <br>
+                                <br>
+                                <h4 class="text-dark  header-title m-t-0">ارسال پیامک و ایمیل</h4>
+                            </div>
+
+                        </a>
+                    </div>
+                }
+                if (user.Permisstions.Any(x => x == SenakLearn.Models.Security.Permisstion.UsersAdmin))
+                {
+                    <div class="col-xs-12 col-sm-6 col-md-3 text-center">
+                        <a href="/UsersAdmin/Index">
+
+                            <div class="card-box">
+                                <i class="fa fa-user fa-f4"></i>
+                                <br>
+                                <br>
+                                <h4 class="text-dark  header-title m-t-0">کاربران</h4>
+                            </div>
+
+                        </a>
+                    </div>
+                }
+                if (user.Permisstions.Any(x => x == SenakLearn.Models.Security.Permisstion.Roles))
+                {
+                    <div class="col-xs-12 col-sm-6 col-md-3 text-center">
+                        <a href="/Roles/Index">
+
+                            <div class="card-box">
+                                <i class="fa fa-users fa-f4"></i>
+                                <br>
+                                <br>
+                                <h4 class="text-dark  header-title m-t-0">نقش ها</h4>
+                            </div>
+
+                        </a>
+                    </div>
+                }
+                <div class="col-xs-12 col-sm-6 col-md-3 text-center">
+                    <a href="/Users/Logout">
+                        <div class="card-box">
+                            <i class="md md-exit-to-app fa-f4"></i>
+                            <br>
+                            <br>
+                            <h4 class="text-dark  header-title m-t-0">خروج</h4>
+                        </div>
+                    </a>
+                </div>
+                if (user.Permisstions.Any(x => x == SenakLearn.Models.Security.Permisstion.SurveyEntitys))
+                {
+                    <div class="col-xs-12 col-sm-12 col-md-12 text-center">
+                        <a href="/SurveyEntitys/Index">
+                            <div class="card-box">
+                                <i class="fa fa-book fa-f4"></i>
+                                <br>
+                                <br>
+                                <h4 class="text-dark  header-title m-t-0">پرسشنامه</h4>
+                            </div>
+                        </a>
+                    </div>
+                }
+                if (user.Permisstions.Any(x => x == SenakLearn.Models.Security.Permisstion.GroupSurveys))
+                {
+                    <div class="col-xs-12 col-sm-6 col-md-3 text-center">
+                        <a href="/GroupSurveys/Index">
+                            <div class="card-box">
+                                <i class="fa fa-building fa-f4"></i>
+                                <br>
+                                <br>
+                                <h4 class="text-dark  header-title m-t-0">گروه نظرسنجی</h4>
+                            </div>
+                        </a>
+                    </div>
+
+                }
+                if (user.Permisstions.Any(x => x == SenakLearn.Models.Security.Permisstion.SurveyPrivateGroups))
+                {
+                    <div class="col-xs-12 col-sm-6 col-md-3 text-center">
+                        <a href="/SurveyPrivateGroups/Index">
+                            <div class="card-box">
+                                <i class="fa fa-building fa-f4"></i>
+                                <br>
+                                <br>
+                                <h4 class="text-dark  header-title m-t-0">گروه اختصاصی</h4>
+                            </div>
+                        </a>
+                    </div>
+                }
+                if (user.Permisstions.Any(x => x == SenakLearn.Models.Security.Permisstion.SurveyUserAnswers))
+                {
+                    <div class="col-xs-12 col-sm-6 col-md-3 text-center">
+                        <a href="/SurveyUserAnswers/Index">
+                            <div class="card-box">
+                                <i class="md md-settings fa-f4"></i>
+                                <br>
+                                <br>
+                                <h4 class="text-dark  header-title m-t-0">شرکت کنندگان</h4>
+                            </div>
+                        </a>
+                    </div>
+                }
+
+
+
+
+
+                @*if (user.Permisstions.Any(x => x == SenakLearn.Models.Security.Permisstion.Faqs))
+                {
+                    <div class="col-xs-12 col-sm-6 col-md-3 text-center">
+                        <a href="/Faqs/Index">
+
+                            <div class="card-box">
+                                <i class="fa fa-qrcode fa-f4"></i>
+                                <br>
+                                <br>
+                                <h4 class="text-dark  header-title m-t-0">پرسشهای متداول</h4>
+                            </div>
+
+                        </a>
+                    </div>
+                }if (user.Permisstions.Any(x => x == SenakLearn.Models.Security.Permisstion.Suggestions))
+                {
+                    <div class="col-xs-12 col-sm-6 col-md-3 text-center">
+                        <a href="/Suggestions/Index">
+
+                            <div class="card-box">
+                                <i class=" fa fa-commenting fa-f4"></i>
+                                <br>
+                                <br>
+                                <h4 class="text-dark  header-title m-t-0">پیشنهادات</h4>
+                            </div>
+
+                        </a>
+                    </div>
+                }
+                if (user.Permisstions.Any(x => x == SenakLearn.Models.Security.Permisstion.Ideas))
+                {
+                    <div class="col-xs-12 col-sm-6 col-md-3 text-center">
+                        <a href="/Ideas/Index">
+
+                            <div class="card-box">
+                                <i class=" fa fa-commenting-o fa-f4"></i>
+                                <br>
+                                <br>
+                                <h4 class="text-dark  header-title m-t-0">ایده ها</h4>
+                            </div>
+
+                        </a>
+                    </div>
+                }
+
+                @*if (user.Permisstions.Any(x => x == SenakLearn.Models.Security.Permisstion.Cartables))
+                {
+                    <div class="col-xs-12 col-sm-6 col-md-3 text-center">
+                        <a href="/Cartables/Index">
+
+                            <div class="card-box">
+                                <i class="fa fa-inbox fa-f4"></i>
+                                <br>
+                                <br>
+                                <h4 class="text-dark  header-title m-t-0"> کارتابل</h4>
+                            </div>
+
+                        </a>
+                    </div>
+                }
+                if (user.Permisstions.Any(x => x == SenakLearn.Models.Security.Permisstion.CartableRelations))
+                {
+                    <div class="col-xs-12 col-sm-6 col-md-3 text-center">
+                        <a href="/CartableRelations/Index">
+
+                            <div class="card-box">
+                                <i class=" fa fa-houzz fa-f4"></i>
+                                <br>
+                                <br>
+                                <h4 class="text-dark  header-title m-t-0"> ارتباط کارتابل</h4>
+                            </div>
+
+                        </a>
+                    </div>
+                }
+                if (user.Permisstions.Any(x => x == SenakLearn.Models.Security.Permisstion.CartableUserAccesses))
+                {
+                    <div class="col-xs-12 col-sm-6 col-md-3 text-center">
+                        <a href="/CartableUserAccesses/Index">
+
+                            <div class="card-box">
+                                <i class=" fa fa-hand-lizard-o fa-f4"></i>
+                                <br>
+                                <br>
+                                <h4 class="text-dark  header-title m-t-0"> دسترسی کارتابل</h4>
+                            </div>
+
+                        </a>
+                    </div>
+                }*@
+                <div class="col-xs-12 col-sm-6 col-md-3 text-center">
+                    <a href="/Users/ShowProfile">
+                        <div class="card-box">
+                            <i class="md md-settings fa-f4"></i>
+                            <br>
+                            <br>
+                            <h4 class="text-dark  header-title m-t-0">اطلاعات کاربری</h4>
+                        </div>
+                    </a>
+                </div>
+                <div class="col-xs-12 col-sm-6 col-md-3 text-center">
+                    <a href="/FactorAdmin/Index">
+                        <div class="card-box">
+                            <i class="fa fa-money fa-f4"></i>
+                            <br>
+                            <br>
+                            <h4 class="text-dark  header-title m-t-0">فاکتور</h4>
+                        </div>
+                    </a>
+                </div>
+
+
+                <script>
+                    $(document).ready(function () {
+                        CapacityDisk();
+                        OnlineUserCount();
+                        AllUserCount();
+                        RegistrationTable();
+                        JoinUsTable();
+                        chartMultiLineSite();
+                    });
+
+                </script>
+            }
+            else if (user.RoleId == SenakLearn.Models.Roles.Teacher)
+            {
+                SenakLearn.Models.learn_teacher teacher = (SenakLearn.Models.learn_teacher)ViewBag.Teacher;
+                if (teacher != null)
+                {
+                    <div class="col-xs-12 col-sm-6 col-md-3 text-center">
+                        <a href="/TeacherProfile/Index">
+
+                            <div class="card-box">
+                                <i class="fa fa-user fa-f4"></i>
+                                <br>
+                                <br>
+                                <h4 class="text-dark  header-title m-t-0">پروفایل </h4>
+                            </div>
+                        </a>
+                    </div>
+
+                    if (teacher.status)
+                    {
+                        <div class="col-xs-12 col-sm-6 col-md-3 text-center">
+                            <a href="/TeacherVideoFile/Index">
+                                <div class="card-box">
+                                    <i class="fa fa-cloud-upload fa-f4"></i>
+                                    <br>
+                                    <br>
+                                    <h4 class="text-dark  header-title m-t-0">آپلود ویدیو</h4>
+                                </div>
+                            </a>
+                        </div>
+                        <div class="col-xs-12 col-sm-6 col-md-3 text-center">
+                            <a href="/TeacherCours/Index">
+                                <div class="card-box">
+                                    <i class="fa fa-film fa-f4"></i>
+                                    <br>
+                                    <br>
+                                    <h4 class="text-dark  header-title m-t-0">دوره های آموزشی</h4>
+                                </div>
+                            </a>
+                        </div>
+
+                    }
+                    else
+                    {
+                        var joinUs = SenakLearn.Biz.JoinUsBiz.Instance.FidnByTeacherId(teacher.id);
+                        if (joinUs != null && joinUs.IsAcceptContract)
+                        {
+                            <div class="col-xs-12 col-sm-6 col-md-3 text-center">
+                                <a href="/TeacherVideoFile/Index">
+                                    <div class="card-box">
+                                        <i class="fa fa-cloud-upload fa-f4"></i>
+                                        <br>
+                                        <br>
+                                        <h4 class="text-dark  header-title m-t-0">آپلود ویدیو</h4>
+                                    </div>
+                                </a>
+                            </div>
+                        }
+                        <div class="col-xs-12 col-sm-6 col-md-3 text-center">
+                            <a href="/Home/Contract">
+                                <div class="card-box">
+                                    <i class="fa fa-building fa-f4"></i>
+                                    <br>
+                                    <br>
+                                    <h4 class="text-dark  header-title m-t-0">قرارداد</h4>
+                                </div>
+                            </a>
+                        </div>
+                        if (joinUs != null)
+                        {
+                            <div class="row">
+                                @Html.Partial("~/Views/Shared/_ProgressBarCircleForSteps.cshtml", joinUs)
+                            </div>
+                        }
+
+                    }
+                }
+
+            }
+        }
+
+
+    </div>
+
+
+
+    @*<script>
+        $(function () {
+            $('#desktop a').click(function (e) {
+                e.preventDefault();
+                $('#sidebar-menu li').find('.active').removeClass('active');
+                $(this).parent().addClass('active');
+                $(this).addClass('active');
+
+                return false;
+            });
+        });
+        </script>*@
+</div>

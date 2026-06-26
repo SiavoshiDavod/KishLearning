@@ -1,0 +1,117 @@
+﻿@model SurveyWeb.Models.Resturan.ResturantPayment
+
+@{
+    ViewBag.Title = "تایید/عدم تایید پرداخت";
+    Layout = "~/Views/Shared/_LayoutAdmin.cshtml";
+}
+<div class="row">
+    <div class="col-sm-12">
+        <div class="page-title-box">
+            <ol class="breadcrumb pull-right">
+                <li><a href="#">ذخیره سازی</a></li>
+                <li><a href="#">@ViewBag.Title</a></li>
+                <li class="active">Dashboard</li>
+            </ol>
+            <h4 class="page-title">ذخیره سازی @ViewBag.Title </h4>
+        </div>
+    </div>
+</div>
+
+
+@using (Html.BeginForm("Create", "ResturantPayments", FormMethod.Post, new { enctype = "multipart/form-data", onsubmit ="return PriceToNumber()" }))
+{
+    @Html.HiddenFor(model => model.Id)
+    @Html.HiddenFor(model => model.ResturantId)
+    @Html.HiddenFor(model => model.UserId)
+    @Html.HiddenFor(model => model.PaymentTypeId)
+    @Html.AntiForgeryToken()
+<div class="form-horizontal">
+    @Html.ValidationSummary(true, "", new { @class = "text-danger" })
+
+    <div class="form-group">
+        @Html.LabelFor(model => model.Resturant.Name, htmlAttributes: new { @class = "control-label col-md-2" })
+        <div class="col-md-10">
+            <input type="text" value="@Model.Resturant.Name" disabled="disabled"/>
+        </div>
+    </div>
+
+    <div class="form-group">
+        @Html.LabelFor(model => model.Price, htmlAttributes: new { @class = "control-label col-md-2" })
+        <div class="col-md-10">
+            @Html.TextBox("Price",Model?.Price.ToString("N0"), new { @class = "form-control PriceFormat", @readonly = "readonly" })
+            @Html.ValidationMessageFor(model => model.Price, "", new { @class = "text-danger" })
+        </div>
+    </div>
+
+    <div class="form-group">
+        @Html.LabelFor(model => model.IsOnlinePayment, htmlAttributes: new { @class = "control-label col-md-2" })
+        <div class="col-md-10">
+            <div class="checkbox">
+                @Html.EditorFor(model => model.IsOnlinePayment, new { htmlAttributes = new { @class = "form-control", @readonly = "readonly" } })
+                @Html.ValidationMessageFor(model => model.IsOnlinePayment, "", new { @class = "text-danger", @readonly = "readonly" })
+            </div>
+        </div>
+    </div>
+
+    <div class="form-group">
+        @Html.LabelFor(model => model.FishPic, htmlAttributes: new { @class = "control-label col-md-2" })
+        <div class="col-md-10">
+            @if (Model != null && !string.IsNullOrEmpty(Model.FishPic))
+            {
+                <a href="~/images/ResturantPayment/@Model.FishPic"><img src="~/images/ResturantPayment/@Model.FishPic" title="دانلود" height="50" /></a>
+            }
+            @Html.HiddenFor(x => x.FishPic)
+            @Html.ValidationMessageFor(model => model.FishPic, "", new { @class = "text-danger" })
+        </div>
+    </div>
+
+    <div class="form-group">
+        @Html.LabelFor(model => model.PaymentDate, htmlAttributes: new { @class = "control-label col-md-2" })
+        <div class="col-md-10">
+            @Html.HiddenFor(x => x.PaymentDate)
+            @Html.EditorFor(model => model.PaymentDateShamsi, new { htmlAttributes = new { @class = "form-control", @readonly = "readonly" } })
+            @Html.ValidationMessageFor(model => model.PaymentDate, "", new { @class = "text-danger" })
+        </div>
+    </div>
+
+    <div class="form-group">
+        @Html.LabelFor(model => model.VarizKonande, htmlAttributes: new { @class = "control-label col-md-2" })
+        <div class="col-md-10">
+            @Html.EditorFor(model => model.VarizKonande, new { htmlAttributes = new { @class = "form-control", @readonly = "readonly" } })
+            @Html.ValidationMessageFor(model => model.VarizKonande, "", new { @class = "text-danger" })
+        </div>
+    </div>
+    <div class="form-group">
+        @Html.LabelFor(model => model.RefId, htmlAttributes: new { @class = "control-label col-md-2" })
+        <div class="col-md-10">
+            @Html.EditorFor(model => model.RefId, new { htmlAttributes = new { @class = "form-control", @readonly = "readonly" } })
+            @Html.ValidationMessageFor(model => model.RefId, "", new { @class = "text-danger" })
+        </div>
+    </div>
+
+    <div class="form-group">
+        @Html.LabelFor(model => model.IsAccepted, htmlAttributes: new { @class = "control-label col-md-2" })
+        <div class="col-md-10">
+            <div class="checkbox">
+                @Html.EditorFor(model => model.IsAccepted)
+                @Html.ValidationMessageFor(model => model.IsAccepted, "", new { @class = "text-danger" })
+            </div>
+        </div>
+    </div>
+
+
+    <div class="form-group">
+        <div class="col-md-offset-2 col-md-10">
+            <input type="submit" value="ثبت" class="btn btn-default" />
+        </div>
+    </div>
+</div>
+}
+
+<div>
+    @Html.ActionLink("بازگشت", "Index")
+</div>
+
+@section Scripts {
+    @Scripts.Render("~/bundles/jqueryval")
+}

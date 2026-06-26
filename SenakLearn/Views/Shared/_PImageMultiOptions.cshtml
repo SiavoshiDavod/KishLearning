@@ -1,0 +1,137 @@
+﻿@model SenakLearn.Models.SurveyQuestion
+@if (ViewBag.Layout != null)
+{
+    Layout = ViewBag.Layout;
+}
+@if (ViewBag.Layout != null)
+{
+    Layout = ViewBag.Layout;
+}
+@if (Model?.Id > 0)
+{
+    if (Model.SurveyAnswers?.Count > 0)
+    {
+        var result = Model.SurveyQuestionOptions.Select(x => new SenakLearn.Models.wrapper.ChartVm { Id = x.Id.ToString(), QuestionOption = x.QuestionOption, QuestionOptionUrl = "/images/QuestionOption/" + x.QuestionOptionUrl, Count = 0 }).ToList();
+        string pieId = "CreatePieChart" + Model.Id;
+        <td class="PieChart">
+            <a title="نمایش نمودار" id="@pieId" style="cursor:pointer"> <span class="	fa fa-pie-chart"></span></a>
+        </td>
+        foreach (var answer in Model.SurveyAnswers.Where(z => !string.IsNullOrWhiteSpace(z.SurveyQuestionOptionId)))
+        {
+            List<SenakLearn.Models.SurveyQuestionOption> result1 = new List<SenakLearn.Models.SurveyQuestionOption>();
+            foreach (var item in answer.SurveyQuestionOptionId.Split(',').Where(x => x != null))
+            {
+                var option = Model.SurveyQuestionOptions.FirstOrDefault(x => x.Id.ToString() == item.Trim());
+                if (option != null)
+                {
+                    var res = result.First(x => x.Id == item.Trim());
+                    res.Count = res.Count + 1;
+                    result1.Add(option);
+                }
+            }
+            if (result1.Count > 0)
+            {
+                <td>
+                    @foreach (var item in result1)
+                    {
+                        <div class="PieChart">
+                            <img src="~/images/QuestionOption/@item.QuestionOptionUrl" height="50" alt="@item.QuestionOption" />
+                        </div>
+                        <div style="display:none">
+                            @item.QuestionOption
+                        </div>
+                    }
+                </td>
+            }
+
+        }
+        <script>
+            $("#@pieId").click(function () {
+                var result = '@Html.Raw(Newtonsoft.Json.JsonConvert.SerializeObject(result))';
+                return CreatePieChart(result,'@Model.Question','@Model.QuestionTypeName','@Model.QuestionImageUrl','@Model.Id')
+            });
+        </script>
+    }
+    else
+    {
+
+        if (!string.IsNullOrEmpty(Model.QuestionImageUrl))
+        {
+            @Html.Raw($"<img src='/images/Question/{ Model.QuestionImageUrl}'  { (Model.Height > 0 ? " height='" + Model.Height + "'" : "")}{ (Model.Width > 0 ? " width='" + Model.Width + "'" : "")} />")
+        }
+        var required = "";
+        if (Model.required)
+        {
+            required = " required ";
+        }
+        <div class="QuestionSurvey">
+            @Model.Question
+        </div>
+        <div class="QuestionSurvey">
+            @if (Model.SurveyQuestionOptions?.Count > 0)
+            {
+                var maxCountinLine = 0;
+                int.TryParse(Model.StringType, out maxCountinLine);
+                <form class="SurveyAnswerMultiOption @required" id="@Model.Id" style="text-align:right" data-Min="@Model.MinType" data-Max="@Model.MaxType">
+                    <table class="table table-responsive">
+                        @if (maxCountinLine <= 0)
+                        {
+                            foreach (var item in Model.SurveyQuestionOptions)
+                            {
+                                <tr>
+                                    <td>
+                                        <input type="checkbox" @required value="@item.Id" name="@Model.Id">
+                                        @Html.Raw($"<img src='/images/QuestionOption/{ item.QuestionOptionUrl}'  { (item.Height > 0 ? " height='" + item.Height + "'" : "")}{ (item.Width > 0 ? " width='" + item.Width + "'" : "")} />")
+                                        <span>@item.QuestionOption</span>
+                                    </td>
+                                </tr>
+                            }
+                        }
+                        else //if (maxCountinLine == 1 || Model.SurveyQuestionOptions.Count <= maxCountinLine)
+                        {
+                            <tr>
+                                @foreach (var item in Model.SurveyQuestionOptions)
+                                {
+                                    <td>
+                                        <input type="checkbox" @required value="@item.Id" name="@Model.Id">
+                                        @Html.Raw($"<img src='/images/QuestionOption/{ item.QuestionOptionUrl}'  { (item.Height > 0 ? " height='" + item.Height + "'" : "")}{ (item.Width > 0 ? " width='" + item.Width + "'" : "")} />")
+                                        <span>@item.QuestionOption</span>
+                                    </td>
+                                }
+                            </tr>
+                        }
+                    </table>
+                </form>
+            }
+        </div>
+
+        <div class="QuestionSurveyFooter">
+            @{
+                int? next = null;
+                int? prev = null;
+                if (ViewData["Next"] != null)
+                {
+                    next = (int?)ViewData["Next"];
+                }
+                if (ViewData["Prev"] != null)
+                {
+                    prev = (int?)ViewData["Prev"];
+                }
+                if (next != null && next > 0 && prev != null && prev > 0)
+                {
+                    <input type="button" title="بعدی" value="بعدی" class="btn btn-warning" onclick="return ShowQuestionById('@next')" />
+                    <input type="button" title="قبلی" value="قبلی" class="btn btn-warning" onclick="return ShowQuestionById('@prev')" />
+                }
+                else if (next != null && next > 0)
+                {
+                    <input type="button" title="شروع" value="شروع" class="btn btn-warning" onclick="return ShowQuestionById('@next')" />
+                }
+                else if (prev != null && prev > 0)
+                {
+                    <input type="button" title="ثبت" value="ثبت" class="btn btn-success" onclick="return saveSurveyForm()" />
+                }
+            }
+        </div>
+    }
+
+}

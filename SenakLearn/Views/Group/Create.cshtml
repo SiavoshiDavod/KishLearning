@@ -1,0 +1,142 @@
+﻿@model SenakLearn.Models.learn_cours_group
+@{
+   Layout = "~/Views/Shared/_LayoutAdmin.cshtml";
+    ViewBag.Title = SenakLearn.Models.Dictionary.ModelDictionary[typeof(SenakLearn.Models.learn_cours_group)];
+}
+
+@using (Html.BeginForm("Create", "Group", FormMethod.Post, new { enctype = "multipart/form-data" }))
+{
+
+
+<div class="form-horizontal">
+
+    @Html.ValidationSummary(true)
+    <div class="form-group">
+        @Html.LabelFor(model => model.name, new { @class = "control-label col-md-2" })
+        <div class="col-md-10">
+            @Html.EditorFor(model => model.name)
+            @Html.ValidationMessageFor(model => model.name)
+        </div>
+    </div>
+    <div class="form-group">
+        @Html.LabelFor(model => model.status, new { @class = "control-label col-md-2" })
+        <div class="col-md-10">
+            @Html.EditorFor(model => model.status)
+            @Html.ValidationMessageFor(model => model.status)
+        </div>
+    </div>
+    <div class="form-group">
+        @Html.LabelFor(model => model.Online, new { @class = "control-label col-md-2" })
+        <div class="col-md-10">
+            @Html.EditorFor(model => model.Online)
+            @Html.ValidationMessageFor(model => model.Online)
+        </div>
+    </div>
+
+    <div class="form-group">
+        @Html.LabelFor(model => model.Offline, new { @class = "control-label col-md-2" })
+        <div class="col-md-10">
+            @Html.EditorFor(model => model.Offline)
+            @Html.ValidationMessageFor(model => model.Offline)
+        </div>
+    </div>
+
+    <div class="form-group">
+        @Html.LabelFor(model => model.Paper, new { @class = "control-label col-md-2" })
+        <div class="col-md-10">
+            @Html.EditorFor(model => model.Paper)
+            @Html.ValidationMessageFor(model => model.Paper)
+        </div>
+    </div>
+
+    <div class="form-group">
+        @Html.LabelFor(model => model.Book, new { @class = "control-label col-md-2" })
+        <div class="col-md-10">
+            @Html.EditorFor(model => model.Book)
+            @Html.ValidationMessageFor(model => model.Book)
+        </div>
+    </div>
+    <div class="form-group">
+        @Html.LabelFor(model => model.Booklet, new { @class = "control-label col-md-2" })
+        <div class="col-md-10">
+            @Html.EditorFor(model => model.Booklet)
+            @Html.ValidationMessageFor(model => model.Booklet)
+        </div>
+    </div>
+
+    <div class="form-group">
+        @Html.LabelFor(model => model.OnlineCount, new { @class = "control-label col-md-2" })
+        <div class="col-md-10">
+            @Html.EditorFor(model => model.OnlineCount)
+            @Html.ValidationMessageFor(model => model.OnlineCount)
+        </div>
+    </div>
+
+    <div class="form-group">
+        @Html.LabelFor(model => model.OfflineCount, new { @class = "control-label col-md-2" })
+        <div class="col-md-10">
+            @Html.EditorFor(model => model.OfflineCount)
+            @Html.ValidationMessageFor(model => model.OfflineCount)
+        </div>
+    </div>
+
+    <div class="form-group">
+        @Html.LabelFor(model => model.PaperCount, new { @class = "control-label col-md-2" })
+        <div class="col-md-10">
+            @Html.EditorFor(model => model.PaperCount)
+            @Html.ValidationMessageFor(model => model.PaperCount)
+        </div>
+    </div>
+
+    <div class="form-group">
+        @Html.LabelFor(model => model.BookCount, new { @class = "control-label col-md-2" })
+        <div class="col-md-10">
+            @Html.EditorFor(model => model.BookCount)
+            @Html.ValidationMessageFor(model => model.BookCount)
+        </div>
+    </div>
+    <div class="form-group">
+        @Html.LabelFor(model => model.BookletCount, new { @class = "control-label col-md-2" })
+        <div class="col-md-10">
+            @Html.EditorFor(model => model.BookletCount)
+            @Html.ValidationMessageFor(model => model.BookletCount)
+        </div>
+    </div>
+    <div class="form-group">
+        @Html.LabelFor(model => model.Order, new { @class = "control-label col-md-2" })
+        <div class="col-md-10">
+            @Html.EditorFor(model => model.Order)
+            @Html.ValidationMessageFor(model => model.Order)
+        </div>
+    </div>
+    <div class="form-group">
+        @Html.LabelFor(model => model.ImageUrl, new { @class = "control-label col-md-2" })
+
+        <div class="col-md-10">
+            <label class="btn btn-default"> انتخاب فایل  <input accept="image/*" class="fileChosen" type="file" hidden id="ImageFile" name="ImageFile"></label><span class="fileChosenText"></span>
+            @Html.ValidationMessageFor(model => model.ImageUrl)
+        </div>
+        @Html.ValidationMessageFor(model => model.ImageUrl)
+    </div>
+
+    <div class="form-group">
+        @Html.LabelFor(model => model.Description, new { @class = "control-label col-md-2" })
+        <div class="col-md-10">
+            @Html.EditorFor(model => model.Description)
+            @Html.ValidationMessageFor(model => model.Description)
+        </div>
+    </div>
+    <div class="form-group">
+        <div class="col-md-offset-2 col-md-10">
+            <input type="submit" value="ثبت" class="btn btn-success" />
+        </div>
+    </div>
+</div>
+}
+<div>
+    @Html.ActionLink("نمایش لیست", "Index")
+</div>
+@section Scripts {
+   @Scripts.Render("~/bundles/jqueryval")
+
+}

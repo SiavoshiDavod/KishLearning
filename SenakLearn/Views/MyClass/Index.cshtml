@@ -1,0 +1,32 @@
+﻿
+@{
+    Layout = "~/Views/Shared/_LayoutAdmin.cshtml";
+    var urlList = "/MyClass/LoadList";
+}
+
+<div id="TadGoodsField">
+    @using MVC.Controls
+
+    @Html.Grid(
+    new GridControl().SetName("OnlineClassesGrid").
+    SetPageSize(10).
+    SetShrinkToFit(false).
+    SetIsAutoSize(true).
+    SetIsFilterToolbar(true).
+    IsRTL().
+    SetListUrl(urlList).
+        SetCaption("کلاس های انلاین").
+    SetOnLoadCompleteEvent("loadOnlineClassesGridCompleteEvent").
+        UseColumns(SenakLearn.Controllers.Student.MyClassController.Columns)
+)
+    <script type="text/javascript">
+        function loadOnlineClassesGridCompleteEvent() {
+            var ids = $("#OnlineClassesGrid").jqGrid('getDataIDs');
+
+        }
+
+    </script>
+</div>
+
+
+

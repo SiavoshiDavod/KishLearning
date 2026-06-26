@@ -1,0 +1,67 @@
+﻿<#@ template language="C#" HostSpecific="True" #>
+<#@ output extension=".cshtml" #>
+<#@ include file="Imports.include.t4" #>
+@model <#= ViewDataTypeName #>
+<#
+// The following chained if-statement outputs the file header code and markup for a partial view, a view using a layout page, or a regular view.
+if(IsPartialView) {
+#>
+
+<#
+} else if(IsLayoutPageSelected) {
+#>
+
+@{
+	 dynamic title = Server.HtmlDecode(Html.DisplyPluralNameFor(model => model).ToString());
+<#
+if (!String.IsNullOrEmpty(LayoutPageFile)) {
+#>
+    Layout = "<#= LayoutPageFile#>";
+<#
+}
+#>
+}
+
+<h2>
+	 dynamic title = Server.HtmlDecode(Html.DisplyPluralNameFor(model => model).ToString());</h2>
+
+<#
+} else {
+#>
+
+@{
+    Layout = null;
+}
+
+<!DOCTYPE html>
+
+<html>
+<head>
+    <meta name="viewport" content="width=device-width" />
+    <title>@Html.DisplyPluralNameFor(model => model)</title>
+</head>
+<body>
+<#
+    PushIndent("    ");
+}
+#>
+<#
+if(!IsPartialView && !IsLayoutPageSelected) {
+#>
+<div> 
+</div>
+<#
+}
+#>
+<#
+// The following code closes the tag used in the case of a view using a layout page and the body and html tags in the case of a regular view page
+#>
+<#
+if(!IsPartialView && !IsLayoutPageSelected) {
+    ClearIndent();
+#>
+</body>
+</html>
+<#
+}
+#>

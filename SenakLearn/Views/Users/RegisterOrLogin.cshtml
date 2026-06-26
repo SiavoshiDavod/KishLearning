@@ -1,0 +1,39 @@
+﻿
+@{
+    ViewBag.Title = "ورود /ثبت نام";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+<div class="container">
+
+    <div class="row justify-content-center">
+        <div class="col-md-8 text-center">
+            <div class="contact-form-title text-center mb-4">
+                <h4 class="mb-1"> ورود /ثبت نام</h4>
+            </div>
+        </div>
+    </div>
+</div>
+<section class="login-form page-section-ptb">
+    <div class="container">
+        <div class="row">
+                <div class="col-md-3">
+
+                    @Html.Partial("_PartialLogin")
+
+                </div>
+            <div class="col-md-2">
+
+            </div>
+                <div class="col-md-7">
+
+                    @Html.Partial("_PartialRegister")
+
+                </div>
+        </div>
+    </div>
+</section>
+
+<script src="~/Scripts/jquery-1.10.2.min.js"></script>
+@section Scripts {
+    @Scripts.Render("~/bundles/jqueryval")
+}

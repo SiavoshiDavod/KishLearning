@@ -1,0 +1,137 @@
+﻿@model SenakLearn.Models.learn_teacher
+
+@{
+    Layout = "~/Views/Shared/_LayoutAdmin.cshtml";
+}
+
+
+@using (Html.BeginForm())
+{
+    
+
+    <div class="form-horizontal">
+       
+        <hr />
+        @Html.ValidationSummary(true)
+        @Html.HiddenFor(model => model.id)
+        @Html.HiddenFor(model => model.date_register)
+        @Html.HiddenFor(model => model.UserId)
+        @Html.HiddenFor(model => model.image)
+        @Html.HiddenFor(model => model.code)
+        @Html.HiddenFor(model => model.status)
+
+        <div class="form-group">
+            @Html.LabelFor(model => model.name,  new { @class = "control-label col-md-2" })
+            <div class="col-md-10">
+                @Html.EditorFor(model => model.name)
+                @Html.ValidationMessageFor(model => model.name)
+            </div>
+        </div>
+
+        <div class="form-group">
+            @Html.LabelFor(model => model.family,  new { @class = "control-label col-md-2" })
+            <div class="col-md-10">
+                @Html.EditorFor(model => model.family)
+                @Html.ValidationMessageFor(model => model.family)
+            </div>
+        </div>
+
+        <div class="form-group">
+            @Html.LabelFor(model => model.meli,  new { @class = "control-label col-md-2" })
+            <div class="col-md-10">
+                @Html.EditorFor(model => model.meli)
+                @Html.ValidationMessageFor(model => model.meli)
+            </div>
+        </div>
+
+        <div class="form-group">
+            @Html.LabelFor(model => model.tel,  new { @class = "control-label col-md-2" })
+            <div class="col-md-10">
+                @Html.EditorFor(model => model.tel)
+                @Html.ValidationMessageFor(model => model.tel)
+            </div>
+        </div>
+
+        <div class="form-group">
+            @Html.LabelFor(model => model.mobile,  new { @class = "control-label col-md-2" })
+            <div class="col-md-10">
+                @Html.EditorFor(model => model.mobile)
+                @Html.ValidationMessageFor(model => model.mobile)
+            </div>
+        </div>
+
+        <div class="form-group">
+            @Html.LabelFor(model => model.address,  new { @class = "control-label col-md-2" })
+            <div class="col-md-10">
+                @Html.EditorFor(model => model.address)
+                @Html.ValidationMessageFor(model => model.address)
+            </div>
+        </div>
+
+        <div class="form-group">
+            @Html.LabelFor(model => model.education,  new { @class = "control-label col-md-2" })
+            <div class="col-md-10">
+                @Html.EditorFor(model => model.education)
+                @Html.ValidationMessageFor(model => model.education)
+            </div>
+        </div>
+
+        @*<div class="form-group">
+            @Html.LabelFor(model => model.status,  new { @class = "control-label col-md-2" })
+            <div class="col-md-10">
+                @Html.EditorFor(model => model.status)
+                @Html.ValidationMessageFor(model => model.status)
+            </div>
+        </div>
+
+        <div class="form-group">
+            @Html.LabelFor(model => model.code,  new { @class = "control-label col-md-2" })
+            <div class="col-md-10">
+                @Html.EditorFor(model => model.code)
+                @Html.ValidationMessageFor(model => model.code)
+            </div>
+        </div>*@
+
+        <div class="form-group">
+            @Html.LabelFor(model => model.image,  new { @class = "control-label col-md-2" })
+            <div class="col-md-10">
+                @if (Model.image != null)
+                {
+                    <img src="/images/teacher/@Model.image" alt=@Model.name width="150px" class="thumbnail" />
+                }
+                <label class="btn btn-default"> انتخاب فایل  <input accept="image/*"  class="fileChosen" type="file" hidden id="ImageFile" name="ImageFile"></label><span class="fileChosenText"></span>
+                @Html.ValidationMessageFor(model => model.image)
+            </div>
+        </div>
+
+        <div class="form-group">
+            @Html.LabelFor(model => model.email,  new { @class = "control-label col-md-2" })
+            <div class="col-md-10">
+                @Html.EditorFor(model => model.email)
+                @Html.ValidationMessageFor(model => model.email)
+            </div>
+        </div>
+        <div class="form-group">
+            @Html.LabelFor(model => model.Resume,  new { @class = "control-label col-md-2" })
+            <div class="col-md-10">
+                @Html.ClassicEditorFor(model => model.Resume, new { @class = "form-control" } )
+                @Html.ValidationMessageFor(model => model.Resume, "", new { @class = "text-danger" })
+            </div>
+        </div>
+
+        <div class="form-group">
+            <div class="col-md-offset-2 col-md-10">
+                <input type="submit" value="ویرایش" class="btn btn-danger" />
+            </div>
+        </div>
+    </div>
+}
+
+<div>
+    @Html.ActionLink("بازگشت به لیست", "Index")
+</div>
+
+@section Scripts {
+    @Scripts.Render("~/bundles/jqueryval")
+}
+

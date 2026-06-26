@@ -1,0 +1,28 @@
+﻿@model SenakLearn.Models.AzmoonQuestion
+
+@{
+    ViewBag.Title = "پیوست";
+    Layout = "~/Views/Shared/_LayoutAdmin.cshtml";
+}
+<div class="container">
+    @if (Model.QuestionImageUrl != null)
+    {
+        <div class="row">
+            <label>تصویر سوال</label>
+            <div class="col-md-12 border">
+                <img title="تصویر سوال" src="~/images/Question/@Model.QuestionImageUrl" />
+            </div>
+        </div>
+    }
+    @if (Model.AnswerImageUrl != null)
+    {
+        <div class="row">
+            <label>تصویر جواب</label>
+            <div class="col-md-12 border">
+
+                <img title="تصویر جواب" src="~/images/Answer/@Model.AnswerImageUrl" />
+            </div>
+        </div>
+    }
+    </div>
+

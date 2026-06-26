@@ -1,0 +1,51 @@
+﻿@model IEnumerable<SenakLearn.Models.ZarinpalPayment>
+
+@{
+    Layout = "~/Views/Shared/_LayoutAdmin.cshtml";
+    var urlList = "/ZarinpalPayments/LoadList";
+    ViewBag.Title = "تراکنش های بانکی";
+}
+<!-- Page-Title -->
+<div class="row">
+    <div class="col-sm-12">
+        <div class="page-title-box">
+            <ol class="breadcrumb pull-right">
+                <li><a href="#">@ViewBag.Title</a></li>
+                <li class="active">Dashboard</li>
+            </ol>
+            @*<h4 class="page-title">@Html.ActionLink("افزودن", "Create") </h4>*@
+        </div>
+    </div>
+</div>
+<div id="TadGoodsField">
+    @using MVC.Controls
+
+    @Html.Grid(
+    new GridControl().SetName("ZarinpalPaymentGrid").
+    SetPageSize(10).
+    SetShrinkToFit(false).
+    SetIsAutoSize(true).
+    SetIsFilterToolbar(true).
+    IsRTL().
+    SetListUrl(urlList).
+        SetCaption("تراکنش های بانکی").
+    SetOnLoadCompleteEvent("loadZarinpalPaymentGridCompleteEvent").
+        UseColumns(SenakLearn.Controllers.ZarinpalPaymentsController.Columns)
+)
+    <script type="text/javascript">
+	function loadZarinpalPaymentGridCompleteEvent() {
+		//$("#ZarinpalPaymentGrid").jqGrid('setGridWidth', $('#TadGoodsListDiv').width()-100, false);
+		//var ids = $("#ZarinpalPaymentGrid").jqGrid('getDataIDs');
+		//for (var i = 0; i < ids.length; i++) {
+		//	var cl = ids[i];
+		//	ed = '<a class="ajaxLink" target-update="TadGoodsDetailsDiv" href="/ZarinpalPayments/Edit?tadGoodsId=' + cl + '" title="ویرایش"><div class="tableEditLink"></div></a>';
+		//	dl = '<a class="ajaxLink delete" target-update="TadGoodsListDiv" href="/ZarinpalPayments/Remove?Id=' + cl + '" title="حذف"   ><div class="tableDeleteLink"></div></a>';
+		//	$('#ZarinpalPaymentGrid').jqGrid('setRowData', ids[i], { act: ed + dl });
+		//}
+    }
+
+    </script>
+</div>
+<p>
+    @*@Html.ActionLink("افزودن", "Create")*@
+</p>

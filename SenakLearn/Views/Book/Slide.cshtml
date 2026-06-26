@@ -1,0 +1,124 @@
+﻿@model SenakLearn.Models.BookSlideModel
+
+@{
+    Layout = "~/Views/Shared/_LayoutAdmin.cshtml";
+    var urlList = "/Book/LoadListSlider";
+    ViewBag.Title = "اسلایدر کتاب";
+}
+
+<div class="row">
+    <div class="col-sm-12">
+        <div class="page-title-box">
+            <ol class="breadcrumb pull-right">
+                <li><a href="#">@ViewBag.Title</a></li>
+                <li class="active">Dashboard</li>
+            </ol>
+        </div>
+    </div>
+</div>
+
+<div class="row">
+    <div class="col-sm-12">
+        <div class="card-box">
+
+            @using (Html.BeginForm("Slide", "Book", FormMethod.Post, new { enctype = "multipart/form-data" }))
+            {
+
+                <div class="form-horizontal">
+                    <hr />
+                    @Html.ValidationSummary(true, "", new { @class = "text-danger" })
+                    @Html.HiddenFor(model => model.Id)
+                    @Html.HiddenFor(model => model.CreatedDate)
+
+                    <div class="form-group">
+                        @Html.LabelFor(model => model.Url, htmlAttributes: new { @class = "control-label col-md-2" })
+                        <div class="col-md-10">
+                            @Html.EditorFor(model => model.Url, new { htmlAttributes = new { @class = "form-control" } })
+                            @Html.ValidationMessageFor(model => model.Url, "", new { @class = "text-danger" })
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        @Html.LabelFor(model => model.Title, htmlAttributes: new { @class = "control-label col-md-2" })
+                        <div class="col-md-10">
+                            @Html.EditorFor(model => model.Title, new { htmlAttributes = new { @class = "form-control" } })
+                            @Html.ValidationMessageFor(model => model.Title, "", new { @class = "text-danger" })
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        @Html.LabelFor(model => model.IsActive, htmlAttributes: new { @class = "control-label col-md-2" })
+                        <div class="col-md-10">
+                            @Html.EditorFor(model => model.IsActive, new { htmlAttributes = new { @class = "form-control" } })
+                            @Html.ValidationMessageFor(model => model.IsActive, "", new { @class = "text-danger" })
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        @Html.LabelFor(model => model.Img, htmlAttributes: new { @class = "control-label col-md-2" })
+                        <div class="col-md-10">
+                            <label class="btn btn-default"> انتخاب تصویر اسلایدر  <input accept="image/*" class="fileChosen1" type="file" hidden id="SlideImgFile" name="SlideImgFile"></label><span class="fileChosenText1">
+                                @if (Model != null && !string.IsNullOrEmpty(Model.Img))
+                                {
+                                    <a href="~/images/Book/@Model.Img">دانلود</a>
+                                }
+                            </span>
+                            @Html.HiddenFor(x => x.Img)
+                            @Html.ValidationMessageFor(model => model.Img, "", new { @class = "text-danger" })
+
+                        </div>
+                    </div>
+
+                    <div class="form-group">
+                        <div class="col-md-offset-2 col-md-10">
+                            <input type="submit" value="ثبت" class="btn btn-default" />
+                        </div>
+                    </div>
+                </div>
+            }
+
+            <div>
+                @Html.ActionLink("بازگشت", "Index")
+            </div>
+
+            @section Scripts {
+                @Scripts.Render("~/bundles/jqueryval")
+
+                <script>
+
+                    $(".fileChosen1").change(function () {
+                        filename = this.files[0].name;
+                        $(".fileChosenText1").html(filename);
+                    });
+                </script>
+            }
+
+        </div>
+    </div>
+</div>
+
+<div id="TadGoodsField">
+    @using MVC.Controls
+
+    @Html.Grid(
+    new GridControl().SetName("BookSlideGrid").
+    SetPageSize(10).
+    SetShrinkToFit(false).
+    SetIsAutoSize(true).
+    SetIsFilterToolbar(true).
+    IsRTL().
+    SetListUrl(urlList).
+        SetCaption("اسلایدر کتاب").
+    SetOnLoadCompleteEvent("loadBookSlideGridCompleteEvent").
+        UseColumns(SenakLearn.Controllers.Admin.BookController.ColumnBooks)
+)
+    <script type="text/javascript">
+        function loadBookSlideGridCompleteEvent() {
+            var ids = $("#BookSlideGrid").jqGrid('getDataIDs');
+            for (var i = 0; i < ids.length; i++) {
+                var cl = ids[i];
+                ed = '<a class="ajaxLink"  href="/Book/Slide?Id=' + cl + '" title="ویرایش"><div class="tableEditLink">ویرایش</div></a>';
+                dl = '<a class="delete" href="/Book/SlideDelete?Id=' + cl + '" title="حذف"   ><div class="tableDeleteLink">حذف</div></a>';
+                $('#BookSlideGrid').jqGrid('setRowData', ids[i], { act: ed + dl  });
+            }
+        }
+
+    </script>
+</div>

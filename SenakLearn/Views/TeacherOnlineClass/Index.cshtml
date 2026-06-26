@@ -1,0 +1,35 @@
+﻿
+@{
+    Layout = "~/Views/Shared/_LayoutAdmin.cshtml";
+    var urlList = "/TeacherOnlineClass/LoadList";
+}
+
+<div id="TadGoodsField">
+    @using MVC.Controls
+
+    @Html.Grid(
+    new GridControl().SetName("OnlineClassesGrid").
+    SetPageSize(10).
+    SetShrinkToFit(false).
+    SetIsAutoSize(true).
+    SetIsFilterToolbar(true).
+    IsRTL().
+    SetListUrl(urlList).
+        SetCaption("کلاس های انلاین").
+    SetOnLoadCompleteEvent("loadOnlineClassesGridCompleteEvent").
+        UseColumns(SenakLearn.Controllers.OnlineClassesController.Columns)
+)
+    <script type="text/javascript">
+        function loadOnlineClassesGridCompleteEvent() {
+            var ids = $("#OnlineClassesGrid").jqGrid('getDataIDs');
+            for (var i = 0; i < ids.length; i++) {
+                var cl = ids[i];
+                exel = '<a class="ajaxLink "href="/TeacherOnlineClass/ExcelForTeacher?onlineClassId=' + cl + '" title="اکسل"   target="_blank" ><div class="tableDeleteLink">اکسل دانشجویان</div></a>';
+                $('#OnlineClassesGrid').jqGrid('setRowData', ids[i], { act: exel });
+            }
+        }
+    </script>
+</div>
+
+
+

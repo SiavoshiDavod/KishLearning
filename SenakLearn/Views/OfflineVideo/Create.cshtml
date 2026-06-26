@@ -1,0 +1,174 @@
+﻿
+@model SenakLearn.Models.OfflineVideo
+
+@{
+    string video = "";
+    if (Model != null && Model.VideoId != Guid.Empty)
+    {
+        video = Model.VideoId.ToString();
+    }
+
+}
+<style>
+    #Description {
+        width: 100%;
+    }
+</style>
+@using (Html.BeginForm(null, null, FormMethod.Post, new
+{
+    @id = "myForm",
+    @name = "myForm"
+}))
+{
+    @Html.HiddenFor(x => x.Id)
+
+    <div class="form-horizontal">
+        <hr />
+        @Html.ValidationSummary(true, "", new { @class = "text-danger" })
+        <div class="form-group">
+            @Html.LabelFor(model => model.VideoId, new { @class = "control-label col-md-2" })
+            <span style="color:red">*</span>
+            <div class="col-md-10">
+                @*@Html.Video_DropDown("VideoId", true, new { @class = "form-control" })*@
+                <div class="col-md-7">
+                    @Html.VideoSelector("VideoId", "VideoName", video, null, new { @class = "form-control" })
+
+                </div>
+                <div class="col-md-5">
+                    <button onclick="btnShowVideoUpload()" type="button">
+                        <img src="~/images/64x64/toggle-expand-blue.png" title="بارگذاری فایل" width="32" height="32" />
+                    </button>
+                    <button onclick="btnShowVideoPlay()" type="button">
+                        <img src="~/images/64x64/Play.png" title="پخش" width="32" height="32" />
+                    </button>
+                </div>
+                @Html.ValidationMessageFor(model => model.VideoId, "", new { @class = "text-danger" })
+            </div>
+        </div>
+
+        <div class="form-group">
+            @Html.LabelFor(model => model.ParentId, new { @class = "control-label col-md-2" })
+            <div class="col-md-10">
+                @Html.OfflineVideoDropDown("ParentId", false, new { @class = "form-control" }, null, Model?.ParentId)
+                @Html.ValidationMessageFor(model => model.ParentId, "", new { @class = "text-danger" })
+            </div>
+        </div>
+
+        <div class="form-group">
+            @Html.LabelFor(model => model.Order, new { @class = "control-label col-md-2" })
+            <div class="col-md-10">
+                @Html.EditorFor(model => model.Order, new { @class = "form-control" })
+                @Html.ValidationMessageFor(model => model.Order, "", new { @class = "text-danger" })
+            </div>
+        </div>
+
+        <div class="form-group">
+            @Html.LabelFor(model => model.Description, new { @class = "control-label col-md-2" })
+            <span style="color:red">*</span>
+            <div class="col-md-10">
+                @Html.EditorFor(model => model.Description, new { @class = "form-control", @style = "width: 100%;" })
+                @Html.ValidationMessageFor(model => model.Description, "", new { @class = "text-danger" })
+            </div>
+        </div>
+        <div class="form-group">
+            @Html.LabelFor(model => model.IsFree, new { @class = "control-label col-md-2" })
+            <div class="col-md-10">
+                @Html.EditorFor(model => model.IsFree, new { @class = "form-control" })
+                @Html.ValidationMessageFor(model => model.IsFree, "", new { @class = "text-danger" })
+            </div>
+        </div>
+        <div class="form-group">
+            @Html.LabelFor(model => model.learn_coursId, new { @class = "control-label col-md-2" })
+            <div class="col-md-10">
+                @Html.HiddenFor(x => x.learn_coursId)
+                @Html.Cours_DropDown("learn_coursIdDDl", true, new { @class = "form-control" })
+                @Html.ValidationMessageFor(model => model.learn_coursId, "", new { @class = "text-danger" })
+            </div>
+        </div>
+        <div class="form-group">
+            <div class="col-md-offset-2 col-md-10">
+                <input type="button" value="ثبت" onclick=" createForm()" class="btn btn-default" />
+            </div>
+        </div>
+    </div>
+    <script>
+        function btnShowVideoUpload() {
+            $(".dialogVideoUploadClass").remove();
+            var $dialog = $("<div class='dialogVideoUploadClass' style='padding:15px'></div>").get(0);
+            $.ajax({
+                url: "/VideoFile/CreatePartial",
+                type: "post",
+                success: function (res) {
+
+                    /* var div = $($dialog).find('div.dialogVideoUploadClass').prevObject[0];*/
+                    //debugger;
+                    $($dialog).html(res);
+                    $($dialog).dialog({
+                        autoOpen: true, modal: true, show: "blind", hide: "blind", width: '550px',
+                        height: 'auto', title: 'بارگذاری فایل',
+                        close: function () {
+                            //$('#OfflineVideo').jstree("refresh");
+                            //createOfflineVideoChild(null, null);
+                            //debugger;
+                            $('#VideoId').val($($dialog).find('#fileUploadedId').val());
+                            $('#VideoName').val($($dialog).find('#fileUploadedName').val());
+                            $(".dialogVideoUploadClass").remove();
+                        }
+                    });
+                }
+            });
+        }
+        function btnShowVideoPlay() {
+            var videoId = $('#VideoId').val();
+            //debugger;
+            if (videoId == '' || videoId == undefined) {
+                alert('یک فایل برای مشاهده انتخاب نماپید !');
+                return;
+            }
+            $(".dialogVideoPlayClass").remove();
+            var $dialog = $("<div class='dialogVideoPlayClass' style='padding:15px'></div>").get(0);
+            $.ajax({
+                url: "/VideoFile/PlayPartial?videoId=" + videoId,
+                type: "post",
+                success: function (res) {
+
+                    $($dialog).html(res);
+                    $($dialog).dialog({
+                        autoOpen: true, modal: true, show: "blind", hide: "blind", width: '550px',
+                        height: 'auto', title: 'پخش فایل',
+                        close: function () {
+                            //$('#OfflineVideo').jstree("refresh");
+                            //createOfflineVideoChild(null, null);
+
+                            $(".dialogVideoPlayClass").remove();
+                        }
+                    });
+                }
+            });
+        }
+        $(document).ready(function () {
+            $("#learn_coursIdDDl").val($("#learncoursId").val());
+            $("#learn_coursId").val($("#learncoursId").val());
+            $('#learn_coursIdDDl').attr("disabled", true);
+        })
+        function createForm() {
+            // e.preventDefault();
+            $.ajax({
+                url: '/OfflineVideo/create',
+                type: 'post',
+                data: $('#myForm').serialize(),
+                success: function () {
+                    $('#OfflineVideo').jstree("refresh");
+                    createOfflineVideoChild(null, null);
+                }
+            });
+        };
+    </script>
+}
+
+
+@section Scripts {
+    @Scripts.Render("~/bundles/jqueryval")
+}
+
+

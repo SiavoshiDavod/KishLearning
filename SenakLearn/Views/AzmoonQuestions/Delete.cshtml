@@ -1,0 +1,31 @@
+﻿@model SenakLearn.Models.AzmoonQuestion
+
+@{
+    
+    Layout = "~/Views/Shared/_LayoutAdmin.cshtml";
+}
+
+<div class="row">
+    <div class="col-sm-12">
+        <div class="page-title-box">
+            <ol class="breadcrumb pull-right">
+                <li><a href="#">حذف </a></li>
+                <li><a href="#">سوالات</a></li>
+                <li class="active">Dashboard</li>
+            </ol>
+            <h4 class="page-title">حذف سوال </h4>
+        </div>
+    </div>
+</div>
+<div>
+    @Html.Partial("_a" + Model.QuestionType.ToString(), Model)
+
+    @using (Html.BeginForm()) {
+        @Html.AntiForgeryToken()
+
+        <div class="form-actions no-color">
+            <input type="submit" value="حذف" class="btn btn-default" /> |
+            <a href="/AzmoonQuestions/index?AzmoonEntityId=@Model.AzmoonEntityId"><input type="button" value="بازگشت" class="btn btn-dark" /></a>
+        </div>
+    }
+</div>

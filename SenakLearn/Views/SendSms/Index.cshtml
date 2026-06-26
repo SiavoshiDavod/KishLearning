@@ -1,0 +1,181 @@
+﻿@model double
+
+@{
+    Layout = "~/Views/Shared/_LayoutAdmin.cshtml";
+    ViewBag.Title = "فراپیامک";
+}
+<div class="row">
+    <div class="col-sm-12">
+        <div class="page-title-box">
+            <ol class="breadcrumb pull-right">
+                <li><a href="#">@ViewBag.Title</a></li>
+                <li class="active">Dashboard</li>
+            </ol>
+            <h4 class="page-title">مبلغ اعتبار فراپیامک: @Model </h4>
+        </div>
+    </div>
+</div>
+<div class="row">
+    <div class="col-sm-12">
+        <div class="card-box">
+            <div class="row">
+                <div class="col-md-6">
+                    <h4 class="m-t-0 header-title"><b> ارسال پیامک  </b></h4>
+                    <p class="text-muted m-b-30 font-13">
+                       
+                    </p>
+
+                    <form role="form" >
+                        <div class="form-group">
+                            <label for="exampleInputEmail1">موبایل/گروه</label>
+                            @Html.BooleanDropDown("GroupOrMobile", "موبایل", "گروه", true)
+                        </div>
+                        <div class="form-group" id="mobileDiv">
+                            <label for="exampleInputEmail1">شماره موبایل</label>
+                            <input type="number" class="form-control" id="mobile" placeholder="09121234567">
+                        </div>
+                        <div class="form-group" id="GroupmobileDiv">
+                            <label for="exampleInputEmail1">گروه</label>
+                            @Html.UserGroupDropDown("Groupmobile",true,false)
+                        </div>
+                        <div class="form-group">
+                            <label >متن پیام</label>
+                            <textarea id="content" class="form-control" rows="5"></textarea>
+                        </div>
+                        <button type="submit" class="btn btn-purple waves-effect waves-light" onclick="sendsms()">ارسال پیامک</button>
+                    </form>
+                </div>
+                <div class="col-md-6">
+                    <h4 class="m-t-0 header-title"><b> ارسال ایمیل</b></h4>
+                    <p class="text-muted m-b-30 font-13">
+
+                    </p>
+
+                    <form role="form" >
+                        <div class="form-group" >
+                            <label for="exampleInputEmail1">ایمیل/گروه</label>
+                            @Html.BooleanDropDown("GroupOrEmail","ایمیل","گروه",true)
+                        </div>
+                        <div class="form-group" id="emailDiv">
+                            <label for="example-email">آدرس ایمیل</label>
+                            <input type="email" id="email" name="example-email" class="form-control" placeholder="Email">
+                        </div>
+                        <div class="form-group" id="GroupemailDiv">
+                            <label for="exampleInputEmail1">گروه</label>
+                            @Html.UserGroupDropDown("Groupemail", true, false)
+                        </div>
+                        <div class="form-group">
+                            <label >عنوان ایمیل</label>
+                            <input type="text" class="form-control" placeholder="عنوان ایمیل" id="subject">
+                        </div>
+                        <div class="form-group">
+                            <label class="control-label">متن ایمیل</label>
+                            <textarea id="body" class="form-control"></textarea>
+                        </div>
+                        <button type="button" class="btn btn-purple waves-effect waves-light" onclick="sendEmail()">ارسال ایمیل</button>
+                    </form>
+                </div>
+      
+            </div>
+        </div>
+    </div>
+</div>
+<div class="row">
+    @using MVC.Controls
+
+    @Html.Grid(
+    new GridControl().SetName("EmailSmsGrid").
+    SetPageSize(10).
+    SetShrinkToFit(false).
+    SetIsAutoSize(true).
+    SetIsFilterToolbar(true).
+    IsRTL().
+    SetListUrl("/SendSms/LoadList").
+        SetCaption("مقالات").
+    //SetOnLoadCompleteEvent("loadEmailSmsGridCompleteEvent").
+        UseColumns(SenakLearn.Controllers.Admin.SendSmsController.Columns)
+)
+    @*<script type="text/javascript">
+	function loadEmailSmsGridCompleteEvent() {
+		var ids = $("#EmailSmsGrid").jqGrid('getDataIDs');
+		for (var i = 0; i < ids.length; i++) {
+			var cl = ids[i];
+			ed = '<a class="ajaxLink"  href="/papers/Create?Id=' + cl + '" title="ویرایش"><div class="tableEditLink">ویرایش</div></a>';
+			dl = '<a class="ajaxLink delete"href="/papers/Delete?Id=' + cl + '" title="حذف"   ><div class="tableDeleteLink">حذف</div></a>';
+			de = '<a class="ajaxLink "href="/papers/Details?Id=' + cl + '" title="جزئیات"   ><div class="tableDeleteLink">جزئیات</div></a>';
+			$('#EmailSmsGrid').jqGrid('setRowData', ids[i], { act: ed + dl + de });
+		}
+    }
+
+    </script>*@
+</div>
+
+
+
+
+<script src='/Scripts/Learn.js' type='text/javascript'></script>
+<script src="/ckeditor/ckeditor.js"></script>
+<script src="/ckeditor/adapters/jquery.js"></script>
+<script>
+    $(function () {
+        $('#body').ckeditor();
+    });
+    function sendEmail() {
+        var action = "/sendSms/SendEmail";
+        var body=$('#body').val();
+        var subject=$('#subject').val();
+        var email = $('#email').val();
+        var GroupId = $('#Groupemail').val();
+        var GroupOr = $('#GroupOrEmail').val();
+        if (GroupOr == "True") {
+            Mypost(action, { body: body, subject: subject, To: email });
+            reloadJqGrid('EmailSmsGrid');
+        } else {
+            Mypost(action + "Batch", { body: body, subject: subject, GroupId: GroupId });
+        }
+       
+    }
+    function sendsms() {
+        var action = "/sendSms/SendSms";
+        var mobile = $('#mobile').val();
+        var GroupOr = $('#GroupOrMobile').val();
+        var GroupId = $('#Groupmobile').val();
+        var content = $('#content').val();
+        if (GroupOr == "True") {
+            Mypost(action, { mobile: mobile, content: content });
+            reloadJqGrid('EmailSmsGrid');
+        } else {
+            Mypost(action + "Batch", { content: content, GroupId: GroupId });
+        }
+       
+    }
+    $("#GroupOrEmail").change(function () {
+        GroupOrEmailChange(this.value);
+    });
+    $("#GroupOrMobile").change(function () {
+        GroupOrMobileChange(this.value);
+    });
+    $(document).ready(function () {
+        GroupOrEmailChange($("#GroupOrEmail").val());
+        GroupOrMobileChange($("#GroupOrMobile").val());
+    });
+    function GroupOrEmailChange(val) {
+        if (val == "True") {
+            $("#emailDiv").show();
+            $("#GroupemailDiv").hide();
+        } else {
+            $("#GroupemailDiv").show();
+            $("#emailDiv").hide();
+        }
+    }
+
+    function GroupOrMobileChange(val) {
+        if (val == "True") {
+            $("#mobileDiv").show();
+            $("#GroupmobileDiv").hide();
+        } else {
+            $("#GroupmobileDiv").show();
+            $("#mobileDiv").hide();
+        }
+    }
+</script>

@@ -1,0 +1,60 @@
+﻿@{
+    Layout = "~/Views/Shared/_Layout.cshtml";
+    int? groupId = ViewBag.groupId;
+    int? publisherId = ViewBag.publisherId;
+    string keyword = ViewBag.keyword;
+    string title = ViewBag.Title;
+    string titleF = ViewBag.TitleF;
+    string author = ViewBag.Author;
+    var books = SenakLearn.Biz.BookBiz.Instance.GetAllPage(i => (groupId == null || groupId == i.GroupId) && (string.IsNullOrEmpty(keyword) || i.Keyword.Contains(keyword)) && (string.IsNullOrEmpty(titleF) || i.TitleF.Contains(titleF)) && (string.IsNullOrEmpty(title) || i.Title.Contains(title)) && (string.IsNullOrEmpty(author) || i.Author.Contains(author)), 0, 50);
+
+}
+<div class="container index-3-categories">
+    <div class="row toolbar">
+
+        <div class="col-xl-3 col-md-4 col-sm-6 col-xs-12 select-numofvids">
+            <input type="search" id="BookTitle" placeholder="دنبال چه کتابی هستید؟"  value="@ViewBag.Title" >
+        </div>
+
+        <div class="col-xl-3 col-md-4 col-sm-6 col-xs-12 select-numofvids">
+            <input type="search" name="author" id="author"  placeholder="نویسنده خاصی مدنظرتان است" value="@ViewBag.Author">
+        </div>
+
+        <div class="col-xl-3 col-md-4 col-sm-6 col-xs-12 select-numofvids">
+            <input type="search" class="keywords" name="keywords" id="keywords"  placeholder="کلمات کلیدی را وارد کنید" value="@ViewBag.keyword">
+        </div>
+
+
+        <div class="col-xl-1 col-md-1 col-sm-6 col-xs-12 float-left">
+            <button class="search-teachers" onclick="ReloadPage()">جستجو</button>
+        </div>
+        <div class="col-xl-2 col-md-3 col-sm-6 col-xs-12 select-categories">
+            @Html.Cours_Group_DropDown("CoursGroupId", false, new { @class = "jquery-select" }, "یک دسته را انتخاب کنید", (int?)ViewBag.groupId,null,null,null,true,null)
+        </div>
+    </div>
+    <div class="row text-center">
+        @foreach (var item in books)
+        {
+            <div class="col-md-4 col-sm-6">
+                <div class="category-with-bg " style="background-image: url(../../images/book/@item.ScreenShotId);">
+                    <h5> @item.TitleF</h5>
+                    <p>@item.Title</p>
+                    <a href="/Books/detail?Id=@item.Id" class="goto"><i class="zmdi zmdi-long-arrow-right"></i></a>
+                </div>
+            </div>
+        }
+    </div>
+    @*<div class="row text-center">
+            <div class="col-xs-12">
+                <div class="paginations"> <a class="prev" href="#"><i class="zmdi zmdi-chevron-right"></i>قبلی</a> <a href="#">1</a> <a href="#">2</a> <a href="#">3</a> <a href="#">4</a> <a href="#">5</a> <a href="#">6</a> <a class="next" href="#">بعدی<i class="zmdi zmdi-chevron-left"></i></a> </div>
+            </div>
+        </div>*@
+</div>
+
+
+<script>
+    function ReloadPage() {
+        window.location.href = "/books/Index?groupId=" + $('#CoursGroupId').val() + "&publisherId=" + $('#publisherId').val() + "&title=" + $('#BookTitle').val() + "&author=" + $('#author').val() + "&keyword=" + $('#keywords').val();
+    }
+
+</script>

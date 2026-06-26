@@ -1,0 +1,122 @@
+﻿
+@{ 
+    Layout = "~/Views/Shared/_LayoutAdmin.cshtml";
+    var user = (SenakLearn.Models.learn_user)ViewBag.User;
+}
+
+@model SenakLearn.Models.learn_user
+
+    @*<div style="width:300px;" class="container success">
+
+        <div class="row paddingRow">
+            @Html.LabelFor(model => model.user_name, new { @class = "  " }):
+
+            @Html.DisplayFor(model => model.user_name, new { @style = " float:left" })
+
+        </div>
+
+        <div class="row paddingRow">
+
+            @Html.LabelFor(model => model.Mobile, new { @class = " " }):
+            @Html.DisplayFor(model => model.Mobile, new { @style = " float:left", @maxlength = 11 })
+        </div>
+
+        <div class="row paddingRow">
+
+            @Html.LabelFor(model => model.Email, new { @class = " " }):
+            @Html.DisplayFor(model => model.Email, new { @style = " float:left", @maxlength = 50 })
+        </div>
+
+        <div class="row paddingRow">
+
+            @Html.LabelFor(model => model.Name, new { @class = " " }):
+            @Html.DisplayFor(model => model.Name, new { @style = " float:left", @maxlength = 100 })
+        </div>
+        <div class="row paddingRow">
+
+            @Html.LabelFor(model => model.Family, new { @class = " " }):
+            @Html.DisplayFor(model => model.Family, new { @style = " float:left", @maxlength = 100 })
+        </div>
+        <div class="row paddingRow">
+
+            @Html.LabelFor(model => model.NationaCode, new { @class = " " }):
+            @Html.DisplayFor(model => model.NationaCode, new { @style = " float:left", @maxlength = 100 })
+        </div>
+        <div class="row paddingRow">
+
+            @Html.LabelFor(model => model.Address, new { @class = " " }):
+            @Html.DisplayFor(model => model.Address, new { @style = " float:left", @maxlength = 100 })
+        </div>
+        <div class="row paddingRow">
+
+            @Html.LabelFor(model => model.PassAdobe, new { @class = " " }):
+            @Html.DisplayFor(model => model.PassAdobe, new { @style = " float:left", @maxlength = 100 })
+        </div>
+        <div class="form-group">
+            <div class="col-md-10">
+                @if (Model.ImageUrl != null)
+                {
+                    <img src="/images/Users/@Model.ImageUrl" alt=@Model.ImageUrl width="150px" class="thumbnail" />
+                }
+               
+            </div>
+        </div>
+
+    </div>*@
+@*-----------*@
+<section class="shop ">
+    <div class="container">
+        <div class="row">
+
+            <div class="col-md-12 mt-md-0 mt-6">
+                <div class="row">
+
+                        <div class="col-sm-8 col-sm-6" style=" border: 1px solid gray; border-radius:5px;margin:5px;padding:5px">
+                            <div class="product text-center mb-6">
+                                <div class="product-image">
+                                    <img class="img-fluid center-block" src="/images/Users/@(Model.ImageUrl==null?"Avatar2.jpg":Model.ImageUrl)" width="50%" height="50%" alt="@Model.user_name">
+                                    <div class="product-overlay">
+                                        <div class="add-to-cart">
+                                            <a target="_blank" href="/Dashboard">میز کار</a>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="product-des">
+                                    <div class="product-title" style="text-align:right">
+                                        <span>نام : @Model.Name</span><br /><span>نام خانوادگی : @Model.Family</span>
+                                    </div>
+                                    <div class="product-price">
+
+                                        <div style="text-align:right">  <span>همراه :</span><span>@Model.Mobile</span></div>
+                                        <div style="text-align:right">  <span>ایمیل :</span><span>@Model.Email</span></div>
+
+
+                                        <div style="text-align:right">  <span>کد ملی :</span><span>@Model.NationaCode</span></div>
+                                        <div style="text-align:right">  <span>آدرس :</span><span>@Model.Address</span></div>
+
+                                        <div style="text-align:right">  <span>کد پرسنلی :</span><span>@Model.PersonCode</span></div>
+                                        <div style="text-align:right">  <span>سازمان :</span><span>@Model.OrgName</span></div>
+
+                                        <div style="text-align:right">  <span>شناسه ادوبی :</span><span>@Model.PassAdobe</span></div>
+
+
+                                        <div style="text-align:right">  <span>مدت همه دوره ها :</span><span>@Model.CourseDurationSum</span></div>
+                                        <div style="text-align:right">  <span>مدت دوره های امسال :</span><span>@Model.CourseDurationYear</span></div>
+                                    </div>
+                                    <div class="product-price" style="text-align:right">
+                                        <a target="_blank" href="/MyCertificate/Index">دوره های ثبت نام شده</a>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
+                    
+
+                </div>
+            </div>
+
+        </div>
+    </div>
+</section>
+
+

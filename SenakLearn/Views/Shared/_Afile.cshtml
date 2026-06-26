@@ -1,0 +1,140 @@
+﻿
+@model SenakLearn.Models.AzmoonQuestion
+@if (ViewBag.Layout != null)
+{
+    Layout = ViewBag.Layout;
+}
+@if (Model?.Id > 0)
+{
+    if (Model.AzmoonAnswers?.Count > 0)
+    {
+        foreach (var answer in Model.AzmoonAnswers.Where(x=>!string.IsNullOrWhiteSpace(x.Result)))
+        {
+            <td><img src="~/images/Answer/@answer.Result" title="دانلود" height="50" /> </td>
+        }
+    }
+    else
+    {
+        var required = "";
+        if (Model.required)
+        {
+            required = "required";
+        }
+        if (!string.IsNullOrEmpty(Model.QuestionImageUrl))
+        {
+              @Html.Raw($"<img src='/images/Question/{ Model.QuestionImageUrl}'  { (Model.Height > 0 ? " height='"+ Model.Height + "'" : "")}{ (Model.Width > 0 ? " width='" + Model.Width + "'" : "")} />")
+        }
+        <div class="QuestionAzmoon">
+            @Model.Question
+        </div>
+        <div class="QuestionAzmoon">
+            <label class="btn btn-default"> انتخاب فایل  <input onchange="InsertAttachment(event,'@Model.MaxType','@Model.StringType')" accept="@Model.StringType" class="fileChosen AzmoonAnswerfileChosen DocumentFiles @required" @required type="file" hidden id="@Model.Id" name="@Model.Id"></label>
+            <span class="fileChosenText @Model.Id">
+               
+            </span>
+        </div>
+
+        <div class="QuestionAzmoonFooter">
+            @{
+                int? next = null;
+                int? prev = null;
+                if (ViewData["Next"] != null)
+                {
+                    next = (int?)ViewData["Next"];
+                }
+                if (ViewData["Prev"] != null)
+                {
+                    prev = (int?)ViewData["Prev"];
+                }
+                if (next != null && next > 0 && prev != null && prev > 0)
+                {
+                    <input type="button" title="بعدی" value="بعدی" class="btn btn-warning" onclick="return ShowQuestionById('@next')" />
+                    <input type="button" title="قبلی" value="قبلی" class="btn btn-warning" onclick="return ShowQuestionById('@prev')" />
+                }
+                else if (next != null && next > 0)
+                {
+                    <input type="button" title="شروع" value="شروع" class="btn btn-warning" onclick="return ShowQuestionById('@next')" />
+                }
+                else if (prev != null && prev > 0)
+                {
+                    <input type="button" title="ثبت" value="ثبت" class="btn btn-success" onclick="return saveAzmoonForm()" />
+                }
+            }
+        </div>
+        <script>
+    function InsertAttachment(event, max, allowed) {
+        //allowed:
+        //<option value="*">همه نوع فایل</option>
+        //  <option value="video/*">ویدیو</option>
+        //  <option value="image/*">عکس</option>
+        //  <option value=".pdf">pdf</option>
+        //  <option value=".doc , .docx">docوdocx</option>
+        //  <option value=".pdf, .doc , .docx">docوdocxوpdf</option>
+        var file = event.target.files[0];
+        //var check = false;
+        //if (allowed == '' || allowed == null || allowed == 'null') {
+        //    check = true;
+        //} else if (typeof file == "undefined" || file == null) {
+        //    return;
+        //}
+        //else {
+        //    $.each(allowed.split(","), function (index, value) {
+        //        if (value === file.type) {
+        //            check = true;
+        //        } else if (file.name.indexOf('.zip') >= 0 || file.name.indexOf('.rar') >= 0) {
+        //            check = true;
+        //        }
+        //    });
+        //}
+        if (typeof file == "undefined" || file == null) {
+            return;
+        //} else if (check === false) {
+        //    showError("امکان آپلود این نوع فایل وجود ندارد!");
+        //    return;
+        } else {
+            $('.' + event.target.id).text(file.name);
+        }
+
+        //if (file.size > 1048576) {
+        //    // File size is provided in bytes
+        //    alert("Too large Payload ( < 1 Mb). Select another file");
+        //return;
+        //}
+        //if (!file.type.match('image.*')) {
+        //    // Check for File type. the 'type' property is a string, it facilitates usage if match() function to do the matching
+        //    alert("Images only. Select another file");
+        //    return;
+        //}
+    }
+    function InsertFinalRequest() {
+        if ($('#Id').val() == '')
+        { showError('ثبت درخواست معتبر نمی باشد') } else {
+            $('#UploadForm').ajaxForm({
+                url: '@Url.Content("/Stocks/Request/AddFinal")' + '?Id=' + $('#IdRequest').val(),
+                type: "POST",
+                beforeSend: function () {
+                    //$("div#Loader_").show();
+                    LoadingPanel.Show();
+                },
+                success: function (data) {
+                    //$("div#Loader_").hide();
+                    LoadingPanel.Hide();
+                    if (data.indexOf('showError') == 0) {
+                        eval(data);
+                    } else {
+                        $('#RequestDetailsFinalDiv').parent().dialog('close');
+                        showSuccess('پیوست های درخواست با موفقیت ثبت گردید . لطفا به کارتابل درخواست مراجعه شود', 'عملیات با موفقیت انجام شد', true);
+                    }
+                },
+                error: function () {
+                    LoadingPanel.Hide();
+                    showSuccess('خطا در الصاق فایل');
+                }
+            });
+            $('#UploadForm').submit();
+        }
+    }
+        </script>
+                    }
+
+                }

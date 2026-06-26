@@ -1,0 +1,50 @@
+﻿
+@{
+    Layout = "~/Views/Shared/_LayoutAdmin.cshtml";
+    var urlList = "/Org/LoadList";
+    ViewBag.Title = SenakLearn.Models.Dictionary.ModelDictionary[typeof(SenakLearn.Models.Organization)];
+    var user = (SenakLearn.Models.learn_user)ViewBag.User;
+}
+<!-- Page-Title -->
+<div class="row">
+    <div class="col-sm-12">
+        <div class="page-title-box">
+            <ol class="breadcrumb pull-right">
+                <li><a href="#">@ViewBag.Title</a></li>
+                <li class="active">Dashboard</li>
+            </ol>
+            <h4 class="page-title">@Html.ActionLink("افزودن", "Create") </h4>
+        </div>
+    </div>
+</div>
+
+<div id="TadGoodsField">
+    @using MVC.Controls
+
+    @Html.Grid(
+    new GridControl().SetName("OrgGrid").
+    SetPageSize(10).
+    SetShrinkToFit(false).
+    SetIsAutoSize(true).
+    SetIsFilterToolbar(true).
+    IsRTL().
+    SetListUrl(urlList).
+        SetCaption((string)ViewBag.Title).
+    SetOnLoadCompleteEvent("loadOrgGridCompleteEvent").
+        UseColumns(SenakLearn.Controllers.OrgController.OrgColumns)
+)
+    <script type="text/javascript">
+        function loadOrgGridCompleteEvent() {
+            var ids = $("#OrgGrid").jqGrid('getDataIDs');
+            for (var i = 0; i < ids.length; i++) {
+                var cl = ids[i];
+                ed = '<a class="ajaxLink"  href="/Org/Create?Id=' + cl + '" title="ویرایش"><div style="margin: 3px;cursor: pointer;display: inline-block;">ویرایش</div></a>';//<div class="fa fa-pencil"></div>
+                dl = '<a class="ajaxLink delete"href="/Org/Delete?Id=' + cl + '" title="حذف"   ><div style="margin: 3px;cursor: pointer;display: inline-block;">حذف</div></a>';//<div class="fa fa-times"></div>
+                de = '<a class="ajaxLink "href="/Org/Details?Id=' + cl + '" title="جزئیات"   ><div style="margin: 3px;cursor: pointer;display: inline-block;">جزئیات</div></a>';//<div class="fa fa-building"></div>
+
+                $('#OrgGrid').jqGrid('setRowData', ids[i], { act: ed + dl + de  });
+            }
+        }
+
+    </script>
+</div>

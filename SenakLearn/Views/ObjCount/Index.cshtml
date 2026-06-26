@@ -1,0 +1,40 @@
+﻿@{
+    var urlList = "/ObjCount/LoadList";
+    Layout = "~/Views/Shared/_LayoutAdmin.cshtml";
+}
+
+
+<div id="TadGoodsField">
+    @using MVC.Controls
+
+    @Html.Grid(
+    new GridControl().SetName("ObjCountGrid").
+    SetPageSize(10).
+    SetShrinkToFit(false).
+    SetIsAutoSize(true).
+    SetIsFilterToolbar(true).
+    IsRTL().
+    SetListUrl(urlList).
+        SetCaption("مشاهده و دانلود ها").
+    SetOnLoadCompleteEvent("loadObjCountGridCompleteEvent").
+        UseColumns(SenakLearn.Controllers.Admin.ObjCountController.Columns)
+)
+    <script type="text/javascript">
+	function loadObjCountGridCompleteEvent() {
+		//$("#ObjCountGrid").jqGrid('setGridWidth', $('#TadGoodsListDiv').width()-100, false);
+		//var ids = $("#ObjCountGrid").jqGrid('getDataIDs');
+		//for (var i = 0; i < ids.length; i++) {
+		//	var cl = ids[i];
+		//	ed = '<a class="ajaxLink" target-update="TadGoodsDetailsDiv" href="/ZarinpalPayments/Edit?tadGoodsId=' + cl + '" title="ویرایش"><div class="tableEditLink"></div></a>';
+		//	dl = '<a class="ajaxLink delete" target-update="TadGoodsListDiv" href="/ZarinpalPayments/Remove?Id=' + cl + '" title="حذف"   ><div class="tableDeleteLink"></div></a>';
+		//	$('#ObjCountGrid').jqGrid('setRowData', ids[i], { act: ed + dl });
+		//}
+    }
+
+    </script>
+</div>
+<p>
+    @*@Html.ActionLink("افزودن", "Create")*@
+</p>
+
+

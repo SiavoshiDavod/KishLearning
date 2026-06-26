@@ -1,0 +1,62 @@
+﻿@model SenakLearn.Models.AzmoonQuestion
+@{
+    Layout = "~/Views/Shared/_LayoutAdmin.cshtml";
+    var urlList = "/AzmoonQuestions/LoadList?AzmoonEntityId="+Model.AzmoonEntityId;
+    ViewBag.Title = "سوالات";
+
+}
+
+<div class="row">
+
+    <div class="col-md-2">
+        <div style="display:inline">
+            <a class=" btn-primary " href="/AzmoonEntitys/Details?Id=@Model.AzmoonEntityId" title="پیش نمایش">پیش نمایش</a>
+            <a class="btn-primary " href="/AzmoonEntitys/index" title="آزمون ها"><spin class="">آزمون ها</spin></a>
+       
+        </div>
+        <br />    ایجاد سوال<br />
+       @foreach (var item in SenakLearn.EnumExtention.GetEnumsProperty<SenakLearn.Models.QuestionEnum>())
+       {
+           <a href="/AzmoonQuestions/New?type=@item.Value&AzmoonEntityId=@Model.AzmoonEntityId"><input class="btn btn-default" style="width:150px;margin:5px"  type="button" value="@item.Key"title="@item.Key" /></a><br />
+       }
+    </div>
+
+        <div class="col-md-10">
+
+            <div id="TadGoodsField">
+                @using MVC.Controls
+
+                @Html.Grid(
+    new GridControl().SetName("AzmoonQuestionGrid").
+    SetPageSize(20).
+    SetShrinkToFit(true).
+    SetIsAutoSize(true).
+    SetIsFilterToolbar(true).
+    IsRTL().
+    SetListUrl(urlList).
+        SetCaption("سوالات").
+    SetOnLoadCompleteEvent("loadAzmoonQuestionGridCompleteEvent").
+        UseColumns(SenakLearn.Controllers.AzmoonQuestionsController.AzmoonQuestionColumns)
+)
+                <script type="text/javascript">
+	function loadAzmoonQuestionGridCompleteEvent() {
+		var ids = $("#AzmoonQuestionGrid").jqGrid('getDataIDs');
+		for (var i = 0; i < ids.length; i++) {
+		    var cl = ids[i];
+		    var AzmoonEntityId = $("#AzmoonQuestionGrid").jqGrid('getCell', cl, 'AzmoonEntityId');
+		    ed = '<a class="ajaxLink"  href="/AzmoonQuestions/Create?Id=' + cl + '&AzmoonEntityId=' + AzmoonEntityId + '" title="ویرایش"><div class="fa fa-pencil"></div></a>';
+			dl = '<a class="ajaxLink delete"href="/AzmoonQuestions/Delete?Id=' + cl + '" title="حذف"   ><div class="fa fa-times"></div></a>';
+			de = '<a class="ajaxLink "href="/AzmoonQuestions/Details?Id=' + cl + '" title="جزئیات"   ><div class="fa fa-building"></div></a>';
+			$('#AzmoonQuestionGrid').jqGrid('setRowData', ids[i], { act: ed + dl + de });
+		}
+    }
+
+                </script>
+            </div>
+        </div>
+
+</div>
+
+
+
+

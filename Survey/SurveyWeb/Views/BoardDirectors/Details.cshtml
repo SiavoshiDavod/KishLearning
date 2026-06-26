@@ -1,0 +1,104 @@
+﻿@model SurveyWeb.Models.BoardDirector
+
+@{
+     ViewBag.Title = SurveyWeb.Models.Dictionary.ModelDictionary[typeof(SurveyWeb.Models.BoardDirector)];
+    Layout = "~/Views/Shared/_LayoutAdmin.cshtml";
+}
+
+<h2>@ViewBag.Title</h2>
+
+<div>
+    <hr />
+    <dl class="table table-responsive">
+        <dt>
+            @Html.DisplayNameFor(model => model.name)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.name)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.family)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.family)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.meli)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.meli)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.tel)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.tel)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.mobile)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.mobile)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.address)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.address)
+        </dd>
+
+   
+        <dt>
+            @Html.DisplayNameFor(model => model.education)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.education)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.code)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.code)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.email)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.email)
+        </dd>
+        <dt>
+            @Html.DisplayNameFor(model => model.image)
+        </dt>
+
+        <dd>
+            @if (Model.image != null)
+            {
+                <img src="/images/cours/@Model.image" alt=@Model.name class="thumbnail" />
+            }
+        </dd>
+        <dt>
+            @Html.DisplayNameFor(model => model.Resume)
+        </dt>
+
+        <dd>
+            @Html.Raw(Model.Resume)
+        </dd>
+       
+    </dl>
+</div>

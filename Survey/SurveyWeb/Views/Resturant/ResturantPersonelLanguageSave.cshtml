@@ -1,0 +1,51 @@
+﻿@model SurveyWeb.Models.ResturantPersonelLanguage
+
+@{
+    Layout = null;
+}
+@using (Html.BeginForm("ResturantPersonelLanguageSave", "Resturant", FormMethod.Post, new {id = "FormResturantPersonelLanguage" }))
+{
+
+    <div class="form-horizontal" style="margin:20px">
+        @Html.HiddenFor(model => model.ResturantPersonelId)
+        <div class="row Language-div">
+
+            <div class="form-group ">
+                @Html.LabelFor(model => model.LanguageName, htmlAttributes: new { @class = "control-label col-md-4" })
+                <div class="col-md-8">
+                    @Html.EditorFor(model => model.LanguageName, new { htmlAttributes = new { @class = "form-control" } })
+                    @Html.ValidationMessageFor(model => model.LanguageName, "", new { @class = "text-danger" })
+                </div>
+            </div>
+
+            <div class="form-group ">
+                @Html.LabelFor(model => model.LanguageReading, htmlAttributes: new { @class = "control-label col-md-4" })
+                <div class="col-md-8">
+                    @Html.EditorFor(model => model.LanguageReading, new { htmlAttributes = new { @class = "form-control " } })
+                    @Html.ValidationMessageFor(model => model.LanguageReading, "", new { @class = "text-danger" })
+                </div>
+            </div>
+            <div class="form-group ">
+                @Html.LabelFor(model => model.LanguageWriting, htmlAttributes: new { @class = "control-label col-md-4" })
+                <div class="col-md-8">
+                    @Html.EditorFor(model => model.LanguageWriting, new { htmlAttributes = new { @class = "form-control " } })
+                    @Html.ValidationMessageFor(model => model.LanguageWriting, "", new { @class = "text-danger" })
+                </div>
+            </div>
+
+            <div class="form-group ">
+                @Html.LabelFor(model => model.LanguageSpeaking, htmlAttributes: new { @class = "control-label col-md-4" })
+                <div class="col-md-8">
+                    @Html.EditorFor(model => model.LanguageSpeaking, new { htmlAttributes = new { @class = "form-control" } })
+                    @Html.ValidationMessageFor(model => model.LanguageSpeaking, "", new { @class = "text-danger" })
+                </div>
+            </div>
+            <div class="form-group">
+                <div class="col-md-offset-2 col-md-10">
+                    <input type="button" value="ثبت" class="btn btn-default" onclick="return ResturantPersonelLanguageSave('')" />
+                </div>
+            </div>
+        </div>
+    </div>
+
+}

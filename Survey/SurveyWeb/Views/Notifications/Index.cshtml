@@ -1,0 +1,216 @@
+﻿@model double
+
+@{
+    Layout = "~/Views/Shared/_LayoutAdmin.cshtml";
+    ViewBag.Title = "اطلاع رسانی";
+}
+<div class="row">
+    <div class="col-sm-12">
+        <div class="page-title-box">
+            <ol class="breadcrumb pull-right">
+                <li><a href="#">@ViewBag.Title</a></li>
+                <li class="active">Dashboard</li>
+            </ol>
+            <h4 class="page-title">مبلغ اعتبار فراپیامک: @Model </h4>
+        </div>
+    </div>
+</div>
+<div class="row">
+    <div class="col-sm-12">
+        <div class="card-box">
+            <div class="row">
+                <div class="col-md-6">
+                    <h4 class="m-t-0 header-title"><b> ارسال پیامک  </b></h4>
+                    <p class="text-muted m-b-30 font-13">
+                       
+                    </p>
+
+                    <form role="form" >
+                        <div class="form-group">
+                            <label for="exampleInputEmail1">موبایل/گروه</label>
+                            @Html.BooleanDropDown("GroupOrMobile", "موبایل", "گروه", true)
+                        </div>
+                        <div class="form-group" id="mobileDiv">
+                            <label for="exampleInputEmail1">شماره موبایل</label>
+                            <input type="number" class="form-control" id="mobile" placeholder="09121234567">
+                        </div>
+                        <div class="form-group" id="GroupmobileDiv">
+                            <label for="exampleInputEmail1">گروه</label>
+                            @Html.RoleSendSmsDropDown("Groupmobile",true,false)
+                        </div>
+                        <div class="form-group">
+                            <label >متن پیام</label>
+                            <textarea id="content" class="form-control" rows="5"></textarea>
+                        </div>
+                        <button type="submit" class="btn btn-purple waves-effect waves-light" onclick="sendsms()">ارسال پیامک</button>
+                    </form>
+                </div>
+                <div class="col-md-6">
+                    <h4 class="m-t-0 header-title"><b> ارسال ایمیل</b></h4>
+                    <p class="text-muted m-b-30 font-13">
+
+                    </p>
+
+                    <form role="form" >
+                        <div class="form-group" >
+                            <label for="exampleInputEmail1">ایمیل/گروه</label>
+                            @Html.BooleanDropDown("GroupOrEmail","ایمیل","گروه",true)
+                        </div>
+                        <div class="form-group" id="emailDiv">
+                            <label for="example-email">آدرس ایمیل</label>
+                            <input type="email" id="email" name="example-email" class="form-control" placeholder="Email">
+                        </div>
+                        <div class="form-group" id="GroupemailDiv">
+                            <label for="exampleInputEmail1">گروه</label>
+                            @Html.RoleSendSmsDropDown("Groupemail", true, false)
+                        </div>
+                        <div class="form-group">
+                            <label >عنوان ایمیل</label>
+                            <input type="text" class="form-control" placeholder="عنوان ایمیل" id="subject">
+                        </div>
+                        <div class="form-group">
+                            <label class="control-label">متن ایمیل</label>
+                            @Html.ClassicEditor("body");
+                            @*<textarea id="body" class="form-control"></textarea>*@
+                        </div>
+                        <button type="button" class="btn btn-purple waves-effect waves-light" onclick="sendEmail()">ارسال ایمیل</button>
+                    </form>
+                </div>
+      
+            </div>
+        </div>
+    </div>
+</div>
+<div class="row">
+    @using MVC.Controls
+
+    @Html.Grid(
+    new GridControl().SetName("EmailSmsGrid").
+    SetPageSize(10).
+    SetShrinkToFit(false).
+    SetIsAutoSize(true).
+    SetIsFilterToolbar(true).
+    IsRTL().
+    SetListUrl("/Notifications/LoadList").
+        SetCaption("اطلاع رسانی").
+    //SetOnLoadCompleteEvent("loadEmailSmsGridCompleteEvent").
+        UseColumns(SurveyWeb.Controllers.NotificationsController.Columns)
+)
+    @*<script type="text/javascript">
+	function loadEmailSmsGridCompleteEvent() {
+		var ids = $("#EmailSmsGrid").jqGrid('getDataIDs');
+		for (var i = 0; i < ids.length; i++) {
+			var cl = ids[i];
+			ed = '<a class="ajaxLink"  href="/papers/Create?Id=' + cl + '" title="ویرایش"><div class="tableEditLink">ویرایش</div></a>';
+			dl = '<a class="ajaxLink delete"href="/papers/Delete?Id=' + cl + '" title="حذف"   ><div class="tableDeleteLink">حذف</div></a>';
+			de = '<a class="ajaxLink "href="/papers/Details?Id=' + cl + '" title="جزئیات"   ><div class="tableDeleteLink">جزئیات</div></a>';
+			$('#EmailSmsGrid').jqGrid('setRowData', ids[i], { act: ed + dl + de });
+		}
+    }
+
+    </script>*@
+</div>
+
+
+
+
+<script>
+    function Mypost(url, data, dataType, successFunction, failFunction, viewLoading) {
+
+    if (url === undefined || url === null || url.length === 0)
+        return;
+    if (data === undefined || data === null || data.length === 0)
+        data = {};
+    if (dataType === undefined || dataType === null || dataType.length === 0)
+        dataType = 'json';
+
+    if (viewLoading === undefined || viewLoading === null)
+        //pw.openLoading();
+
+        $.ajax({
+            url: url,
+            dataType: dataType,
+            data: data,
+            type: 'post',
+            success: function (response) {
+                if (successFunction !== undefined && successFunction !== null)
+                    successFunction(response);
+                //pw.closeLoading();
+
+                if (response == true) {
+
+                    SwalSuccessMessage('عملیات با موفقیت انجام شد');
+                    //pw.notificationSuccess(response.Title, response.getMessage);
+                } else {
+                    SwalErrorMessage("error");
+                    //pw.notificationError(response.Title, response.getMessage);
+                }
+            },
+            fail: function () {
+                if (failFunction !== undefined && failFunction !== null && failFunction.length > 0)
+                    failFunction();
+                // pw.closeLoading();
+            }
+        })
+
+}
+
+    function sendEmail() {
+        var action = "/Notifications/SendEmail";
+        var body=$('#body').val();
+        var subject=$('#subject').val();
+        var email = $('#email').val();
+        var RolesId = $('#Groupemail').val();
+        var GroupOr = $('#GroupOrEmail').val();
+        if (GroupOr == "True") {
+            Mypost(action, { body: body, subject: subject, To: email });
+            reloadJqGrid('EmailSmsGrid');
+        } else {
+            Mypost(action + "Batch", { body: body, subject: subject, RolesId: RolesId });
+        }
+       
+    }
+    function sendsms() {
+        var action = "/Notifications/SendSms";
+        var mobile = $('#mobile').val();
+        var GroupOr = $('#GroupOrMobile').val();
+        var RolesId = $('#Groupmobile').val();
+        var content = $('#content').val();
+        if (GroupOr == "True") {
+            Mypost(action, { mobile: mobile, content: content });
+            reloadJqGrid('EmailSmsGrid');
+        } else {
+            Mypost(action + "Batch", { content: content, RolesId: RolesId });
+        }
+       
+    }
+    $("#GroupOrEmail").change(function () {
+        GroupOrEmailChange(this.value);
+    });
+    $("#GroupOrMobile").change(function () {
+        GroupOrMobileChange(this.value);
+    });
+    $(document).ready(function () {
+        GroupOrEmailChange($("#GroupOrEmail").val());
+        GroupOrMobileChange($("#GroupOrMobile").val());
+    });
+    function GroupOrEmailChange(val) {
+        if (val == "True") {
+            $("#emailDiv").show();
+            $("#GroupemailDiv").hide();
+        } else {
+            $("#GroupemailDiv").show();
+            $("#emailDiv").hide();
+        }
+    }
+
+    function GroupOrMobileChange(val) {
+        if (val == "True") {
+            $("#mobileDiv").show();
+            $("#GroupmobileDiv").hide();
+        } else {
+            $("#GroupmobileDiv").show();
+            $("#mobileDiv").hide();
+        }
+    }
+</script>

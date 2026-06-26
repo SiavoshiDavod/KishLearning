@@ -1,0 +1,54 @@
+﻿@model SenakLearn.Models.VideoFile
+
+@{
+    Layout = "~/Views/Shared/_LayoutAdmin.cshtml";
+}
+
+
+@using (Html.BeginForm("Create", "TeacherVideoFile", FormMethod.Post, new { enctype = "multipart/form-data" })) 
+{
+    
+    
+    <div class="form-horizontal">
+        <h4> ایجاد</h4>
+        <hr />
+        @Html.ValidationSummary(true)
+        <div class="form-group">
+            @Html.LabelFor(model => model.titel,  new { @class = "control-label col-md-2" })
+            <div class="col-md-10">
+                @Html.EditorFor(model => model.titel)
+                @Html.ValidationMessageFor(model => model.titel)
+            </div>
+        </div>
+
+        <div class="form-group">
+            @Html.LabelFor(model => model.doc,  new { @class = "control-label col-md-2" })
+            <div class="col-md-10">
+                @Html.EditorFor(model => model.doc)
+                @Html.ValidationMessageFor(model => model.doc)
+            </div>
+        </div>
+
+        <div class="form-group">
+            @Html.LabelFor(model => model.myFile,  new { @class = "control-label col-md-2" })
+            <div class="col-md-8">
+                <label class="btn btn-default"> انتخاب ویدیو  <input accept="video/*" class="fileChosen" type="file" hidden id="ImageFile" name="ImageFile"></label><span class="fileChosenText"></span>
+                @Html.ValidationMessageFor(model => model.myFile)
+            </div>
+        </div>
+
+        <div class="form-group">
+            <div class="col-md-offset-2 col-md-10">
+                <input type="submit" value="ثبت" class="btn btn-success" />
+            </div>
+        </div>
+    </div>
+}
+
+<div>
+    @Html.ActionLink("نمایش لیست", "Index")
+</div>
+
+@section Scripts {
+    @Scripts.Render("~/bundles/jqueryval")
+}

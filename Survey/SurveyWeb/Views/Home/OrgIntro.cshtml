@@ -1,0 +1,245 @@
+﻿@model SurveyWeb.Models.OrgIntro
+<section class="blog-single page-section-ptb">
+    <div class="container">
+
+
+        <div class="row">
+            <div class="col-md-3">
+                <div class="sidebar-widgets-wrap m-0">
+                    <div class="sidebar-widget">
+                        <h5>جستجو</h5>
+                        <div class="widget-search">
+                            <i class="fa fa-search"></i>
+                            <input type="search" class="form-control placeholder" placeholder="جستجو . . .">
+                        </div>
+                    </div>
+                    <div class="sidebar-widget">
+                    </div>
+                    <div class="sidebar-widget">
+                        <h5>آخرین پست ها</h5>
+                        <div class="recent-post">
+                            <div class="recent-post-info">
+                                <a href="#">عنوان آخرین پست در اینجا درج است</a>
+                                <span><i class="ti-calendar"></i> فروردین 1398</span>
+                            </div>
+                        </div>
+                        <div class="recent-post">
+                            <div class="recent-post-info">
+                                <a href="#">عنوان آخرین پست در اینجا درج است</a>
+                                <span><i class="ti-calendar"></i> فروردین 1398</span>
+                            </div>
+                        </div>
+                        <div class="recent-post">
+                            <div class="recent-post-info">
+                                <a href="#">عنوان آخرین پست در اینجا درج است</a>
+                                <span><i class="ti-calendar"></i> فروردین 1398</span>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="sidebar-widget">
+                        <h5>دسته بندی ها</h5>
+                        <div class="widget-link">
+                            <ul>
+                                <li>
+                                    <a href="#"> <i class="fa fa-angle-double-left"></i> آنالیز وب </a>
+                                </li>
+                                <li>
+                                    <a href="#"> <i class="fa fa-angle-double-left"></i> سئو و بازاریابی </a>
+                                </li>
+                                <li>
+                                    <a href="#"> <i class="fa fa-angle-double-left"></i> ایمیل مارکتینگ</a>
+                                </li>
+                                <li>
+                                    <a href="#"> <i class="fa fa-angle-double-left"></i> کلیدواژه های تست </a>
+                                </li>
+                                <li>
+                                    <a href="#"> <i class="fa fa-angle-double-left"></i> قالب وبلاگ</a>
+                                </li>
+                            </ul>
+                        </div>
+                    </div>
+                    <div class="sidebar-widget">
+                        <h5>برچسب ها</h5>
+                        <div class="tags">
+                            <ul>
+                                <li><a href="#">Bootstrap</a></li>
+                                <li><a href="#">HTML5</a></li>
+                                <li><a href="#">Wordpress</a></li>
+                                <li><a href="#">CSS3</a></li>
+                                <li><a href="#">Creative</a></li>
+                                <li><a href="#">Multipurpose</a></li>
+                                <li><a href="#">Bootstrap</a></li>
+                                <li><a href="#">HTML5</a></li>
+                                <li><a href="#">Wordpress</a></li>
+                            </ul>
+                        </div>
+                    </div>
+                    <div class="sidebar-widget">
+                        <h5>آرشیو ها</h5>
+                        <div class="widget-link">
+                            <ul>
+                                <li>
+                                    <a href="#"> <i class="fa fa-angle-double-left"></i> فروردین <span class="float-left">12</span></a>
+                                </li>
+                                <li>
+                                    <a href="#"> <i class="fa fa-angle-double-left"></i> اردیبهست <span class="float-left">28</span></a>
+                                </li>
+                                <li>
+                                    <a href="#"> <i class="fa fa-angle-double-left"></i> خرداد <span class="float-left">08</span></a>
+                                </li>
+                                <li>
+                                    <a href="#"> <i class="fa fa-angle-double-left"></i> تیر <span class="float-left">04</span></a>
+                                </li>
+                                <li>
+                                    <a href="#"> <i class="fa fa-angle-double-left"></i> مرداد <span class="float-left">13</span></a>
+                                </li>
+                            </ul>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="col-md-9">
+                <div class="blog-entry mb-3">
+                    <div class="entry-image clearfix">
+                        <img class="img-fluid" src="images/News/@Model.ImageUrl" alt="@Model.Name">
+                    </div>
+                    <div class="blog-detail mt-3">
+                        <div class="entry-title mb-1">
+                            <a href="#">@Model.Name</a>
+                        </div>
+
+                        <div class="entry-content">
+                            @Html.Raw(Model.Description)
+                        </div>
+                        <div class="entry-share clearfix">
+
+                            <div class="social list-style-none float-left">
+                                <strong>انتشار: </strong>
+                                <ul>
+                                    <li>
+                                        <a href="#"> <i class="fa fa-facebook"></i> </a>
+                                    </li>
+                                    <li>
+                                        <a href="#"> <i class="fa fa-twitter"></i> </a>
+                                    </li>
+                                    <li>
+                                        <a href="#"> <i class="fa fa-pinterest-p"></i> </a>
+                                    </li>
+                                    <li>
+                                        <a href="#"> <i class="fa fa-dribbble"></i> </a>
+                                    </li>
+                                </ul>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="blog-navigation mb-4">
+                    <div class="row">
+                        <div class="col-xs-6 col-lg-6 col-md-6 col-sm-6">
+                            <div class="navigation-next">
+                                <a href="#">
+                                    <img class="img-fluid" src="/lib/SeoHub/images/blog/01.jpg" alt="">
+                                    <div class="port-arrow">
+                                        <i class="fa fa-angle-right"></i>
+                                    </div>
+                                    <span>پست وبلاگ با تصویر</span>
+                                </a>
+                            </div>
+                        </div>
+                        <div class="col-xs-6 col-lg-6 col-md-6 col-sm-6">
+                            <div class="navigation-previous float-left text-left">
+                                <a href="#">
+                                    <img class="img-fluid" src="/lib/SeoHub/images/blog/01.jpg" alt="">
+                                    <div class="port-arrow">
+                                        <i class="fa fa-angle-left"></i>
+                                    </div>
+                                    <span>پست وبلاگ با تصویر</span>
+                                </a>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="blog-comments mt-4">
+                    <div class="comments-1">
+                        <div class="comments-photo">
+                            <img src="~/lib/SeoHub/images/team/08.jpg"" alt="">
+                        </div>
+                        <div class="comments-info">
+                            <h6> میکائیل بین <span>26 فروردین 1398</span></h6>
+                            <div class="port-post-social float-left">
+                                <a href="#">پاسخ</a>
+                            </div>
+                            <p class="mt-1">سطرآنچنان که لازم است و برای شرایط فعلی تکنولوژی مورد نیاز و کاربردهای متنوع با هدف بهبود ابزارهای کاربردی می باشد. کتابهای زیادی در شصت و سه درصد گذشته، حال و آینده شناخت فراوان جامعه و متخصصان را می طلبد تا با نرم افزارها شناخت بیشتری را برای طراحان رایانه ای علی الخصوص طراحان خلاقی و فرهنگ پیشرو در زبان فارسی ایجاد کرد.</p>
+                        </div>
+                    </div>
+                    <div class="comments-1 comments-2">
+                        <div class="comments-photo">
+                            <img src="~/lib/SeoHub/images/team/08.jpg"" alt="">
+                        </div>
+                        <div class="comments-info">
+                            <h6> پائول فلاووس <span>27 فروردین 1398</span></h6>
+                            <div class="port-post-social float-left">
+                                <a href="#">پاسخ</a>
+                            </div>
+                            <p class="mt-1"> کتابهای زیادی در شصت و سه درصد گذشته، حال و آینده شناخت فراوان جامعه و متخصصان را می طلبد تا با نرم افزارها شناخت بیشتری را برای طراحان رایانه ای علی الخصوص طراحان خلاقی و فرهنگ پیشرو در زبان فارسی ایجاد کرد.</p>
+                        </div>
+                    </div>
+                    <div class="comments-1 comments-2">
+                        <div class="comments-photo">
+                            <img src="~/lib/SeoHub/images/team/08.jpg"" alt="">
+                        </div>
+                        <div class="comments-info">
+                            <h6> میکائیل بین <span>28 فروردین 1398</span></h6>
+                            <div class="port-post-social float-left">
+                                <a href="#">پاسخ</a>
+                            </div>
+                            <p class="mt-1">کتابهای زیادی در شصت و سه درصد گذشته، حال و آینده شناخت فراوان جامعه و متخصصان را می طلبد تا با نرم افزارها شناخت بیشتری را برای طراحان رایانه ای علی الخصوص طراحان خلاقی و فرهنگ پیشرو در زبان فارسی ایجاد کرد.</p>
+                        </div>
+                    </div>
+                    <div class="comments-1">
+                        <div class="comments-photo">
+                            <img src="~/lib/SeoHub/images/team/08.jpg"" alt="">
+                        </div>
+                        <div class="comments-info">
+                            <h6> جوانا ویلیامز <span>Oct 02, 2017</span></h6>
+                            <div class="port-post-social float-left">
+                                <a href="#">پاسخ</a>
+                            </div>
+                            <p class="mt-1">لورم ایپسوم متن ساختگی با تولید سادگی نامفهوم از صنعت چاپ و با استفاده از طراحان گرافیک است. چاپگرها و متون بلکه روزنامه و مجله در ستون و سطرآنچنان که لازم است و برای شرایط فعلی تکنولوژی مورد نیاز و کاربردهای متنوع با هدف بهبود ابزارهای کاربردی می باشد. کتابهای زیادی در شصت و سه درصد گذشته، حال و آینده شناخت فراوان جامعه و متخصصان را می طلبد تا با نرم افزارها شناخت بیشتری را برای طراحان رایانه ای علی الخصوص طراحان خلاقی و فرهنگ پیشرو در زبان فارسی ایجاد کرد. </p>
+                        </div>
+                    </div>
+                </div>
+                <div class="blog-form mt-6">
+                    <h4 class="mb-3">ارسال نظر</h4>
+                    <div class="gray-form row">
+                        <div class="col-md-4">
+                            <div class="form-group">
+                                <input type="text" class="form-control" id="exampleInputEmail1" placeholder="ایمیل">
+                            </div>
+                        </div>
+                        <div class="col-md-4">
+                            <div class="form-group">
+                                <input type="text" class="form-control" id="exampleInputphone" placeholder="تلفن">
+                            </div>
+                        </div>
+                        <div class="col-md-4">
+                            <div class="form-group">
+                                <input type="text" class="form-control" id="exampleInputPassword1" placeholder="رمز عبور">
+                            </div>
+                        </div>
+                        <div class="col-md-12">
+                            <div class="form-group">
+                                <textarea class="form-control" rows="7" placeholder="نظر"></textarea>
+                            </div>
+                        </div>
+                        <div class="col-md-12">
+                            <a class="button red" href="#">ارسال</a>
+                        </div>
+                        <div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>

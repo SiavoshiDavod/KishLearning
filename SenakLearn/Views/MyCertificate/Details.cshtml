@@ -1,0 +1,115 @@
+﻿
+@model SenakLearn.Models.Person.Person_Certificate
+@{
+    Layout = "~/Views/Shared/_LayoutAdmin.cshtml";
+    ViewBag.Title = "مدرک صادر شده";
+}
+<div class="row">
+    <div class="col-sm-12">
+        <div class="page-title-box">
+            <ol class="breadcrumb pull-right">
+                <li><a href="#">@ViewBag.Title</a></li>
+                <li class="active">Dashboard</li>
+            </ol>
+            <h4 class="page-title">@Html.ActionLink("بازگشت", "Index", "MyCertificate") </h4>
+        </div>
+    </div>
+</div>
+@using (Html.BeginForm())
+{
+    @Html.HiddenFor(model => model.Id)
+    @Html.AntiForgeryToken()
+<div class="form-horizontal">
+    <div class="form-group">
+        <div class="col-md-2 text-left">
+            @Html.LabelFor(model => model.CourseName, htmlAttributes: new { @class = "control-label" })
+        </div>
+        <div class="col-md-4">
+            @Html.EditorFor(model => model.CourseName, new { htmlAttributes = new { @class = "form-control", @disabled = "disabled" } })
+        </div>
+        <div class="col-md-2 text-left">
+            @Html.LabelFor(model => model.CourseLeader, htmlAttributes: new { @class = "control-label" })
+        </div>
+        <div class="col-md-4">
+            @Html.EditorFor(model => model.CourseLeader, new { htmlAttributes = new { @class = "form-control", @disabled = "disabled" } })
+        </div>
+    </div>
+    <div class="form-group">
+        <div class="col-md-2 text-left">
+            @Html.LabelFor(model => model.Duration, htmlAttributes: new { @class = "control-label" })
+        </div>
+        <div class="col-md-4">
+            @Html.EditorFor(model => model.Duration, new { htmlAttributes = new { @class = "form-control", @disabled = "disabled" } })
+        </div>
+        <div class="col-md-2 text-left">
+            @Html.LabelFor(model => model.Code, htmlAttributes: new { @class = "control-label" })
+        </div>
+        <div class="col-md-4">
+            @Html.EditorFor(model => model.Code, new { htmlAttributes = new { @class = "form-control", @disabled = "disabled" } })
+        </div>
+    </div>
+    <div class="form-group">
+        <div class="col-md-2 text-left">
+            @Html.LabelFor(model => model.Person_Teacher, htmlAttributes: new { @class = "control-label" })
+        </div>
+        <div class="col-md-4">
+            @Html.EditorFor(model => model.Person_Teacher, new { htmlAttributes = new { @class = "form-control", @disabled = "disabled" } })
+        </div>
+        <div class="col-md-2 text-left">
+            @Html.LabelFor(model => model.Teacher_Certificate, htmlAttributes: new { @class = "control-label" })
+        </div>
+        <div class="col-md-4">
+            @Html.EditorFor(model => model.Teacher_Certificate, new { htmlAttributes = new { @class = "form-control", @disabled = "disabled" } })
+        </div>
+    </div>
+    <div class="form-group">
+        <div class="col-md-2 text-left">
+            @Html.LabelFor(model => model.Teacher_Certificate, htmlAttributes: new { @class = "control-label" })
+        </div>
+        <div class="col-md-4">
+            @Html.EditorFor(model => model.Teacher_Certificate, new { htmlAttributes = new { @class = "form-control", @disabled = "disabled" } })
+        </div>
+    </div>
+    <div class="form-group">
+        <div class="col-md-2 text-left">
+            @Html.LabelFor(model => model.Teacher_Expertise, htmlAttributes: new { @class = "control-label" })
+        </div>
+        <div class="col-md-4">
+            @Html.EditorFor(model => model.Teacher_Expertise, new { htmlAttributes = new { @class = "form-control", @disabled = "disabled" } })
+        </div>
+        <div class="col-md-2 text-left">
+            @Html.LabelFor(model => model.IssueDate, htmlAttributes: new { @class = "control-label" })
+        </div>
+        <div class="col-md-4">
+            @Html.EditorFor(model => model.IssueDate, new { htmlAttributes = new { @class = "form-control", @disabled = "disabled" } })
+        </div>
+    </div>
+    <div class="form-group">
+        <div class="col-md-2 text-left">
+            @Html.LabelFor(model => model.Course_Code, htmlAttributes: new { @class = "control-label" })
+        </div>
+        <div class="col-md-4">
+            @Html.EditorFor(model => model.Course_Code, new { htmlAttributes = new { @class = "form-control", @disabled = "disabled" } })
+        </div>
+        <div class="col-md-2 text-left">
+            @Html.LabelFor(model => model.Duration, htmlAttributes: new { @class = "control-label" })
+        </div>
+        <div class="col-md-4">
+            @Html.EditorFor(model => model.Duration, new { htmlAttributes = new { @class = "form-control", @disabled = "disabled" } })
+        </div>
+    </div>
+    <div class="form-group">
+        <div class="col-md-2 text-left">
+            @Html.LabelFor(model => model.Course_Description, htmlAttributes: new { @class = "control-label" })
+        </div>
+        <div class="col-md-10">
+            @Html.EditorFor(model => model.Course_Description, new { htmlAttributes = new { @class = "form-control", @disabled = "disabled" } })
+        </div>
+    </div>
+    <div class="form-group">
+        <div class="col-md-12">
+            <img src="/MyCertificate/LoadFile?PersonCertificateId=@Model.Id" width="150px" height="180px" title="@Model.CourseName"/>
+        </div>
+    </div>
+</div>
+        }

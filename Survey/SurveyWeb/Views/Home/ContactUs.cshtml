@@ -1,0 +1,103 @@
+﻿@model SurveyWeb.Models.ContactUs
+@*<div class="row">
+    <div class="col-md-12">
+        <div class="row touch-in white-bg m-0">
+            <div class="col-md-4">
+                <div class="card text-center border-0">
+                    <div class="contact-box">
+                        <div class="contact-icon">
+                            <i class="ti-direction-alt text-blue"></i>
+                        </div>
+                        <h5><a href="service-detail.html">تهران بزرگ، میدان آزادی، ...</a></h5>
+                        <span>تهران ایران</span>
+                    </div>
+                </div>
+            </div>
+            <div class="col-md-4">
+                <div class="card text-center border-0">
+                    <div class="contact-box">
+                        <div class="contact-icon">
+                            <i class="ti-headphone-alt text-blue"></i>
+                        </div>
+                        <h5><a href="service-detail.html">0011 234 56789</a></h5>
+                        <span>شنبه-پنجشنبه 8 صبح-8شب</span>
+                    </div>
+                </div>
+            </div>
+            <div class="col-md-4">
+                <div class="card text-center border-0">
+                    <div class="contact-box">
+                        <div class="contact-icon">
+                            <i class="ti-email text-blue"></i>
+                        </div>
+                        <h5><a href="service-detail.html">INFO@YOURSITE.COM</a></h5>
+                        <span> پشتیبانی آنلاین 24x7</span>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>*@
+<section class="page-section-pb">
+    <div class="container">
+        <div class="row">
+            <div class="col-md-12">
+                <h3 class="mb-4">ارسال پیام</h3>
+            </div>
+            <div class="col-md-12">
+                @{
+                    var m = (string)ViewBag.Message;
+                    if (!string.IsNullOrEmpty(m))
+                    {
+                        <div id="formmessage" >@m</div>
+                    }
+                }
+               
+                <form  class="gray-form row" role="form" method="post" action="/Home/ContactUs">
+                    <div class="col-md-6">
+                        <div class="form-group">
+                            @Html.EditorFor(model => model.Title, new { htmlAttributes = new { @class = "form-control", @placeholder = "عنوان" } })
+                            @Html.ValidationMessageFor(model => model.Title, "", new { @class = "text-danger" })
+                        </div>
+                    </div>
+                    <div class="col-md-6">
+                        <div class="form-group">
+                            @Html.EditorFor(model => model.Name, new { htmlAttributes = new { @class = "form-control", @placeholder = "نام شما" } })
+                            @Html.ValidationMessageFor(model => model.Name, "", new { @class = "text-danger" })
+                        </div>
+                    </div>
+                    <div class="col-md-6">
+                        <div class="form-group">
+                            @Html.EditorFor(model => model.Email, new { htmlAttributes = new { @class = "form-control", @placeholder = "آدرس ایمیل" } })
+                            @Html.ValidationMessageFor(model => model.Email, "", new { @class = "text-danger" })
+                        </div>
+                    </div>
+                    <div class="col-md-6">
+                        <div class="form-group">
+                            @Html.EditorFor(model => model.Tel, new { htmlAttributes = new { @class = "form-control", @placeholder = "شماره تماس" } })
+                            @Html.ValidationMessageFor(model => model.Tel, "", new { @class = "text-danger" })
+                        </div>
+                    </div>
+                    <div class="col-md-12">
+                        <div class="form-group">
+                            @Html.EditorFor(model => model.Description, new { htmlAttributes = new { @class = "form-control height300", @placeholder = "پیام" } })
+                            @Html.ValidationMessageFor(model => model.Description, "", new { @class = "text-danger" })
+                        </div>
+                    </div>
+                    <div class="col-md-12">
+                        <input id="submit" type="submit" value="ارسال کردن" class="button" />
+                    </div>
+                </form>
+                <div id="ajaxloader" style="display:none"><img class="center-block" src="images/form-loader.gif" alt=""></div>
+            </div>
+        </div>
+    </div>
+</section>
+@*<section class="contact-map">
+    <div class="container-fluid">
+        <iframe src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3224.017231421863!2d-79.43780268425046!3d36.09306798010035!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x88532bae09664ccb%3A0xaa6b8f98d3fb8135!2s220+E+Front+St%2C+Burlington%2C+NC+27215%2C+USA!5e0!3m2!1sen!2sin!4v1475045272926" allowfullscreen=""></iframe>
+    </div>
+</section>*@
+@section Scripts {
+    @Scripts.Render("~/bundles/jqueryval")
+}

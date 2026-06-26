@@ -1,0 +1,108 @@
+﻿@model SurveyWeb.Models.JobBoard.EmployeeProfile
+
+@{
+    ViewBag.Title = "Index";
+    Layout = "~/Views/Shared/_LayoutAdmin.cshtml";
+}
+
+<style>
+    table, th, td {
+        border-bottom: 1px solid #efefef;
+        border-collapse: collapse;
+        margin-top: 20px
+    }
+
+    th {
+        width: 50%;
+    }
+
+    th, td {
+        padding: 5px;
+        text-align: right;
+    }
+</style>
+
+<div class="row">
+    <h2 style="float:right">پروفایل کاربر</h2>
+
+    <p style="float:left" class="btn btn-primary">
+        @Html.ActionLink("تکمیل اطلاعات", "Edit", new { id = Model?.Id }, new { @style = "color:#fff" })
+    </p>
+</div>
+
+<table class="table-responsive table-primary" style="width:60%">
+    <tr>
+        <th>@Html.DisplayNameFor(model => model.IsVerified)</th>
+        <td>
+            @if (Model?.IsVerified == true)
+            {
+                @Html.DisplayFor(model => model.IsVerified)
+            }
+            else
+            {
+                @Html.DisplayFor(model => model.IsVerified)
+            <td style="color:#ff0000">(نیاز به تایید توسط ادمین)</td>
+        }
+            </td>
+        </tr>
+        <tr>
+        <tr>
+            <th>@Html.DisplayNameFor(model => model.Email)</th>
+            <td>@Html.DisplayFor(model => model.Email)</td>
+        </tr>
+        <tr>
+
+            <th>@Html.DisplayNameFor(model => model.Phone)</th>
+            <td>@Html.DisplayFor(model => model.Phone)</td>
+        </tr>
+        <tr>
+
+            <th>@Html.DisplayNameFor(model => model.BirthYear)</th>
+            <td>@Html.DisplayFor(model => model.BirthYear)</td>
+        </tr>
+
+        <tr>
+            <th>@Html.DisplayNameFor(model => model.MilitaryStatus)</th>
+            <td>@Html.DisplayFor(model => model.MilitaryStatusTitle)</td>
+        </tr>
+
+        <tr>
+            <th>@Html.DisplayNameFor(model => model.MaritalStatus)</th>
+            <td>@Html.DisplayFor(model => model.MaritalStatusTitle)</td>
+        </tr>
+
+        <tr>
+            <th>@Html.DisplayNameFor(model => model.Gender)</th>
+            <td>@Html.DisplayFor(model => model.GenderTitle)</td>
+        </tr>
+
+        <tr>
+            <th>@Html.DisplayNameFor(model => model.ProvinceOfResidence)</th>
+            <td>@Html.DisplayFor(model => model.ProvinceOfResidence)</td>
+        </tr>
+
+        <tr>
+            <th>@Html.DisplayNameFor(model => model.Address)</th>
+            <td>@Html.DisplayFor(model => model.Address)</td>
+        </tr>
+
+        <tr>
+            <th>@Html.DisplayNameFor(model => model.Specialty)</th>
+            <td>@Html.DisplayFor(model => model.Specialty)</td>
+        </tr>
+
+        <tr>
+            <th>@Html.DisplayNameFor(model => model.Skills)</th>
+            <td>@Html.DisplayFor(model => model.Skills)</td>
+        </tr>
+
+        <tr>
+            <th>@Html.DisplayNameFor(model => model.Languages)</th>
+            <td>@Html.DisplayFor(model => model.Languages)</td>
+        </tr>
+
+    </table>
+
+    <p style="float:left" class="btn btn-primary">
+        @Html.ActionLink("تکمیل اطلاعات", "Edit", new { id = Model?.Id }, new { @style = "color:#fff" })
+    </p>

@@ -1,0 +1,57 @@
+﻿@model SenakLearn.Models.learn_cours_group
+
+@{
+ Layout = "~/Views/Shared/_LayoutAdmin.cshtml";
+    ViewBag.Title = SenakLearn.Models.Dictionary.ModelDictionary[typeof(SenakLearn.Models.learn_cours_group)];
+}
+
+<h2>حذف</h2>
+
+<h3>آیا از حذف اطلاعات اطمینان دارید?</h3>
+<div>
+    
+    <dl class="dl-horizontal">
+        <dt>
+            @Html.DisplayNameFor(model => model.name)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.name)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.status)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.status)
+        </dd>
+        <dt>
+            @Html.DisplayNameFor(model => model.Online)
+        </dt>
+        <dd>
+            @Html.DisplayFor(model => model.Online)
+        </dd>
+        <dt>
+            @Html.DisplayNameFor(model => model.Offline)
+        </dt>
+        <dd>
+            @Html.DisplayFor(model => model.Offline)
+        </dd>
+        <dt>
+            @Html.DisplayNameFor(model => model.Paper)
+        </dt>
+        <dd>
+            @Html.DisplayFor(model => model.Paper)
+        </dd>
+    </dl>
+
+    @using (Html.BeginForm()) {
+        
+
+        <div class="form-actions no-color">
+            <input type="submit" value="حذف" class="btn btn-danger" /> |
+            @Html.ActionLink("نمایش لیست", "Index")
+        </div>
+    }
+</div>

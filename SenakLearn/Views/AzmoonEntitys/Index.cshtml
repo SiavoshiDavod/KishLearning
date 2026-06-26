@@ -1,0 +1,69 @@
+﻿@{
+    Layout = "~/Views/Shared/_LayoutAdmin.cshtml";
+}
+
+@{
+    Layout = "~/Views/Shared/_LayoutAdmin.cshtml";
+    var urlList = "/AzmoonEntitys/LoadList";
+    ViewBag.Title = "پرسشنامه";
+    var user = (SenakLearn.Models.learn_user)ViewBag.User;
+}
+<!-- Page-Title -->
+<div class="row">
+    <div class="col-sm-12">
+        <div class="page-title-box">
+            <ol class="breadcrumb pull-right">
+                <li><a href="#">@ViewBag.Title</a></li>
+                <li class="active">Dashboard</li>
+            </ol>
+            <h4 class="page-title">@Html.ActionLink("افزودن", "Create") 
+              ||  <a class="ajaxLink" href="/AzmoonGroupQuestions/index" title="گروه سوالات"><spin class="">گروه سوالات</spin></a></h4>
+
+        </div>
+    </div>
+</div>
+<div id="TadGoodsField">
+    @using MVC.Controls
+
+    @Html.Grid(
+    new GridControl().SetName("AzmoonEntityGrid").
+    SetPageSize(10).
+    SetShrinkToFit(false).
+    SetIsAutoSize(true).
+    SetIsFilterToolbar(true).
+    IsRTL().
+    SetListUrl(urlList).
+        SetCaption("پرسشنامه").
+    SetOnLoadCompleteEvent("loadAzmoonEntityGridCompleteEvent").
+        UseColumns(SenakLearn.Controllers.AzmoonEntitysController.AzmoonEntityColumns)
+)
+    <script type="text/javascript">
+	function loadAzmoonEntityGridCompleteEvent() {
+		var ids = $("#AzmoonEntityGrid").jqGrid('getDataIDs');
+		for (var i = 0; i < ids.length; i++) {
+			var cl = ids[i];
+			ed = '<a class="ajaxLink"  href="/AzmoonEntitys/Create?Id=' + cl + '" title="ویرایش"><div class="fa fa-pencil"></div></a>';
+			dl = '<a class="ajaxLink delete"href="/AzmoonEntitys/Delete?Id=' + cl + '" title="حذف"   ><div class="fa fa-times"></div></a>';
+			de = '<a class="ajaxLink "href="/AzmoonEntitys/Details?Id=' + cl + '" title="پیش نمایش"   ><div class="fa fa-building"> </div></a>';
+			var qug = '';
+			var qu = '';
+			var ans = '';
+             @*@if (user.Permisstions.Any(x => x == SenakLearn.Models.Security.Permisstion.AzmoonGroupQuestions)){
+			    @: qug = '<a class="ajaxLink"  href="/AzmoonGroupQuestions/index?AzmoonEntityId=' + cl + '" title="گروه"><div class="fa fa-object-group"></div></a>';
+			}*@
+			@if (user.Permisstions.Any(x => x == SenakLearn.Models.Security.Permisstion.AzmoonQuestions)){
+		        @: qu = '<a class="ajaxLink"  href="/AzmoonQuestions/index?AzmoonEntityId=' + cl + '" title="سوالات"><div class="fa fa-calendar"></div></a>';
+			}
+            @if (user.Permisstions.Any(x => x == SenakLearn.Models.Security.Permisstion.AzmoonAnswers)){
+		        @: ans = '<a class="ajaxLink"  href="/AzmoonAnswers/index?AzmoonEntityId=' + cl + '" title="پاسخ ها"><div class="fa fa-calendar-check-o"> </div></a>';
+            }
+			$('#AzmoonEntityGrid').jqGrid('setRowData', ids[i], { act: ed + dl + de + qu + ans  });
+		}
+    }
+
+    </script>
+</div>
+
+
+
+

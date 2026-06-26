@@ -1,0 +1,852 @@
+<?xml version="1.0" encoding="utf-8"?>
+<wsdl:definitions xmlns:soap="http://schemas.xmlsoap.org/wsdl/soap/" xmlns:soapenc="http://schemas.xmlsoap.org/soap/encoding/" xmlns:tm="http://microsoft.com/wsdl/mime/textMatching/" xmlns:mime="http://schemas.xmlsoap.org/wsdl/mime/" xmlns:tns="http://tempuri.org/" xmlns:s1="http://tempuri.org/AbstractTypes" xmlns:http="http://schemas.xmlsoap.org/wsdl/http/" xmlns:s="http://www.w3.org/2001/XMLSchema" xmlns:soap12="http://schemas.xmlsoap.org/wsdl/soap12/" targetNamespace="http://tempuri.org/" xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/">
+  <wsdl:types>
+    <s:schema elementFormDefault="qualified" targetNamespace="http://tempuri.org/">
+      <s:element name="AddSchedule">
+        <s:complexType>
+          <s:sequence>
+            <s:element minOccurs="0" maxOccurs="1" name="username" type="s:string" />
+            <s:element minOccurs="0" maxOccurs="1" name="password" type="s:string" />
+            <s:element minOccurs="0" maxOccurs="1" name="to" type="s:string" />
+            <s:element minOccurs="0" maxOccurs="1" name="from" type="s:string" />
+            <s:element minOccurs="0" maxOccurs="1" name="text" type="s:string" />
+            <s:element minOccurs="1" maxOccurs="1" name="isflash" type="s:boolean" />
+            <s:element minOccurs="1" maxOccurs="1" name="scheduleDateTime" type="s:dateTime" />
+            <s:element minOccurs="1" maxOccurs="1" name="period" type="tns:PeriodType" />
+          </s:sequence>
+        </s:complexType>
+      </s:element>
+      <s:simpleType name="PeriodType">
+        <s:restriction base="s:string">
+          <s:enumeration value="Once" />
+          <s:enumeration value="Daily" />
+          <s:enumeration value="Weekly" />
+          <s:enumeration value="Monthly" />
+          <s:enumeration value="Yearly" />
+          <s:enumeration value="Custom" />
+        </s:restriction>
+      </s:simpleType>
+      <s:element name="AddScheduleResponse">
+        <s:complexType>
+          <s:sequence>
+            <s:element minOccurs="1" maxOccurs="1" name="AddScheduleResult" type="s:int" />
+          </s:sequence>
+        </s:complexType>
+      </s:element>
+      <s:element name="AddUsance">
+        <s:complexType>
+          <s:sequence>
+            <s:element minOccurs="0" maxOccurs="1" name="username" type="s:string" />
+            <s:element minOccurs="0" maxOccurs="1" name="password" type="s:string" />
+            <s:element minOccurs="0" maxOccurs="1" name="to" type="s:string" />
+            <s:element minOccurs="0" maxOccurs="1" name="from" type="s:string" />
+            <s:element minOccurs="0" maxOccurs="1" name="text" type="s:string" />
+            <s:element minOccurs="1" maxOccurs="1" name="isflash" type="s:boolean" />
+            <s:element minOccurs="1" maxOccurs="1" name="scheduleStartDateTime" type="s:dateTime" />
+            <s:element minOccurs="1" maxOccurs="1" name="repeatAfterDays" type="s:int" />
+            <s:element minOccurs="1" maxOccurs="1" name="scheduleEndDateTime" type="s:dateTime" />
+          </s:sequence>
+        </s:complexType>
+      </s:element>
+      <s:element name="AddUsanceResponse">
+        <s:complexType>
+          <s:sequence>
+            <s:element minOccurs="1" maxOccurs="1" name="AddUsanceResult" type="s:int" />
+          </s:sequence>
+        </s:complexType>
+      </s:element>
+      <s:element name="AddNewUsance">
+        <s:complexType>
+          <s:sequence>
+            <s:element minOccurs="0" maxOccurs="1" name="username" type="s:string" />
+            <s:element minOccurs="0" maxOccurs="1" name="password" type="s:string" />
+            <s:element minOccurs="0" maxOccurs="1" name="to" type="s:string" />
+            <s:element minOccurs="0" maxOccurs="1" name="from" type="s:string" />
+            <s:element minOccurs="0" maxOccurs="1" name="text" type="s:string" />
+            <s:element minOccurs="1" maxOccurs="1" name="isflash" type="s:boolean" />
+            <s:element minOccurs="1" maxOccurs="1" name="scheduleStartDateTime" type="s:dateTime" />
+            <s:element minOccurs="1" maxOccurs="1" name="countrepeat" type="s:int" />
+            <s:element minOccurs="1" maxOccurs="1" name="scheduleEndDateTime" type="s:dateTime" />
+            <s:element minOccurs="1" maxOccurs="1" name="periodType" type="tns:PeriodType" />
+          </s:sequence>
+        </s:complexType>
+      </s:element>
+      <s:element name="AddNewUsanceResponse">
+        <s:complexType>
+          <s:sequence>
+            <s:element minOccurs="1" maxOccurs="1" name="AddNewUsanceResult" type="s:int" />
+          </s:sequence>
+        </s:complexType>
+      </s:element>
+      <s:element name="RemoveSchedule">
+        <s:complexType>
+          <s:sequence>
+            <s:element minOccurs="0" maxOccurs="1" name="username" type="s:string" />
+            <s:element minOccurs="0" maxOccurs="1" name="password" type="s:string" />
+            <s:element minOccurs="1" maxOccurs="1" name="scheduleId" type="s:int" />
+          </s:sequence>
+        </s:complexType>
+      </s:element>
+      <s:element name="RemoveScheduleResponse">
+        <s:complexType>
+          <s:sequence>
+            <s:element minOccurs="1" maxOccurs="1" name="RemoveScheduleResult" type="s:int" />
+          </s:sequence>
+        </s:complexType>
+      </s:element>
+      <s:element name="RemoveScheduleList">
+        <s:complexType>
+          <s:sequence>
+            <s:element minOccurs="0" maxOccurs="1" name="username" type="s:string" />
+            <s:element minOccurs="0" maxOccurs="1" name="password" type="s:string" />
+            <s:element minOccurs="0" maxOccurs="1" name="scheduleIdList" type="tns:ArrayOfInt" />
+          </s:sequence>
+        </s:complexType>
+      </s:element>
+      <s:complexType name="ArrayOfInt">
+        <s:sequence>
+          <s:element minOccurs="0" maxOccurs="unbounded" name="int" type="s:int" />
+        </s:sequence>
+      </s:complexType>
+      <s:element name="RemoveScheduleListResponse">
+        <s:complexType>
+          <s:sequence>
+            <s:element minOccurs="1" maxOccurs="1" name="RemoveScheduleListResult" type="s:int" />
+          </s:sequence>
+        </s:complexType>
+      </s:element>
+      <s:element name="GetScheduleStatus">
+        <s:complexType>
+          <s:sequence>
+            <s:element minOccurs="0" maxOccurs="1" name="username" type="s:string" />
+            <s:element minOccurs="0" maxOccurs="1" name="password" type="s:string" />
+            <s:element minOccurs="1" maxOccurs="1" name="scheduleId" type="s:int" />
+          </s:sequence>
+        </s:complexType>
+      </s:element>
+      <s:element name="GetScheduleStatusResponse">
+        <s:complexType>
+          <s:sequence>
+            <s:element minOccurs="1" maxOccurs="1" name="GetScheduleStatusResult" type="s:int" />
+          </s:sequence>
+        </s:complexType>
+      </s:element>
+      <s:element name="GetScheduleDetails">
+        <s:complexType>
+          <s:sequence>
+            <s:element minOccurs="0" maxOccurs="1" name="username" type="s:string" />
+            <s:element minOccurs="0" maxOccurs="1" name="password" type="s:string" />
+            <s:element minOccurs="1" maxOccurs="1" name="scheduleId" type="s:int" />
+          </s:sequence>
+        </s:complexType>
+      </s:element>
+      <s:element name="GetScheduleDetailsResponse">
+        <s:complexType>
+          <s:sequence>
+            <s:element minOccurs="0" maxOccurs="1" name="GetScheduleDetailsResult" type="tns:ScheduleDetails" />
+          </s:sequence>
+        </s:complexType>
+      </s:element>
+      <s:complexType name="ScheduleDetails">
+        <s:sequence>
+          <s:element minOccurs="1" maxOccurs="1" name="ScheduleID" type="s:int" />
+          <s:element minOccurs="0" maxOccurs="1" name="Sender" type="s:string" />
+          <s:element minOccurs="0" maxOccurs="1" name="Title" type="s:string" />
+          <s:element minOccurs="0" maxOccurs="1" name="Body" type="s:string" />
+          <s:element minOccurs="1" maxOccurs="1" name="BodyParts" type="s:int" />
+          <s:element minOccurs="1" maxOccurs="1" name="TotalCount" type="s:int" />
+          <s:element minOccurs="1" maxOccurs="1" name="SentCount" type="s:int" />
+          <s:element minOccurs="1" maxOccurs="1" name="FailedCount" type="s:int" />
+          <s:element minOccurs="0" maxOccurs="1" name="ScheduleDate" type="s:string" />
+          <s:element minOccurs="0" maxOccurs="1" name="SendDate" type="s:string" />
+          <s:element minOccurs="1" maxOccurs="1" name="SendStatus" type="s:unsignedByte" />
+          <s:element minOccurs="1" maxOccurs="1" name="ScheduleStatus" type="s:unsignedByte" />
+        </s:sequence>
+      </s:complexType>
+      <s:element name="AddMultipleSchedule">
+        <s:complexType>
+          <s:sequence>
+            <s:element minOccurs="0" maxOccurs="1" name="username" type="s:string" />
+            <s:element minOccurs="0" maxOccurs="1" name="password" type="s:string" />
+            <s:element minOccurs="0" maxOccurs="1" name="to" type="tns:ArrayOfString" />
+            <s:element minOccurs="0" maxOccurs="1" name="from" type="s:string" />
+            <s:element minOccurs="0" maxOccurs="1" name="text" type="tns:ArrayOfString" />
+            <s:element minOccurs="1" maxOccurs="1" name="isflash" type="s:boolean" />
+            <s:element minOccurs="0" maxOccurs="1" name="scheduleDateTime" type="tns:ArrayOfDateTime" />
+            <s:element minOccurs="1" maxOccurs="1" name="period" type="tns:PeriodType" />
+          </s:sequence>
+        </s:complexType>
+      </s:element>
+      <s:complexType name="ArrayOfString">
+        <s:sequence>
+          <s:element minOccurs="0" maxOccurs="unbounded" name="string" nillable="true" type="s:string" />
+        </s:sequence>
+      </s:complexType>
+      <s:complexType name="ArrayOfDateTime">
+        <s:sequence>
+          <s:element minOccurs="0" maxOccurs="unbounded" name="dateTime" type="s:dateTime" />
+        </s:sequence>
+      </s:complexType>
+      <s:element name="AddMultipleScheduleResponse">
+        <s:complexType>
+          <s:sequence>
+            <s:element minOccurs="0" maxOccurs="1" name="AddMultipleScheduleResult" type="tns:ArrayOfInt" />
+          </s:sequence>
+        </s:complexType>
+      </s:element>
+      <s:element name="int" type="s:int" />
+      <s:element name="ScheduleDetails" nillable="true" type="tns:ScheduleDetails" />
+      <s:element name="ArrayOfInt" nillable="true" type="tns:ArrayOfInt" />
+    </s:schema>
+    <s:schema targetNamespace="http://tempuri.org/AbstractTypes">
+      <s:import namespace="http://schemas.xmlsoap.org/soap/encoding/" />
+      <s:complexType name="StringArray">
+        <s:complexContent mixed="false">
+          <s:restriction base="soapenc:Array">
+            <s:sequence>
+              <s:element minOccurs="0" maxOccurs="unbounded" name="String" type="s:string" />
+            </s:sequence>
+          </s:restriction>
+        </s:complexContent>
+      </s:complexType>
+    </s:schema>
+  </wsdl:types>
+  <wsdl:message name="AddScheduleSoapIn">
+    <wsdl:part name="parameters" element="tns:AddSchedule" />
+  </wsdl:message>
+  <wsdl:message name="AddScheduleSoapOut">
+    <wsdl:part name="parameters" element="tns:AddScheduleResponse" />
+  </wsdl:message>
+  <wsdl:message name="AddUsanceSoapIn">
+    <wsdl:part name="parameters" element="tns:AddUsance" />
+  </wsdl:message>
+  <wsdl:message name="AddUsanceSoapOut">
+    <wsdl:part name="parameters" element="tns:AddUsanceResponse" />
+  </wsdl:message>
+  <wsdl:message name="AddNewUsanceSoapIn">
+    <wsdl:part name="parameters" element="tns:AddNewUsance" />
+  </wsdl:message>
+  <wsdl:message name="AddNewUsanceSoapOut">
+    <wsdl:part name="parameters" element="tns:AddNewUsanceResponse" />
+  </wsdl:message>
+  <wsdl:message name="RemoveScheduleSoapIn">
+    <wsdl:part name="parameters" element="tns:RemoveSchedule" />
+  </wsdl:message>
+  <wsdl:message name="RemoveScheduleSoapOut">
+    <wsdl:part name="parameters" element="tns:RemoveScheduleResponse" />
+  </wsdl:message>
+  <wsdl:message name="RemoveScheduleListSoapIn">
+    <wsdl:part name="parameters" element="tns:RemoveScheduleList" />
+  </wsdl:message>
+  <wsdl:message name="RemoveScheduleListSoapOut">
+    <wsdl:part name="parameters" element="tns:RemoveScheduleListResponse" />
+  </wsdl:message>
+  <wsdl:message name="GetScheduleStatusSoapIn">
+    <wsdl:part name="parameters" element="tns:GetScheduleStatus" />
+  </wsdl:message>
+  <wsdl:message name="GetScheduleStatusSoapOut">
+    <wsdl:part name="parameters" element="tns:GetScheduleStatusResponse" />
+  </wsdl:message>
+  <wsdl:message name="GetScheduleDetailsSoapIn">
+    <wsdl:part name="parameters" element="tns:GetScheduleDetails" />
+  </wsdl:message>
+  <wsdl:message name="GetScheduleDetailsSoapOut">
+    <wsdl:part name="parameters" element="tns:GetScheduleDetailsResponse" />
+  </wsdl:message>
+  <wsdl:message name="AddMultipleScheduleSoapIn">
+    <wsdl:part name="parameters" element="tns:AddMultipleSchedule" />
+  </wsdl:message>
+  <wsdl:message name="AddMultipleScheduleSoapOut">
+    <wsdl:part name="parameters" element="tns:AddMultipleScheduleResponse" />
+  </wsdl:message>
+  <wsdl:message name="AddScheduleHttpGetIn">
+    <wsdl:part name="username" type="s:string" />
+    <wsdl:part name="password" type="s:string" />
+    <wsdl:part name="to" type="s:string" />
+    <wsdl:part name="from" type="s:string" />
+    <wsdl:part name="text" type="s:string" />
+    <wsdl:part name="isflash" type="s:string" />
+    <wsdl:part name="scheduleDateTime" type="s:string" />
+    <wsdl:part name="period" type="s:string" />
+  </wsdl:message>
+  <wsdl:message name="AddScheduleHttpGetOut">
+    <wsdl:part name="Body" element="tns:int" />
+  </wsdl:message>
+  <wsdl:message name="AddUsanceHttpGetIn">
+    <wsdl:part name="username" type="s:string" />
+    <wsdl:part name="password" type="s:string" />
+    <wsdl:part name="to" type="s:string" />
+    <wsdl:part name="from" type="s:string" />
+    <wsdl:part name="text" type="s:string" />
+    <wsdl:part name="isflash" type="s:string" />
+    <wsdl:part name="scheduleStartDateTime" type="s:string" />
+    <wsdl:part name="repeatAfterDays" type="s:string" />
+    <wsdl:part name="scheduleEndDateTime" type="s:string" />
+  </wsdl:message>
+  <wsdl:message name="AddUsanceHttpGetOut">
+    <wsdl:part name="Body" element="tns:int" />
+  </wsdl:message>
+  <wsdl:message name="AddNewUsanceHttpGetIn">
+    <wsdl:part name="username" type="s:string" />
+    <wsdl:part name="password" type="s:string" />
+    <wsdl:part name="to" type="s:string" />
+    <wsdl:part name="from" type="s:string" />
+    <wsdl:part name="text" type="s:string" />
+    <wsdl:part name="isflash" type="s:string" />
+    <wsdl:part name="scheduleStartDateTime" type="s:string" />
+    <wsdl:part name="countrepeat" type="s:string" />
+    <wsdl:part name="scheduleEndDateTime" type="s:string" />
+    <wsdl:part name="periodType" type="s:string" />
+  </wsdl:message>
+  <wsdl:message name="AddNewUsanceHttpGetOut">
+    <wsdl:part name="Body" element="tns:int" />
+  </wsdl:message>
+  <wsdl:message name="RemoveScheduleHttpGetIn">
+    <wsdl:part name="username" type="s:string" />
+    <wsdl:part name="password" type="s:string" />
+    <wsdl:part name="scheduleId" type="s:string" />
+  </wsdl:message>
+  <wsdl:message name="RemoveScheduleHttpGetOut">
+    <wsdl:part name="Body" element="tns:int" />
+  </wsdl:message>
+  <wsdl:message name="RemoveScheduleListHttpGetIn">
+    <wsdl:part name="username" type="s:string" />
+    <wsdl:part name="password" type="s:string" />
+    <wsdl:part name="scheduleIdList" type="s1:StringArray" />
+  </wsdl:message>
+  <wsdl:message name="RemoveScheduleListHttpGetOut">
+    <wsdl:part name="Body" element="tns:int" />
+  </wsdl:message>
+  <wsdl:message name="GetScheduleStatusHttpGetIn">
+    <wsdl:part name="username" type="s:string" />
+    <wsdl:part name="password" type="s:string" />
+    <wsdl:part name="scheduleId" type="s:string" />
+  </wsdl:message>
+  <wsdl:message name="GetScheduleStatusHttpGetOut">
+    <wsdl:part name="Body" element="tns:int" />
+  </wsdl:message>
+  <wsdl:message name="GetScheduleDetailsHttpGetIn">
+    <wsdl:part name="username" type="s:string" />
+    <wsdl:part name="password" type="s:string" />
+    <wsdl:part name="scheduleId" type="s:string" />
+  </wsdl:message>
+  <wsdl:message name="GetScheduleDetailsHttpGetOut">
+    <wsdl:part name="Body" element="tns:ScheduleDetails" />
+  </wsdl:message>
+  <wsdl:message name="AddMultipleScheduleHttpGetIn">
+    <wsdl:part name="username" type="s:string" />
+    <wsdl:part name="password" type="s:string" />
+    <wsdl:part name="to" type="s1:StringArray" />
+    <wsdl:part name="from" type="s:string" />
+    <wsdl:part name="text" type="s1:StringArray" />
+    <wsdl:part name="isflash" type="s:string" />
+    <wsdl:part name="scheduleDateTime" type="s1:StringArray" />
+    <wsdl:part name="period" type="s:string" />
+  </wsdl:message>
+  <wsdl:message name="AddMultipleScheduleHttpGetOut">
+    <wsdl:part name="Body" element="tns:ArrayOfInt" />
+  </wsdl:message>
+  <wsdl:message name="AddScheduleHttpPostIn">
+    <wsdl:part name="username" type="s:string" />
+    <wsdl:part name="password" type="s:string" />
+    <wsdl:part name="to" type="s:string" />
+    <wsdl:part name="from" type="s:string" />
+    <wsdl:part name="text" type="s:string" />
+    <wsdl:part name="isflash" type="s:string" />
+    <wsdl:part name="scheduleDateTime" type="s:string" />
+    <wsdl:part name="period" type="s:string" />
+  </wsdl:message>
+  <wsdl:message name="AddScheduleHttpPostOut">
+    <wsdl:part name="Body" element="tns:int" />
+  </wsdl:message>
+  <wsdl:message name="AddUsanceHttpPostIn">
+    <wsdl:part name="username" type="s:string" />
+    <wsdl:part name="password" type="s:string" />
+    <wsdl:part name="to" type="s:string" />
+    <wsdl:part name="from" type="s:string" />
+    <wsdl:part name="text" type="s:string" />
+    <wsdl:part name="isflash" type="s:string" />
+    <wsdl:part name="scheduleStartDateTime" type="s:string" />
+    <wsdl:part name="repeatAfterDays" type="s:string" />
+    <wsdl:part name="scheduleEndDateTime" type="s:string" />
+  </wsdl:message>
+  <wsdl:message name="AddUsanceHttpPostOut">
+    <wsdl:part name="Body" element="tns:int" />
+  </wsdl:message>
+  <wsdl:message name="AddNewUsanceHttpPostIn">
+    <wsdl:part name="username" type="s:string" />
+    <wsdl:part name="password" type="s:string" />
+    <wsdl:part name="to" type="s:string" />
+    <wsdl:part name="from" type="s:string" />
+    <wsdl:part name="text" type="s:string" />
+    <wsdl:part name="isflash" type="s:string" />
+    <wsdl:part name="scheduleStartDateTime" type="s:string" />
+    <wsdl:part name="countrepeat" type="s:string" />
+    <wsdl:part name="scheduleEndDateTime" type="s:string" />
+    <wsdl:part name="periodType" type="s:string" />
+  </wsdl:message>
+  <wsdl:message name="AddNewUsanceHttpPostOut">
+    <wsdl:part name="Body" element="tns:int" />
+  </wsdl:message>
+  <wsdl:message name="RemoveScheduleHttpPostIn">
+    <wsdl:part name="username" type="s:string" />
+    <wsdl:part name="password" type="s:string" />
+    <wsdl:part name="scheduleId" type="s:string" />
+  </wsdl:message>
+  <wsdl:message name="RemoveScheduleHttpPostOut">
+    <wsdl:part name="Body" element="tns:int" />
+  </wsdl:message>
+  <wsdl:message name="RemoveScheduleListHttpPostIn">
+    <wsdl:part name="username" type="s:string" />
+    <wsdl:part name="password" type="s:string" />
+    <wsdl:part name="scheduleIdList" type="s1:StringArray" />
+  </wsdl:message>
+  <wsdl:message name="RemoveScheduleListHttpPostOut">
+    <wsdl:part name="Body" element="tns:int" />
+  </wsdl:message>
+  <wsdl:message name="GetScheduleStatusHttpPostIn">
+    <wsdl:part name="username" type="s:string" />
+    <wsdl:part name="password" type="s:string" />
+    <wsdl:part name="scheduleId" type="s:string" />
+  </wsdl:message>
+  <wsdl:message name="GetScheduleStatusHttpPostOut">
+    <wsdl:part name="Body" element="tns:int" />
+  </wsdl:message>
+  <wsdl:message name="GetScheduleDetailsHttpPostIn">
+    <wsdl:part name="username" type="s:string" />
+    <wsdl:part name="password" type="s:string" />
+    <wsdl:part name="scheduleId" type="s:string" />
+  </wsdl:message>
+  <wsdl:message name="GetScheduleDetailsHttpPostOut">
+    <wsdl:part name="Body" element="tns:ScheduleDetails" />
+  </wsdl:message>
+  <wsdl:message name="AddMultipleScheduleHttpPostIn">
+    <wsdl:part name="username" type="s:string" />
+    <wsdl:part name="password" type="s:string" />
+    <wsdl:part name="to" type="s1:StringArray" />
+    <wsdl:part name="from" type="s:string" />
+    <wsdl:part name="text" type="s1:StringArray" />
+    <wsdl:part name="isflash" type="s:string" />
+    <wsdl:part name="scheduleDateTime" type="s1:StringArray" />
+    <wsdl:part name="period" type="s:string" />
+  </wsdl:message>
+  <wsdl:message name="AddMultipleScheduleHttpPostOut">
+    <wsdl:part name="Body" element="tns:ArrayOfInt" />
+  </wsdl:message>
+  <wsdl:portType name="ScheduleSoap">
+    <wsdl:operation name="AddSchedule">
+      <wsdl:input message="tns:AddScheduleSoapIn" />
+      <wsdl:output message="tns:AddScheduleSoapOut" />
+    </wsdl:operation>
+    <wsdl:operation name="AddUsance">
+      <wsdl:input message="tns:AddUsanceSoapIn" />
+      <wsdl:output message="tns:AddUsanceSoapOut" />
+    </wsdl:operation>
+    <wsdl:operation name="AddNewUsance">
+      <wsdl:input message="tns:AddNewUsanceSoapIn" />
+      <wsdl:output message="tns:AddNewUsanceSoapOut" />
+    </wsdl:operation>
+    <wsdl:operation name="RemoveSchedule">
+      <wsdl:input message="tns:RemoveScheduleSoapIn" />
+      <wsdl:output message="tns:RemoveScheduleSoapOut" />
+    </wsdl:operation>
+    <wsdl:operation name="RemoveScheduleList">
+      <wsdl:input message="tns:RemoveScheduleListSoapIn" />
+      <wsdl:output message="tns:RemoveScheduleListSoapOut" />
+    </wsdl:operation>
+    <wsdl:operation name="GetScheduleStatus">
+      <wsdl:input message="tns:GetScheduleStatusSoapIn" />
+      <wsdl:output message="tns:GetScheduleStatusSoapOut" />
+    </wsdl:operation>
+    <wsdl:operation name="GetScheduleDetails">
+      <wsdl:input message="tns:GetScheduleDetailsSoapIn" />
+      <wsdl:output message="tns:GetScheduleDetailsSoapOut" />
+    </wsdl:operation>
+    <wsdl:operation name="AddMultipleSchedule">
+      <wsdl:input message="tns:AddMultipleScheduleSoapIn" />
+      <wsdl:output message="tns:AddMultipleScheduleSoapOut" />
+    </wsdl:operation>
+  </wsdl:portType>
+  <wsdl:portType name="ScheduleHttpGet">
+    <wsdl:operation name="AddSchedule">
+      <wsdl:input message="tns:AddScheduleHttpGetIn" />
+      <wsdl:output message="tns:AddScheduleHttpGetOut" />
+    </wsdl:operation>
+    <wsdl:operation name="AddUsance">
+      <wsdl:input message="tns:AddUsanceHttpGetIn" />
+      <wsdl:output message="tns:AddUsanceHttpGetOut" />
+    </wsdl:operation>
+    <wsdl:operation name="AddNewUsance">
+      <wsdl:input message="tns:AddNewUsanceHttpGetIn" />
+      <wsdl:output message="tns:AddNewUsanceHttpGetOut" />
+    </wsdl:operation>
+    <wsdl:operation name="RemoveSchedule">
+      <wsdl:input message="tns:RemoveScheduleHttpGetIn" />
+      <wsdl:output message="tns:RemoveScheduleHttpGetOut" />
+    </wsdl:operation>
+    <wsdl:operation name="RemoveScheduleList">
+      <wsdl:input message="tns:RemoveScheduleListHttpGetIn" />
+      <wsdl:output message="tns:RemoveScheduleListHttpGetOut" />
+    </wsdl:operation>
+    <wsdl:operation name="GetScheduleStatus">
+      <wsdl:input message="tns:GetScheduleStatusHttpGetIn" />
+      <wsdl:output message="tns:GetScheduleStatusHttpGetOut" />
+    </wsdl:operation>
+    <wsdl:operation name="GetScheduleDetails">
+      <wsdl:input message="tns:GetScheduleDetailsHttpGetIn" />
+      <wsdl:output message="tns:GetScheduleDetailsHttpGetOut" />
+    </wsdl:operation>
+    <wsdl:operation name="AddMultipleSchedule">
+      <wsdl:input message="tns:AddMultipleScheduleHttpGetIn" />
+      <wsdl:output message="tns:AddMultipleScheduleHttpGetOut" />
+    </wsdl:operation>
+  </wsdl:portType>
+  <wsdl:portType name="ScheduleHttpPost">
+    <wsdl:operation name="AddSchedule">
+      <wsdl:input message="tns:AddScheduleHttpPostIn" />
+      <wsdl:output message="tns:AddScheduleHttpPostOut" />
+    </wsdl:operation>
+    <wsdl:operation name="AddUsance">
+      <wsdl:input message="tns:AddUsanceHttpPostIn" />
+      <wsdl:output message="tns:AddUsanceHttpPostOut" />
+    </wsdl:operation>
+    <wsdl:operation name="AddNewUsance">
+      <wsdl:input message="tns:AddNewUsanceHttpPostIn" />
+      <wsdl:output message="tns:AddNewUsanceHttpPostOut" />
+    </wsdl:operation>
+    <wsdl:operation name="RemoveSchedule">
+      <wsdl:input message="tns:RemoveScheduleHttpPostIn" />
+      <wsdl:output message="tns:RemoveScheduleHttpPostOut" />
+    </wsdl:operation>
+    <wsdl:operation name="RemoveScheduleList">
+      <wsdl:input message="tns:RemoveScheduleListHttpPostIn" />
+      <wsdl:output message="tns:RemoveScheduleListHttpPostOut" />
+    </wsdl:operation>
+    <wsdl:operation name="GetScheduleStatus">
+      <wsdl:input message="tns:GetScheduleStatusHttpPostIn" />
+      <wsdl:output message="tns:GetScheduleStatusHttpPostOut" />
+    </wsdl:operation>
+    <wsdl:operation name="GetScheduleDetails">
+      <wsdl:input message="tns:GetScheduleDetailsHttpPostIn" />
+      <wsdl:output message="tns:GetScheduleDetailsHttpPostOut" />
+    </wsdl:operation>
+    <wsdl:operation name="AddMultipleSchedule">
+      <wsdl:input message="tns:AddMultipleScheduleHttpPostIn" />
+      <wsdl:output message="tns:AddMultipleScheduleHttpPostOut" />
+    </wsdl:operation>
+  </wsdl:portType>
+  <wsdl:binding name="ScheduleSoap" type="tns:ScheduleSoap">
+    <soap:binding transport="http://schemas.xmlsoap.org/soap/http" />
+    <wsdl:operation name="AddSchedule">
+      <soap:operation soapAction="http://tempuri.org/AddSchedule" style="document" />
+      <wsdl:input>
+        <soap:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="AddUsance">
+      <soap:operation soapAction="http://tempuri.org/AddUsance" style="document" />
+      <wsdl:input>
+        <soap:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="AddNewUsance">
+      <soap:operation soapAction="http://tempuri.org/AddNewUsance" style="document" />
+      <wsdl:input>
+        <soap:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="RemoveSchedule">
+      <soap:operation soapAction="http://tempuri.org/RemoveSchedule" style="document" />
+      <wsdl:input>
+        <soap:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="RemoveScheduleList">
+      <soap:operation soapAction="http://tempuri.org/RemoveScheduleList" style="document" />
+      <wsdl:input>
+        <soap:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="GetScheduleStatus">
+      <soap:operation soapAction="http://tempuri.org/GetScheduleStatus" style="document" />
+      <wsdl:input>
+        <soap:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="GetScheduleDetails">
+      <soap:operation soapAction="http://tempuri.org/GetScheduleDetails" style="document" />
+      <wsdl:input>
+        <soap:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="AddMultipleSchedule">
+      <soap:operation soapAction="http://tempuri.org/AddMultipleSchedule" style="document" />
+      <wsdl:input>
+        <soap:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+  </wsdl:binding>
+  <wsdl:binding name="ScheduleSoap12" type="tns:ScheduleSoap">
+    <soap12:binding transport="http://schemas.xmlsoap.org/soap/http" />
+    <wsdl:operation name="AddSchedule">
+      <soap12:operation soapAction="http://tempuri.org/AddSchedule" style="document" />
+      <wsdl:input>
+        <soap12:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap12:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="AddUsance">
+      <soap12:operation soapAction="http://tempuri.org/AddUsance" style="document" />
+      <wsdl:input>
+        <soap12:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap12:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="AddNewUsance">
+      <soap12:operation soapAction="http://tempuri.org/AddNewUsance" style="document" />
+      <wsdl:input>
+        <soap12:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap12:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="RemoveSchedule">
+      <soap12:operation soapAction="http://tempuri.org/RemoveSchedule" style="document" />
+      <wsdl:input>
+        <soap12:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap12:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="RemoveScheduleList">
+      <soap12:operation soapAction="http://tempuri.org/RemoveScheduleList" style="document" />
+      <wsdl:input>
+        <soap12:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap12:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="GetScheduleStatus">
+      <soap12:operation soapAction="http://tempuri.org/GetScheduleStatus" style="document" />
+      <wsdl:input>
+        <soap12:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap12:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="GetScheduleDetails">
+      <soap12:operation soapAction="http://tempuri.org/GetScheduleDetails" style="document" />
+      <wsdl:input>
+        <soap12:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap12:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="AddMultipleSchedule">
+      <soap12:operation soapAction="http://tempuri.org/AddMultipleSchedule" style="document" />
+      <wsdl:input>
+        <soap12:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap12:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+  </wsdl:binding>
+  <wsdl:binding name="ScheduleHttpGet" type="tns:ScheduleHttpGet">
+    <http:binding verb="GET" />
+    <wsdl:operation name="AddSchedule">
+      <http:operation location="/AddSchedule" />
+      <wsdl:input>
+        <http:urlEncoded />
+      </wsdl:input>
+      <wsdl:output>
+        <mime:mimeXml part="Body" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="AddUsance">
+      <http:operation location="/AddUsance" />
+      <wsdl:input>
+        <http:urlEncoded />
+      </wsdl:input>
+      <wsdl:output>
+        <mime:mimeXml part="Body" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="AddNewUsance">
+      <http:operation location="/AddNewUsance" />
+      <wsdl:input>
+        <http:urlEncoded />
+      </wsdl:input>
+      <wsdl:output>
+        <mime:mimeXml part="Body" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="RemoveSchedule">
+      <http:operation location="/RemoveSchedule" />
+      <wsdl:input>
+        <http:urlEncoded />
+      </wsdl:input>
+      <wsdl:output>
+        <mime:mimeXml part="Body" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="RemoveScheduleList">
+      <http:operation location="/RemoveScheduleList" />
+      <wsdl:input>
+        <http:urlEncoded />
+      </wsdl:input>
+      <wsdl:output>
+        <mime:mimeXml part="Body" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="GetScheduleStatus">
+      <http:operation location="/GetScheduleStatus" />
+      <wsdl:input>
+        <http:urlEncoded />
+      </wsdl:input>
+      <wsdl:output>
+        <mime:mimeXml part="Body" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="GetScheduleDetails">
+      <http:operation location="/GetScheduleDetails" />
+      <wsdl:input>
+        <http:urlEncoded />
+      </wsdl:input>
+      <wsdl:output>
+        <mime:mimeXml part="Body" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="AddMultipleSchedule">
+      <http:operation location="/AddMultipleSchedule" />
+      <wsdl:input>
+        <http:urlEncoded />
+      </wsdl:input>
+      <wsdl:output>
+        <mime:mimeXml part="Body" />
+      </wsdl:output>
+    </wsdl:operation>
+  </wsdl:binding>
+  <wsdl:binding name="ScheduleHttpPost" type="tns:ScheduleHttpPost">
+    <http:binding verb="POST" />
+    <wsdl:operation name="AddSchedule">
+      <http:operation location="/AddSchedule" />
+      <wsdl:input>
+        <mime:content type="application/x-www-form-urlencoded" />
+      </wsdl:input>
+      <wsdl:output>
+        <mime:mimeXml part="Body" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="AddUsance">
+      <http:operation location="/AddUsance" />
+      <wsdl:input>
+        <mime:content type="application/x-www-form-urlencoded" />
+      </wsdl:input>
+      <wsdl:output>
+        <mime:mimeXml part="Body" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="AddNewUsance">
+      <http:operation location="/AddNewUsance" />
+      <wsdl:input>
+        <mime:content type="application/x-www-form-urlencoded" />
+      </wsdl:input>
+      <wsdl:output>
+        <mime:mimeXml part="Body" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="RemoveSchedule">
+      <http:operation location="/RemoveSchedule" />
+      <wsdl:input>
+        <mime:content type="application/x-www-form-urlencoded" />
+      </wsdl:input>
+      <wsdl:output>
+        <mime:mimeXml part="Body" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="RemoveScheduleList">
+      <http:operation location="/RemoveScheduleList" />
+      <wsdl:input>
+        <mime:content type="application/x-www-form-urlencoded" />
+      </wsdl:input>
+      <wsdl:output>
+        <mime:mimeXml part="Body" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="GetScheduleStatus">
+      <http:operation location="/GetScheduleStatus" />
+      <wsdl:input>
+        <mime:content type="application/x-www-form-urlencoded" />
+      </wsdl:input>
+      <wsdl:output>
+        <mime:mimeXml part="Body" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="GetScheduleDetails">
+      <http:operation location="/GetScheduleDetails" />
+      <wsdl:input>
+        <mime:content type="application/x-www-form-urlencoded" />
+      </wsdl:input>
+      <wsdl:output>
+        <mime:mimeXml part="Body" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="AddMultipleSchedule">
+      <http:operation location="/AddMultipleSchedule" />
+      <wsdl:input>
+        <mime:content type="application/x-www-form-urlencoded" />
+      </wsdl:input>
+      <wsdl:output>
+        <mime:mimeXml part="Body" />
+      </wsdl:output>
+    </wsdl:operation>
+  </wsdl:binding>
+  <wsdl:service name="Schedule">
+    <wsdl:port name="ScheduleSoap" binding="tns:ScheduleSoap">
+      <soap:address location="http://api.payamak-panel.com/post/Schedule.asmx" />
+    </wsdl:port>
+    <wsdl:port name="ScheduleSoap12" binding="tns:ScheduleSoap12">
+      <soap12:address location="http://api.payamak-panel.com/post/Schedule.asmx" />
+    </wsdl:port>
+    <wsdl:port name="ScheduleHttpGet" binding="tns:ScheduleHttpGet">
+      <http:address location="http://api.payamak-panel.com/post/Schedule.asmx" />
+    </wsdl:port>
+    <wsdl:port name="ScheduleHttpPost" binding="tns:ScheduleHttpPost">
+      <http:address location="http://api.payamak-panel.com/post/Schedule.asmx" />
+    </wsdl:port>
+  </wsdl:service>
+</wsdl:definitions>

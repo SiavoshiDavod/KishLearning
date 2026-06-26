@@ -1,0 +1,76 @@
+﻿
+<div class="search-something">
+    <input type="search" class="form-control placeholder" id="paperTitle" placeholder="دنبال چه چیزی هستید؟  ">
+    <a onclick="reloadPapers()"><i class="zmdi zmdi-search"></i></a>
+</div>
+<div id="course-single">
+    <div class="categories">
+        <h6>گروه ها</h6>
+        <ul>
+            @{
+                var categorieslist = SenakLearn.Biz.CourseBiz.Instance.FindAllGroup(null, null, true, null, null);
+                foreach (var item in categorieslist)
+                {
+                    <li><a onclick="reloadPapers('@item.id')">@item.name (@item.PaperCount)</a></li>
+                }
+            }
+        </ul>
+    </div>
+
+</div>
+<div>
+    @Html.PaperFieldDropDown("PaperField", false, false, new { style = "width:270px" }, "همه رشته ها")
+</div><div>
+    @Html.PaperPublisherDropDown("PaperPublisher", false, false, new { style = "width:270px" }, "همه ناشرها")
+</div><div>
+    @Html.PaperTrendDropDown("PaperTrend", false, false, new { style = "width:270px" }, "همه گرایش ها")
+</div><div>
+    @Html.PaperJournalDropDown("PaperJournal", false, false, new { style = "width:270px" }, "همه مجله ها")
+</div><div>
+    @Html.PaperUniversityDropDown("PaperUniversity", false, false, new { style = "width:270px" }, "همه دانشگاه ها")
+</div><div>
+    @Html.PaperTranslateQualityDropDown("PaperTranslateQuality", false, false, new { style = "width:270px" }, "همه کیفیت ترجمه ها")
+</div>
+
+<div>
+    <button class="search-teachers button" style="width:270px" onclick="reloadPapers()">جستجو</button>
+</div>
+<script>
+
+        function reloadPapers(group) {
+
+            $.ajax({
+                url: '/paper/GetPapers',
+                type: 'post',
+                datatype: 'json',
+                data: { title: $('#paperTitle').val(), groupId: group, qualityId: $('#PaperTranslateQuality').val(), universityId: $('#PaperUniversity').val(), journalId: $('#PaperJournal').val(), trendId: $('#PaperTrend').val(), fieldId: $('#PaperField').val(), publisherId: $('#PaperPublisher').val(), skip: 0 },
+                success: function (result) {
+                    //var papers = [];
+
+                    //debugger;
+                    for (var i = 0; i < result.Rows.length; i++) {
+                        var html = '';
+                        var count = "onclick='return countPreviewItemByClient(" + "@SenakLearn.Models.ObjCount.objType_Paper" + "," + result.Rows[i].Id +")\'";
+                        html += '<div class="row tutorialSplit" style="margin: 3px 0px 30px 0px;padding: 3px 0px; "><div class="col-sm-4">';
+                        html += ' <img src="/images/Paper/' + result.Rows[i].ScreenShotId + '" class="resp-img" style="width: 100%;height: auto" alt="Tutorial"> </div>';
+                        html += '<div class="col-sm-8"><div class="tutorial-details"><div class="pull-right fav favorite"> <i class="zmdi zmdi-star"></i> </div>';
+                        html += '<h6>' + result.Rows[i].TitleF + '</h6>';
+                        html += '<p><span class="fa fa-clock-o"><i class="zmdi zmdi-time"></i></span>' + result.Rows[i].Year + ' </p>';
+                        html += '<p class="abs">' + result.Rows[i].Title;
+                        html += '</p><a ' + count + ' href="/paper/detail?Id=' + result.Rows[i].Id + '" class="greybutton button" style="display: inline;float:left">نمایش مقاله</a>  </div> </div> </div>\n';
+                        //papers.push(html);
+                        $('#mainPaper').append(html);
+                    }
+                    //debugger;
+                    $('#mainPaper').addClass(" courses-browse popular no-gutters ");
+                    //$('#mainPaper').html(html);
+                }
+            });
+
+            //<div class="row text-center">
+            //    <div class="col-xs-12">
+            //        <div class="paginations"> <a class="prev" href="#"><i class="zmdi zmdi-chevron-right"></i>قبلی</a> <a href="#">1</a> <a href="#">2</a> <a href="#">3</a> <a href="#">4</a> <a href="#">5</a> <a href="#">6</a> <a class="next" href="#">بعدی<i class="zmdi zmdi-chevron-left"></i></a> </div>
+            //    </div>
+            //</div>
+        }
+</script>

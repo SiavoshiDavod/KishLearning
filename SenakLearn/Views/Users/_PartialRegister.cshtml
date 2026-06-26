@@ -1,0 +1,108 @@
+﻿@model SenakLearn.Models.RegisterViewModel
+@{List<SelectListItem> listOrg = (List<SelectListItem>)ViewBag.ListOrg;
+    List<SelectListItem> listPost = (List<SelectListItem>)ViewBag.ListPost;
+}
+
+@using (Html.BeginForm("Register", "Users", FormMethod.Post, new { @class = "gray-form mb-5 md-mb-0" }))
+{
+    @Html.ValidationSummary(true, "", new { @class = "text-danger" })
+    @Html.Hidden("ReturnUrl", (string)ViewBag.returl)
+    @Html.Partial("_PartialGoogleRecapcha", "Register")
+    <div class="row">
+        <div class="col-md-12">
+            <div class="form-group">
+                <label for="name">نام کاربری*</label>
+                @Html.TextBoxFor(model => model.UserName, new { @class = "form-control", @placeholder = "نام کاربری " })
+                @Html.ValidationMessageFor(model => model.UserName, "", new { @class = "text-danger" })
+            </div>
+        </div>
+    </div>
+    <div class="row">
+        <div class="col-md-6">
+            <div class="form-group">
+                <label for="name">نوع کاربر*</label>
+                @Html.DropDownListFor(x => x.TypeUser, new List<SelectListItem>() { new SelectListItem { Value = "1", Text = "شخصی",Selected=Model?.TypeUser==1?true:false },
+                       new SelectListItem { Value = "2", Text = "سازمانی",Selected=Model?.TypeUser==2?true:false } }, new { @onchange = "fn_ChangeUserType(this)" })
+            </div>
+        </div>
+        <div class="col-md-6" id="divOrg" style="display:none">
+            <div id="divOrg" class="form-group">
+                <label for="name">نام سازمان</label>
+                @Html.DropDownListFor(x => x.OrgId, listOrg, Model.OrgId)
+            </div>
+        </div>
+    </div>
+    <div class="row">
+        <div class="col-md-6">
+            <div class="form-group">
+                @Html.TextBoxFor(model => model.Name, new { @class = "form-control", @maxlength = 100, @placeholder = "نام " })
+                @Html.ValidationMessageFor(model => model.Name, "", new { @class = "text-danger" })
+            </div>
+        </div>
+        <div class="col-md-6">
+            <div class="form-group">
+                @Html.TextBoxFor(model => model.Family, new { @class = "form-control", @maxlength = 100, @placeholder = "نام خانوادگی" })
+                @Html.ValidationMessageFor(model => model.Family, "", new { @class = "text-danger" })
+            </div>
+        </div>
+    </div>
+    <div class="row">
+        <div class="col-md-6">
+            <div class="form-group">
+                @Html.TextBoxFor(model => model.Mobile, new { @class = "form-control", @maxlength = 11, @placeholder = "موبایل" })
+                @Html.ValidationMessageFor(model => model.Mobile, "", new { @class = "text-danger" })
+            </div>
+        </div>
+        <div class="col-md-6">
+            <div class="form-group">
+                @Html.TextBoxFor(model => model.Email, new { @class = "form-control", @maxlength = 50, @placeholder = "ایمیل" })
+                @Html.ValidationMessageFor(model => model.Email, "", new { @class = "text-danger" })
+            </div>
+        </div>
+    </div>
+    <div class="row">
+        <div class="col-md-6">
+            <div class="form-group">
+                @Html.TextBoxFor(model => model.Password, new { @type = "password", @class = "form-control", placeholder = "رمز عبور" })
+                @Html.ValidationMessageFor(model => model.Password, "", new { @class = "text-danger" })
+            </div>
+        </div>
+        <div class="col-md-6">
+            <div class="form-group">
+                @Html.TextBoxFor(model => model.RePassword, new { @type = "password", @class = "form-control", placeholder = " تکرار رمز عبور" })
+                @Html.ValidationMessageFor(model => model.RePassword, "", new { @class = "text-danger" })
+            </div>
+        </div>
+    </div>
+    <div class="row">
+        <div class="col-md-6">
+            <div class="form-group">
+                @Html.TextBoxFor(model => model.NationaCode, new { @type = "text", @class = "form-control", placeholder = "کد ملی" })
+                @Html.ValidationMessageFor(model => model.NationaCode, "", new { @class = "text-danger" })
+            </div>
+        </div>
+        <div class="col-md-6" id="divPost" style="display:none">
+            @Html.DropDownListFor(x => x.PostId, listPost, new { placeholder = "سمت" })
+        </div>
+
+    </div>
+    <div class="row">
+        <div class="col-md-12">
+            <input type="submit" value="ثبت نام در سایت" class="button" />
+        </div>
+    </div>
+}
+<script>
+    function fn_ChangeUserType(e) {
+        debugger;
+        var selectedUserType = $(e).find(":selected").val();
+        if (selectedUserType == "1") {
+            $('#divOrg').hide();
+            $('#divPost').hide();
+        } else {
+            $('#divOrg').show();
+            $('#divPost').show();
+        }
+    }
+</script>
+

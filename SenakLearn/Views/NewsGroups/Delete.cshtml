@@ -1,0 +1,19 @@
+﻿@model SenakLearn.Models.NewsGroup
+@{
+    ViewBag.Title = SenakLearn.Models.Dictionary.ModelDictionary[typeof(SenakLearn.Models.NewsGroup)];
+    Layout = "~/Views/Shared/_LayoutAdmin.cshtml";
+}
+@Html.Partial("_PartialDetailObject", Model)
+@using (Html.BeginForm())
+{
+    @Html.AntiForgeryToken()
+
+    <div class="form-actions no-color">
+        <input type="submit" value="حذف" class="btn btn-default" /> |
+        @Html.ActionLink("بازگشت", "Index")
+    </div>
+}
+
+
+
+

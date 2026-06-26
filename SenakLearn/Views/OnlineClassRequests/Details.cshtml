@@ -1,0 +1,58 @@
+﻿@model SenakLearn.Models.OnlineClassRequest
+
+@{
+    Layout = "~/Views/Shared/_LayoutAdmin.cshtml";
+}
+
+<h2>جزئیات</h2>
+
+<div>
+    <h4>OnlineClassRequest</h4>
+    <hr />
+    <dl class="dl-horizontal">
+        <dt>
+            @Html.DisplayNameFor(model => model.UserId)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.UserId)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.OnlineClassId)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.OnlineClassId)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.Notices)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.Notices)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.CreatedDate)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.CreatedDateShamsi)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.UpdateDate)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.UpdateDateShamsi)
+        </dd>
+
+    </dl>
+</div>
+<p>
+    @Html.ActionLink("ویرایش", "Edit", new { id = Model.Id }) |
+   @Html.ActionLink("بازگشت به لیست", "Index")
+</p>

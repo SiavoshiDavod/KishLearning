@@ -1,0 +1,65 @@
+﻿@{
+    Layout = "~/Views/Shared/_LayoutAdmin.cshtml";
+}
+
+@{
+    Layout = "~/Views/Shared/_LayoutAdmin.cshtml";
+    var urlList = "/Roles/LoadList";
+    ViewBag.Title = SurveyWeb.Models.Dictionary.ModelDictionary[typeof(SurveyWeb.Models.Security.Role)];
+    var user = (SurveyWeb.Models.User)ViewBag.User;
+}
+<!-- Page-Title -->
+<div class="row">
+    <div class="col-sm-12">
+        <div class="page-title-box">
+            <ol class="breadcrumb pull-right">
+                <li><a href="#">@ViewBag.Title</a></li>
+                <li class="active">Dashboard</li>
+            </ol>
+            <h4 class="page-title">@Html.ActionLink("افزودن", "Create") </h4>
+        </div>
+    </div>
+</div>
+<div class="panel panel-default">
+    <div class=" panel-body">
+        <p>
+           در سامانه کاربرانی که از نوع Admin هستند
+            در داشبورد مدیریتی به صفحاتی دسترسی خواهند داشت که در نقش آنها تعریف شده باشد.
+             به عنوان مثال یک نقش که دسترسی کارتابل را داشته باشد و 
+            کاربری که به این نقش انتساب داده شده باشد، پس از لاگین در داشبورد فقط منوی کارتابل را دارد  
+        </p>
+    </div>
+</div>
+<div id="TadGoodsField">
+    @using MVC.Controls
+
+    @Html.Grid(
+    new GridControl().SetName("RoleGrid").
+    SetPageSize(10).
+    SetShrinkToFit(false).
+    SetIsAutoSize(true).
+    SetIsFilterToolbar(true).
+    IsRTL().
+    SetListUrl(urlList).
+        SetCaption("نقش").
+    SetOnLoadCompleteEvent("loadRoleGridCompleteEvent").
+        UseColumns(SurveyWeb.Controllers.RolesController.RoleColumns)
+)
+    <script type="text/javascript">
+        function loadRoleGridCompleteEvent() {
+            var ids = $("#RoleGrid").jqGrid('getDataIDs');
+            for (var i = 0; i < ids.length; i++) {
+                var cl = ids[i];
+                ed = '<a class="ajaxLink"  href="/Roles/Create?Id=' + cl + '" title="ویرایش"><div style="margin: 3px;cursor: pointer;display: inline-block;">ویرایش</div></a>';//<div class="fa fa-pencil"></div>
+                dl = '<a class="ajaxLink delete"href="/Roles/Delete?Id=' + cl + '" title="حذف"   ><div style="margin: 3px;cursor: pointer;display: inline-block;">حذف</div></a>';//<div class="fa fa-times"></div>
+                de = '<a class="ajaxLink "href="/Roles/Details?Id=' + cl + '" title="جزئیات"   ><div style="margin: 3px;cursor: pointer;display: inline-block;">جزئیات</div></a>';//<div class="fa fa-building"></div>
+                var pe = '';
+                @if (user.Permisstions.Any(x => x == SurveyWeb.Models.Permisstion.RolePermissions)){
+                    @: pe = '<a class="ajaxLink "href="/RolePermissions/Index?Id=' + cl + '" title="دسترسی های این نقش"   ><div style="margin: 3px;cursor: pointer;display: inline-block;">دسترسی ها</div></a>';//<div class="fa fa-calendar"></div>
+                }
+                $('#RoleGrid').jqGrid('setRowData', ids[i], { act: ed + dl + de + pe });
+            }
+        }
+
+    </script>
+</div>

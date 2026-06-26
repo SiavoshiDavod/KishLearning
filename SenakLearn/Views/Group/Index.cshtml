@@ -1,0 +1,124 @@
+﻿@model IEnumerable<SenakLearn.Models.learn_cours_group>
+
+@{
+    Layout = "~/Views/Shared/_LayoutAdmin.cshtml";
+    ViewBag.Title = SenakLearn.Models.Dictionary.ModelDictionary[typeof(SenakLearn.Models.learn_cours_group)];
+}
+<!-- Page-Title -->
+<div class="row">
+    <div class="col-sm-12">
+        <div class="page-title-box">
+            <ol class="breadcrumb pull-right">
+                <li><a href="#">@ViewBag.Title</a></li>
+                <li class="active">Dashboard</li>
+            </ol>
+            <h4 class="page-title">@Html.ActionLink("افزودن", "Create") </h4>
+        </div>
+    </div>
+</div>
+<table class="table">
+    <tr>
+
+        <th>
+            @Html.DisplayNameFor(model => model.name)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.status)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.Online)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.Offline)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.Paper)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.Book)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.Booklet)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.OnlineCount)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.OfflineCount)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.PaperCount)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.BookCount)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.BookletCount)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.Order)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.ImageUrl)
+        </th>
+        <th></th>
+    </tr>
+
+    @foreach (var item in Model.OrderBy(x=>x.Order))
+    {
+<tr>
+    <td>
+        @Html.DisplayFor(modelItem => item.name)
+    </td>
+    <td>
+        @Html.DisplayFor(modelItem => item.status)
+    </td>
+    <th>
+        @Html.DisplayFor(modelItem => item.Online)
+    </th>
+    <th>
+        @Html.DisplayFor(modelItem => item.Offline)
+    </th>
+    <th>
+        @Html.DisplayFor(modelItem => item.Paper)
+    </th>
+    <th>
+        @Html.DisplayFor(model => item.Book)
+    </th>
+    <th>
+        @Html.DisplayFor(model => item.Booklet)
+    </th>
+    <th>
+        @Html.DisplayFor(model => item.OnlineCount)
+    </th>
+    <th>
+        @Html.DisplayFor(model => item.OfflineCount)
+    </th>
+    <th>
+        @Html.DisplayFor(model => item.PaperCount)
+    </th>
+    <th>
+        @Html.DisplayFor(model => item.BookCount)
+    </th>
+    <th>
+        @Html.DisplayFor(model => item.BookletCount)
+    </th>
+    <th>
+        @Html.DisplayFor(modelItem => item.Order)
+    </th>
+    <th>
+        @if (item.ImageUrl != null)
+        {
+            <img src="/images/Group/@item.ImageUrl" alt=@item.name width="150px" class="thumbnail" />
+        }
+    </th>
+    <td>
+        @Html.ActionLink("ویرایش", "Edit", new { id = item.id }) |
+        @Html.ActionLink("نمایش", "Details", new { id = item.id }) |
+        @Html.ActionLink("حذف", "Delete", new { id = item.id })
+    </td>
+</tr>
+    }
+
+</table>
+

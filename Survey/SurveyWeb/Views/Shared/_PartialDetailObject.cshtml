@@ -1,0 +1,68 @@
+﻿@model SurveyWeb.BaseEntity
+@{
+    Layout = null;
+}
+@*<style>
+        label {
+            white-space: pre-wrap
+        }
+    </style>*@
+<div class="row">
+    <div class="col-sm-12">
+        <div class="page-title-box">
+            <ol class="breadcrumb pull-right">
+                @*<li><a href="#">جزئیات  </a></li>*@
+                <li><a href="#">@ViewBag.Title</a></li>
+            </ol>
+            <h4 class="page-title">  @ViewBag.Title </h4>
+        </div>
+    </div>
+</div>
+
+<div id="PartialDetailObject" style="direction:rtl">
+    <dl class="dl-horizontal">
+        @foreach (var p in Model.GetType().GetProperties().Where(p => p.IsDefined(typeof(System.ComponentModel.DataAnnotations.DisplayAttribute), false)))
+        {
+            var val = p.GetValue(Model);
+            if (val != null)
+            {
+                var name = p.GetCustomAttributes(typeof(System.ComponentModel.DataAnnotations.DisplayAttribute), false).Cast<System.ComponentModel.DataAnnotations.DisplayAttribute>().Single().Name;
+                <dt>
+                    <label style="vertical-align:sub"> @name </label>
+                </dt>
+
+                <dd>
+                    @if (p.PropertyType == typeof(Boolean))
+                    {
+                        @Html.CheckBox(p.Name, (bool)val)
+                    }
+                    else
+                    {
+                        <label style="white-space: pre-wrap; font-size: large;overflow-wrap: anywhere;"> @val.ToString() </label>
+                    }
+
+                </dd>
+            }
+        }
+
+    </dl>
+</div>
+<input type="button" title="چاپ" value="چاپ" onclick="printDetila()" class="btn btn-info"  />
+<script src="~/Scripts/printThis.js"></script>
+<script>
+    function printDetila() {
+          $("#PartialDetailObject").printThis({
+        debug: false,
+        importCSS: true,
+    importStyle: true,
+    printContainer: true,
+    loadCSS: "/lib/NasabTemplate/assets/css/bootstrap-rtl.min.css",
+    pageTitle: "@ViewBag.Title",
+    removeInline: false,
+    printDelay: 333,
+    header: null,
+    formValues: true
+    }
+);
+    }
+</script>

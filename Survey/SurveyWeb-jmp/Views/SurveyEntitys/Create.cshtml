@@ -1,0 +1,170 @@
+﻿@model SurveyWeb.Models.SurveyEntity
+
+@{
+    ViewBag.Title = "پرسشنامه";
+    Layout = "~/Views/Shared/_LayoutAdmin.cshtml";
+}
+
+<div class="row">
+    <div class="col-sm-12">
+        <div class="page-title-box">
+            <ol class="breadcrumb pull-right">
+                <li><a href="#">ذخیره سازی</a></li>
+                <li><a href="#">@ViewBag.Title</a></li>
+                <li class="active">Dashboard</li>
+            </ol>
+            <h4 class="page-title">ذخیره سازی @ViewBag.Title </h4>
+        </div>
+    </div>
+</div>
+@using (Html.BeginForm("Create", "SurveyEntitys", FormMethod.Post, new { enctype = "multipart/form-data" }))
+{
+    @Html.AntiForgeryToken()
+
+<div class="form-horizontal">
+    @Html.ValidationSummary(true, "", new { @class = "text-danger" })
+    @Html.HiddenFor(model => model.Id)
+    @Html.HiddenFor(model => model.AnswerCount)
+    @Html.HiddenFor(model => model.QuestionCount)
+
+    <div class="form-group">
+        @Html.LabelFor(model => model.GroupSurveyId, htmlAttributes: new { @class = "control-label col-md-2" })
+        <div class="col-md-10">
+            @Html.GroupSurveyDropDown("GroupSurveyId", true)
+            @Html.ValidationMessageFor(model => model.GroupSurveyId, "", new { @class = "text-danger" })
+        </div>
+    </div>
+
+    <div class="form-group">
+        @Html.LabelFor(model => model.Name, htmlAttributes: new { @class = "control-label col-md-2" })
+        <div class="col-md-10">
+            @Html.EditorFor(model => model.Name, new { htmlAttributes = new { @class = "form-control" } })
+            @Html.ValidationMessageFor(model => model.Name, "", new { @class = "text-danger" })
+        </div>
+    </div>
+    <div class="form-group">
+        @Html.LabelFor(model => model.Title, htmlAttributes: new { @class = "control-label col-md-2" })
+        <div class="col-md-10">
+            @Html.EditorFor(model => model.Title, new { htmlAttributes = new { @class = "form-control" } })
+            @Html.ValidationMessageFor(model => model.Title, "", new { @class = "text-danger" })
+        </div>
+    </div>
+
+    <div class="form-group">
+        @Html.LabelFor(model => model.Description, htmlAttributes: new { @class = "control-label col-md-2" })
+        <div class="col-md-10">
+            @Html.TextAreaFor(model => model.Description, new { htmlAttributes = new { @class = "form-control" } })
+            @Html.ValidationMessageFor(model => model.Description, "", new { @class = "text-danger" })
+        </div>
+    </div>
+    <div class="form-group">
+        @Html.LabelFor(model => model.SurveyImageUrl, htmlAttributes: new { @class = "control-label col-md-2" })
+        <div class="col-md-10">
+            <label class="btn btn-default"> انتخاب فایل عکس  <input @*accept=".pdf, .doc , .docx"  accept="video/*"*@ accept="image/*" class="fileChosen" type="file" hidden id="File" name="File"></label><span class="fileChosenText">
+                @if (Model != null && !string.IsNullOrEmpty(Model.SurveyImageUrl))
+                {
+                    <a href="~/images/Survey/@Model.SurveyImageUrl"><img src="~/images/Survey/@Model.SurveyImageUrl" title="دانلود" height="50" /></a>
+                }
+            </span>
+            @Html.HiddenFor(x => x.SurveyImageUrl)
+            @Html.ValidationMessageFor(model => model.SurveyImageUrl, "", new { @class = "text-danger" })
+        </div>
+    </div>
+
+    <div class="form-group">
+        @Html.LabelFor(model => model.IsIpRestriction, htmlAttributes: new { @class = "control-label col-md-2" })
+        <div class="col-md-10">
+            @Html.EditorFor(model => model.IsIpRestriction, new { htmlAttributes = new { @class = "form-control" } })
+            @Html.ValidationMessageFor(model => model.IsIpRestriction, "", new { @class = "text-danger" })
+        </div>
+    </div>
+
+    <div class="form-group">
+        @Html.LabelFor(model => model.IsShowInSinglePage, htmlAttributes: new { @class = "control-label col-md-2" })
+        <div class="col-md-10">
+            @Html.EditorFor(model => model.IsShowInSinglePage, new { htmlAttributes = new { @class = "form-control" } })
+            @Html.ValidationMessageFor(model => model.IsShowInSinglePage, "", new { @class = "text-danger" })
+        </div>
+    </div>
+    <div class="form-group">
+        @Html.LabelFor(model => model.IsUserMustBeLogin, htmlAttributes: new { @class = "control-label col-md-2" })
+        <div class="col-md-10">
+            @Html.EditorFor(model => model.IsUserMustBeLogin, new { htmlAttributes = new { @class = "form-control" } })
+            @Html.ValidationMessageFor(model => model.IsUserMustBeLogin, "", new { @class = "text-danger" })
+        </div>
+    </div>
+    <div class="form-group">
+        @Html.LabelFor(model => model.Status, htmlAttributes: new { @class = "control-label col-md-2" })
+        <div class="col-md-10">
+            <div class="checkbox">
+                @Html.EditorFor(model => model.Status, new { htmlAttributes = new { @class = "form-control" } })
+                @Html.ValidationMessageFor(model => model.Status, "", new { @class = "text-danger" })
+            </div>
+        </div>
+    </div>
+    <div class="form-group">
+        @Html.LabelFor(model => model.IsFavorite, htmlAttributes: new { @class = "control-label col-md-2" })
+        <div class="col-md-10">
+            <div class="checkbox">
+                @Html.EditorFor(model => model.IsFavorite, new { htmlAttributes = new { @class = "form-control" } })
+                @Html.ValidationMessageFor(model => model.IsFavorite, "", new { @class = "text-danger" })
+            </div>
+        </div>
+    </div>
+    <div class="form-group">
+        @Html.LabelFor(model => model.IsImportant, htmlAttributes: new { @class = "control-label col-md-2" })
+        <div class="col-md-10">
+            <div class="checkbox">
+                @Html.EditorFor(model => model.IsImportant, new { htmlAttributes = new { @class = "form-control" } })
+                @Html.ValidationMessageFor(model => model.IsImportant, "", new { @class = "text-danger" })
+            </div>
+        </div>
+    </div>
+    <div class="form-group">
+        @Html.LabelFor(model => model.IsPrivate, htmlAttributes: new { @class = "control-label col-md-2" })
+        <div class="col-md-10">
+            <div class="checkbox">
+                @Html.EditorFor(model => model.IsPrivate, new { htmlAttributes = new { @class = "form-control", @onchange = "return isPrivateChange();" } })
+                @Html.ValidationMessageFor(model => model.IsPrivate, "", new { @class = "text-danger" })
+            </div>
+        </div>
+    </div>
+    <div class="form-group IsPrivateChange">
+        @Html.LabelFor(model => model.SurveyPrivateGroupId, htmlAttributes: new { @class = "control-label col-md-2" })
+        <div class="col-md-10">
+            <div class="checkbox">
+                @Html.SurveyPrivateGroupDropDown("SurveyPrivateGroupId", false)
+            </div>
+        </div>
+    </div>
+
+    <div class="form-group">
+        <div class="col-md-offset-2 col-md-10">
+            <input type="submit" value="ذخیره" class="btn btn-default" />
+        </div>
+    </div>
+</div>
+}
+
+<div>
+    @Html.ActionLink("بازگشت", "Index")
+</div>
+
+@section Scripts {
+    @Scripts.Render("~/bundles/jqueryval")
+<script>
+    function isPrivateChange() {
+        if ($("#IsPrivate").is(':checked')) {
+            $(".IsPrivateChange").show();
+        }else {
+            $("#SurveyPrivateGroupId").val('');
+            $(".IsPrivateChange").hide();
+        }
+        return false;
+    }
+    $(document).ready(function () {
+        isPrivateChange();
+    });
+    $("#IsPrivate").on("change", isPrivateChange);
+    </script>
+}

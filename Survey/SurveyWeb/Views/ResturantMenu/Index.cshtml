@@ -1,0 +1,127 @@
+﻿@model IEnumerable<SurveyWeb.Models.ResturantMenu>
+
+@{
+    Layout = "~/Views/Shared/_LayoutAdmin.cshtml";
+    ViewBag.Title = SurveyWeb.Models.Dictionary.ModelDictionary[typeof(SurveyWeb.Models.ResturantMenu)];
+}
+
+<div class="row">
+    <div class="col-sm-12">
+        <div class="page-title-box">
+            <ol class="breadcrumb pull-right">
+                <li><a href="#">@ViewBag.Title</a></li>
+                <li class="active">Dashboard</li>
+            </ol>
+            <h4 class="page-title">
+                <button class="btn btn-primary" onclick="return AddResturantMenu()" title="افزودن ">افزودن </button>
+            </h4>
+        </div>
+    </div>
+</div>
+<table class="table">
+    <tr>
+        <th>
+            @Html.DisplayNameFor(model => model.Description)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.Active)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.Accepted)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.AdminDescription)
+        </th>
+        <th>
+            تاریخ ایجاد
+        </th>
+        <th>
+            تاریخ تایید/بروزرسانی
+        </th>
+        
+        <th></th>
+    </tr>
+
+    @foreach (var item in Model)
+    {
+        <tr>
+            <td>
+                @Html.DisplayFor(modelItem => item.Description)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.Active)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.Accepted)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.AdminDescription)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.CreatedDateShamsi)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.UpdateDateShamsi)
+            </td>
+            <td>
+                @if (!item.Accepted)
+                {
+                    <button class="btn btn-danger" value="حذف" title="حذف" onclick="RemoveResturantMenu('@item.Id')">حذف</button>
+                }
+                @Html.ActionLink("غذاومحتویات آن", "Details", new { ResturantMenuId = item.Id },new { @class="btn btn-default"}) 
+
+            </td>
+        </tr>
+    }
+
+</table>
+<script>
+     function RemoveResturantMenu(id) {
+        var url = '/ResturantMenu/Remove?id='+id;
+        var functionR = function () { pw.post(url,
+                    { id:  id },
+                    'json',
+                    function (response) {
+                       if (response.success) {
+                           SwalSuccessMessage("");
+                           location.reload();
+                        } else {
+                            showError(response.ErrorMessage);
+                        }
+                    });
+                return false; };
+        confirmDelete(functionR);
+    }
+
+    function AddResturantMenu() {
+        //e.preventDefault();
+        Swal.fire({
+            title: 'عنوان منو ',
+            input: 'text',
+            inputAttributes: {
+                autocapitalize: 'off'
+            },
+            showCancelButton: false,
+            confirmButtonText: 'ثبت',
+            showLoaderOnConfirm: false,
+
+            allowOutsideClick: () => !Swal.isLoading()
+        }).then((result) => {
+            if (result.value) {
+                pw.post("/ResturantMenu/Save?desc=" + result.value,
+                    { desc:  result.value },
+                    'json',
+                    function (response) {
+                       if (response.success) {
+                           SwalSuccessMessage("");
+                           location.reload();
+                        } else {
+                            showError(response.ErrorMessage);
+                        }
+                    });
+                return false;
+            }
+        })
+        return false;
+    }
+</script>

@@ -1,0 +1,113 @@
+﻿<script src="~/Highcharts-7.1.1Persian/code/highcharts.js"></script>
+<script src="~/Highcharts-7.1.1Persian/code/highcharts-more.js"></script>
+<script src="~/Highcharts-7.1.1Persian/code/modules/series-label.js"></script>
+<script src="~/Highcharts-7.1.1Persian/code/modules/data.js"></script>
+<script src="~/Highcharts-7.1.1Persian/code/modules/exporting.js"></script>
+<script src="~/Highcharts-7.1.1Persian/code/modules/export-data.js"></script>
+<script src="~/Highcharts-7.1.1Persian/pw.js"></script>
+<script src="~/Highcharts-7.1.1Persian/Dashboard.js"></script>
+<script>
+    function CreatePieChart(answers, question, QuestionType, QuestionImageUrl, id) {
+        if (QuestionImageUrl != '') {
+            QuestionImageUrl = "/images/Question/" + QuestionImageUrl;
+        }
+        var answersCollection = JSON.parse(answers);
+        var modal = '<div class="modal fade in {className}" id="{Name}" role="dialog" aria-labelledby="myModalLabel"><div class="modal-window modal-dialog {Size}" id="{Name}_dialog" role="document"><div class="modal-content"><div class="modal-header"><button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">×</span></button><h4 class="modal-title" id="myModalLabel">{Title}</h4></div><div class="modal-body"><div id="PieChart"></div></div>{Footer}</div></div></div><div id="{Name}_Coord"></div>';
+        modal = modal.replace('{Name}', id);
+        modal = modal.replace('{Name}', id);
+        modal = modal.replace('{Name}', id);
+        //modal = modal.replace('{className}', className);
+        modal = modal.replace('{Title}', question);
+        modal = modal.replace('{Size}', 'modal-full');//modal-full
+        modal = modal.replace('{Footer}', '');
+        $('body').append(modal);
+        // $('#' + id + ' .modal-body').html(answersCollection);
+        $('#' + id + ' input').removeClass('k-textbox');
+
+        $('#' + id).modal('show');
+        $('#' + id).on('hidden.bs.modal', function () {
+            $('#' + id).remove();
+        });
+
+        $('[data-toggle="tooltip"]').tooltip();
+
+        $('#' + id + ' .modal-body')
+            .css('max-height', (window.innerHeight - 215) + 'px')
+            .css('overflow-y', 'auto');
+
+        //console.dir(answersCollection);
+        //console.log(answers);
+        var div = 'PieChart';
+        var dataPoints = [];
+        for (var i = 0; i < answersCollection.length; i++) {
+            dataPoints.push({
+                name: answersCollection[i].QuestionOption, questionOptionUrl: answersCollection[i].QuestionOptionUrl == null ? answersCollection[i].QuestionOption : "<img height='50' src='" + answersCollection[i].QuestionOptionUrl + "' />", y: answersCollection[i].Count
+            });
+        }
+        $('.PieChart').html(answersCollection);
+        Highcharts.chart(div, {
+            chart: {
+                plotBackgroundColor: null,
+                plotBorderWidth: null,
+                plotShadow: false,
+                type: 'pie',
+                //height: "50%"
+            },
+            title: {
+                text: null
+            },
+            tooltip: {
+                formatter: function () {
+                    return '<h2 class="text-center">' + this.point.y + '</h2><b>' + this.point.questionOptionUrl + '</b>';
+                },
+                useHTML: true,
+                // pointFormat: '<h2 class="text-center">{point.y}</h2>'//'{series.name}: <b>{point.percentage:.1f}%</b>'
+            },
+            plotOptions: {
+                pie: {
+                    allowPointSelect: true,
+                    cursor: 'pointer',
+                    showInLegend: true,
+                    dataLabels: {
+                        useHTML: true,
+                        format: '<table dir="rtl" ><tr><td style="color:white;padding:0">{point.name}: </td>' +
+                            '<td style="padding:0"><b>{point.percentage:.0f}% </b></td></tr></table>',
+                        distance: -50,
+                    }
+                }
+            },
+            series: [{
+                name: question,
+                colorByPoint: true,
+                data: dataPoints
+            }],
+            exporting: {
+                enabled: false,
+                buttons: {
+                    contextButton: {
+                        menuItems: ["viewFullscreen", "printChart"]
+                    }
+                }
+            },
+            responsive: {
+                rules: [{
+                    condition: {
+                        maxHeight: h
+                    },
+                    chartOptions: {
+                        chart: {
+                            height: 300
+                        },
+                        subtitle: {
+                            text: null
+                        },
+                        navigator: {
+                            enabled: false
+                        }
+                    }
+                }]
+            }
+        });
+        return false;
+    }
+</script>

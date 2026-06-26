@@ -1,0 +1,99 @@
+﻿
+@{
+    ViewBag.Title = "فهرست کاربران" ;
+    Layout = "~/Views/Shared/_LayoutAdmin.cshtml";
+    var urlList = "/UsersAdmin/LoadList";
+    var user = (SenakLearn.Models.learn_user)ViewBag.User;
+}
+<!-- Page-Title -->
+<div class="row">
+    <div class="col-sm-12">
+        <div class="page-title-box">
+            <ol class="breadcrumb pull-right">
+                <li><a href="#">@ViewBag.Title</a></li>
+                <li class="active">Dashboard</li>
+            </ol>
+            <div style="margin-right:3px;" class="col-md-3">
+                <h4 class="page-title col-md-6">@Html.ActionLink("افزودن", "Create") || <a onclick="fn_UploadUserModalShow()" style="cursor:pointer">بارگذاری</a></h4>
+            </div>
+        </div>
+    </div>
+</div>
+<div id="TadGoodsField">
+    @using MVC.Controls
+
+    @Html.Grid(
+    new GridControl().SetName("UsersAdminesGrid").
+    SetPageSize(10).
+    SetShrinkToFit(false).
+    SetIsAutoSize(true).
+    SetIsFilterToolbar(true).
+    IsRTL().
+    SetSortName("id").
+    SetListUrl(urlList).
+        SetCaption("کاربران").
+    SetOnLoadCompleteEvent("loadUsersAdminesGridCompleteEvent").
+     SetSortOrder("desc").
+        UseColumns(SenakLearn.Controllers.Admin.UsersAdminController.UsersAdminColumns)
+)
+    <script src='/Scripts/Learn.js' type='text/javascript'></script>
+    <script type="text/javascript">
+        function fn_UploadUserModalShow() {
+            $(".dialogUserUploadPanelClass").remove();
+            var $dialog = "<div class='dialogUserUploadPanelClass' style='padding:15px'></div>";
+            $.ajax({
+                url: "/UsersAdmin/Upload" ,
+                type: "Get",
+                success: function (res) {
+
+                    var div = $($dialog).find('div.dialogVideoPanelClass').prevObject[0];
+                    //debugger;
+                    $(div).html(res);
+                    $(div).dialog({
+                        autoOpen: true, modal: true, show: "blind", hide: "blind", width: 'auto',
+                        height: 'auto', title: 'بارگذاری کاربران'
+                    });
+                }
+            });
+        }
+        function PersonCertificate_old(userId) {
+            $(".dialogPersonCertificatePanelClass").remove();
+            var $dialog = "<div class='dialogPersonCertificatePanelClass' style='padding:15px'></div>";
+            $.ajax({
+                url: "PersonCertificate/IndexPartial",
+                type: "Get",
+                success: function (res) {
+                    var div = $($dialog).find('div.dialogVideoPanelClass').prevObject[0];
+                    $(div).html(res);
+                    $(div).dialog({
+                        autoOpen: true, modal: true, show: "blind", hide: "blind", width: 'auto',
+                        height: 'auto', title: 'بارگذاری مدرک پرسنل'
+                    });
+                }
+            });
+        }
+        function PersonCertificate(userId) {
+            window.open('/PersonCertificate/Index?userId=' + userId, '_blank');
+        }
+	function loadUsersAdminesGridCompleteEvent() {
+		var ids = $("#UsersAdminesGrid").jqGrid('getDataIDs');
+		for (var i = 0; i < ids.length; i++) {
+			var cl = ids[i];
+			ed = '<a class="ajaxLink"  href="/UsersAdmin/edit?Id=' + cl + '" title="ویرایش"><div class="tableEditLink">ویرایش</div></a>';
+			dl = '<a class="ajaxLink delete"href="/UsersAdmin/Delete?Id=' + cl + '" title="حذف"   ><div class="tableDeleteLink">حذف</div></a>';
+			de = '<a class="ajaxLink "href="/UsersAdmin/Details?Id=' + cl + '" title="جزئیات"   ><div class="tableDetailLink">جزئیات</div></a>';
+            re = '<a class="ajaxLink "href="#" onclick="return ResetPass(\'' + cl + '\')" title="ریست پسورد"   ><div class="tableDeleteLink">ریست پسورد</div></a>';
+            co = '<a class="ajaxLink "href="#" onclick="return PersonCertificate(\'' + cl + '\')" title="مدرک پرسنل"   ><div class="tableDetailLink">مدرک پرسنل</div></a>';
+            var role = '';
+            @if (user.Permisstions.Any(x => x == SenakLearn.Models.Security.Permisstion.RoleUsers)){
+			    @: role = '<a class="ajaxLink "href="/RoleUsers/Index?Id=' + cl + '" title="نقش ها"   ><div class="fa fa-calendar"></div></a>';
+			}
+			$('#UsersAdminesGrid').jqGrid('setRowData', ids[i], { PassAdobe: ed + dl + de+re +role+co});
+		}
+    }
+
+    </script>
+</div>
+
+
+

@@ -1,0 +1,269 @@
+﻿@model SenakLearn.Models.Paper
+@{
+    Layout = "~/Views/Shared/_Layout.cshtml";
+    ViewBag.Title = "مقاله "+Model.TitleF;
+}
+<div class="container">
+    <div class="row">
+        <div class="col-lg-3 blog-sidebar" style="margin-top: 50px;">
+            @RenderPage("_PartialSideBar.cshtml")
+        </div>
+
+        <div class="col-lg-9" id="mainPaper">
+            <article class="" itemscope="" itemtype="https://schema.org/NewsArticle">
+                <div class="content-title">
+                    <h3 style="text-align:center">@Model.TitleF</h3>
+                </div>
+                <div style="text-align:center">
+                </div>
+                <div class="content-body">
+                    <div style="text-align:center;">
+                        <figure>
+                            <img src="/images/PaperPublisher/@Model.Publisher.IconPath" style="max-width:252px; max-height:252px ">
+                        </figure>
+                    </div>
+                    <div class="content-body">
+
+                        <div class="entry content-body__detail clearfix">
+
+                            <p>&nbsp;</p>
+                            <table class="table table-bordered">
+
+                                <tbody>
+                                    <tr>
+                                        <td style="width: 25%; background-color: #f2f2f2;">عنوان فارسی مقاله:</td>
+                                        <td style="text-align: center;">
+                                            <strong>@Model.TitleF</strong>
+                                        </td>
+                                    </tr>
+                                    <tr>
+                                        <td style="width: 25%; background-color: #f2f2f2;">عنوان انگلیسی مقاله:</td>
+                                        <td style="text-align: center;">
+                                            <strong>@Model.Title</strong>
+                                        </td>
+                                    </tr>
+                                    <tr>
+                                        <td style="width: 25%; text-align: center; background-color: #f2f2f2;" colspan="2">
+                                            <div>&nbsp;</div>
+                                            <div style="text-align: center;"><a onclick='return countPreviewItemByClient("@SenakLearn.Models.ObjCount.objType_PaperDownload",@Model.Id)' href="~/images/paper/@Model.FileId" class="large otw-aqua round right-icon otw-button" target="_blank"><i class="general foundicon-down-arrow"></i>دانلود رایگان مقاله انگلیسی</a>&nbsp;</div>
+                                            <div>&nbsp;</div>
+                                            @if (!string.IsNullOrEmpty(Model.TranslatePdfId))
+                                            {
+                                                <div style="text-align: center;"><a onclick='return countPreviewItemByClient("@SenakLearn.Models.ObjCount.objType_PaperDownload",@Model.Id)' href="~/images/paper/@Model.TranslatePdfId" class="large otw-aqua round right-icon otw-button" target="_blank"><i class="general foundicon-down-arrow"></i>دانلود رایگان ترجمه مقاله </a>&nbsp;</div>
+                                                <div>&nbsp;</div>
+                                            }
+                                            @if (!string.IsNullOrEmpty(Model.TranslateWordId))
+                                            {
+                                                <div><a onclick='return countPreviewItemByClient("@SenakLearn.Models.ObjCount.objType_PaperDownload",@Model.Id)' href="~/images/paper/@Model.TranslateWordId" class="large otw-aqua round right-icon otw-button" target="_blank"><i class="general foundicon-down-arrow"></i>دانلود رایگان ترجمه مقاله با فرمت ورد </a></div>
+                                                <div style="text-align: center;">&nbsp;</div>
+                                            }
+                                        </td>
+                                    </tr>
+                                </tbody>
+                            </table>
+                            <p>&nbsp;</p>
+                            <table class="table table-bordered" style="height: 165px; width: 99.8522%;">
+                                <tbody>
+                                    <tr style="height: 15px;">
+                                        <td style="width: 99.8522%; text-align: center; background-color: #f2f2f2; height: 15px;" colspan="2"><span style="color: #000000;"><strong>مشخصات مقاله انگلیسی (PDF)</strong></span></td>
+                                    </tr>
+                                    <tr style="height: 15px;">
+                                        <td style="width: 27%; background-color: #f2f2f2; height: 15px;">سال انتشار</td>
+                                        <td style="height: 15px; width: 72.8522%;">@Model.Year</td>
+                                    </tr>
+                                    <tr style="height: 15px;">
+                                        <td style="width: 27%; background-color: #f2f2f2; height: 15px;">تعداد صفحات مقاله انگلیسی</td>
+                                        <td style="height: 15px; width: 72.8522%;">@Model.PageCount</td>
+                                    </tr>
+                                    <tr style="height: 15px;">
+                                        <td style="width: 27%; background-color: #f2f2f2; height: 15px;">رشته های مرتبط با این مقاله</td>
+                                        <td style="width: 72.8522%;">@Model.Field.DropDownTitle</td>
+                                    </tr>
+                                    <tr style="height: 15px;">
+                                        <td style="width: 27%; background-color: #f2f2f2; height: 15px;">گروه </td>
+                                        <td style="width: 72.8522%;">@Model.Group.name</td>
+                                    </tr>
+                                    <tr style="height: 15px;">
+                                        <td style="width: 27%; background-color: #f2f2f2; height: 15px;">گرایش های مرتبط با این مقاله</td>
+                                        <td style="direction: rtl; height: 15px; width: 72.8522%;">@string.Join(" و ", Model.TrendNames)</td>
+                                    </tr>
+                                    <tr style="height: 15px;">
+                                        <td style="width: 27%; background-color: #f2f2f2; height: 15px;">چاپ شده در مجله (ژورنال)</td>
+                                        <td style="direction: rtl; height: 15px; width: 72.8522%;">@Model.Publisher.DropDownTitle @Model.Publisher.DropDownTitleE </td>
+                                    </tr>
+                                    <tr style="height: 15px;">
+                                        <td style="width: 27%; background-color: #f2f2f2; height: 15px;">کلمات کلیدی</td>
+                                        <td style="direction: rtl; height: 15px; width: 72.8522%;">@Model.Keyword</td>
+                                    </tr>
+                                    <tr style="height: 15px;">
+                                        <td style="width: 27%; background-color: #f2f2f2; height: 15px;">ارائه شده از دانشگاه</td>
+                                        <td style="direction: rtl; height: 15px; width: 72.8522%;">@Model.University.DropDownTitle</td>
+                                    </tr>
+                                    <tr style="height: 15px;">
+                                        <td style="width: 27%; background-color: #f2f2f2; height: 15px;">رفرنس</td>
+                                        <td style="height: 15px; width: 72.8522%;">
+                                            @if (Model.HasReference)
+                                            {<span> دارد </span><span style="color: #008000;"><strong>✓</strong></span> }
+                                            else
+                                            {<span>ندارد  </span> <span style="color: #ff0000;"><strong>☓</strong></span>}
+                                        </td>
+                                    </tr>
+                                    <tr style="height: 15px;">
+                                        <td style="width: 27%; background-color: #f2f2f2; height: 15px;">کد محصول</td>
+                                        <td style="height: 15px; width: 72.8522%;">F1192</td>
+                                    </tr>
+                                    <tr style="height: 15px;">
+                                        <td style="width: 27%; background-color: #f2f2f2; height: 15px;">نشریه</td>
+                                        <td style="height: 15px; width: 72.8522%;">@Model.Publisher.DropDownTitle @Model.Publisher.DropDownTitleE</td>
+                                    </tr>
+                                </tbody>
+                            </table>
+                            <p>&nbsp;</p>
+                            <table class="table table-bordered" style="height: 183px; background-color: #ebebeb; width: 100%;">
+                                <tbody>
+                                    <tr style="height: 15px;">
+                                        <td style="width: 140%; text-align: center; background-color: #f2f2f2; height: 15px;" colspan="2"><span style="color: #000000;"><strong>مشخصات و وضعیت ترجمه فارسی این مقاله (Word)</strong></span></td>
+                                    </tr>
+                                    <tr style="height: 15px;">
+                                        <td style="width: 62.5947%; text-align: right; background-color: #f2f2f2; height: 15px;">وضعیت ترجمه</td>
+                                        <td style="width: 77.4053%; text-align: right; background-color: #ffffff; height: 15px;">
+                                            @if (Model.HasTranslate)
+                                            {<span> انجام شده و آماده دانلود </span> }
+                                            else
+                                            { <span>ندارد  </span> <span style="color: #ff0000;"><strong>☓</strong></span>}
+                                        </td>
+                                    </tr>
+                                    <tr style="height: 15px;">
+                                        <td style="width: 62.5947%; text-align: right; background-color: #f2f2f2; height: 15px;">تعداد صفحات ترجمه تایپ شده با فرمت ورد با قابلیت ویرایش</td>
+                                        <td style="width: 77.4053%; text-align: right; background-color: #ffffff; height: 15px;">@Model.PageCountF</td>
+                                    </tr>
+                                    <tr style="height: 15px;">
+                                        <td style="width: 62.5947%; text-align: right; background-color: #f2f2f2; height: 15px;">ترجمه عناوین تصاویر و جداول</td>
+                                        <td style="width: 77.4053%; text-align: right; background-color: #ffffff; height: 15px;">
+                                            @if (Model.IsTranslateImageTableTitle)
+                                            {<span>ترجمه شده </span><span style="color: #008000;"><strong>✓</strong></span> }
+                                            else
+                                            {<span>ترجمه نشده </span> <span style="color: #ff0000;"><strong>☓</strong></span>}
+                                        </td>
+                                    </tr>
+                                    <tr style="height: 15px;">
+                                        <td style="width: 62.5947%; text-align: right; background-color: #f2f2f2; height: 15px;">ترجمه متون داخل تصاویر</td>
+                                        <td style="width: 77.4053%; text-align: right; background-color: #ffffff; height: 15px;">
+                                            @if (Model.IsTranslateImage)
+                                            {<span>ترجمه شده </span><span style="color: #008000;"><strong>✓</strong></span> }
+                                            else
+                                            {<span>ترجمه نشده </span> <span style="color: #ff0000;"><strong>☓</strong></span>}
+                                        </td>
+                                    </tr>
+                                    <tr style="height: 15px;">
+                                        <td style="width: 62.5947%; text-align: right; background-color: #f2f2f2; height: 15px;">ترجمه متون داخل جداول</td>
+                                        <td style="width: 77.4053%; text-align: right; background-color: #ffffff; height: 15px;">
+                                            @if (Model.IsTranslateTable)
+                                            {<span>ترجمه شده </span><span style="color: #008000;"><strong>✓</strong></span> }
+                                            else
+                                            {<span>ترجمه نشده </span> <span style="color: #ff0000;"><strong>☓</strong></span>}
+                                        </td>
+                                    </tr>
+                                    <tr style="height: 15px;">
+                                        <td style="width: 62.5947%; text-align: right; background-color: #f2f2f2; height: 15px;">درج تصاویر در فایل ترجمه</td>
+                                        <td style="width: 77.4053%; text-align: right; background-color: #ffffff; height: 15px;">
+                                            @if (Model.IsImagesInTranslate)
+                                            {<span>درج شده </span><span style="color: #008000;"><strong>✓</strong></span> }
+                                            else
+                                            {<span>درج نشده </span> <span style="color: #ff0000;"><strong>☓</strong></span>}
+                                        </td>
+                                    </tr>
+                                    <tr style="height: 15px;">
+                                        <td style="width: 62.5947%; text-align: right; background-color: #f2f2f2; height: 15px;">درج جداول در فایل ترجمه</td>
+                                        <td style="width: 77.4053%; text-align: right; background-color: #ffffff; height: 15px;">
+                                            @if (Model.IsTablesInTranslate)
+                                            {<span>درج شده </span><span style="color: #008000;"><strong>✓</strong></span> }
+                                            else
+                                            {<span>درج نشده </span> <span style="color: #ff0000;"><strong>☓</strong></span>}
+                                        </td>
+                                    </tr>
+                                    <tr style="height: 33px;">
+                                        <td style="width: 62.5947%; text-align: right; background-color: #f2f2f2; height: 33px;">منابع داخل متن</td>
+                                        <td style="width: 77.4053%; text-align: right; background-color: #ffffff; height: 33px;">
+                                            @if (Model.IsReferenceInTranslate)
+                                            {<span>درج شده </span><span style="color: #008000;"><strong>✓</strong></span> }
+                                            else
+                                            {<span>درج نشده </span> <span style="color: #ff0000;"><strong>☓</strong></span>}
+                                        </td>
+                                    </tr>
+                                    <tr style="height: 15px;">
+                                        <td style="width: 62.5947%; text-align: right; background-color: #f2f2f2; height: 15px;">کیفیت ترجمه</td>
+                                        <td style="width: 77.4053%; text-align: right; background-color: #ffffff; height: 15px;">کیفیت ترجمه این مقاله <span style="color: #ff0000;">@Model.TranslateQuality.DropDownTitle</span>میباشد&nbsp;</td>
+                                    </tr>
+                                </tbody>
+                            </table>
+                            <p>&nbsp;</p>
+                            <table class="table table-bordered">
+                                <tbody>
+                                    <tr>
+                                        <td style="width: 27%; text-align: center; background-color: #f2f2f2;"><strong><span style="color: #003366;">فهرست مطالب</span></strong></td>
+                                    </tr>
+                                    <tr>
+                                        <td style="background-color: #ffffff;padding-right: 20px;">
+
+                                            <div>@Html.Raw(Model.Indicator)</div>
+                                        </td>
+                                    </tr>
+                                </tbody>
+                            </table>
+                            <p>&nbsp;</p>
+                            <table class="table table-bordered">
+                                <tbody>
+                                    <tr>
+                                        <td style="width: 27%; text-align: center; background-color: #f2f2f2;"><strong><span style="color: #003366;">بخشی از ترجمه</span></strong></td>
+                                    </tr>
+                                    <tr>
+                                        <td style="background-color: #ffffff;padding-right: 20px;">
+                                            <div>&nbsp;<strong>چکیده</strong></div>
+                                            @Html.Raw(Model.AbstractF)
+                                        </td>
+                                    </tr>
+                                </tbody>
+                            </table>
+                            <p>&nbsp;</p>
+                            <table class="table table-bordered">
+                                <tbody>
+                                    <tr>
+                                        <td style="width: 27%; text-align: center; background-color: #f2f2f2;"><strong><span style="color: #003366;">بخشی از مقاله انگلیسی</span></strong></td>
+                                    </tr>
+                                    <tr>
+                                        <td style="background-color: #ffffff;padding-right: 20px;">
+                                            @Html.Raw(Model.Abstract)
+                                        </td>
+                                    </tr>
+                                </tbody>
+                            </table>
+                            <p>&nbsp;</p>
+                            <p>&nbsp;</p>
+
+
+
+
+                        </div><!--#entry -->
+                        <div class="content-tags">
+                            <div class="content-tags__title hide-phone">
+                                کلمات کلیدی :
+                                @Model.Keyword
+                            </div>
+
+                        </div>
+
+                    </div>
+                </div>
+
+            </article>
+            @*	<div class="related-wrap">
+             <div class="section_title"><strong>مطالب مرتبط</strong></div>
+
+            </div>*@
+
+        </div>
+
+    </div>
+
+</div>

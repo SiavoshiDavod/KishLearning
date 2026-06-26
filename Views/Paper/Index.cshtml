@@ -1,0 +1,33 @@
+﻿@model SenakLearn.Models.learn_cours
+@{
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+<div class="container">
+    <div class="row">
+        <div class="col-lg-3 blog-sidebar" style="margin-top: 50px;">
+            @RenderPage("_PartialSideBar.cshtml")
+        </div>
+        <div class="col-lg-9">
+            <div id="mainPaper" class=" courses-browse popular no-gutters ">
+
+                @*<div class="row text-center">
+                        <div class="col-xs-12">
+                            <div class="paginations"> <a class="prev" href="#"><i class="zmdi zmdi-chevron-right"></i>قبلی</a> <a href="#">1</a> <a href="#">2</a> <a href="#">3</a> <a href="#">4</a> <a href="#">5</a> <a href="#">6</a> <a class="next" href="#">بعدی<i class="zmdi zmdi-chevron-left"></i></a> </div>
+                        </div>
+                    </div>*@
+            </div>
+        </div>
+
+    </div>
+
+</div>
+
+
+@section scripts
+{
+    <script>
+        $(document).ready(function () {
+            reloadPapers()
+        });
+    </script>
+}

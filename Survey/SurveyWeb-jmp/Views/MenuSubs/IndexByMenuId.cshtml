@@ -1,0 +1,74 @@
+﻿@model int
+@{
+    Layout = "~/Views/Shared/_LayoutAdmin.cshtml";
+    var urlList = "/MenuSubs/LoadList?id=" + Model;
+    ViewBag.Title = "زیرمنوهای  " + (string)ViewBag.MenuName;
+}
+<!-- Page-Title -->
+<div class="row">
+    <div class="col-sm-12">
+        <div class="page-title-box">
+            <ol class="breadcrumb pull-right">
+                <li><a href="#">@ViewBag.Title</a></li>
+                <li class="active">Dashboard</li>
+            </ol>
+            <div class="page-title">
+                <h4 class="page-title">@Html.ActionLink("افزودن", "Create",new { MenuId=Model}) </h4>
+            </div>
+        </div>
+    </div>
+</div>
+<div id="TadGoodsField">
+    @using MVC.Controls
+
+    @Html.Grid(
+    new GridControl().SetName("MenuSubGrid").
+    SetPageSize(10).
+    SetShrinkToFit(false).
+    SetIsAutoSize(true).
+    SetIsFilterToolbar(true).
+    IsRTL().
+    SetListUrl(urlList).
+        SetCaption((string)ViewBag.Title).
+    SetOnLoadCompleteEvent("loadMenuSubGridCompleteEvent").
+        UseColumns(SurveyWeb.Controllers.MenuSubsController.MenuSubColumns)
+)
+    <script type="text/javascript">
+        function deleteMenuSub(cl) {
+            var url = "/MenuSubs/Remove";
+            var successFunction = function () {
+                pw.post(url,
+                    { id: cl },
+                    'json',
+                    function (response) {
+                        if (response) {
+                            reloadJqGrid("MenuSubGrid" );
+                            SwalSuccessMessage("");
+                        } else {
+                            showError("خطا");
+                        }
+                    });
+
+            }
+            confirmDelete(successFunction);
+            return false;
+        }
+	function loadMenuSubGridCompleteEvent() {
+	    var ids = $("#MenuSubGrid").jqGrid('getDataIDs');
+
+		for (var i = 0; i < ids.length; i++) {
+		    var cl = ids[i];
+
+		    dl = '<a class="ajaxLink" onclick="return deleteMenuSub(\'' + cl + '\')" title="حذف"   ><div class="fa fa-times"></div></a>';
+		    ed = '<a class="ajaxLink"  href="/MenuSubs/Create?isMenuId=true&Id=' + cl + '" title="ویرایش"><div class="fa fa-pencil"></div></a>';
+		    $('#MenuSubGrid').jqGrid('setRowData', ids[i], { act: dl+ed });
+		}
+    }
+
+    </script>
+</div>
+
+
+
+
+

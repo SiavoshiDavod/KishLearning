@@ -1,0 +1,47 @@
+﻿@model SurveyWeb.Models.AdvertisingAttachement
+
+@{
+    Layout = null;
+}
+<style>
+    .MyDate {
+        width: 123px !important;
+    }
+</style>
+
+@using (Html.BeginForm("SaveAdvertisingAttachement", "Advertising", FormMethod.Post, new { enctype = "multipart/form-data", id = "FormSaveAdvertisingAttachement" }))
+{
+    @Html.AntiForgeryToken()
+
+    <div class="form-horizontal" style="margin:20px">
+        @Html.ValidationSummary(true, "", new { @class = "text-danger" })
+        @Html.HiddenFor(model => model.Id)
+        @Html.HiddenFor(model => model.AdvertisingId)
+
+        <div class="form-group">
+            <div class="col-md-8">
+                <label class="btn btn-default" title="@ViewBag.AttachFileTitle">
+                    انتخاب فایل پیوست
+                    <input accept="video/*, image/*" class="fileChosen" type="file" hidden id="File" name="File">
+                </label><span class="fileChosenText"></span>
+                @Html.ValidationMessageFor(model => model.ImageUrl, "", new { @class = "text-danger" })
+            </div>
+        </div>
+
+        <div class="form-group">
+            <div class="col-md-offset-2 col-md-10">
+                <input type="submit" value="ذخیره" class="btn btn-default" onclick="AdvertisingAttachementsSave()" />
+            </div>
+        </div>
+    </div>
+    <script>
+        //$('.MyDate').MdPersianDateTimePicker();
+        //var fff = function () { $('.MyDate').attr('data-enabletimepicker', 'false') };
+        //setTimeout(fff, 1000);
+        $(".fileChosen").change(function () {
+            filename = this.files[0].name;
+            $(".fileChosenText").html(filename);
+        });
+    </script>
+}
+

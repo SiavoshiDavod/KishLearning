@@ -1,0 +1,250 @@
+﻿@model SenakLearn.Models.Book
+
+@{
+    Layout = "~/Views/Shared/_LayoutAdmin.cshtml";
+    ViewBag.Title = "کتاب";
+}
+<div class="row">
+    <div class="col-sm-12">
+        <div class="page-title-box">
+            <ol class="breadcrumb pull-right">
+                <li><a href="#">@ViewBag.Title</a></li>
+                <li class="active">Dashboard</li>
+            </ol>
+        </div>
+    </div>
+</div>
+<div class="row">
+    <div class="col-sm-12">
+        <div class="card-box">
+
+            @using (Html.BeginForm("Create", "Book", FormMethod.Post, new { enctype = "multipart/form-data" }))
+            {
+
+            <div class="form-horizontal">
+                <hr />
+                @Html.ValidationSummary(true, "", new { @class = "text-danger" })
+                @Html.HiddenFor(model => model.Id)
+                @Html.HiddenFor(model => model.CreatedDate)
+
+                <div class="form-group">
+                    @Html.LabelFor(model => model.GroupId, htmlAttributes: new { @class = "control-label col-md-2" })
+                    <div class="col-md-10">
+                        @Html.Cours_Group_DropDown("GroupId", true, new { @class = "jquery-select" }, "یک دسته را انتخاب کنید", null, null, null, true, null, null)
+                        @Html.ValidationMessageFor(model => model.GroupId, "", new { @class = "text-danger" })
+                    </div>
+                </div>
+
+                <div class="form-group">
+                    @Html.LabelFor(model => model.PublisherId, htmlAttributes: new { @class = "control-label col-md-2" })
+                    <div class="col-md-10">
+                        @Html.PaperPublisherDropDown("PublisherId", true)
+
+                        @Html.ValidationMessageFor(model => model.PublisherId, "", new { @class = "text-danger" })
+                    </div>
+                </div>
+
+
+
+                <div class="form-group">
+                    @Html.LabelFor(model => model.Title, htmlAttributes: new { @class = "control-label col-md-2" })
+                    <div class="col-md-10">
+                        @Html.EditorFor(model => model.Title, new { htmlAttributes = new { @class = "form-control" } })
+                        @Html.ValidationMessageFor(model => model.Title, "", new { @class = "text-danger" })
+                    </div>
+                </div>
+
+                <div class="form-group">
+                    @Html.LabelFor(model => model.TitleF, htmlAttributes: new { @class = "control-label col-md-2" })
+                    <div class="col-md-10">
+                        @Html.EditorFor(model => model.TitleF, new { htmlAttributes = new { @class = "form-control" } })
+                        @Html.ValidationMessageFor(model => model.TitleF, "", new { @class = "text-danger" })
+                    </div>
+                </div>
+
+                <div class="form-group">
+                    @Html.LabelFor(model => model.Author, htmlAttributes: new { @class = "control-label col-md-2" })
+                    <div class="col-md-10">
+                        @Html.EditorFor(model => model.Author, new { htmlAttributes = new { @class = "form-control" } })
+                        @Html.ValidationMessageFor(model => model.Author, "", new { @class = "text-danger" })
+                    </div>
+                </div>
+
+                <div class="form-group">
+                    @Html.LabelFor(model => model.Translator, htmlAttributes: new { @class = "control-label col-md-2" })
+                    <div class="col-md-10">
+                        @Html.EditorFor(model => model.Translator, new { htmlAttributes = new { @class = "form-control" } })
+                        @Html.ValidationMessageFor(model => model.Translator, "", new { @class = "text-danger" })
+                    </div>
+                </div>
+
+                <div class="form-group">
+                    @Html.LabelFor(model => model.Shabak, htmlAttributes: new { @class = "control-label col-md-2" })
+                    <div class="col-md-10">
+                        @Html.EditorFor(model => model.Shabak, new { htmlAttributes = new { @class = "form-control" } })
+                        @Html.ValidationMessageFor(model => model.Shabak, "", new { @class = "text-danger" })
+                    </div>
+                </div>
+
+                <div class="form-group">
+                    @Html.LabelFor(model => model.Ranking1, htmlAttributes: new { @class = "control-label col-md-2" })
+                    <div class="col-md-10">
+                        @Html.EditorFor(model => model.Ranking1, new { htmlAttributes = new { @class = "form-control" } })
+                        @Html.ValidationMessageFor(model => model.Ranking1, "", new { @class = "text-danger" })
+                    </div>
+                </div>
+
+                <div class="form-group">
+                    @Html.LabelFor(model => model.Ranking2, htmlAttributes: new { @class = "control-label col-md-2" })
+                    <div class="col-md-10">
+                        @Html.EditorFor(model => model.Ranking2, new { htmlAttributes = new { @class = "form-control" } })
+                        @Html.ValidationMessageFor(model => model.Ranking2, "", new { @class = "text-danger" })
+                    </div>
+                </div>
+
+                <div class="form-group">
+                    @Html.LabelFor(model => model.MelliBookingCode, htmlAttributes: new { @class = "control-label col-md-2" })
+                    <div class="col-md-10">
+                        @Html.EditorFor(model => model.MelliBookingCode, new { htmlAttributes = new { @class = "form-control" } })
+                        @Html.ValidationMessageFor(model => model.MelliBookingCode, "", new { @class = "text-danger" })
+                    </div>
+                </div>
+                <div class="form-group">
+                    @Html.LabelFor(model => model.PageCount, htmlAttributes: new { @class = "control-label col-md-2" })
+                    <div class="col-md-10">
+                        @Html.EditorFor(model => model.PageCount, new { htmlAttributes = new { @class = "form-control ", @Style = " max-width: 80px;" } })
+                        @Html.ValidationMessageFor(model => model.PageCount, "", new { @class = "text-danger" })
+                    </div>
+                </div>
+
+                <div class="form-group">
+                    @Html.LabelFor(model => model.Year, htmlAttributes: new { @class = "control-label col-md-2" })
+                    <div class="col-md-10">
+                        @Html.EditorFor(model => model.Year, new { htmlAttributes = new { @class = "form-control ", @Style = " max-width: 80px;" } })
+                        @Html.ValidationMessageFor(model => model.Year, "", new { @class = "text-danger" })
+                    </div>
+                </div>
+
+                <div class="form-group">
+                    @Html.LabelFor(model => model.Keyword, htmlAttributes: new { @class = "control-label col-md-2" })
+                    <div class="col-md-10">
+                        @Html.EditorFor(model => model.Keyword, new { htmlAttributes = new { @class = "form-control" } })
+                        @Html.ValidationMessageFor(model => model.Keyword, "", new { @class = "text-danger" })
+                    </div>
+                </div>
+
+
+                <div class="form-group">
+                    @Html.LabelFor(model => model.Indicator, htmlAttributes: new { @class = "control-label col-md-2" })
+                    <div class="col-md-10">
+                        @Html.EditorFor(model => model.Indicator, new { htmlAttributes = new { @class = "form-control" } })
+                        @Html.ValidationMessageFor(model => model.Indicator, "", new { @class = "text-danger" })
+                    </div>
+                </div>
+
+                <div class="form-group">
+                    @Html.LabelFor(model => model.Abstract, htmlAttributes: new { @class = "control-label col-md-2" })
+                    <div class="col-md-10">
+                        @Html.EditorFor(model => model.Abstract, new { htmlAttributes = new { @class = "form-control" } })
+                        @Html.ValidationMessageFor(model => model.Abstract, "", new { @class = "text-danger" })
+                    </div>
+                </div>
+
+                <div class="form-group">
+                    @Html.LabelFor(model => model.Price, htmlAttributes: new { @class = "control-label col-md-2" })
+                    <div class="col-md-10">
+                        @Html.EditorFor(model => model.Price, new { htmlAttributes = new { @class = "form-control", @Style = " max-width: 200px;" } })
+                        @Html.ValidationMessageFor(model => model.Price, "", new { @class = "text-danger" })
+                    </div>
+                </div>
+
+                <div class="form-group">
+                    @Html.LabelFor(model => model.FileId, htmlAttributes: new { @class = "control-label col-md-2" })
+                    <div class="col-md-10">
+                        <label class="btn btn-default"> انتخاب فایل اصلی  <input accept=".pdf, .doc , .docx" class="fileChosen" type="file" hidden id="File" name="File"></label><span class="fileChosenText">
+                            @if (Model != null && !string.IsNullOrEmpty(Model.FileId))
+                            {
+                                <a href="~/images/Book/@Model.FileId">دانلود</a>
+                            }
+                        </span>
+                        @Html.HiddenFor(x => x.FileId)
+                        @Html.ValidationMessageFor(model => model.FileId, "", new { @class = "text-danger" })
+
+                    </div>
+                </div>
+                <div class="form-group">
+                    @Html.LabelFor(model => model.ScreenShotId, htmlAttributes: new { @class = "control-label col-md-2" })
+                    <div class="col-md-10">
+                        <label class="btn btn-default"> انتخاب عکس  <input accept="image/*" class="fileChosen0" type="file" hidden id="ScreenShot" name="ScreenShot"></label><span class="fileChosenText0">
+                            @if (Model != null && !string.IsNullOrEmpty(Model.ScreenShotId))
+                            {
+                                <a href="~/images/Book/@Model.ScreenShotId">دانلود</a>
+                            }
+                        </span>
+                        @Html.HiddenFor(x => x.ScreenShotId)
+                        @Html.ValidationMessageFor(model => model.ScreenShotId, "", new { @class = "text-danger" })
+
+                    </div>
+                </div>
+                @*<div class="form-group">
+                    @Html.LabelFor(model => model.IsSlider, htmlAttributes: new { @class = "control-label col-md-2" })
+                    <div class="col-md-10">
+                        @Html.EditorFor(model => model.IsSlider, new { htmlAttributes = new { @class = "form-control", @Style = " max-width: 200px;" } })
+                        @Html.ValidationMessageFor(model => model.IsSlider, "", new { @class = "text-danger" })
+                    </div>
+                </div>*@
+                @*<div class="form-group">
+                    @Html.LabelFor(model => model.SlideImg, htmlAttributes: new { @class = "control-label col-md-2" })
+                    <div class="col-md-10">
+                        <label class="btn btn-default"> انتخاب تصویر اسلایدر  <input accept="image/*" class="fileChosen1" type="file" hidden id="SlideImgFile" name="SlideImgFile"></label><span class="fileChosenText1">
+                            @if (Model != null && !string.IsNullOrEmpty(Model.SlideImg))
+                            {
+                                <a href="~/images/Book/@Model.SlideImg">دانلود</a>
+                            }
+                        </span>
+                        @Html.HiddenFor(x => x.SlideImg)
+                        @Html.ValidationMessageFor(model => model.SlideImg, "", new { @class = "text-danger" })
+
+                    </div>
+                </div>*@
+                <div class="form-group">
+                    <div class="col-md-offset-2 col-md-10">
+                        <input type="submit" value="ثبت" class="btn btn-default" />
+                    </div>
+                </div>
+            </div>
+            }
+
+            <div>
+                @Html.ActionLink("بازگشت", "Index")
+            </div>
+
+            @section Scripts {
+            @Scripts.Render("~/bundles/jqueryval")
+                <script src="/ckeditor/ckeditor.js"></script>
+                <script src="/ckeditor/adapters/jquery.js"></script>
+                <script>
+                    $(function () {
+                        $('#Abstract').ckeditor();
+                        $('#AbstractF').ckeditor();
+                        $('#Indicator').ckeditor();
+
+                    });
+                    $(".fileChosen0").change(function () {
+                        filename = this.files[0].name;
+                        $(".fileChosenText0").html(filename);
+                    });
+                    $(".fileChosen1").change(function () {
+                        filename = this.files[0].name;
+                        $(".fileChosenText1").html(filename);
+                    });
+                    $(".fileChosen2").change(function () {
+                        filename = this.files[0].name;
+                        $(".fileChosenText2").html(filename);
+                    });
+                </script>
+            }
+
+        </div>
+    </div>
+</div>

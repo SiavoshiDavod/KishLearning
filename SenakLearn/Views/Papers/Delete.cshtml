@@ -1,0 +1,257 @@
+﻿@model SenakLearn.Models.Paper
+
+@{
+    Layout = "~/Views/Shared/_LayoutAdmin.cshtml";
+    ViewBag.Title = "Delete";
+}
+
+<h2>Delete</h2>
+
+<h3>Are you sure you want to delete this?</h3>
+<div>
+    <h4>Paper</h4>
+    <hr />
+    <dl class="dl-horizontal">
+        <dt>
+            @Html.DisplayNameFor(model => model.GroupId)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.GroupId)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.FieldId)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.FieldId)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.TrendIds)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.TrendIds)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.PublisherId)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.PublisherId)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.JournalId)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.JournalId)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.Title)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.Title)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.TitleF)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.TitleF)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.PageCount)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.PageCount)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.Year)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.Year)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.Keyword)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.Keyword)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.UniversityId)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.UniversityId)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.HasReference)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.HasReference)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.HasTranslate)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.HasTranslate)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.PageCountF)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.PageCountF)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.IsTranslateImageTableTitle)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.IsTranslateImageTableTitle)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.IsTranslateImage)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.IsTranslateImage)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.IsTranslateTable)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.IsTranslateTable)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.IsImagesInTranslate)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.IsImagesInTranslate)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.IsTablesInTranslate)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.IsTablesInTranslate)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.IsFormulaInTranslate)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.IsFormulaInTranslate)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.IsReferenceInTranslate)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.IsReferenceInTranslate)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.TranslateQualityId)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.TranslateQualityId)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.Indicator)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.Indicator)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.Abstract)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.Abstract)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.AbstractF)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.AbstractF)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.Price)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.Price)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.ScreenShotId)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.ScreenShotId)
+        </dd>
+
+
+        <dt>
+            @Html.DisplayNameFor(model => model.CreatedDate)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.CreatedDate)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.UpdateDate)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.UpdateDate)
+        </dd>
+
+    </dl>
+
+    @using (Html.BeginForm()) {
+
+        <div class="form-actions no-color">
+            <input type="submit" value="Delete" class="btn btn-default" /> |
+            @Html.ActionLink("Back to List", "Index")
+        </div>
+    }
+</div>

@@ -1,0 +1,59 @@
+﻿
+@{
+    Layout = "~/Views/Shared/_LayoutAdmin.cshtml";
+    var urlList = "/Tickets/LoadList";
+    ViewBag.Title = "تیکت ها";
+}
+
+<div class="row">
+    <div class="col-sm-12">
+        <div class="page-title-box">
+            <ol class="breadcrumb pull-right">
+                <li><a href="#">@ViewBag.Title</a></li>
+                <li class="active">Dashboard</li>
+            </ol>
+        </div>
+    </div>
+</div>
+<div id="TadGoodsField">
+    <select id="isAnswer" name="isAnswer" onchange="reloadTicketsGrid()">
+        <option value=""> نمایش همه تیکت ها</option>
+        <option value="true">  پاسخ داده شده </option>
+        <option value="false"> پاسخ داده نشده </option>
+    </select>
+    @using MVC.Controls
+
+    @Html.Grid(
+    new GridControl().SetName("TicketsGrid").
+    SetPageSize(10).
+    SetShrinkToFit(false).
+    SetIsAutoSize(true).
+    SetIsFilterToolbar(true).
+    IsRTL().
+    SetListUrl(urlList).
+    SetCaption("تیکت ها").
+    SetOnLoadCompleteEvent("loadTicketsGridCompleteEvent").
+        UseColumns(SurveyWeb.Controllers.TicketsController.TicketColumns)
+)
+    <script>
+        function loadTicketsGridCompleteEvent() {
+            var ids = $("#TicketsGrid").jqGrid('getDataIDs');
+            for (var i = 0; i < ids.length; i++) {
+                var cl = ids[i];
+                dl = '<a class="ajaxLink delete"href="/Tickets/Delete?Id=' + cl + '" title="آرشیو"   ><div class="fa fa-times"></div></a>';
+                de = '<a class="ajaxLink "href="/Tickets/Details?Id=' + cl + '" title="جزئیات"   ><div class="fa fa-building"></div></a>';
+                ed = '<a class="ajaxLink "href="/Tickets/Create?Id=' + cl + '" title="ثبت پاسخ"   ><div class="fa fa-pencil"></div></a>';
+                $('#TicketsGrid').jqGrid('setRowData', ids[i], { act: de + ed });
+            }
+        }
+          function reloadTicketsGrid() {
+              var url = '@urlList' + '?isAnswer=' + $("#isAnswer").val();
+        reloadJqGrid("TicketsGrid",url);
+        }
+
+    </script>
+</div>
+
+
+
+

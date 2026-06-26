@@ -1,0 +1,52 @@
+﻿@model SenakLearn.Models.learn_cours_group
+
+@{
+  ViewBag.Title = SenakLearn.Models.Dictionary.ModelDictionary[typeof(SenakLearn.Models.learn_cours_group)];
+    Layout = "~/Views/Shared/_LayoutAdmin.cshtml";
+}
+
+<h2>@ViewBag.Title</h2>
+
+<div>
+
+    <dl class="dl-horizontal">
+        <dt>
+            @Html.DisplayNameFor(model => model.name)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.name)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.status)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.status)
+        </dd>
+        <dt>
+            @Html.DisplayNameFor(model => model.Online)
+        </dt>
+        <dd>
+            @Html.DisplayFor(model => model.Online)
+        </dd>
+        <dt>
+            @Html.DisplayNameFor(model => model.Offline)
+        </dt>
+        <dd>
+            @Html.DisplayFor(model => model.Offline)
+        </dd>
+        <dt>
+            @Html.DisplayNameFor(model => model.Paper)
+        </dt>
+        <dd>
+            @Html.DisplayFor(model => model.Paper)
+        </dd>
+
+    </dl>
+</div>
+<p>
+    @Html.ActionLink("ویرایش", "Edit", new { id = Model.id }) |
+    @Html.ActionLink("نمایش لیست", "Index")
+</p>

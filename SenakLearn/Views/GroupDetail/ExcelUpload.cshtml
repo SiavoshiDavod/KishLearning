@@ -1,0 +1,46 @@
+﻿@model SenakLearn.Models.GroupDetail
+
+@{
+    Layout = "~/Views/Shared/_LayoutAdmin.cshtml";
+}
+
+<h2>ثبت از طریق فایل اکسل</h2>
+
+
+@using (Html.BeginForm(null, null, null, FormMethod.Post, new { enctype = "multipart/form-data" }))
+{
+    <div class="form-horizontal">
+        <div class="form-group">
+            @Html.LabelFor(model => model.GroupId, htmlAttributes: new { @class = "control-label col-md-1" })
+            <div class="col-md-10">
+                @Html.UserGroupDropDown("GroupId", true, false)
+                @Html.ValidationMessageFor(model => model.GroupId, "", new { @class = "text-danger" })
+            </div>
+        </div>
+        <div class="form-group">
+            <div class="col-md-1">
+                @Html.Label("فایل اکسل", htmlAttributes: new { @class = "control-label " })
+                (@Html.ActionLink("نمونه اکسل", "Download", new { @class = "page-title" })) 
+            </div>
+          
+                <div class="col-md-10">
+                    <label class="btn btn-default"> انتخاب فایل اکسل(حداکثر150ردیف و 5شیت)  <input accept="application/vnd.openxmlformats-officedocument.spreadsheetml.sheet" class="fileChosen" type="file" hidden id="file" name="file"></label><span class="fileChosenText"></span>
+
+                    <input type="file" name="file" id='file' hidden class="fileChosen"  accept='application/vnd.openxmlformats-officedocument.spreadsheetml.sheet' />
+                </div>
+</div>
+        <div class="form-group">
+            <div class="col-md-offset-2 col-md-10">
+                <input type="submit" value="ثبت" class="btn btn-default" />
+            </div>
+        </div>
+    </div>
+}
+
+<div>
+    @Html.ActionLink("بازگشت به لیست", "Index")
+</div>
+
+@section Scripts {
+    @Scripts.Render("~/bundles/jqueryval")
+}

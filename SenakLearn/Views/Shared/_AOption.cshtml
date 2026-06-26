@@ -1,0 +1,142 @@
+﻿@model SenakLearn.Models.AzmoonQuestion
+@if (ViewBag.Layout != null)
+{
+    Layout = ViewBag.Layout;
+}
+@if (Model?.Id > 0)
+{
+    if (Model.AzmoonAnswers?.Count > 0)
+    {
+        var result = Model.AzmoonQuestionOptions.Select(x => new SenakLearn.Models.wrapper.ChartVm { Id = x.Id.ToString(), QuestionOption = x.QuestionOption, Count = 0 }).ToList();
+        string pieId = "CreatePieChart" + Model.Id;
+        <td class="PieChart">
+            <a title="نمایش نمودار" id="@pieId" style="cursor:pointer"> <span class="	fa fa-pie-chart"></span></a>
+        </td>
+        foreach (var answer in Model.AzmoonAnswers.Where(z => !string.IsNullOrWhiteSpace(z.AzmoonQuestionOptionId)))
+        {
+            var options = Model.AzmoonQuestionOptions.FirstOrDefault(x => x.Id.ToString() == answer.AzmoonQuestionOptionId.Trim());
+            if (options != null)
+            {
+                var res = result.First(x => x.Id == answer.AzmoonQuestionOptionId);
+                res.Count = res.Count + 1;
+                <td>
+                    @options.QuestionOption
+                </td>
+            }
+        }
+        <script>
+            $("#@pieId").click(function () {
+                var result = '@Html.Raw(Newtonsoft.Json.JsonConvert.SerializeObject(result))';
+                return CreatePieChart(result,'@Model.Question','@Model.QuestionTypeName','@Model.QuestionImageUrl','@Model.Id')
+            });
+        </script>
+    }
+    else
+    {
+
+        if (!string.IsNullOrEmpty(Model.QuestionImageUrl))
+        {
+            @Html.Raw($"<img src='/images/Question/{ Model.QuestionImageUrl}'  { (Model.Height > 0 ? " height='" + Model.Height + "'" : "")}{ (Model.Width > 0 ? " width='" + Model.Width + "'" : "")} />")
+        }
+        var required = "";
+        if (Model.required)
+        {
+            required = " checked='checked' ";
+        }
+        <div class="QuestionAzmoon">
+            @Model.Question
+        </div>
+        <div class="QuestionAzmoon">
+            @if (Model.AzmoonQuestionOptions?.Count > 0)
+            {
+                var maxCountinLine = 0;
+                int.TryParse(Model.StringType, out maxCountinLine);
+            <div class="AzmoonAnswerOption" id="@Model.Id" style="text-align:right">
+                <table class="table table-responsive">
+                    @if (maxCountinLine <= 0)
+                    {
+                        foreach (var item in Model.AzmoonQuestionOptions)
+                        {
+                            <tr>
+                                <td>
+                                    <input type="radio" @required value="@item.Id" name="@Model.Id">
+                                    @item.QuestionOption
+                                </td>
+                            </tr>
+                        }
+                    }
+                    else //if (maxCountinLine == 1 || Model.AzmoonQuestionOptions.Count <= maxCountinLine)
+                    {
+                        <tr>
+                            @foreach (var item in Model.AzmoonQuestionOptions)
+                            {
+                                <td>
+                                    <input type="radio" @required value="@item.Id" name="@Model.Id">
+                                    @item.QuestionOption
+                                </td>
+                            }
+                        </tr>
+                    }
+                </table>
+                    @*else
+        {
+            var count = 0;
+            <table class="table table-responsive">
+                <tr>
+                    @foreach (var item in Model.AzmoonQuestionOptions)
+                    {
+                        if (maxCountinLine == count)
+                        {
+                             count = 1;
+                            Html.Raw("</tr><tr>");
+                        }
+                        else
+                        {
+                            count++;
+                        }
+                        <td>
+                            <input type="radio" @required value="@item.Id" name="@Model.Id">
+                            @item.QuestionOption
+                        </td>
+                    }
+                </tr>
+            </table>
+        }*@
+                
+                </div>
+            }
+
+        </div>
+
+        <div class="QuestionAzmoonFooter">
+            @{
+                int? next = null;
+                int? prev = null;
+                if (ViewData["Next"] != null)
+                {
+                    next = (int?)ViewData["Next"];
+                }
+                if (ViewData["Prev"] != null)
+                {
+                    prev = (int?)ViewData["Prev"];
+                }
+                if (next != null && next > 0 && prev != null && prev > 0)
+                {
+                    <input type="button" title="بعدی" value="بعدی" class="btn btn-warning" onclick="return ShowQuestionById('@next')" />
+                    <input type="button" title="قبلی" value="قبلی" class="btn btn-warning" onclick="return ShowQuestionById('@prev')" />
+                }
+                else if (next != null && next > 0)
+                {
+                    <input type="button" title="شروع" value="شروع" class="btn btn-warning" onclick="return ShowQuestionById('@next')" />
+                }
+                else if (prev != null && prev > 0)
+                {
+                    <input type="button" title="ثبت" value="ثبت" class="btn btn-success" onclick="return saveAzmoonForm()" />
+                }
+            }
+        </div>
+
+
+    }
+
+}

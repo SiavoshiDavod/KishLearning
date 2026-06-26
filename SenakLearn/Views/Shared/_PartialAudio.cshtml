@@ -1,0 +1,61 @@
+﻿@model SenakLearn.Models.wrapper.AudioFileWrapper
+@{
+    string src = "/api/ShowAudioByPath?id=" + Model.Id.ToString().Replace("-","") + ".mp3";
+    //string src = "~/images/VideoFile/" + Model.Id.ToString()+".mp3";
+
+}
+
+
+@*<div class="text-center" style="min-height:200px">
+        <audio width="100%" height="auto" controls autobuffer>
+            <source src="@src" type="audio/mp3">
+        </audio>
+        <p>@Model.Descript</p>
+    </div>*@
+@*<p>@Model.Descript</p>
+    <audio id="audio_@Model.Id.ToString()" preload="auto" controls>
+        <source src="@src">
+    </audio>*@
+
+<style>
+
+    .player {
+        width: 300px;
+        background: #fff;
+        /*   margin: 100px; */
+        padding: 20px 14px 8px 14px;
+        border: none;
+        border-radius: 10px;
+        box-shadow: 10px 2px 90px -11px rgba(13,100,76,0.75);
+        -webkit-box-shadow: 10px 2px 90px -11px rgba(13,100,76,0.75);
+        -moz-box-shadow: 10px 2px 90px -11px rgba(13,100,76,0.75);
+    }
+
+    .imgBx img {
+        width: 100%;
+        height: auto;
+        border: none;
+        border-radius: 10px;
+    }
+
+    .player audio {
+        width: 100%;
+        border-radius: 6px;
+        margin: 0;
+        padding: 0;
+        border: none;
+    }
+</style>
+
+<div class="player">
+    <div class="imgBx">
+        <img src="@Model.Img" alt="@Model.Descript">
+    </div>
+    <audio controls>
+        <source src="@Url.Content(src)" type="audio/mp3">
+    </audio>
+</div>
+
+
+
+

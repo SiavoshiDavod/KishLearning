@@ -1,0 +1,50 @@
+﻿@model SenakLearn.Models.SurveyQuestion
+    @{ 
+        var title = "شروع";
+    }
+@if (ViewBag.Layout != null)
+{
+    Layout = ViewBag.Layout;
+}
+@if (Model?.Id > 0)
+{
+    if (!string.IsNullOrEmpty(Model.QuestionImageUrl))
+    {
+          @Html.Raw($"<div class='text-center'><img src='/images/Question/{ Model.QuestionImageUrl}'  { (Model.Height > 0 ? " height='"+ Model.Height + "'" : "")}{ (Model.Width > 0 ? " width='" + Model.Width + "'" : "")} /></div>")
+    }
+    
+    if (!string.IsNullOrEmpty(Model.StringType))
+    {
+        title = Model.StringType;
+    }
+    <div class="QuestionSurvey text-center">
+        @Model.Question
+    </div>
+}
+<div class="QuestionSurveyFooter" >
+    @{
+        int? next = null;
+        int? prev = null;
+        if (ViewData["Next"] != null)
+        {
+            next = (int?)ViewData["Next"];
+        }
+        if (ViewData["Prev"] != null)
+        {
+            prev = (int?)ViewData["Prev"];
+        }
+        if (next != null && next > 0 && prev != null && prev > 0)
+        {
+            <input type="button" title="@title" value="@title" class="btn btn-warning" onclick="return ShowQuestionById('@next')" />
+                <input type="button" title="قبلی" value="قبلی" class="btn btn-warning" onclick="return ShowQuestionById('@prev')" />
+        }
+        else if (next != null && next > 0)
+        {
+            <input type="button" title="@title" value="@title" class="btn btn-warning" onclick="return ShowQuestionById('@next')" />
+        }
+        else if (prev != null && prev > 0)
+        {
+            <input type="button" title="ثبت" value="ثبت" class="btn btn-success" onclick="return saveSurveyForm()" />
+        }
+    }
+</div>

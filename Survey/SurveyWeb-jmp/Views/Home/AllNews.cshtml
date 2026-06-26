@@ -1,0 +1,119 @@
+﻿@model List<SurveyWeb.Models.News>
+@{
+    var count = (int)ViewBag.Count;
+    var search = (string)ViewBag.search;
+    var currentPage = (int)ViewBag.currentPage;
+    var totalPage = (int)ViewBag.totalPage;
+    var counter = 0;
+    var groupId = (int?)ViewBag.groupId;
+    var group = (string)ViewBag.group ;
+    if (!string.IsNullOrWhiteSpace(search))
+    {
+        <div style="padding-top:70px" class=""> جستجوی عبارت @search</div>
+    }
+    if (!string.IsNullOrWhiteSpace(group))
+    {
+        <div style="padding-top:70px" class=""> گروه خبرهای @group</div>
+    }
+}
+<section class="blog-page masonry page-section-ptb">
+    <div class="container-fluid">
+        <div class="row">
+            <div class="col-md-12">
+                <div class="masonry columns-4">
+                    <div class="grid-sizer"></div>
+                    @{
+                        if (Model!=null && Model.Count>0)
+                        {
+                            foreach (var item in Model)
+                            {
+                                if (counter == 4)
+                                {
+                                    @Html.Raw(" </div></div> </div><div class='row'> <div class='col-md-12'><div class='masonry columns-4' >")
+                                }
+                                counter += 1;
+
+                                <div class="masonry-item clearfix">
+                                    <div class="blog-entry mb-5 mb-4">
+                                        <div class="entry-image clearfix">
+                                            <img class="img-fluid" src="~/Images/News/@item.ImageUrl" alt="@item.Title">
+                                        </div>
+                                        <div class="blog-detail">
+                                            <div class="entry-title mb-1">
+                                                <a href="/Home/News/@item.Id">@item.Title</a>
+                                            </div>
+                                            <div class="entry-meta mb-1">
+                                                <ul>
+                                                    @*<li><a href="#"><i class="ti-folder"></i> @item.NewsGroup.Title</a></li>*@
+                                                    <li><a href="#"> @item.VisitCount<i class="ti-comments"></i></a></li>
+                                                    <li><a href="#"><i class="ti-calendar"></i> @item.CreatedDateShamsi</a></li>
+                                                </ul>
+                                            </div>
+                                            <div class="entry-content">
+                                                <p>
+                                                    @item.Summary
+                                                </p>
+                                            </div>
+                                            <div class="entry-share clearfix">
+                                                <div class="entry-button">
+
+                                                    <a class="button arrow" href="/Home/News/@item.Id">بیشتر بخوانید<i class="fa fa-angle-left" aria-hidden="true"></i></a>
+                                                </div>
+                                                <div class="social list-style-none pull-left">
+                                                    <strong>انتشار: </strong>
+                                                    <ul>
+                                                        <li>
+                                                            <a href="#"> <i class="fa fa-facebook"></i> </a>
+                                                        </li>
+                                                        <li>
+                                                            <a href="#"> <i class="fa fa-twitter"></i> </a>
+                                                        </li>
+                                                        <li>
+                                                            <a href="#"> <i class="fa fa-pinterest-p"></i> </a>
+                                                        </li>
+                                                        <li>
+                                                            <a href="#"> <i class="fa fa-dribbble"></i> </a>
+                                                        </li>
+                                                    </ul>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            }
+                        }
+                        else
+                        {
+                            <div class=""> رکوردی یافت نشد</div>
+                        }
+                    }
+                </div>
+            </div>
+            <div class="pagination-nav text-center">
+                <ul class="pagination">
+                    @*<li><a href="/Home/Allnews?skip=0">«</a></li>*@
+                    @{
+                        if (totalPage>1)
+                        {
+                            for (int i = 1; i <= totalPage; i++)
+                            {
+                                var classActive = "";
+                                var skip = i - 1;
+                                var ahref = "/Home/Allnews?skip=" + skip + "&search=" + search;
+                                if (i == currentPage)
+                                {
+                                    classActive = "active";
+                                    ahref = "";
+                                }
+                                <li class="@classActive"><a href="@ahref">@i</a></li>
+                            }
+                        }
+
+                    }
+                    @*<li><a href="/Home/Allnews?skip=@totalPage">»</a></li>*@
+                </ul>
+            </div>
+
+        </div>
+    </div>
+</section>

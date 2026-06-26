@@ -1,0 +1,19 @@
+﻿@model SenakLearn.Models.DynamicForm
+
+@{
+    Layout = "~/Views/Shared/_LayoutAdmin.cshtml";
+    ViewBag.Title = Model.Title;
+}
+<div style="text-align: center;">
+    <h3> @Html.DisplayFor(model => model.Title)</h3>
+    <h3> @Html.DisplayFor(model => model.Url)</h3>
+
+    <p>
+        @Html.Raw(Model.Content)
+
+    </p>
+    @if (!string.IsNullOrEmpty(Model.Image))
+    {
+        <img src="~/images/DynamicForm/@Model.Image" title="@Model.Title" alt="@Model.Title" />
+    }
+</div>

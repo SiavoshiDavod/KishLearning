@@ -1,0 +1,45 @@
+﻿
+@model SenakLearn.Models.DynamicForm
+
+@{
+    Layout = "~/Views/Shared/_Layout.cshtml";
+    ViewBag.Title = Model.Title;
+}
+<div class="page-heading text-center">
+    <div class="container">
+
+        <div class="row justify-content-center">
+            <div class="col-md-8 text-center">
+                <div class="contact-form-title text-center mb-4">
+                    <h4 class="mb-1">@Html.DisplayFor(model => model.Title)</h4>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<div class="container">
+    <div class="row" style="text-align: center;">
+        @if (!string.IsNullOrEmpty(Model.Image) && string.IsNullOrEmpty(Model.Content))
+        {
+            <div class="col-12">
+                <img  src="~/images/DynamicForm/@Model.Image" title="@Model.Title" alt="@Model.Title" class="resp-img" />
+            </div>
+        }
+
+        <section class="page-section-ptb">
+            <div class="container">
+                <div class="row">
+                    <div class="col-md-12">
+                        @Html.Raw(Model.Content)
+                    </div>
+                </div>
+            </div>
+        </section>
+    </div>
+</div>
+<style>
+    img{
+    max-width:100%;height:auto
+    }
+</style>

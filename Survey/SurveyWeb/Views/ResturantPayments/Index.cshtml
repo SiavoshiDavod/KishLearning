@@ -1,0 +1,95 @@
+﻿@{
+    Layout = "~/Views/Shared/_LayoutAdmin.cshtml";
+    var urlList = "/ResturantPayments/LoadList";
+     ViewBag.Title = SurveyWeb.Models.Dictionary.ModelDictionary[typeof(SurveyWeb.Models.Resturan.ResturantPayment)];
+}
+
+<div class="row">
+    <div class="col-sm-12">
+        <div class="page-title-box">
+            <ol class="breadcrumb pull-right">
+                <li><a href="#">@ViewBag.Title</a></li>
+                <li class="active">Dashboard</li>
+            </ol>
+            <h4 class="page-title">@*@Html.ActionLink("افزودن", "Create")*@ </h4>
+        </div>
+    </div>
+</div>
+<div id="TadGoodsField">
+    <select id="IsAccepted" name="IsAccepted" onchange="reloadResturantResturantPaymentsGrid()">
+        <option value="false">   @ViewBag.Title تایید نشده </option>
+        <option value="true"> @ViewBag.Title تایید شده</option>
+    </select>
+    @using MVC.Controls
+
+    @Html.Grid(
+    new GridControl().SetName("ResturantPaymentGrid").
+    SetPageSize(10).
+    SetShrinkToFit(false).
+    SetIsAutoSize(true).
+    SetIsFilterToolbar(true).
+    IsRTL().
+    SetListUrl(urlList).
+        SetCaption("امورمالي").
+    SetOnLoadCompleteEvent("loadResturantPaymentGridCompleteEvent").
+        UseColumns(SurveyWeb.Controllers.ResturantPaymentsController.ResturantPaymentColumns)
+)
+    <script >
+        function loadResturantPaymentGridCompleteEvent() {
+            var ids = $("#ResturantPaymentGrid").jqGrid('getDataIDs');
+            for (var i = 0; i < ids.length; i++) {
+                var cl = ids[i];
+                ed = '<a class="ajaxLink"  href="/ResturantPayments/Create?Id=' + cl + '" title="ویرایش"><div class="fa fa-pencil"></div></a>';
+                dl = '<a class="ajaxLink delete"href="/ResturantPayments/Delete?Id=' + cl + '" title="آرشيو"   ><div class="fa fa-times"></div></a>';
+                de = '<a class="ajaxLink "href="/ResturantPayments/Details?Id=' + cl + '" title="جزئیات پرداخت"   ><div class="fa fa-building"></div></a>';
+                 accept = '<a class="" onclick="confirmResturantPayment(\'' + cl + '\',true)"  title="تایید"   ><div class="fa fa-check"></div></a>';
+                 accept += '<a class="" onclick="confirmResturantPayment(\'' + cl + '\',false)"  title="عدم تایید"   ><div class="fa fa-close"></div></a>';
+
+                if ($("#IsAccepted").val() == "true") {
+                    accept = '';
+                }
+                $('#ResturantPaymentGrid').jqGrid('setRowData', ids[i], { act: de +accept });
+                //$('#ResturantPaymentGrid').jqGrid('setRowData', ids[i], { act: ed + dl + de });
+            }
+        }
+         function reloadResturantResturantPaymentsGrid() {
+            var url = '@urlList' + '?IsAccepted='+$("#IsAccepted").val();
+            reloadJqGrid("ResturantPaymentGrid",url);
+        }
+        function confirmResturantPayment(id,accept) {
+        //e.preventDefault();
+        Swal.fire({
+            title: accept?'پرداخت تایید شود؟ ':'دلیل رد پرداخت را ذکر کنید',
+            input: 'text',
+            inputAttributes: {
+                autocapitalize: 'off'
+            },
+            showCancelButton: false,
+            confirmButtonText: 'ثبت',
+            showLoaderOnConfirm: false,
+
+            allowOutsideClick: () => !Swal.isLoading()
+        }).then((result) => {
+            if (result.value) {
+                pw.post("/ResturantPayments/Accept?desc=" + result.value+'&id='+id+'&accept='+accept,
+                    { desc:  result.value,id:id,accept:accept },
+                    'json',
+                    function (response) {
+                       if (response.success) {
+                           SwalSuccessMessage("");
+                           reloadResturantResturantPaymentsGrid();
+                        } else {
+                            showError(response.ErrorMessage);
+                        }
+                    });
+                return false;
+            }
+        })
+        return false;
+    }
+    </script>
+</div>
+
+
+
+

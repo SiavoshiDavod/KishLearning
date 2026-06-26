@@ -1,0 +1,44 @@
+﻿
+@model IEnumerable<AdobeConnectSDK.Model.ScoShortcutViewModel>
+@{
+    ViewBag.Title = "MeetingItem";
+    Layout = "~/Views/Shared/_LayoutAdmin.cshtml";
+}
+@if (Model != null)
+{
+    <table class="table table-bordered table-responsive">
+        <tr>
+            <th>
+                @Html.DisplayNameFor(model => model.ScoIdVm)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.TreeId)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.TypeVm)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.DomainNameVm)
+            </th>
+           
+        </tr>
+        @foreach (var item in Model)
+        {
+            <tr>
+                <th>
+                    @Html.DisplayFor(modelItem => item.ScoIdVm)
+                </th>
+                <th>
+                    @Html.DisplayFor(model => item.TreeId)
+                </th>
+                <th>
+                    @Html.DisplayFor(model => item.TypeVm)
+                </th>
+                <th>
+                    @Html.DisplayFor(model => item.DomainNameVm)
+                </th>
+              
+            </tr>
+        }
+    </table>
+}

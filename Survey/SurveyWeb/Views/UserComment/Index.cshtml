@@ -1,0 +1,39 @@
+﻿@{
+    var urlList = "/UserComment/LoadList";
+    Layout = "~/Views/Shared/_LayoutAdmin.cshtml";
+}
+
+
+<div id="TadGoodsField">
+    @using MVC.Controls
+
+    @Html.Grid(
+    new GridControl().SetName("UserCommentGrid").
+    SetPageSize(10).
+    SetShrinkToFit(false).
+    SetIsAutoSize(true).
+    SetIsFilterToolbar(true).
+    IsRTL().
+    SetListUrl(urlList).
+        SetCaption("نظرات کاربران").
+    SetOnLoadCompleteEvent("loadUserCommentGridCompleteEvent").
+        UseColumns(SenakLearn.Controllers.UserCommentController.Columns)
+)
+    <script >
+	function loadUserCommentGridCompleteEvent() {
+		//$("#UserCommentGrid").jqGrid('setGridWidth', $('#TadGoodsListDiv').width()-100, false);
+		var ids = $("#UserCommentGrid").jqGrid('getDataIDs');
+		for (var i = 0; i < ids.length; i++) {
+			var cl = ids[i];
+			var ed = '<a class="ajaxLink" target-update="TadGoodsDetailsDiv" href="/UserComment/Accept?id=' + cl + '" title="تایید"><div class="tableEditLink"></div>تایید</a>';
+			$('#UserCommentGrid').jqGrid('setRowData', ids[i], { act: ed  });
+		}
+    }
+
+    </script>
+</div>
+<p>
+    @*@Html.ActionLink("افزودن", "Create")*@
+</p>
+
+

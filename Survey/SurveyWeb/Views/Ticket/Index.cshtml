@@ -1,0 +1,86 @@
+﻿
+@{
+    Layout = "~/Views/Shared/_LayoutAdmin.cshtml";
+    var urlList = "/Ticket/LoadList";
+    ViewBag.Title = "تیکت های من";
+}
+
+<div class="row">
+    <div class="col-sm-12">
+        <div class="page-title-box">
+            <ol class="breadcrumb pull-right">
+                <li><a href="#">@ViewBag.Title</a></li>
+                <li class="active">Dashboard</li>
+            </ol>
+            <h4 class="page-title">@Html.ActionLink("افزودن", "Create") </h4>
+        </div>
+    </div>
+</div>
+<div id="TadGoodsField">
+    <select id="isRead" name="isRead" onchange="reloadTicketGrid()">
+        <option value=""> نمایش همه تیکت ها</option>
+        <option value="true">  آرشیو شده </option>
+        <option value="false"> آرشیو نشده </option>
+    </select>
+    @using MVC.Controls
+
+    @Html.Grid(
+    new GridControl().SetName("TicketGrid").
+    SetPageSize(10).
+    SetShrinkToFit(false).
+    SetIsAutoSize(true).
+    SetIsFilterToolbar(true).
+    IsRTL().
+    SetListUrl(urlList).
+    SetCaption("تیکت های من").
+    SetOnLoadCompleteEvent("loadTicketGridCompleteEvent").
+        UseColumns(SurveyWeb.Controllers.TicketController.TicketColumns)
+)
+<script>
+        function loadTicketGridCompleteEvent() {
+            var ids = $("#TicketGrid").jqGrid('getDataIDs');
+            for (var i = 0; i < ids.length; i++) {
+                var cl = ids[i];
+               // dl = '<a class="ajaxLink delete"href="/Ticket/Delete?Id=' + cl + '" title="آرشیو"   ><div class="fa fa-times"></div></a>';
+                de = '<a class="ajaxLink "href="/Ticket/Details?Id=' + cl + '" title="جزئیات"   ><div class="fa fa-building"></div></a>';
+                dl = '<a class="ajaxLink" onclick="return SetIsRead(\'' + cl + '\')" title="آرشیو"   ><div class="fa fa-times"></div></a>';
+                var rowData = $("#TicketGrid").getRowData(cl);
+                if (rowData.IsRead=="true") {
+                    dl = "";
+                }
+                $('#TicketGrid').jqGrid('setRowData', ids[i], { act: dl + de });
+            }
+        }
+    function reloadTicketGrid() {
+        var url = '@urlList' + '?isRead=' + $("#isRead").val();
+        reloadJqGrid("TicketGrid",url);
+    }
+    function SetIsRead(id) {
+        var url = '/Ticket/SetIsRead?id=' + id;
+        var f = function () {
+            reloadTicketGrid();
+        }
+        confirmSwalFire(url,f);
+        return;
+        var functionR = function () {
+            pw.post(url,
+                { id: id },
+                'json',
+                function (response) {
+                    if (response.success) {
+                        SwalSuccessMessage("");
+                        location.reload();
+                    } else {
+                        showError(response.ErrorMessage);
+                    }
+                });
+            return false;
+        };
+        confirmDelete(functionR);
+    }
+</script>
+</div>
+
+
+
+

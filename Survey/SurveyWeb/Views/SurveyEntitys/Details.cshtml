@@ -1,0 +1,11 @@
+﻿@model SurveyWeb.Models.SurveyEntity
+
+@{
+    Layout = null;
+    Model.act = "/SurveyEntitys/Index";
+    ViewBag.Title = "پیش نمایش";
+}
+@Html.Partial("Survey", Model)
+<div>
+    @Html.ActionLink("بازگشت", "Index")
+</div>

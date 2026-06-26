@@ -1,0 +1,177 @@
+﻿@{
+    @model SenakLearn.Models.UserSearchWrapper
+    Layout = null;
+    string urlList = "/UsersAdmin/LoadListSearch";
+
+    var user = (SenakLearn.Models.learn_user)ViewBag.User;
+    var coursList = (List<SelectListItem>)ViewBag.CoursList;
+}
+<style>
+    .@Model.ModalClassDiv label {
+        font-size: smaller;
+        font-weight: lighter;
+    }
+</style>
+<div class="row serchDiv" id="searchDiv">
+    <div class="form-horizontal">
+        <div class="form-group">
+            <div class="col-md-6">
+                <div class="col-md-2 text-left">
+                    <label for="@Model.UserName">نام کاربری</label>
+                </div>
+                <div class="col-md-4">
+                    @Html.TextBoxFor(a => a.UserName, new { @class = "form-control", @style = "min-width: 200px;" })
+                </div>
+            </div>
+            <div class="col-md-6">
+                <div class="col-md-2 text-left">
+                    <label for="@Model.PersonNameSearch">نام پرسنل</label>
+                </div>
+                <div class="col-md-4">
+                    @Html.TextBoxFor(a => a.PersonNameSearch, new { @class = "form-control", @style = "min-width: 200px;", @id = "PersonNameSearch" })
+                </div>
+            </div>
+        </div>
+        <div class="form-group">
+            <div class="col-md-6">
+                <div class="col-md-2 text-left">
+                    <label for="@Model.TypeUserId">نوع کاربر</label>
+                </div>
+                <div class="col-md-4">
+                    @Html.DropDownListFor(a => a.TypeUserId, new List<SelectListItem> { new SelectListItem { Text = "همه" }, new SelectListItem { Text = "عادی", Value = "1" }, new SelectListItem { Text = "سازمانی", Value = "2" } }, new { @class = "form-control", @style = "min-width: 200px;" })
+                </div>
+            </div>
+            <div class="col-md-6">
+                <div class="col-md-2 text-left">
+                    <label for="@Model.PersonOrg">سازمان</label>
+                </div>
+                <div class="col-md-4">
+                    @Html.TextBoxFor(a => a.PersonOrg, new { @class = "form-control", @style = "min-width: 200px;" })
+                </div>
+            </div>
+        </div>
+        <div class="form-group">
+            <div class="col-md-6">
+                <div class="col-md-2 text-left">
+                    <label for="@Model.NationalCode">کد ملی</label>
+                </div>
+                <div class="col-md-4">
+                    @Html.TextBoxFor(a => a.NationalCode, new { @class = "form-control", @style = "min-width: 200px;" })
+                </div>
+            </div>
+            <div class="col-md-6">
+                <div class="col-md-2 text-left">
+                    <label for="@Model.PersonCode">کد پرسنلی</label>
+                </div>
+                <div class="col-md-4">
+                    @Html.TextBoxFor(a => a.PersonCode, new { @class = "form-control", @style = "min-width: 200px;" })
+                </div>
+            </div>
+        </div>
+        <div class="form-group">
+            <div class="col-md-6">
+                <div class="col-md-2 text-left">
+                    <label for="@Model.Mobile">همراه</label>
+                </div>
+                <div class="col-md-4">
+                    @Html.TextBoxFor(a => a.Mobile, new { @class = "form-control", @style = "min-width: 200px;" })
+                </div>
+            </div>
+            <div class="col-md-6">
+                <div class="col-md-2 text-left">
+                    <label for=""></label>
+                </div>
+                <div class="col-md-4">
+
+                </div>
+            </div>
+        </div>
+        <div class="row">
+
+            <div class="col-md-6">
+                <button class="btn btn-info" onclick="fnSerchUser()">جستجو</button>
+                <button class="btn btn-success" onclick="fnSerchComplet()">تایید</button>
+                <button class="btn btn-danger" onclick="fnSerchClose()">بستن</button>
+            </div>
+        </div>
+    </div>
+</div>
+
+<div id="UserGridSearchDiv">
+    @using MVC.Controls
+
+    @Html.Grid(
+    new GridControl().SetName("UserSearchGrid").
+    SetPageSize(20).
+    SetShrinkToFit(false).
+    SetIsAutoSize(true).
+    SetIsFilterToolbar(false).
+    IsRTL().
+    SetListUrl(urlList).
+        SetCaption("جستجو کاربران").
+    SetOnLoadCompleteEvent("loadUserSearchGridCompleteEvent").
+        UseColumns(SenakLearn.Controllers.Admin.UsersAdminController.UserSearchColumns)
+)
+    <input onchange="fn_addReoveSelectedList()" />
+    <script type="text/javascript">
+        var selectedList = [];
+        function loadUserSearchGridCompleteEvent() {
+            var ids = $("#UserSearchGrid").jqGrid('getDataIDs');
+            //debugger;
+            for (var i = 0; i < ids.length; i++) {
+                var cl = ids[i];
+                ed = '<input id=' + cl + '_inputSelected type="checkbox"  onchange="fn_addRemoveSelectedList(this,' + cl + ')"/>';
+
+
+                $('#UserSearchGrid').jqGrid('setRowData', ids[i], { selected: ed });
+
+            }
+        }
+
+        function fn_addRemoveSelectedList(obj, userId) {
+                //debugger;
+                var isCheck = $(obj).is(':checked');
+                if (isCheck == true) { selectedList.push(userId); }
+                else {
+                    selectedList = selectedList.filter(item => item !== userId);
+                }
+
+            }
+        function fn_UrlGetSearch(baseUrl) {
+            var url = '';
+
+            url = baseUrl + '?UserName=' + $('#UserName').val() + '&PersonNameSearch=' + $('#PersonNameSearch').val() + '&TypeUserId=' + $('#TypeUserId').val()
+                + '&PersonOrg=' + $('#PersonOrg').val() + '&NationalCode=' + $('#NationalCode').val() + '&PersonCode=' + $('#PersonCode').val()
+                + '&Mobile=' + $('#Mobile').val();
+            //debugger;
+            return url;
+
+        }
+        function fnSerchUser() {
+                var url = fn_UrlGetSearch('@urlList');
+                //debugger;
+            $("#UserSearchGrid").jqGrid('setGridParam', { url: url, page: 1 }).trigger("reloadGrid");
+
+        }
+        function fnSerchComplet() {
+            var fieldData = '#@Model.FieldPushData';
+            var $fieldData = $(fieldData);
+            var ids = '';
+/*            var inputs = $('#UserSearchGrid').find('input[type="checkbox"]');*/
+
+            selectedList.forEach(function (item, i) {
+                ids += item + ',';
+            });
+            //debugger;
+            if (ids.length>0)
+            ids = ids.substring(0, ids.length-1);
+            $(fieldData).val(ids);
+            var modalClassDiv = '.@Model.ModalClassDiv';
+            $(modalClassDiv).dialog("close");
+        }
+        function fnSerchClose() {
+            var modalClassDiv = '.@Model.ModalClassDiv';
+            $(modalClassDiv).dialog("close");
+        }
+    </script>
+</div>

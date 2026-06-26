@@ -1,0 +1,560 @@
+﻿<!DOCTYPE html>
+<html lang="fa">
+@{
+    SiteSetting.SiteSetting setting = (SiteSetting.SiteSetting)ViewBag.SiteSetting;
+}
+<head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <meta name="description" content="@setting.Description">
+    <meta name="keywords" content="@setting.Keywords">
+    <meta name='url' content='@setting.SiteUrl'>
+    <meta name="author" content="MahdiRahmati,rahmatymahdi@gmail.com">
+    <title>@setting.NameFa</title>
+
+    <!-- Favicon -->
+    <link rel="shortcut icon" href="~/lib/SeoHub/images/ekish.png" />
+
+    <!-- bootstrap -->
+    <link rel="stylesheet" type="text/css" href="~/lib/SeoHub/css/bootstrap.min.css" />
+
+    <!-- mega menu -->
+    <link rel="stylesheet" type="text/css" href="~/lib/SeoHub/css/mega-menu/mega_menu.css" />
+
+    <!-- font awesome -->
+    <link rel="stylesheet" type="text/css" href="~/lib/SeoHub/css/font-awesome.min.css" />
+
+    <!-- Themify icons -->
+    <link rel="stylesheet" type="text/css" href="~/lib/SeoHub/css/themify-icons.css" />
+
+    <!-- owl-carousel -->
+    <link rel="stylesheet" type="text/css" href="~/lib/SeoHub/css/owl-carousel/owl.carousel.css" />
+
+    <!-- magnific-popup -->
+    <link rel="stylesheet" type="text/css" href="~/lib/SeoHub/css/magnific-popup/magnific-popup.css" />
+
+    <!-- revolution -->
+    <link rel="stylesheet" type="text/css" href="~/lib/SeoHub/revolution/css/settings.css" />
+
+    <!-- main style -->
+    <link rel="stylesheet" type="text/css" href="~/lib/SeoHub/css/style.css" />
+
+    <!-- Responsive style -->
+    <link rel="stylesheet" type="text/css" href="~/lib/SeoHub/css/responsive.css" />
+    <script src="~/lib/MdBootstrapPersianDateTimePicker/jquery-2.1.4.min.js"></script>
+
+    <style>
+        [hidden] {
+            display: none !important;
+        }
+
+        .pw-hide {
+            display: none !important;
+        }
+
+        .height300 {
+            height: 300px;
+        }
+
+        .fileChosen {
+            cursor: pointer;
+        }
+         .page-heading {
+            margin-top: 50px;
+        }
+    </style>
+</head>
+
+<body class="rtl">
+    <!--=================================
+    loading -->
+
+    <div id="loading">
+        <div id="loading-center">
+            <img src="~/lib/SeoHub/images/loader01.gif" alt="">
+        </div>
+    </div>
+
+    <!--=================================
+    loading -->
+    <!--=================================
+    <!--=================================
+        header -->
+    <header id="header" class="fancy">
+        <div class="topbar">
+            <div class="container">
+                <div class="row">
+                    <div class="col-lg-4">
+                        <div class="topbar-right text-right">
+                            <ul class="list-inline">
+                                <li> <i class="ti-location-pin"> </i>@setting.NameFa</li>
+                                <li> <i class="ti-headphone-alt"></i>پشتیبانی: @setting.Mobile</li>
+                            </ul>
+                        </div>
+                    </div>
+                    <div class="col-lg-8">
+                        <div class="topbar-left text-left">
+                            <ul class="list-inline">
+                                <li><a href="/home/AllActiveSurvey">برای بهبود وضعیت کنونی، در نظرسنجی ها شرکت کنید.</a> </li>
+                                <li><a href="/Home/UserRegister"> ثبت نام</a></li>
+                                <li><a href="/Home/Faq"> پشتیبانی و سؤالات متداول</a></li>
+                                @if (User.Identity.IsAuthenticated)
+                                {
+                                    <li><a href="/Dashboard/Index">داشبورد </a></li>
+
+                                }
+                                else
+                                {
+                                    <li><a href="/Home/UserLogin">ورود </a></li>
+                                }
+
+                            </ul>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <!--=================================
+            mega menu -->
+        <div class="menu">
+            <div class="container">
+                <div class="row">
+                    <div class="col-md-12">
+                        <!-- menu start -->
+                        <nav id="menu" class="mega-menu">
+                            <!-- menu list items container -->
+                            <section class="menu-list-items clearfix">
+                                <!-- menu logo -->
+                                <ul class="menu-logo">
+                                    <li>
+                                        <a href="/">
+                                            <img id="logo_img" src="~/lib/SeoHub/images/kish1400.png" alt="logo">
+                                        </a>
+                                    </li>
+                                </ul>
+                                <!-- menu links
+                                "javascript:void(0)"
+                                 -->
+                                <ul class="menu-links">
+                                    <!-- active class
+                                    <i class="fa fa-angle-down fa-indicator"></i>
+                                     -->
+                                    <li class="active">
+                                        <a href="/"> صفحه اصلی </a>
+
+                                    </li>
+                                    @{
+                                        var list = SurveyWeb.Biz.MenuBiz.Instance.GetActiveMenu();
+                                        foreach (var item in list)
+                                        {
+                                            <li>
+                                                <a href="javascript:void(0)">
+                                                    @item.Title
+                                                    <i class="fa fa-angle-down fa-indicator"></i>
+                                                </a>
+                                                @if (item.MenuSubs != null && item.MenuSubs.Count > 0)
+                                                {
+                                                    <ul class="drop-down-multilevel">
+                                                        @foreach (var submenu in item.MenuSubs@*.OrderBy(x => x.Order)*@)
+{
+if (string.IsNullOrEmpty(submenu.Url))
+{
+ submenu.Url = "/Home/SubMenu/" + submenu.Id;
+}
+<li><a href="@submenu.Url">@submenu.Title</a></li>
+}
+                                                    </ul>
+                                                }
+                                            </li>
+                                        }
+                                    }
+                                    <!-- active class -->
+
+
+                                    <li>
+                                        <a href="#"> درباره ما </a>
+
+                                    </li>
+
+                                    <li>
+                                        <a href="/Home/ContactUs"> تماس با ما </a>
+
+                                    </li>
+                                    <li>
+                                        <div class="search-button">
+                                            <a class="search-trigger" href="#search"> <span></span></a>
+                                        </div>
+                                    </li>
+                                    <li class="side-menu-main">
+                                        <div class="side-menu">
+                                            <div class="mobile-nav-button">
+                                                <div class="mobile-nav-button-line"></div>
+                                                <div class="mobile-nav-button-line"></div>
+                                                <div class="mobile-nav-button-line"></div>
+                                            </div>
+                                        </div>
+                                    </li>
+                                </ul>
+                            </section>
+                        </nav>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <!-- menu end -->
+    </header>
+
+
+    <!--=================================
+    search and side menu content -->
+
+    <div class="search-overlay"></div>
+    <div class="menu-overlay"></div>
+    <div id="search" class="search header fancy">
+        <div class="container">
+            <div class="row">
+                <div class="col-md-12">
+                    <input type="search" placeholder="بنویسید و اینتر را فشار دهید . . .">
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="side-content" id="scrollbar">
+        <div class="side-content-info">
+            <div class="menu-toggle-hamburger menu-close"><span class="ti-close"> </span></div>
+            <div class="side-logo">
+                <img class="img-fluid mb-3" src="~/lib/SeoHub/images/kish1400.png" alt="">
+                <p>@setting.NameFa، کلیه سیستمهای الکترونیکی را در خدمت شما قرار می دهد. به راحتی می توانید کلیه امورتان را از طریق این پلتفرم انجام دهید.</p>
+                <hr class="mt-2 mb-3" />
+            </div>
+            <div class="contact-address">
+                <div class="address-title mb-3">
+                    <h4 class="mb-1">@setting.NameFa</h4>
+                    <p>منطقه آزاد صنعتی تجاری و گردشگری</p>
+                </div>
+                <div class="contact-box mb-2">
+                    <div class="contact-icon">
+                        <i class="ti-direction-alt text-blue"></i>
+                    </div>
+                    <div class="contact-info">
+                        <div class="text-left">
+                            <h6>@setting.Address</h6>
+                            <span> @setting.NameFa</span>
+                        </div>
+                    </div>
+                </div>
+                <div class="contact-box mb-2">
+                    <div class="contact-icon">
+                        <i class="ti-headphone-alt text-blue"></i>
+                    </div>
+                    <div class="contact-info">
+                        <div class="text-left">
+                            <h6>@setting.Mobile</h6>
+                            <span>شنبه-پنجشنبه 8 صبح-8شب</span>
+                        </div>
+                    </div>
+                </div>
+                <div class="contact-box mb-2">
+                    <div class="contact-icon">
+                        <i class="ti-email text-blue"></i>
+                    </div>
+                    <div class="contact-info">
+                        <div class="text-left">
+                            <h6>@setting.EmailInfo @@ @setting.EmailServer</h6>
+                            <span> پشتیبانی آنلاین 24x7</span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="side-content-image">
+            <img class="img-fluid center-block" src="~/lib/SeoHub/images/bg-element/04.png" alt="">
+        </div>
+    </div>
+
+    <!--=================================
+    search and side menu content -->
+    <!--=================================
+    header -->
+
+
+    @RenderBody()
+
+
+    <footer class="footer footer-topbar page-section-pt">
+        <div class="container">
+            <div class="row top">
+                <div class="col-lg-3 col-md-2">
+                    <img class="img-fluid" src="~/lib/SeoHub/images/kish1400-01.png" alt="">
+                </div>
+                <div class="col-lg-5 col-md-6">
+                    <div class="footer-nav text-left">
+                        <ul>
+                            <li><a href="/">صفحه اصلی</a></li>
+                            <li><a href="#">درباره ما</a></li>
+                            <li><a href="#">خدمات</a></li>
+                            <li><a href="#">وبلاگ</a></li>
+                            <li><a href="home/contactUs">تماس با ما</a></li>
+                        </ul>
+                    </div>
+                </div>
+                <div class="col-md-4">
+                    <div class="social text-right">
+                        <ul>
+                            <li>
+                                <a href="@setting.Telegram"> <i class="fa fa-facebook"></i> </a>
+                            </li>
+                            <li>
+                                <a href="@setting.Twitter"> <i class="fa fa-twitter"></i> </a>
+                            </li>
+                            <li>
+                                <a href="@setting.Instagram"> <i class="fa fa-pinterest-p"></i> </a>
+                            </li>
+
+                            <li>
+                                <a href="@setting.Skype"> <i class="fa fa-vimeo"></i> </a>
+                            </li>
+                            <li>
+                                <a href="@setting.WhatsUp"> <i class="fa fa-linkedin"></i> </a>
+                            </li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+            <hr />
+            <div class="row">
+                <div class="col-lg-5 col-md-12">
+                    <div class="about-content">
+                        <h6 class="mb-2">درباره ما</h6>
+                        <p>@setting.Description</p>
+                    </div>
+                </div>
+                <div class="col-lg-7 col-md-12">
+                    <h6 class="mb-2">لینک های مفید</h6>
+                    <div class="usefull-link">
+                        <div class="row">
+                            @{
+                                int count = 0;
+                                foreach (var item in SurveyWeb.Biz.CompanyLogoAndLinkBiz.Instance.GetAllSync())
+                                {
+                                    if (count % 3 == 0)
+                                    {
+                                        if (count != 0)
+                                        {
+                                            @Html.Raw("</ul> </div>")
+                                        }
+                                        @Html.Raw("<div class='col-md-4'> <ul>")
+
+                                    }
+                                    count++;
+                                    @Html.Raw($"<li><a href={@item.Link} title={@item.Name}>{@item.Name}</a> </li>")
+                                }
+                                @Html.Raw("</ul> </div>")
+                            }
+                          
+                            </div>
+                        </div>
+                </div>
+            </div>
+            <div class="row mt-8">
+                <div class="col-md-4 bottom-m3">
+                    <div class="contact-box">
+                        <div class="contact-icon">
+                            <i class="ti-direction-alt"></i>
+                        </div>
+                        <div class="contact-info">
+                            <h5> @setting.Address</h5>
+                            <span>@setting.NameFa</span>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-md-4 bottom-m3">
+                    <div class="contact-box">
+                        <div class="contact-icon">
+                            <i class="ti-headphone-alt"></i>
+                        </div>
+                        <div class="contact-info">
+                            <h5>@setting.Mobile</h5>
+                            <span>شنبه-پنجشنبه 8 صبح-8شب</span>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-md-4">
+                    <div class="contact-box">
+                        <div class="contact-icon">
+                            <i class="ti-email"></i>
+                        </div>
+                        <div class="contact-info">
+                            <h5>@setting.EmailInfo @@ @setting.EmailServer</h5>
+                            <span> پشتیبانی آنلاین 24x7</span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="copyright mt-6">
+            <div class="container">
+                <div class="row">
+                    <div class="col-md-6">
+                        <ul class="list-inline text-right">
+                            <li><a href="#">قوانین و مقررات </a> &nbsp;&nbsp;&nbsp;|</li>
+                            <li><a href="#">راهنمای API</a> &nbsp;&nbsp;&nbsp;|</li>
+                            <li><a href="#">سیاست های سایت </a> &nbsp;&nbsp;&nbsp;|</li>
+                            <li><a href="#">کوکی ها </a></li>
+                        </ul>
+                    </div>
+                    <div class="col-md-6">
+                        <div class="text-left">
+                            <p>کپی رایت 1398. تمام حقوق برای ما محفوظ است.</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </footer>
+    <!--=================================
+    footer -->
+    <!--=================================
+    back to top -->
+    <div class="back-to-top">
+        <span><img src="/lib/SeoHub/images/rocket.png" data-src="/lib/SeoHub/images/rocket.png" data-hover="/lib/SeoHub/images/rocket.gif" alt=""></span>
+    </div>
+    <!--=================================
+    back to top -->
+    <!-- jquery  -->
+    <script type="text/javascript" src="~/lib/SeoHub/js/jquery.min.js"></script>
+    <script type="text/javascript" src="~/lib/SeoHub/js/popper.min.js"></script>
+
+    <!-- bootstrap -->
+    <script type="text/javascript" src="~/lib/SeoHub/js/bootstrap.min.js"></script>
+
+    <!-- mega-menu -->
+    <script type="text/javascript" src="~/lib/SeoHub/js/mega-menu/mega_menu.js"></script>
+
+    <!-- owl-carousel -->
+    <script type="text/javascript" src="~/lib/SeoHub/js/owl-carousel/owl.carousel.min.js"></script>
+
+    <!-- appear -->
+    <script type="text/javascript" src="~/lib/SeoHub/js/jquery.appear.js"></script>
+
+    <!-- counter -->
+    <script type="text/javascript" src="~/lib/SeoHub/js/counter/jquery.countTo.js"></script>
+
+    <!-- magnific -->
+    <script type="text/javascript" src="~/lib/SeoHub/js/magnific-popup/jquery.magnific-popup.min.js"></script>
+
+    <!-- revolution -->
+    <script type="text/javascript" src="~/lib/SeoHub/revolution/js/jquery.themepunch.tools.min.js"></script>
+    <script type="text/javascript" src="~/lib/SeoHub/revolution/js/jquery.themepunch.revolution.min.js"></script>
+
+    <!-- SLIDER REVOLUTION 5.0 EXTENSIONS  (Load Extensions only on Local File Systems !  The following part can be removed on Server for On Demand Loading) -->
+    <script type="text/javascript" src="~/lib/SeoHub/revolution/js/extensions/revolution.extension.actions.min.js"></script>
+    <script type="text/javascript" src="~/lib/SeoHub/revolution/js/extensions/revolution.extension.carousel.min.js"></script>
+    <script type="text/javascript" src="~/lib/SeoHub/revolution/js/extensions/revolution.extension.kenburn.min.js"></script>
+    <script type="text/javascript" src="~/lib/SeoHub/revolution/js/extensions/revolution.extension.layeranimation.min.js"></script>
+    <script type="text/javascript" src="~/lib/SeoHub/revolution/js/extensions/revolution.extension.migration.min.js"></script>
+    <script type="text/javascript" src="~/lib/SeoHub/revolution/js/extensions/revolution.extension.navigation.min.js"></script>
+    <script type="text/javascript" src="~/lib/SeoHub/revolution/js/extensions/revolution.extension.parallax.min.js"></script>
+    <script type="text/javascript" src="~/lib/SeoHub/revolution/js/extensions/revolution.extension.slideanims.min.js"></script>
+    <script type="text/javascript" src="~/lib/SeoHub/revolution/js/extensions/revolution.extension.video.min.js"></script>
+
+
+    <!-- custom -->
+    <script type="text/javascript" src="~/lib/SeoHub/js/custom.js"></script>
+
+
+
+    <script type="text/javascript">
+        var tpj = jQuery;
+        var revapi14;
+        tpj(document).ready(function () {
+            if (tpj("#rev_slider_14_1").revolution == undefined) {
+                revslider_showDoubleJqueryError("#rev_slider_14_1");
+            } else {
+                revapi14 = tpj("#rev_slider_14_1").show().revolution({
+                    sliderType: "standard",
+                    jsFileLocation: "//localhost/revslider-standalone/revslider/public/assets/js/",
+                    sliderLayout: "fullwidth",
+                    dottedOverlay: "none",
+                    delay: 9000,
+                    navigation: {
+                        keyboardNavigation: "off",
+                        keyboard_direction: "horizontal",
+                        mouseScrollReverse: "reverse",
+                        onHoverStop: "off",
+                        arrows: {
+                            style: "metis",
+                            enable: true,
+                            hide_onmobile: false,
+                            hide_onleave: true,
+                            hide_delay: 200,
+                            hide_delay_mobile: 1200,
+                            tmp: '',
+                            left: {
+                                h_align: "left",
+                                v_align: "center",
+                                h_offset: 20,
+                                v_offset: 0
+                            },
+                            right: {
+                                h_align: "right",
+                                v_align: "center",
+                                h_offset: 20,
+                                v_offset: 0
+                            }
+                        }
+                    },
+                    visibilityLevels: [1240, 1024, 778, 480],
+                    gridwidth: 1270,
+                    gridheight: 900,
+                    lazyType: "none",
+                    shadow: 0,
+                    spinner: "spinner3",
+                    stopLoop: "off",
+                    stopAfterLoops: -1,
+                    stopAtSlide: -1,
+                    shuffle: "off",
+                    autoHeight: "off",
+                    disableProgressBar: "on",
+                    hideThumbsOnMobile: "off",
+                    hideSliderAtLimit: 0,
+                    hideCaptionAtLimit: 0,
+                    hideAllCaptionAtLilmit: 0,
+                    startWithSlide: 0,
+                    debugMode: false,
+                    fallbacks: {
+                        simplifyAll: "off",
+                        nextSlideOnWindowFocus: "off",
+                        disableFocusListener: false,
+                    }
+                });
+            }
+        }); /*ready*/
+    </script>
+    @RenderSection("scripts", required: false)
+    <script>
+        $(".fileChosen").change(function () {
+            filename = this.files[0].name;
+            if (this.className.indexOf("fileChosen1") > 0) {
+                $(".fileChosenText1").html(filename);
+            } else if (this.className.indexOf("fileChosen2") > 0) {
+                $(".fileChosenText2").html(filename);
+            } else if (this.className.indexOf("fileChosen3") > 0) {
+                $(".fileChosenText3").html(filename);
+            } else if (this.className.indexOf("fileChosen4") > 0) {
+                $(".fileChosenText4").html(filename);
+            } else if (this.className.indexOf("fileChosen5") > 0) {
+                $(".fileChosenText5").html(filename);
+            } else {
+                $(".fileChosenText").html(filename);
+            }
+        });
+
+    </script>
+    @Html.Partial("~/Views/Shared/SweetAlert.cshtml")
+
+
+</body>
+
+</html>

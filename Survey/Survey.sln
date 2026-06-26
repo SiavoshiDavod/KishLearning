@@ -1,0 +1,41 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 12.00
+# Visual Studio Version 16
+VisualStudioVersion = 16.0.28803.202
+MinimumVisualStudioVersion = 10.0.40219.1
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "SurveyWeb", "SurveyWeb\SurveyWeb.csproj", "{9513ECF2-B2A3-49D2-91C6-C1917DBA2EED}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "SiteSetting", "SiteSetting\SiteSetting.csproj", "{FA6DAF71-92C0-433F-82FD-84AA549658EE}"
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|Any CPU = Debug|Any CPU
+		Release|Any CPU = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{9513ECF2-B2A3-49D2-91C6-C1917DBA2EED}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{9513ECF2-B2A3-49D2-91C6-C1917DBA2EED}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{9513ECF2-B2A3-49D2-91C6-C1917DBA2EED}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{9513ECF2-B2A3-49D2-91C6-C1917DBA2EED}.Release|Any CPU.Build.0 = Release|Any CPU
+		{FA6DAF71-92C0-433F-82FD-84AA549658EE}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{FA6DAF71-92C0-433F-82FD-84AA549658EE}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{FA6DAF71-92C0-433F-82FD-84AA549658EE}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{FA6DAF71-92C0-433F-82FD-84AA549658EE}.Release|Any CPU.Build.0 = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+	GlobalSection(ExtensibilityGlobals) = postSolution
+		SolutionGuid = {38C3DF02-7F29-4DEA-9492-DC96F817C126}
+	EndGlobalSection
+	GlobalSection(TeamFoundationVersionControl) = preSolution
+		SccNumberOfProjects = 1
+		SccEnterpriseProvider = {4CA58AB2-18FA-4F8D-95D4-32DDF27D184C}
+		SccTeamFoundationServer = https://rahmatymahdi.visualstudio.com/
+		SccProjectUniqueName0 = SurveyWeb\\SurveyWeb.csproj
+		SccProjectName0 = SurveyWeb
+		SccAuxPath0 = https://rahmatymahdi.visualstudio.com
+		SccLocalPath0 = SurveyWeb
+		SccProvider0 = {4CA58AB2-18FA-4F8D-95D4-32DDF27D184C}
+	EndGlobalSection
+EndGlobal

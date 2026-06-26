@@ -1,0 +1,50 @@
+﻿
+@{
+    Layout = "~/Views/Shared/_LayoutAdmin.cshtml";
+    var urlList = "/PersonTeacher/LoadList";
+    ViewBag.Title = SenakLearn.Models.Dictionary.ModelDictionary[typeof(SenakLearn.Models.Person.Person_Teacher)];
+    var user = (SenakLearn.Models.learn_user)ViewBag.User;
+}
+<!-- Page-Title -->
+<div class="row">
+    <div class="col-sm-12">
+        <div class="page-title-box">
+            <ol class="breadcrumb pull-right">
+                <li><a href="#">@ViewBag.Title</a></li>
+                <li class="active">Dashboard</li>
+            </ol>
+            <h4 class="page-title">@Html.ActionLink("افزودن", "Create") </h4>
+        </div>
+    </div>
+</div>
+
+<div id="TadGoodsField">
+    @using MVC.Controls
+
+    @Html.Grid(
+    new GridControl().SetName("PersonTeacherGrid").
+    SetPageSize(10).
+    SetShrinkToFit(false).
+    SetIsAutoSize(true).
+    SetIsFilterToolbar(true).
+    IsRTL().
+    SetListUrl(urlList).
+        SetCaption((string)ViewBag.Title).
+    SetOnLoadCompleteEvent("loadPersonTeacherGridCompleteEvent").
+        UseColumns(SenakLearn.Controllers.Person.PersonTeacherController.PersonTeacherColumns)
+)
+    <script type="text/javascript">
+        function loadPersonTeacherGridCompleteEvent() {
+            var ids = $("#PersonTeacherGrid").jqGrid('getDataIDs');
+            for (var i = 0; i < ids.length; i++) {
+                var cl = ids[i];
+                ed = '<a class="ajaxLink"  href="/PersonTeacher/Create?Id=' + cl + '" title="ویرایش"><div style="margin: 3px;cursor: pointer;display: inline-block;">ویرایش</div></a>';//<div class="fa fa-pencil"></div>
+                dl = '<a class="ajaxLink delete"href="/PersonTeacher/Delete?Id=' + cl + '" title="حذف"   ><div style="margin: 3px;cursor: pointer;display: inline-block;">حذف</div></a>';//<div class="fa fa-times"></div>
+                de = '<a class="ajaxLink "href="/PersonTeacher/Details?Id=' + cl + '" title="جزئیات"   ><div style="margin: 3px;cursor: pointer;display: inline-block;">جزئیات</div></a>';//<div class="fa fa-building"></div>
+
+                $('#PersonTeacherGrid').jqGrid('setRowData', ids[i], { act: ed + dl + de  });
+            }
+        }
+
+    </script>
+</div>

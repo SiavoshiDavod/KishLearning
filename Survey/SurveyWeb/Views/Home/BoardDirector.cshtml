@@ -1,0 +1,30 @@
+﻿@model SurveyWeb.Models.BoardDirector
+@{
+    ViewBag.Title = "هیأت مدیره";
+}
+    <div style="padding-top:70px" class="text-center"> <h2>@Model.FullName</h2> </div>
+<div id="BoardDirector-single" class=" page">
+    <div class="container BoardDirector-page">
+        <div class="row">
+            <div class="col-sm-3 text-center float-right">
+                <img style=" max-width: 100%; height: auto; " src="/images/BoardDirector/@Model.image" alt="Avatar" class="BoardDirector-avatar">
+                @*<ul class="social">
+                        <li><a href="#"><i class="zmdi zmdi-facebook"></i></a></li>
+                        <li> <a href="#"><i class="zmdi zmdi-twitter"></i></a></li>
+                        <li> <a href="#"><i class="zmdi zmdi-google-old"></i></a></li>
+                        <li> <a href="#"><i class="zmdi zmdi-pinterest"></i></a></li>
+                        <li> <a href="#"><i class="zmdi zmdi-instagram"></i></a></li>
+                        <li> <a href="#"><i class="zmdi zmdi-email"></i></a></li>
+                        <li> <a href="#"><i class="zmdi zmdi-globe-alt"></i></a></li>
+                    </ul>*@
+            </div>
+            <div class="col-sm-9">
+                <p>@Model.education</p>
+                <p class="class-details">@Model.email </p>
+                @*<p class="abs"> لورم ایپسوم متن ساختگی با تولید سادگی نامفهوم از صنعت چاپ و با استفاده از طراحان گرافیک است. چاپگرها و متون بلکه روزنامه و مجله در ستون و سطرآنچنان که لازم است و برای شرایط فعلی تکنولوژی مورد نیاز و کاربردهای متنوع با هدف بهبود ابزارهای کاربردی می باشد. کتابهای زیادی در شصت و سه درصد گذشته، حال و آینده شناخت فراوان جامعه و متخصصان را می طلبد تا با نرم افزارها شناخت بیشتری را برای طراحان رایانه ای علی الخصوص طراحان خلاقی و فرهنگ پیشرو در زبان فارسی ایجاد کرد. در این صورت می توان امید داشت که تمام و دشواری موجود در ارائه راهکارها و شرایط سخت تایپ به پایان رسد وزمان مورد نیاز شامل حروفچینی دستاوردهای اصلی و جوابگوی سوالات پیوسته اهل دنیای موجود طراحی اساسا مورد استفاده قرار گیرد. </p>*@
+                <p class="abs">@Html.Raw(Model.Resume)</p>
+            </div>
+        </div>
+    </div>
+
+</div>

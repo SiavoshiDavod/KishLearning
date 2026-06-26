@@ -1,0 +1,403 @@
+﻿@{
+    Layout = "~/Views/Shared/_LayoutAdmin.cshtml";
+    ViewBag.Title = "داشبورد";
+    var user = (SurveyWeb.Models.User)ViewBag.User;
+}
+
+<div class="container" id="main-content" style="height: 636px;">
+
+
+    <div style="margin-bottom: 25px;display: block;overflow: hidden;"></div>
+    <div class="col-lg-12" id="desktop">
+        @if (User.Identity.IsAuthenticated && user != null && user.RoleId == SurveyWeb.Models.Roles.Admin && user?.Permisstions?.Count > 0)
+        {
+            <script src="~/lib/Highcharts-7.1.1Persian/Dashboard.js"></script>
+            @*<div class="row" style="max-height:300px;">
+                <div class="col-xs-12 col-sm-6 col-md-3 text-center" style="margin-bottom:10px">
+                    <div id="Gaugechart"> </div>
+                </div>
+                <div class="col-xs-12 col-sm-12 col-md-6 text-center" style="margin-bottom:10px">
+                    <div id="chartMultiLine"> </div>
+                </div>
+                <div class="col-xs-12 col-sm-6 col-md-3 text-center">
+                    <div class="card-box">
+                        <h1 id="OnlineUserCount"></h1>
+                        <br>
+                        <br>
+                        <h4 class="text-dark  header-title m-t-0"> تعداد افراد فعال</h4>
+                    </div>
+                    <div class="card-box">
+                        <h1 id="AllUserCount"></h1>
+                        <br>
+                        <br>
+                        <h4 class="text-dark  header-title m-t-0"> تعداد کل کاربران</h4>
+                    </div>
+                </div>
+
+            </div>*@
+
+            if (user.Permisstions.Any(x => x == SurveyWeb.Models.Permisstion.SurveyEntitys))
+            {
+                <div class="col-xs-12 col-sm-12 col-md-12 text-center">
+                    <a href="/SurveyEntitys/Index">
+                        <div class="card-box">
+                            <i class="fa fa-book fa-f4"></i>
+                            <br>
+                            <br>
+                            <h4 class="text-dark  header-title m-t-0">پرسشنامه</h4>
+                        </div>
+                    </a>
+                </div>
+            }
+            if (user.Permisstions.Any(x => x == SurveyWeb.Models.Permisstion.GroupSurveys))
+            {
+                <div class="col-xs-12 col-sm-6 col-md-3 text-center">
+                    <a href="/GroupSurveys/Index">
+                        <div class="card-box">
+                            <i class="fa fa-building fa-f4"></i>
+                            <br>
+                            <br>
+                            <h4 class="text-dark  header-title m-t-0">گروه نظرسنجی</h4>
+                        </div>
+                    </a>
+                </div>
+
+            }
+            if (user.Permisstions.Any(x => x == SurveyWeb.Models.Permisstion.SurveyPrivateGroups))
+            {
+                <div class="col-xs-12 col-sm-6 col-md-3 text-center">
+                    <a href="/SurveyPrivateGroups/Index">
+                        <div class="card-box">
+                            <i class="fa fa-building fa-f4"></i>
+                            <br>
+                            <br>
+                            <h4 class="text-dark  header-title m-t-0">گروه اختصاصی</h4>
+                        </div>
+                    </a>
+                </div>
+            }
+            if (user.Permisstions.Any(x => x == SurveyWeb.Models.Permisstion.SurveyUserAnswers))
+            {
+                <div class="col-xs-12 col-sm-6 col-md-3 text-center">
+                    <a href="/SurveyUserAnswers/Index">
+                        <div class="card-box">
+                            <i class="md md-settings fa-f4"></i>
+                            <br>
+                            <br>
+                            <h4 class="text-dark  header-title m-t-0">شرکت کنندگان</h4>
+                        </div>
+                    </a>
+                </div>
+            }
+
+            if (user.Permisstions.Any(x => x == SurveyWeb.Models.Permisstion.Roles))
+            {
+                <div class="col-xs-12 col-sm-6 col-md-3 text-center">
+                    <a href="/Roles/Index">
+
+                        <div class="card-box">
+                            <i class="fa fa-users fa-f4"></i>
+                            <br>
+                            <br>
+                            <h4 class="text-dark  header-title m-t-0">نقش ها</h4>
+                        </div>
+
+                    </a>
+                </div>
+            }
+
+            if (user.Permisstions.Any(x => x == SurveyWeb.Models.Permisstion.Users))
+            {
+                <div class="col-xs-12 col-sm-6 col-md-3 text-center">
+                    <a href="/Users/Index">
+
+                        <div class="card-box">
+                            <i class="fa fa-user fa-f4"></i>
+                            <br>
+                            <br>
+                            <h4 class="text-dark  header-title m-t-0">کاربران</h4>
+                        </div>
+
+                    </a>
+                </div>
+            }
+
+            if (user.Permisstions.Any(x => x == SurveyWeb.Models.Permisstion.Faqs))
+            {
+                <div class="col-xs-12 col-sm-6 col-md-3 text-center">
+                    <a href="/Faqs/Index">
+
+                        <div class="card-box">
+                            <i class="fa fa-qrcode fa-f4"></i>
+                            <br>
+                            <br>
+                            <h4 class="text-dark  header-title m-t-0">پرسشهای متداول</h4>
+                        </div>
+
+                    </a>
+                </div>
+            }
+
+            if (user.Permisstions.Any(x => x == SurveyWeb.Models.Permisstion.Suggestions))
+            {
+                <div class="col-xs-12 col-sm-6 col-md-3 text-center">
+                    <a href="/Suggestions/Index">
+
+                        <div class="card-box">
+                            <i class=" fa fa-commenting fa-f4"></i>
+                            <br>
+                            <br>
+                            <h4 class="text-dark  header-title m-t-0">پیشنهادات</h4>
+                        </div>
+
+                    </a>
+                </div>
+            }
+            if (user.Permisstions.Any(x => x == SurveyWeb.Models.Permisstion.Ideas))
+            {
+                <div class="col-xs-12 col-sm-6 col-md-3 text-center">
+                    <a href="/Ideas/Index">
+
+                        <div class="card-box">
+                            <i class=" fa fa-commenting-o fa-f4"></i>
+                            <br>
+                            <br>
+                            <h4 class="text-dark  header-title m-t-0">ایده ها</h4>
+                        </div>
+
+                    </a>
+                </div>
+            }
+
+            if (user.Permisstions.Any(x => x == SurveyWeb.Models.Permisstion.Cartables))
+            {
+                <div class="col-xs-12 col-sm-6 col-md-3 text-center">
+                    <a href="/Cartables/Index">
+
+                        <div class="card-box">
+                            <i class="fa fa-inbox fa-f4"></i>
+                            <br>
+                            <br>
+                            <h4 class="text-dark  header-title m-t-0"> کارتابل</h4>
+                        </div>
+
+                    </a>
+                </div>
+            }
+            if (user.Permisstions.Any(x => x == SurveyWeb.Models.Permisstion.CartableRelations))
+            {
+                <div class="col-xs-12 col-sm-6 col-md-3 text-center">
+                    <a href="/CartableRelations/Index">
+
+                        <div class="card-box">
+                            <i class=" fa fa-houzz fa-f4"></i>
+                            <br>
+                            <br>
+                            <h4 class="text-dark  header-title m-t-0"> ارتباط کارتابل</h4>
+                        </div>
+
+                    </a>
+                </div>
+            }
+            if (user.Permisstions.Any(x => x == SurveyWeb.Models.Permisstion.CartableUserAccesses))
+            {
+                <div class="col-xs-12 col-sm-6 col-md-3 text-center">
+                    <a href="/CartableUserAccesses/Index">
+
+                        <div class="card-box">
+                            <i class=" fa fa-hand-lizard-o fa-f4"></i>
+                            <br>
+                            <br>
+                            <h4 class="text-dark  header-title m-t-0"> دسترسی کارتابل</h4>
+                        </div>
+
+                    </a>
+                </div>
+            }
+
+
+            @*<script>
+                $(document).ready(function () {
+                    CapacityDisk();
+                    OnlineUserCount();
+                    AllUserCount();
+                    chartMultiLineSite();
+                });
+
+            </script>*@
+        }
+        else
+        {
+
+
+            @*<div class="col-xs-12 col-sm-6 col-md-3 text-center">
+                <a href="/TeacherProfile/Index">
+
+                    <div class="card-box">
+                        <i class="fa fa-user fa-f4"></i>
+                        <br>
+                        <br>
+                        <h4 class="text-dark  header-title m-t-0">پروفایل </h4>
+                    </div>
+
+                </a>
+            </div>*@
+        }
+        @if (User.Identity.IsAuthenticated && user != null && user.RoleId == SurveyWeb.Models.Roles.User)
+        {
+            <div class="col-xs-12 col-sm-6 col-md-3 text-center" title="@ViewBag.titleResturant">
+                <a href="/Resturant/Index">
+                    <div class="card-box" id="divResturant" style="@ViewBag.styleResturant" title="@ViewBag.titleResturant">
+                        <i class="fa fa-user fa-f4"></i>
+                        <br>
+                        <br>
+                        <h4 class="text-dark  header-title m-t-0">تکمیل اطلاعات کاربری</h4>
+                    </div>
+                </a>
+            </div>
+            <div class="col-xs-12 col-sm-6 col-md-3 text-center">
+                <a href="/ResturantPayment/Index">
+                    <div class="card-box" style="@ViewBag.styleResturantPayment">
+                        <i class="fa fa-credit-card fa-f4"></i>
+                        <br>
+                        <br>
+                        <h4 class="text-dark  header-title m-t-0">پرداختها</h4>
+                    </div>
+                </a>
+            </div>
+            <div class="col-xs-12 col-sm-6 col-md-3 text-center">
+                <a href="/ResturantMenu/Index">
+                    <div class="card-box" style="@ViewBag.styleResturantMenu">
+                        <i class="fa fa-newspaper-o fa-f4"></i>
+                        <br>
+                        <br>
+                        <h4 class="text-dark  header-title m-t-0">منو</h4>
+                    </div>
+                </a>
+            </div>
+            <div class="col-xs-12 col-sm-6 col-md-3 text-center">
+                <a href="#">
+
+                    <div class="card-box">
+                        <i class="fa fa-user fa-f4" style="@ViewBag.styleResturantCert"></i>
+                        <br>
+                        <br>
+                        <h4 class="text-dark  header-title m-t-0">صدور مجوز</h4>
+                    </div>
+                </a>
+            </div>
+            <div class="col-xs-12 col-sm-6 col-md-3 text-center">
+                <a href="#">
+                    <div class="card-box">
+                        <i class="fa fa-sticky-note fa-f4"></i>
+                        <br>
+                        <br>
+                        <h4 class="text-dark  header-title m-t-0">شکایات</h4>
+                    </div>
+                </a>
+            </div>
+            <div class="col-xs-12 col-sm-6 col-md-3 text-center">
+                <a href="/JobBoard/Index">
+                    <div class="card-box">
+                        <i class="fa fa-drivers-license fa-f4"></i>
+                        <br>
+                        <br>
+                        <h4 class="text-dark  header-title m-t-0">کاریابی</h4>
+                    </div>
+                </a>
+            </div>
+            <div class="col-xs-12 col-sm-6 col-md-3 text-center">
+                <a href="#">
+                    <div class="card-box">
+                        <i class="fa fa-inbox fa-f4"></i>
+                        <br>
+                        <br>
+                        <h4 class="text-dark  header-title m-t-0">تیکتینگ</h4>
+                    </div>
+                </a>
+            </div>
+            <div class="col-xs-12 col-sm-6 col-md-3 text-center">
+                <a href="#">
+                    <div class="card-box">
+                        <i class="fa fa-bullhorn fa-f4"></i>
+                        <br>
+                        <br>
+                        <h4 class="text-dark  header-title m-t-0"> اطلاعیه ها</h4>
+                    </div>
+                </a>
+            </div>
+            <div class="col-xs-12 col-sm-6 col-md-3 text-center">
+                <a href="#">
+                    <div class="card-box">
+                        <i class="fa fa-newspaper-o fa-f4"></i>
+                        <br>
+                        <br>
+                        <h4 class="text-dark  header-title m-t-0">اخبار </h4>
+                    </div>
+                </a>
+            </div>
+            <div class="col-xs-12 col-sm-6 col-md-3 text-center">
+                <a href="/Advertising/Index">
+                    <div class="card-box">
+                        <i class="fa fa-desktop fa-f4"></i>
+                        <br>
+                        <br>
+                        <h4 class="text-dark  header-title m-t-0">تبلیغات</h4>
+                    </div>
+                </a>
+            </div>
+
+            <div class="col-xs-12 col-sm-6 col-md-3 text-center">
+                <a href="/Home/AllActiveSurveyPrivate">
+                    <div class="card-box">
+                        <i class=" fa fa-expeditedssl fa-f4"></i>
+                        <br>
+                        <br>
+                        <h4 class="text-dark  header-title m-t-0">شرکت در نظر سنجی اختصاصی</h4>
+                    </div>
+                </a>
+            </div>
+
+        }
+        @if (User.Identity.IsAuthenticated && user != null && user.RoleId == SurveyWeb.Models.Roles.Customer)
+        {
+            <div class="col-xs-12 col-sm-6 col-md-3 text-center" title="تکمیل اطلاعات کاربری">
+                <a href="/EmployeeProfile/Index">
+                    <div class="card-box" id="divResturant" style="" title="تکمیل اطلاعات کاربری">
+                        <i class="fa fa-user fa-f4"></i>
+                        <br>
+                        <br>
+                        <h4 class="text-dark  header-title m-t-0">تکمیل اطلاعات کاربری</h4>
+                    </div>
+                </a>
+            </div>
+        }
+
+            <div class="col-xs-12 col-sm-6 col-md-3 text-center">
+                <a href="/Home/Logout">
+                    <div class="card-box">
+                        <i class="md md-exit-to-app fa-f4"></i>
+                        <br>
+                        <br>
+                        <h4 class="text-dark  header-title m-t-0">خروج</h4>
+                    </div>
+                </a>
+            </div>
+
+        </div>
+
+
+
+    @*<script>
+        $(function () {
+            $('#desktop a').click(function (e) {
+                e.preventDefault();
+                $('#sidebar-menu li').find('.active').removeClass('active');
+                $(this).parent().addClass('active');
+                $(this).addClass('active');
+
+                return false;
+            });
+        });
+        </script>*@
+</div>

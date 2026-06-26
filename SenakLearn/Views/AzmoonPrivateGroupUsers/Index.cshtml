@@ -1,0 +1,77 @@
+﻿@model int
+@{
+    Layout = "~/Views/Shared/_LayoutAdmin.cshtml";
+    var urlList = "/AzmoonPrivateGroupUsers/LoadList?id=" + Model;
+    ViewBag.Title = " کاربران " + (string)ViewBag.Name;
+}
+<!-- Page-Title -->
+<div class="row">
+    <div class="col-sm-12">
+        <div class="page-title-box">
+            <ol class="breadcrumb pull-right">
+                <li><a href="#">@ViewBag.Title</a></li>
+                <li class="active">Dashboard</li>
+            </ol>
+            <div class="page-title">
+                @using (Html.BeginForm("Create", "AzmoonPrivateGroupUsers", FormMethod.Post))
+                {
+                    @Html.Hidden("AzmoonPrivateGroupId", Model)
+                    @Html.UserDropDown("UserId", true, false)
+                    <input type="submit" value="ثبت" class="btn btn-default" @*onclick="return SaveAzmoonPrivateGroupUser()"*@ />
+                }
+            </div>
+        </div>
+    </div>
+</div>
+<div id="TadGoodsField">
+    @using MVC.Controls
+
+    @Html.Grid(
+    new GridControl().SetName("AzmoonPrivateGroupUserGrid").
+    SetPageSize(10).
+    SetShrinkToFit(false).
+    SetIsAutoSize(true).
+    SetIsFilterToolbar(true).
+    IsRTL().
+    SetListUrl(urlList).
+        SetCaption((string)ViewBag.Title).
+    SetOnLoadCompleteEvent("loadAzmoonPrivateGroupUserGridCompleteEvent").
+        UseColumns(SenakLearn.Controllers.AzmoonPrivateGroupUsersController.UserAzmoonPrivateGroupColumns)
+)
+    <script type="text/javascript">
+        function deleteAzmoonPrivateGroupUser(cl) {
+            var url = "/AzmoonPrivateGroupUsers/Delete";
+            var successFunction = function () {
+                pw.post(url,
+                    { id: cl },
+                    'json',
+                    function (response) {
+                        if (response) {
+                            reloadJqGrid("AzmoonPrivateGroupUserGrid" );
+                            SwalSuccessMessage("");
+                        } else {
+                            showError("خطا");
+                        }
+                    });
+
+            }
+            confirmDelete(successFunction);
+            return false;
+        }
+	function loadAzmoonPrivateGroupUserGridCompleteEvent() {
+	    var ids = $("#AzmoonPrivateGroupUserGrid").jqGrid('getDataIDs');
+
+		for (var i = 0; i < ids.length; i++) {
+		    var cl = ids[i];
+
+		    dl = '<a class="ajaxLink" onclick="return deleteAzmoonPrivateGroupUser(\'' + cl + '\')" title="حذف"   ><div class="fa fa-times"></div></a>';
+		    $('#AzmoonPrivateGroupUserGrid').jqGrid('setRowData', ids[i], { act: dl });
+		}
+    }
+
+    </script>
+</div>
+
+
+
+

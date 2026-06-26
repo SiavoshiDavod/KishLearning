@@ -1,0 +1,42 @@
+﻿@model SurveyWeb.Models.User
+
+
+<form class="gray-form mb-5 md-mb-0" action="/Home/Login" method="post" novalidate="novalidate">
+    @Html.Hidden("ReturnUrl", (string)ViewBag.ReturnUrl)
+    @{
+        var m = (string)ViewBag.Message;
+        if (!string.IsNullOrEmpty(m))
+        {
+            <div class="row">
+                <div class="col-md-12">
+                    <div class="form-group">
+                        <span style="color:red">@m</span>
+                    </div>
+                </div>
+            </div>
+        }
+    }
+
+    <div class="form-group">
+        <label for="name">نام کاربری*</label>
+        <input type="text" class="form-control" id="UserName" name="UserName" placeholder="نام کاربری">
+    </div>
+    <div class="form-group">
+        <label for="Password">رمز عبور*</label>
+        <input type="password" class="form-control" id="pass" name="pass" placeholder="کلمه عبور">
+    </div>
+    <div class="form-group">
+        <div class="remember-checkbox mb-3">
+            <input type="checkbox" name="one" id="one">
+            <label for="one">پذیرش <a href="#"> سیاست ها</a> و <a href="#"> مقررات</a> سایت ما</label>
+            <a  class="pull-left" href="/home/ForgetPass">فراموشی کلمه عبور؟</a>
+        </div>
+    </div>
+    <div class="row">
+        <div class="col-md-12">
+            <input type="submit" value="ورود" class="button" />
+        </div>
+    </div>
+
+</form>
+

@@ -1,0 +1,77 @@
+﻿@{
+    Layout = null;
+    List<SelectListItem> listOrg = (List<SelectListItem>)ViewBag.ListOrg;
+}
+
+@*<form id="frmUploadUser" url="">*@
+@using (Html.BeginForm("Upload", "Users", FormMethod.Post, new { enctype = "multipart/form-data", id = "frmUploadUser" }))
+{
+    <div class="form-horizontal">
+        <div class="form-group">
+            @Html.Label("سازمان", new { @class = "control-label col-md-2" })
+            <div class="col-md-10">
+                @Html.DropDownList("OrgId", listOrg)
+            </div>
+        </div>
+        <div class="form-group">
+            @Html.Label("فایل اکسل", new { @class = "control-label col-md-2" })
+            <div class="col-md-10">
+                <input type="file" id="inputExcelUsers" />
+            </div>
+        </div>
+        <div class="form-group">
+            @*<button class="btn btn-success" onclick="fn_UploadUser(event)">ثبت</button>*@
+            <button type="submit" class="btn btn-success">ثبت</button>
+            <button class="btn btn-info">دانلود</button>
+        </div>
+    </div>
+}
+@*</form>*@
+<script>
+    $('#frmUploadUser').submit(function (e) {
+        //debugger;
+        e.preventDefault();
+        var frmData = new FormData();
+        var fileUpload = $("#inputExcelUsers").get(0);
+        var files = fileUpload.files[0];
+        if (files == undefined) {
+            alert('لطفا یک فایل اکسل انتخاب نمایید !');
+            //debugger;
+            return;
+        }
+        if ($('#OrgId').find(":selected").val() == undefined) {
+            alert('انتخاب سازمان الزامی است !');
+        }
+        //debugger;
+        frmData.append('videoUpload', files);
+        frmData.append('OrgId', $('#OrgId').find(":selected").val());
+        $.ajax({
+            url: '/Users/Upload',
+            type: 'POST',
+            data: frmData,
+            enctype: 'multipart/form-data',
+            processData: false,  // tell jQuery not to process the data
+            contentType: false,  // tell jQuery not to set contentType
+            success: function (data) {
+                //debugger;
+                if (data == undefined || data.status == undefined || data.status == false)
+                    SwalErrorMessage(data.msg);
+                else if (data.status == true) {
+                    alert('بارگذاری اکسل کاربران انجام شد .');
+                    $(".dialogUserUploadPanelClass").dialog('close');
+                    jQuery('#UsersAdminesGrid').trigger('reloadGrid');
+                }
+            },
+            error: function (data, b, c) {
+                debugger;
+                if (data.responseText != undefined) {
+                    //eval(data.responseText);
+                    SwalErrorMessage(data.responseText);
+                }
+                else
+                    alert('بارگذاری فایل اکسل با مشکل روبرو گردید لطفا فایل را بررسی نمایید !');
+            }
+        });
+    })
+
+</script>

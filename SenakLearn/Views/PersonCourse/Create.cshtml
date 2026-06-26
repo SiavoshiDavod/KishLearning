@@ -1,0 +1,166 @@
+﻿@model SenakLearn.Models.Person.Person_Course
+
+
+@{
+    ViewBag.Title = SenakLearn.Models.Dictionary.ModelDictionary[typeof(SenakLearn.Models.Person.Person_Course)];
+    Layout = "~/Views/Shared/_LayoutAdmin.cshtml";
+}
+<div class="row">
+    <div class="col-sm-12">
+        <div class="page-title-box">
+            <ol class="breadcrumb pull-right">
+                <li><a href="#">پرسنل</a></li>
+                <li><a href="#">@ViewBag.Title</a></li>
+                <li class="active">Dashboard</li>
+            </ol>
+            <h4 class="page-title">@ViewBag.Title </h4>
+        </div>
+    </div>
+</div>
+
+
+
+@using (Html.BeginForm("Create", "PersonCourse", FormMethod.Post, new { enctype = "multipart/form-data" }))
+{   
+    @Html.HiddenFor(model => model.Id)
+    @Html.AntiForgeryToken()
+
+<div class="form-horizontal">
+    @Html.ValidationSummary(true, "", new { @class = "text-danger" })
+    <div class="form-group">
+        <div class="col-md-2 text-left">
+            @Html.LabelFor(model => model.Title, htmlAttributes: new { @class = "control-label" })
+        </div>
+        <div class="col-md-10">
+            @Html.EditorFor(model => model.Title, new { htmlAttributes = new { @class = "form-control" } })
+            @Html.ValidationMessageFor(model => model.Title, "", new { @class = "text-danger" })
+        </div>
+    </div>
+    <div class="form-group">
+        <div class="col-md-2 text-left">
+            @Html.LabelFor(model => model.CourseLeader, htmlAttributes: new { @class = "control-label" })
+            @*<span class="fa fa-question-circle" title="عنوان" style="color:blue"></span>*@
+        </div>
+        <div class="col-md-10">
+            @Html.EditorFor(model => model.CourseLeader, new { htmlAttributes = new { @class = "form-control" } })
+            @Html.ValidationMessageFor(model => model.CourseLeader, "", new { @class = "text-danger" })
+        </div>
+    </div>
+    <div class="form-group">
+        <div class="col-md-2 text-left">
+            @Html.LabelFor(model => model.Code, htmlAttributes: new { @class = "control-label" })
+            @*<span class="fa fa-question-circle" title="عنوان" style="color:blue"></span>*@
+        </div>
+        <div class="col-md-10">
+            @Html.EditorFor(model => model.Code, new { htmlAttributes = new { @class = "form-control" } })
+            @Html.ValidationMessageFor(model => model.Code, "", new { @class = "text-danger" })
+        </div>
+    </div>
+    <div class="form-group">
+        <div class="col-md-2 text-left">
+            @Html.LabelFor(model => model.Duration, htmlAttributes: new { @class = "control-label" })
+        </div>
+        <div class="col-md-10">
+            @Html.EditorFor(model => model.Duration, new { htmlAttributes = new { @class = "form-control" } })
+            @Html.ValidationMessageFor(model => model.Duration, "", new { @class = "text-danger" })
+        </div>
+    </div>
+    <div class="form-group">
+        <div class="col-md-2 text-left">
+            @Html.LabelFor(model => model.FromDate, htmlAttributes: new { @class = "control-label" })
+        </div>
+        <div class="col-md-10">
+            <div class="input-group-addon" data-mddatetimepicker="true" data-targetselector="#FromDate" data-trigger="click" data-enabletimepicker="false">
+                <span class="glyphicon glyphicon-calendar" style="padding: 0 5px; width:25px;float:right"></span>
+                <input type="text" class="form-control" id="FromDate" name="FromDate" value="@Model.FromDate" placeholder="" style="width:120px;height:25px" />
+            </div>
+        </div>
+    </div>
+    <div class="form-group">
+        <div class="col-md-2 text-left">
+            @Html.LabelFor(model => model.ToDate, htmlAttributes: new { @class = "control-label" })
+        </div>
+        <div class="col-md-10">
+            <div class="input-group-addon" data-mddatetimepicker="true" data-targetselector="#ToDate" data-trigger="click" data-enabletimepicker="false">
+                <span class="glyphicon glyphicon-calendar" style="padding: 0 5px; width:25px;float:right"></span>
+                <input type="text" class="form-control" id="ToDate" name="ToDate" value="@Model.ToDate" placeholder="" style="width:120px;height:25px" />
+            </div>
+        </div>
+    </div>
+    <div class="form-group">
+        <div class="col-md-2 text-left">
+            @Html.LabelFor(model => model.CertificateDate, htmlAttributes: new { @class = "control-label" })
+        </div>
+        <div class="col-md-10">
+            <div class="input-group-addon" data-mddatetimepicker="true" data-targetselector="#CertificateDate" data-trigger="click" data-enabletimepicker="false">
+                <span class="glyphicon glyphicon-calendar" style="padding: 0 5px; width:25px;float:right"></span>
+                <input type="text" class="form-control" id="CertificateDate" name="CertificateDate" value="@Model.CertificateDate" placeholder="" style="width:180px;height:25px" />
+            </div>
+        </div>
+    </div>
+    <div class="form-group">
+        <div class="col-md-2 text-left">
+            @Html.LabelFor(model => model.Description, htmlAttributes: new { @class = "control-label" })
+        </div>
+        <div class="col-md-10">
+            @Html.EditorFor(model => model.Description, new { htmlAttributes = new { @class = "form-control" } })
+            @Html.ValidationMessageFor(model => model.Description, "", new { @class = "text-danger" })
+        </div>
+    </div>
+    <div class="form-group">
+        <div class="col-md-2 text-left">
+            @Html.LabelFor(model => model.CertificateFile, htmlAttributes: new { @class = "control-label" })
+        </div>
+        <div class="col-md-10">
+            @*@Html.EditorFor(model => model.CertificateFile, new { htmlAttributes = new { @class = "form-control" } })*@
+            <input accept="image/*" class="fileChosen form-control" type="file" id="CertificateFile" name="CertificateFile" value="@Model.CertificateFile">
+            @if (!string.IsNullOrEmpty(Model.CertificateFile))
+            {
+                <img src="~/images/PersonCertificate/@Model.CertificateFile" style="max-width:150px;max-height:150px"/>
+            }
+            @Html.ValidationMessageFor(model => model.CertificateFile, "", new { @class = "text-danger" })
+        </div>
+    </div>
+    <div class="form-group">
+        <div class="col-md-offset-2 col-md-10">
+            <input type="submit" value="ثبت" class="btn btn-default" />
+        </div>
+    </div>
+</div>
+}
+
+<div>
+     @Html.ActionLink("بازگشت", "Index")
+</div>
+
+@section Scripts {
+    @Scripts.Render("~/bundles/jqueryval")
+}
+<script>
+    $(document).ready(function () {
+        $('#FromDate').MdPersianDateTimePicker({
+            targetTextSelector: '#FromDate',
+            //targetDateSelector: '#FromDate',
+            dateFormat: 'yyyy-MM-dd',
+            isGregorian: false,
+            enableTimePicker: false,
+            disableBeforeToday: false,
+        });
+        $('#ToDate').MdPersianDateTimePicker({
+            targetTextSelector: '#ToDate',
+            //targetDateSelector: '#FromDate',
+            dateFormat: 'yyyy-MM-dd',
+            isGregorian: false,
+            enableTimePicker: false,
+            disableBeforeToday: false,
+        });
+        $('#CertificateDate').MdPersianDateTimePicker({
+            targetTextSelector: '#CertificateDate',
+            //targetDateSelector: '#FromDate',
+            dateFormat: 'yyyy-MM-dd',
+            isGregorian: false,
+            enableTimePicker: false,
+            disableBeforeToday: false,
+        });
+    });
+</script>

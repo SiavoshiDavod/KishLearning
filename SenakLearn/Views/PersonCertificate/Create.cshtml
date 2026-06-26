@@ -1,0 +1,218 @@
+﻿@model SenakLearn.Models.Person.Person_Certificate
+
+
+@{
+    ViewBag.Title = SenakLearn.Models.Dictionary.ModelDictionary[typeof(SenakLearn.Models.Person.Person_Certificate)];
+    Layout = "~/Views/Shared/_LayoutAdmin.cshtml";
+    var coursList = (List<SelectListItem>)ViewBag.CourseList;
+    var teacherList = (List<SelectListItem>)ViewBag.TeacherList;
+    var listInOut = new List<SelectListItem> { new SelectListItem { Value = "false", Text = "داخلی" }, new SelectListItem { Value = "true", Text = "خارجی" } };
+}
+<div class="row">
+    <div class="col-sm-12">
+        <div class="page-title-box">
+            <ol class="breadcrumb pull-right">
+                <li><a href="#">پرسنل</a></li>
+                <li><a href="#">@ViewBag.Title</a></li>
+                <li class="active">Dashboard</li>
+            </ol>
+            <h4 class="page-title">@ViewBag.Title </h4>
+        </div>
+    </div>
+</div>
+
+
+
+@using (Html.BeginForm("PersonCertificate", "Create", FormMethod.Post, new { enctype = "multipart/form-data", id = "frmPersonCertificateCreate" }))
+{
+    @Html.HiddenFor(model => model.Id)
+    @Html.HiddenFor(model => model.UserId)
+    @Html.AntiForgeryToken()
+
+<div class="form-horizontal">
+    @Html.ValidationSummary(true, "", new { @class = "text-danger" })
+    <div class="form-group">
+        <div class="col-md-2 text-left">
+            @Html.LabelFor(model => model.UserName, htmlAttributes: new { @class = "control-label" })
+            @*<span class="fa fa-question-circle" title="کاربر" style="color:blue"></span>*@
+        </div>
+        <div class="col-md-10">
+            @Html.TextBoxFor(model => model.UserName, new { @class = "form-control", @disabled = "disabled", @style = "width:70%" })
+            @*@Html.ValidationMessageFor(model => model.Code, "", new { @class = "text-danger" })*@
+        </div>
+    </div>
+    <div class="row">
+        <div class="col-md-2 text-left">
+            @Html.LabelFor(model => model.Person_CourseId, htmlAttributes: new { @class = "control-label" })
+            <span class="fa fa-question-circle" title="دوره برگزار شده" style="color:blue"></span>
+        </div>
+        <div class="col-md-4">
+            @Html.DropDownListFor(model => model.Person_CourseId, coursList, new { @class = "form-control" })
+            @Html.ValidationMessageFor(model => model.Person_CourseId, "", new { @class = "text-danger" })
+        </div>
+        @*</div>
+            <div class="form-group">*@
+        <div class="col-md-2 text-left">
+            @Html.LabelFor(model => model.Person_TeacherId, htmlAttributes: new { @class = "control-label" })
+            <span class="fa fa-question-circle" title="استاد دوره" style="color:blue"></span>
+        </div>
+        <div class="col-md-4">
+            @Html.DropDownListFor(model => model.Person_TeacherId, teacherList, new { @class = "form-control" })
+            @Html.ValidationMessageFor(model => model.Person_TeacherId, "", new { @class = "text-danger" })
+        </div>
+    </div>
+    <div class="row">
+        <div class="col-md-2 text-left">
+            @Html.LabelFor(model => model.Duration, htmlAttributes: new { @class = "control-label" })
+            <span class="fa fa-question-circle" title="مدت زمان دوره" style="color:blue"></span>
+        </div>
+        <div class="col-md-4">
+            @Html.EditorFor(model => model.Duration, new { htmlAttributes = new { @class = "form-control" } })
+            @Html.ValidationMessageFor(model => model.Duration, "", new { @class = "text-danger" })
+        </div>
+        @*</div>
+            <div class="form-group">*@
+        <div class="col-md-2 text-left">
+            @Html.LabelFor(model => model.Code, htmlAttributes: new { @class = "control-label" })
+            <span class="fa fa-question-circle" title="کد یا سریال مدرک" style="color:blue"></span>
+        </div>
+        <div class="col-md-4">
+            @Html.EditorFor(model => model.Code, new { htmlAttributes = new { @class = "form-control" } })
+            @Html.ValidationMessageFor(model => model.Code, "", new { @class = "text-danger" })
+        </div>
+    </div>
+    <div class="row">
+        <div class="col-md-2 text-left">
+            @Html.LabelFor(model => model.InOut, htmlAttributes: new { @class = "control-label" })
+            <span class="fa fa-question-circle" title="نوع مجری دوره" style="color:blue"></span>
+        </div>
+        <div class="col-md-4">
+            @Html.DropDownListFor(model => model.InOut, listInOut, new { htmlAttributes = new { @class = "form-control" } })
+            @Html.ValidationMessageFor(model => model.InOut, "", new { @class = "text-danger" })
+        </div>
+    </div>
+    <div class="row">
+        <div class="col-md-2 text-left">
+            @Html.LabelFor(model => model.IssueDate, htmlAttributes: new { @class = "control-label" })
+            <span class="fa fa-question-circle" title="تاریخ دریافت مدرک" style="color:blue"></span>
+        </div>
+        <div class="col-md-4">
+            @*@Html.EditorFor(model => model.IssueDate, new { htmlAttributes = new { @class = "form-control" } })
+                @Html.ValidationMessageFor(model => model.IssueDate, "", new { @class = "text-danger" })*@
+            <div class="form-group">
+                <div class="input-group-addon" data-mddatetimepicker="true" data-targetselector="#IssueDate" data-trigger="click" data-enabletimepicker="false">
+                    <span class="glyphicon glyphicon-calendar" style="padding: 0 5px; width:25px;float:right"></span>
+                    <input type="text" class="form-control" id="IssueDate" name="IssueDate" value="@Model.IssueDate" placeholder="" style="width:120px;height:25px" />
+                </div>
+
+            </div>
+        </div>
+        @*</div>
+            <div class="form-group">*@
+        <div class="col-md-2 text-left">
+            @Html.LabelFor(model => model.UrlCertificate, htmlAttributes: new { @class = "control-label" })
+            <span class="fa fa-question-circle" title="فایل مدرک صادر شده" style="color:blue"></span>
+        </div>
+        <div class="col-md-4">
+            <input type="file" id="inputCertificateFile" accept="image/*" />
+            <img id="imgCertificateFile" src="@("/images/PersonCertificate/"+Model.UrlCertificate)" width="150px" height="200px" title="@Model.Code" />
+        </div>
+    </div>
+    <br />
+    <div class="form-group">
+        <div class="col-md-offset-2 col-md-10">
+            <input type="submit" value="ثبت" class="btn btn-success" />
+        </div>
+    </div>
+</div>
+}
+
+<div>
+    @Html.ActionLink("بازگشت", "Index", new {userId=Model.UserId})
+</div>
+
+@section Scripts {
+    @Scripts.Render("~/bundles/jqueryval");
+}
+<script>
+    $(document).ready(function () {
+        showImage();
+        $('#IssueDate').MdPersianDateTimePicker({
+            targetTextSelector: '#IssueDate',
+            //targetDateSelector: '#FromDate',
+            dateFormat: 'yyyy-MM-dd',
+            isGregorian: false,
+            enableTimePicker: false,
+            disableBeforeToday: false,
+
+        });
+    });
+    function showImage() {
+        var src = document.getElementById("inputCertificateFile");
+        var target = document.getElementById("imgCertificateFile");
+        var fr = new FileReader();
+        // when image is loaded, set the src of the image where you want to display it
+        fr.onload = function (e) { target.src = this.result; };
+        src.addEventListener("change", function () {
+            // fill fr with image data    
+            fr.readAsDataURL(src.files[0]);
+        });
+    }
+
+
+    $('#frmPersonCertificateCreate').submit(function (e) {
+        e.preventDefault();
+        var frmData = new FormData();
+        var fileUpload = $("#inputCertificateFile").get(0);
+        var files = fileUpload.files[0];
+        if (files == undefined) {
+            alert('لطفا یک فایل برای تصویر مدرک انتخاب نمایید !');
+            return;
+        }
+
+        if ($('#Person_CourseId').find(":selected").val() == undefined) {
+            alert('انتخاب دوره الزامی است !');
+        }
+        if ($('#Person_TeacherId').find(":selected").val() == undefined) {
+            alert('انتخاب استاد الزامی است !');
+        }
+        frmData.append('CertificateUpload', files);
+        frmData.append('Person_CourseId', $('#Person_CourseId').find(":selected").val());
+        frmData.append('Person_TeacherId', $('#Person_TeacherId').find(":selected").val());
+        frmData.append('UserId', $('#UserId').val());
+        frmData.append('Id', $('#Id').val());
+        frmData.append('Duration', $('#Duration').val());
+        frmData.append('Code', $('#Code').val());
+        frmData.append('IssueDate', $('#IssueDate').val());
+        frmData.append('InOut', $('#InOut').find(":selected").val());
+        //debugger;
+        var form = $('#frmPersonCertificateCreate');
+        var token = $('input[name="__RequestVerificationToken"]', form).val();
+        frmData.append('__RequestVerificationToken', token);
+        //debugger;
+        $.ajax({
+            url: '/PersonCertificate/Create',
+            type: 'POST',
+            data: frmData,
+            headers: {
+                "RequestVerificationToken": token
+            },
+            enctype: 'multipart/form-data',
+            processData: false,  // tell jQuery not to process the data
+            contentType: false,  // tell jQuery not to set contentType
+            success: function (data) {
+                debugger;
+                if (data == undefined || data.status == undefined || data.status != 'OK')
+                    alert('ثبت مدرک بدرستی انجام نشد !');
+                else if (data.status == 'OK') {
+                    alert('بارگذاری فایل مدرک انجام شد .');
+                    window.open('/PersonCertificate/Index?userId='+@Model.UserId,'_self')
+                }
+            },
+            error: function (data) {
+                debugger;
+                alert('بارگذاری فایل مدرک با مشکل روبرو گردید لطفا مجددا تلاش نمایید !');
+            }
+        });
+    });
+</script>

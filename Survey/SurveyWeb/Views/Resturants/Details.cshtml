@@ -1,0 +1,94 @@
+﻿@model ICollection<SurveyWeb.Models.CheckListTypeCartable>
+
+@{
+    Layout = null;
+   int cartableId = ViewBag.CartableId ;
+     int id = ViewBag.Id ;
+}
+@*@Html.Partial("_PartialDetailObject", Model)*@
+<table>
+
+
+    @foreach (var item in Model)
+    {
+        <tr>
+            <td>@item.DropDownTitle</td>
+            <td><button  class="btn btn-default"  onclick="return OpenModalView('@item.DropDownTitle','@item.ResturantId','@item.CheckListId')">مشاهده</button></td>
+            <td>
+                @if (item.Accepted == null)
+                {
+
+                    <button class="btn btn-success" onclick="return AcceptedDetail(true,'@item.ResturantId','@item.CheckListId','@item.CartableId','@item.Id')">تایید</button>
+                    <button class="btn btn-warning" onclick="return AcceptedDetail(false,'@item.ResturantId','@item.CheckListId','@item.CartableId','@item.Id')">عدم تایید</button>
+
+                }
+                else
+                {
+
+                    if (item.Accepted == true)
+                    {
+                        <button class="btn btn-warning" onclick="return AcceptedDetail(false,'@item.ResturantId','@item.CheckListId','@item.CartableId','@item.Id')">عدم تایید</button>
+                    }
+                    if (item.Accepted == false)
+                    {
+                        <button class="btn btn-success" onclick="return AcceptedDetail(true,'@item.ResturantId','@item.CheckListId','@item.CartableId','@item.Id')">تایید</button>
+                    }
+                    <span>
+                        @item.CartableCheckListType
+                    </span>
+                }
+            </td>
+        </tr>
+    }
+</table>
+<script>
+    function OpenModalView(tilte, resturantId, CheckListId) {
+        pw.modal('CartableViewInModal', tilte, '/Resturants/ShowDetail?id=' + resturantId + '&CheckListId=' + CheckListId, null, 'modal-md', true, null, null);
+        return false;
+    }
+    function AcceptedDetail(Accepted, resturantId, CheckListId, CartableId, id) {
+        var title = '';
+        if (Accepted) {
+            title = "تایید"
+        } else {
+            title = " عدم تایید";
+        }
+        var url = '/Resturants/AcceptedDetail';
+            Swal.fire({
+                title: ' توضیحات ',
+                input: 'text',
+                inputAttributes: {
+                    autocapitalize: 'off'
+                },
+                showCancelButton: true,
+                confirmButtonText: title,
+                cancelButtonText: 'لغو',
+                showLoaderOnConfirm: false,
+
+                allowOutsideClick: () => !Swal.isLoading()
+            }).then((result) => {
+                if (result.value) {
+
+                    pw.post(url,
+                        { Accepted: Accepted, resturantId: resturantId, CheckListId: CheckListId, CartableId: CartableId, id: id, CartableCheckListType: result.value },
+                        'json',
+                        function (response) {
+                            if (response) {
+                                SwalSuccessMessage("");
+                                // return ReloadGridByTab(from);
+                                return OpenModalLog('/Resturants/Details?Id='+'@id'+'&cartableId='+'@cartableId','جزئیات ')
+                            } else {
+                                showError("خطا");
+                            }
+                        });
+                    return false;
+                } else if (result.dismiss=="cancel") {
+                }
+                else  {
+                    showError("توضیحات را وارد نمایید");
+                }
+            })
+        return false;
+    }
+</script>
+

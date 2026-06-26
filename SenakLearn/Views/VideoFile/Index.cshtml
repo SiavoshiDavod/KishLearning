@@ -1,0 +1,75 @@
+﻿
+@{
+    Layout = "~/Views/Shared/_LayoutAdmin.cshtml";
+    var urlList = "/VideoFile/LoadList"+(string) ViewBag.UserId;
+    ViewBag.Title = "فایل ویدیویی";
+}
+<!-- Page-Title -->
+<div class="row">
+    <div class="col-sm-12">
+        <div class="page-title-box">
+            <ol class="breadcrumb pull-right">
+                <li><a href="#">@ViewBag.Title</a></li>
+                <li class="active">Dashboard</li>
+            </ol>
+            <h4 class="page-title">@if (string.IsNullOrEmpty((string)ViewBag.UserId))
+            {
+		 @Html.ActionLink("افزودن", "Create") 
+            } || <button class="btn btn-danger" type="button" title="با حذف ویدیو از سرور نیز پاک می شوند !" onclick="removeAllVideo()">حذف همه ویدیوها</button></h4>
+        </div>
+    </div>
+</div>
+
+<div id="TadGoodsField">
+    @using MVC.Controls
+
+    @Html.Grid(
+    new GridControl().SetName("OnlineClassesGrid").
+    SetPageSize(10).
+    SetShrinkToFit(false).
+    SetIsAutoSize(true).
+    SetIsFilterToolbar(true).
+    IsRTL().
+    SetListUrl(urlList).
+        SetCaption("فایل ویدیویی").
+    SetOnLoadCompleteEvent("loadOnlineClassesGridCompleteEvent").
+        UseColumns(SenakLearn.Controllers.Admin.VideoFileController.Columns)
+)
+    <script src='/Scripts/Learn.js' type='text/javascript'></script>
+    <script type="text/javascript">
+        function removeAllVideo() {
+            if (confirm('آیا از حذف همه ویدیوها مطمپن هستید ؟')) {
+                $.ajax({
+                    url: '/VideoFile/DeleteAll',
+                    type: 'Post',
+                    success: function (res) {
+                        if (res.message == "OK") {
+                            alert('همه ویدیوها حذف شد !');
+                            $("#OnlineClassesGrid").trigger('reloadGrid');
+                        }
+                    }
+                });
+            }
+        }
+	function loadOnlineClassesGridCompleteEvent() {
+		var ids = $("#OnlineClassesGrid").jqGrid('getDataIDs');
+		for (var i = 0; i < ids.length; i++) {
+		    var cl = ids[i];
+		    var WaitingForAccept = $("#OnlineClassesGrid").jqGrid('getCell', cl, 'WaitingForAccept');
+		       // 
+		    var accept = '';
+		    if ('@ViewBag.UserId'!='') {
+		        accept = "<a class='ajaxLink' href='#' onclick='return Mypost(\"/videoFile/Accept?id=" + cl + "\",null,null, reloadJqGrid(\"OnlineClassesGrid\"))' title='تایید'><div class=''>تایید</div></a>";
+		    }
+			ed = '<a class="ajaxLink"  href="/VideoFile/Edit?Id=' + cl + '" title="ویرایش"><div class="tableEditLink">ویرایش</div></a>';
+			dl = '<a class="ajaxLink delete"href="/VideoFile/Delete?Id=' + cl + '" title="حذف"   ><div class="tableDeleteLink">حذف</div></a>';
+			de = '<a class="ajaxLink "href="/VideoFile/Details?Id=' + cl + '" title="نمایش "   ><div class="tableDetailLink">نمایش</div></a>';
+			$('#OnlineClassesGrid').jqGrid('setRowData', ids[i], { act: ed + dl + de+accept  });
+		}
+    }
+
+    </script>
+</div>
+
+
+

@@ -1,0 +1,294 @@
+﻿@model SenakLearn.Models.SurveyEntity
+
+@{
+    Layout = "~/Views/Shared/_LayoutAdmin.cshtml";
+    if (string.IsNullOrEmpty(Model.act))
+    {
+        Model.act = "/";
+    }
+}
+
+<h2 class="text-center">  @Model.Name</h2>
+@if (Model.FromDate != null)
+{
+    <div class="row" style="text-align:center">  <span>شروع :</span><span>@Model.FromDate.Value.ToPersianDateTime()</span></div>
+}
+@if (Model.ToDate != null)
+{
+    <div class="row" style="text-align:center">  <span>پایان :</span><span>@Model.ToDate.Value.ToPersianDateTime()</span></div>
+    <br />
+}
+@{
+    var list = Model.SurveyQuestions.OrderBy(x => x.SurveyOrder).ThenBy(x => x.SurveyGroupQuestionId).ToList();
+    for (int i = 0; i < list.Count; i++)
+    {
+        SenakLearn.Models.SurveyQuestion item = list[i];
+        item.SurveyOrder = i + 1;
+        var pageFooter = "سوال " + item.SurveyOrder + " از " + list.Count;
+        int prev = 0;
+        int next = 0;
+        if (i != 0)
+        {
+            prev = list[i - 1].Id;
+        }
+        if ((i + 1) != list.Count)
+        {
+            next = list[i + 1].Id;
+        }
+        if (Model.IsShowInSinglePage)
+        {
+            <div id="@item.Id" class="table table-bordered">
+                @Html.Partial("_p" + item.QuestionType.ToString(), item)
+            </div>
+        }
+        else
+        {
+            <div id="@item.Id" class="PartialQuestions">
+                @Html.Partial("_p" + item.QuestionType.ToString(), item, new ViewDataDictionary() { { "Next", next }, { "Prev", prev } })
+                <div class="text-center">
+                    @pageFooter
+                </div>
+            </div>
+        }
+
+    }
+    if (Model.IsShowInSinglePage)
+    {
+        <div class="text-center">
+            <input type="button" title="ثبت" value="ثبت" class="btn btn-success" onclick="return saveSurveyForm()" />
+        </div>
+    }
+
+    <script>
+        var currentShowId = 0;
+        var SurveyEntityId = '@Model.Id';
+        function ShowQuestionById(id) {
+            //debugger;
+            var currentShow = $("[name='" + currentShowId + "']");
+            var parent = currentShow.parent().parent().parent().parent().parent();
+            var req = false;
+            var selected = false;
+            //var selectedAll = false;
+            var idselected = $(parent).attr('id');
+
+            $('input[name="' + idselected + '"]').each(function (i, item) {
+                //debugger;
+                //var checked = $(item).attr("checked", "checked");
+                var checked = $(item).is(":checked");
+                if (checked)
+                    selected = true;
+            });
+
+            if (currentShow.length > 0 && idselected!= undefined && selected === false) {
+                showError("پاسخ به این سوال اجباری است");
+                return;
+            }
+            if (parent.hasClass("SurveyAnswerMultiOption")  && parent.hasClass("required")) {
+                var selected = currentShow.length;
+                if (selected==0) {
+                     req = true;
+                }
+            }
+            if (currentShow.hasClass("required") ) {
+                var currentValue = currentShow.val();
+                if (currentShow.type == "checkbox" ) {
+                    var selected = $('input[name="' + idselected + '"]:checked').length;
+                    if (selected == 0) {
+                        req = true;
+                    }
+                }
+                if (currentValue == '') {
+                      req = true;
+                }
+
+            }
+
+
+            if (req === true) {
+                         showError("پاسخ به این سوال اجباری است");
+                         return;
+                    }
+
+            if (parent.hasClass("SurveyAnswerMultiOption")) {
+                var minCount =Number( parent[0].dataset.min);
+                var maxCount = Number(parent[0].dataset.max);
+                var idselected = parent[0].id;
+                var selected = $('input[name="' + idselected + '"]:checked').length;
+
+                if (minCount > 0 && selected <minCount) {
+                    showError("حداقل " + minCount + " گزینه را انتخاب کنید");
+                    return;
+                }
+                if (maxCount > 0 && selected > maxCount) {
+                    showError("حداکثر " + maxCount + " گزینه را انتخاب کنید");
+                    return;
+                }
+                if (selected == 0 && parent.hasClass("required")) {
+                    showError("پاسخ به این سوال اجباری است");
+                    return;
+                }
+            }
+            $('.PartialQuestions').each(function (index, value) {
+                //console.log('div' + index + ':' + $(this).attr('id'));
+                $(this).hide();
+            });
+            $('#' + id).show();
+            currentShowId = id;
+        }
+
+        ShowQuestionById('@list[0].Id');
+
+        function saveSurveyForm() {
+            var result = [];
+            $('.SurveyAnswer').each(function (index, value) {
+                if ($(this).val() != '') {
+                    var obj = { SurveyEntityId: SurveyEntityId, SurveyQuestionId: $(this).attr('id'), Result: $(this).val(), SurveyQuestionOptionId: $(this).val().length < 100 ? $(this).val() : "" }
+                    result.push(obj);
+                }
+            });
+
+            $('.SurveyAnswerOption').each(function (index, value) {
+                var id = $(this).attr('id');
+                var val = $('input[name=' + id + ']:checked', '#' + id).val();
+                //if (val != undefined && val != '') {
+                    var obj = { SurveyEntityId: SurveyEntityId, SurveyQuestionId: id, Result: val, SurveyQuestionOptionId: val }
+                    result.push(obj);
+                //}
+
+            });
+
+            $('.SurveyAnswerMultiOption').each(function (index, value) {
+                var id = $(this).attr('id');
+                var val = '';
+                $('input[name="' + id + '"]:checked').each(function () {
+                    val += this.value + ",";
+                });
+                //if (val != undefined && val != '') {
+                    var obj = { SurveyEntityId: SurveyEntityId, SurveyQuestionId: id, Result: val, SurveyQuestionOptionId: val }
+                    result.push(obj);
+                //}
+
+            });
+
+            // var fdata = new FormData();
+            //fdata.append("answers[]", JSON.stringify(result));
+            //fdata.append("answers[]",result);
+
+
+            //var formData = new FormData();
+            //formData.append('logo', logoImg);
+            //var objArr = [];
+
+            //objArr.push({"id": id, "name": userName});
+
+            ////JSON obj
+            //formData.append('objArr', JSON.stringify( objArr ))l
+
+
+            //$.ajax({
+            //    url: url,
+            //    type:"POST",
+            //    processData:false,
+            //    contentType: false,
+            //    data: formData,
+            //    complete: function(data){
+            //        alert("success");
+            //    }
+            //});
+            $('.SurveyAnswerfileChosen').each(function (index, value) {
+                var id = $(this).attr('id');
+                if (value == null || value.files == null || value.files[0] == null) {
+                } else {
+                    var obj = { SurveyEntityId: SurveyEntityId, SurveyQuestionId: id, Result: "File", SurveyQuestionOptionId: '' }
+                    fdata.append("File", value.files[0]);
+                }
+                // console.log('id' + id + ',' + 'val' + value);
+            });
+
+            //var formData = new FormData();
+
+            ////For image file
+            //formData.append('logo', logoImg);
+
+            //var objArr = [];
+
+            //objArr.push({ "id": id, "name": userName });
+
+            ////JSON obj
+            //formData.append('objArr', objArr);
+
+            //$.ajax({
+            //    type: "POST",
+            //    url: url,
+            //    data: formData,
+            //    contentType: false,
+            //    processData: false,
+            //    cache: false,
+            //    async: false,
+            //    complete: function (data) {
+            //        alert("success");
+            //    }
+            //});
+
+
+
+            //for (var i = 0; i < result.length; i++) {
+            //  fdata.append("answers[]", JSON.stringify(result[i]));
+            //console.log('id:' + result[i].SurveyQuestionId + ',' + 'Result:' + result[i].Result + ',' + 'SurveyQuestionOptionId:' + result[i].SurveyQuestionOptionId);
+            //}
+            var answers = JSON.stringify({ 'answers': result });
+            pw.openLoading();
+            function CheckItemRequir(item) {
+                //debugger;
+                return item.IsRequired == true && item.Answered == false;
+            }
+            function NotNull(item) {
+                //debugger;
+                return item.Result != undefined && item.Result!=''&& item.Result!=null;
+            }
+            $.ajax({
+                type: 'Post',
+                url: "/Home/AnswerCheckIsRequir",
+                data: answers,
+                contentType: 'application/json; charset=utf-8',
+                dataType: 'json',
+                success: function (res) {
+                    if (res != undefined && res.status == true) {
+
+                        var checkedRequirs = res.result.filter(CheckItemRequir);
+                        //debugger;
+                        if (checkedRequirs.length > 0) {
+                            var checkedRequir= checkedRequirs[0];
+                            showError(checkedRequir["Question"] +' اجباری است ! ');
+                            return false;
+                        }
+                        //debugger;
+
+                        var answered = result.filter(NotNull);
+                        //debugger;
+                        var answers = JSON.stringify({ 'answers': answered });
+                        //return false;
+                         $.ajax({
+                        type: 'post',
+                        url: "/Home/Answer",
+                        data: answers,
+                        contentType: 'application/json; charset=utf-8',
+                        dataType: 'json'
+                    }).done(function (response) {
+                        pw.closeLoading();
+                        if (response) {
+                            window.location.href = '@Model.act';
+                            SwalSuccessMessage("");
+                        } else {
+                            showError("خطایی رخ داده است !");
+                        }
+
+                    });
+                    }
+                }
+            });
+
+        }
+
+    </script>
+}

@@ -1,0 +1,31 @@
+﻿
+
+@{
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<div id="TadGoodsField">
+    @using MVC.Controls
+
+    @Html.Grid(
+    new GridControl().SetName("UserGrid").
+    SetPageSize(10).
+    SetShrinkToFit(false).
+    SetIsAutoSize(true).
+    SetIsFilterToolbar(true).
+    IsRTL().
+    SetListUrl((string)ViewBag.Url).
+        SetCaption("کاربران").
+    SetOnLoadCompleteEvent("loadUserGridCompleteEvent").
+        UseColumns(SurveyWeb.Controllers.BaseController.learnUserColumns)
+)
+    <script type="text/javascript">
+	function loadUserGridCompleteEvent() {
+		
+    }
+
+    </script>
+</div>
+
+
+

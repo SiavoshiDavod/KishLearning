@@ -1,0 +1,75 @@
+﻿@model SurveyWeb.Models.Resturant
+
+@{
+    ViewBag.Title = "کارمندان";
+    Layout = null;
+}
+<div class="row">
+    <div class="col-sm-12">
+        <div class="page-title-box">
+            <div class="page-title">
+                @*@using (Html.BeginForm("SaveResturantPersonel", "Resturant", FormMethod.Post))
+        {
+            @Html.Hidden("ResturantId", Model.Id)
+            @Html.TextBox("PersonelName","",new { placeholder="نام و نام خانوادگی "})
+            <input type="submit" value="افزودن پرسنل" class="btn btn-default" onclick="return SaveResturantPersonel()" />
+        }*@
+                <input type="submit" value="افزودن پرسنل" class="btn btn-default" onclick="return FindResturantPersonel('')" />
+            </div>
+        </div>
+    </div>
+</div>
+<div class="row">
+    <table class="table table-bordered">
+        @foreach (var item in Model.ResturantPersonel)
+        {
+        <tr>
+            <td> @item.Name</td>
+            <td> @item.LastName</td>
+            <td> @item.NationalCode</td>
+            <td>
+                @if (!string.IsNullOrEmpty(item.ImageUrl))
+                {
+                    <a href="~/images/Resturant/@item.ImageUrl" target="_blank">
+                        <img src="~/images/Resturant/@item.ImageUrl" title="دانلود" height="50" />
+                    </a>
+                }
+            </td>
+            @if (Model.Cartable.IsFirstState)
+            {
+                <td>
+                    <button class="btn btn-warning" value="ویرایش" title="ویرایش" onclick="FindResturantPersonel('@item.Id')">ویرایش</button>
+                </td>
+                <td>
+                    <button  class="btn btn-danger " value="حذف" title="حذف" onclick="RemovePersonel('@item.Id')">حذف</button>
+                </td>
+            }
+        </tr>
+        }
+
+    </table>
+
+</div>
+<script>
+    function RemovePersonel(id) {
+        var url = '/Resturant/RemoveResturantPersonel?id='+id;
+        var sf = function () { partialPageResturant(url, 'کارکنان') };
+        confirmDelete(sf);
+        }
+    function FindResturantPersonel(id) {
+        var ResturantId = '@Model.Id';
+        var url = '/Resturant/FindResturantPersonel?ResturantId=' + ResturantId + '&id=' + id;
+         pw.modal('FindResturantPersonelInModal', "ذخیره سازی پرسنل", url, null, 'modal-full', true, null, null);
+    }
+
+    function SaveResturantPersonel(id) {
+       
+           var success = function () {
+          pw.closeModal('FindResturantPersonelInModal');
+        OpenPersonel('@Model.Id');     
+            };
+                setTimeout(success, 2000);
+            pw.submitForm ('FormPersonel', success);
+            
+    }
+</script>

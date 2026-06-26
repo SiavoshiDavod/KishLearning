@@ -1,0 +1,272 @@
+﻿@using SenakLearn.Models.Common
+@using SenakLearn.Models
+@model Pagination<Book>
+@{
+    Layout = "~/Views/Shared/_Layout.cshtml";
+    var count = 0;
+    int? groupId = ViewBag.groupId;
+    int? teacherId = ViewBag.teacherId;
+    string keyword = ViewBag.keyword;
+    var onlineClass = SenakLearn.Biz.OnlineClassBiz.Instance.GetAllPage(i => i.ClassType != SenakLearn.Enums.OnlineClassType.Archived && (groupId == null || groupId == i.id_learn_cours_group) && (teacherId == null || teacherId == i.id_learn_teacher) && (string.IsNullOrEmpty(keyword) || i.name.Contains(keyword)), 0, 50);
+    var listCourse = SenakLearn.Biz.CourseBiz.Instance.GetAllPage(i => i.status && (groupId == null || groupId == i.id_group) && (teacherId == null || teacherId == i.id_teacher) && (string.IsNullOrEmpty(keyword) || i.name.Contains(keyword)), 0, 50);
+    var listPaper = SenakLearn.Biz.PaperBiz.Instance.GetAllPage(i => (groupId == null || groupId == i.GroupId) && (string.IsNullOrEmpty(keyword) || i.Keyword.Contains(keyword)), 0, 50);
+    Pagination<Book> listBook = new Pagination<Book>();
+    listBook.Data = SenakLearn.Biz.BookBiz.Instance.GetAllBooks(i => (groupId == null || groupId == i.GroupId) && (string.IsNullOrEmpty(keyword) || i.Keyword.Contains(keyword)));
+}
+<div class="row ">
+    <div class="col-md-3 col-sm-6 col-xs-12   search-button select-categories">
+
+        @Html.Cours_Group_DropDown("CoursGroupId", false, new { @class = "jquery-select" }, "یک دسته را انتخاب کنید", (int?)ViewBag.groupId, null, true)
+    </div>
+    <div class="col-md-3 col-sm-6 col-xs-12  search-button select-numofvids">
+        @Html.Teacher_DropDown("TeacherId", false, new { @class = "jquery-select" }, "یک مدرس را انتخاب کنید", (int?)ViewBag.teacherId)
+    </div>
+
+    <div class="col-sm-3 col-xs-6  search-button text-keywords float-right">
+        <input class="keywords form-control placeholder" name="keywords" id="keywords" type="text" placeholder="کلمات کلیدی" value="@ViewBag.keyword">
+    </div>
+    <div class="col-sm-3 col-xs-6 search-button text-center">
+        <button class="search-teachers button " onclick="ReloadPage()">جستجو</button>
+    </div>
+</div>
+<section class="shop grid page-section-ptb">
+    <div class="container ">
+        <div class="text-center">
+            <h3>آموزش های آنلاین</h3>
+        </div>
+        <div class="row">
+            @if (!onlineClass.Any())
+            {
+                <span> موردی یافت نشد</span>
+            }
+            else
+            {
+                foreach (var item in onlineClass)
+                {
+                    <div class="col-md-4">
+                        <div class="product text-center mb-4">
+                            <div class="product-image">
+                                <img class="img-fluid center-block" src="/images/Interview/@item.InterviewPathImage" alt="@item.name">
+                                <div class="product-overlay">
+                                    <div class="add-to-cart">
+                                        <a href="/DetailsOnlineClass/Index?type=2&id=@item.Id">نمایش دوره</a>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="product-des">
+                                @*<div class="product-title">
+                                        <a href="/DetailsCours/Index?type=1&id=@item.id">@item.name</a>
+                                    </div>*@
+                                <div class="product-title">
+                                    <a href="/DetailsOnlineClass/Index?type=2&id=@item.Id">@item.name</a>
+                                </div>
+                                <div class="product-price">
+                                    @item.Description
+                                </div>
+                                <div class="product-rating">
+                                    <span class="lessons">
+                                        <i class="fa fa-building-o"></i>
+                                        @item.SessionCount جلسه
+                                    </span>
+                                    <span class="duration">
+                                        <i class="fa fa-clock-o"></i>
+                                        @item.Time ساعت
+                                    </span>
+                                </div>
+                                @*<div class="product-price">
+                                        <del>26 ه ت</del> <ins>13 ه ت</ins>
+                                    </div>*@
+                            </div>
+                        </div>
+                    </div>
+                }
+            }
+        </div>
+    </div>
+</section>
+
+<section class="shop grid page-section-ptb">
+    <div class="container ">
+        <div class="text-center">
+            <h3>فیلمهای آموزشی</h3>
+        </div>
+        <div class="row">
+
+            @if (!listCourse.Any())
+            {
+                <span> موردی یافت نشد</span>
+            }
+            else
+            {
+                foreach (var item in listCourse)
+                {
+                    <div class="col-md-4">
+                        <div class="product text-center mb-4">
+                            <div class="product-image">
+                                <img class="img-fluid center-block" src="/images/cours/@item.image" alt="@item.name">
+                                <div class="product-overlay">
+                                    <div class="add-to-cart">
+                                        <a href="/DetailsCours/Index?type=1&id=@item.id">نمایش دوره</a>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="product-des">
+                                @*<div class="product-title">
+                                        <a href="/DetailsCours/Index?type=1&id=@item.id">@item.name</a>
+                                    </div>*@
+                                <div class="product-title">
+                                    <a href="/DetailsCours/Index?type=1&id=@item.id">@item.name</a>
+                                </div>
+                                <div class="product-price">
+                                    @item.doc
+                                </div>
+                                <div class="product-rating">
+                                    <span class="lessons">
+                                        <i class="fa fa-building-o"></i>
+                                        @item.num_present جلسه
+                                    </span>
+                                    <span class="duration">
+                                        <i class="fa fa-clock-o"></i>
+                                        @item.time ساعت
+                                    </span>
+                                </div>
+                                @*<div class="product-price">
+                                        <del>26 ه ت</del> <ins>13 ه ت</ins>
+                                    </div>*@
+                            </div>
+                        </div>
+                    </div>
+                }
+            }
+        </div>
+    </div>
+</section>
+<section class="shop grid page-section-ptb">
+    <div class="container ">
+        <div class="text-center">
+            <h3>کتاب های آموزشی</h3>
+        </div>
+        <div>
+
+            @if (!Model.DataPage.Any())
+            {
+                <span> موردی یافت نشد</span>
+            }
+            else
+            {
+                <div class="row">
+                    @foreach (var item in Model.DataPage)
+                    {
+                        <div class="col-md-4">
+                            <div class="product text-center mb-4">
+                                <div class="product-image">
+                                    <img class="img-fluid center-block" src="/images/book/@item.ScreenShotId" alt="@item.TitleF">
+                                    <div class="product-overlay">
+                                        <div class="add-to-cart">
+                                            <a href="/Books/detail?Id=@item.Id">نمایش کتاب</a>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="product-des">
+                                    <div class="product-title">
+                                        <a href="/Books/detail?Id=@item.Id">@item.TitleF</a>
+                                    </div>
+                                    <div class="product-title">
+                                        <a href="/Books/detail?Id=@item.Id">@item.Title</a>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    }
+                </div>
+                <div class="row">
+                    <nav class="center-block">
+                        <div class="navigation" style="text-align: center">
+                            <ul class="pagination">
+                                @*<li class="page-item @Model.PreviousClass"><a class="page-link" href="?page=@(@Model.Previous+@Model.Query)">&laquo;</a></li>*@
+                                @for (int _page = 1; _page <= Model.CountPage; _page++)
+                                {
+                                    if (_page == Model.CurrentPage)
+                                    {
+                                       <li class="page-item " style="font-weight: bolder;"><a class="page-link" style="background-color: lightgray" href="?page=@_page ">@_page</a></li>
+                                    }
+                                    else
+                                    {
+                                        <li class="page-item "><a class="page-link" href="?page=@_page ">@_page</a></li>
+                                    }
+                                }
+                                @*<li class="page-item @Model.NextClass"><a class="page-link" href="?page=@(@Model.Next+@Model.Query)">&raquo;</a></li>*@
+                            </ul>
+                        </div>
+                    </nav>
+                </div>
+            }
+        </div>
+    </div>
+</section>
+<section class="shop grid page-section-ptb">
+    <div id="mainPaper" class="container ">
+        <div class="text-center">
+            <h3>مقالات آموزشی</h3>
+        </div>
+        <div class="row tutorial ">
+            @if (!listPaper.Any())
+            {
+                <span> موردی یافت نشد</span>
+            }
+            else
+            {
+
+                foreach (var item in listPaper)
+                {
+                    <div class="col-xs-12 col-sm-12 col-md-6">
+                        <div class="tutorial-details">
+                            <div class="pull-right fav favorite">
+                                <i class="zmdi zmdi-star"></i>
+                            </div>
+                            <h6>@item.TitleF</h6>
+                            <p><span class="duration"><i class="zmdi zmdi-time"></i>@item.Year </span></p>
+                            <p class="abs">@item.Title</p>
+                            <a href="/paper/detail?Id=@item.Id" class="greybutton">نمایش مقاله</a>
+                        </div>
+                    </div>
+                }
+
+
+            }
+        </div>
+    </div>
+</section>
+<script>
+    function paging(currentPage, pages, divId) {
+        if (pages <= 1) {
+            return "";
+        }
+        var htm = '<div class="row text-center"><div class="col-xs-12"><div class="paginations">';
+        if (currentPage > 1) {
+            var i = currentPage - 1;
+            htm += '<a class="prev" onclick="showClasses(' + i + ')"><i class="zmdi zmdi-chevron-right"></i>قبلی</a>';
+        }
+        for (var i = 1; i < pages; i++) {
+            htm += '<a onclick="showClasses(' + i + ')">' + i + '</a>';
+        }
+        if (currentPage < pages) {
+            var i = currentPage + 1;
+            htm += '<a class="next" onclick="showClasses(' + i + ')">بعدی<i class="zmdi zmdi-chevron-left"></i></a>';
+        }
+        htm += '</div></div></div>';
+        $('#' + divId).html(htm);
+    }
+    function showClasses(page) {
+
+    }
+</script>
+<script>
+    function ReloadPage() {
+        window.location.href = "/home/ShowAllClasses?groupId=" + $('#CoursGroupId').val() + "&teacherId=" + $('#TeacherId').val() + "&keyword=" + $('#keywords').val();
+    }
+
+</script>
+
+
+

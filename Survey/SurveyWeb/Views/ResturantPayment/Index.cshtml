@@ -1,0 +1,78 @@
+﻿@{
+    Layout = "~/Views/Shared/_LayoutAdmin.cshtml";
+    var urlList = "/ResturantPayment/LoadList";
+    ViewBag.Title = "امورمالی";
+}
+
+<div class="row">
+    <div class="col-sm-12">
+        <div class="page-title-box">
+            <ol class="breadcrumb pull-right">
+                <li><a href="#">@ViewBag.Title</a></li>
+                <li class="active">Dashboard</li>
+            </ol>
+            <h4 class="page-title">
+                <a href="#" class="btn btn-default" onclick="return SetPaymentType('@SurveyWeb.Models.Resturan.PaymentTypeEnum.YearlyByDegree','حق پرداخت سالیانه بر اساس رتبه و نوع مرکزپذیرایی');">حق پرداخت سالیانه بر اساس رتبه و نوع مرکز</a>
+                <a href="#" class="btn btn-default" onclick="return SetPaymentType('@SurveyWeb.Models.Resturan.PaymentTypeEnum.YearlyByMeter','حق پرداخت سالیانه بر اساس متراژ');">حق پرداخت سالیانه بر اساس متراژ</a>
+                <a href="#" class="btn btn-default" onclick="return SetPaymentType('@SurveyWeb.Models.Resturan.PaymentTypeEnum.Karyabi','کاریابی');">پرداخت جهت کاریابی</a>
+                <a href="#" class="btn btn-default" onclick="return SetPaymentType('@SurveyWeb.Models.Resturan.PaymentTypeEnum.Tablighat','تبلیغات');">پرداخت جهت تبلیغات</a>
+            </h4>
+        </div>
+    </div>
+</div>
+<div id="TadGoodsField">
+    @using MVC.Controls
+
+    @Html.Grid(
+    new GridControl().SetName("ResturantPaymentGrid").
+    SetPageSize(10).
+    SetShrinkToFit(false).
+    SetIsAutoSize(true).
+    SetIsFilterToolbar(true).
+    IsRTL().
+    SetListUrl(urlList).
+        SetCaption("امورمالي").
+    SetOnLoadCompleteEvent("loadResturantPaymentGridCompleteEvent").
+        UseColumns(SurveyWeb.Controllers.ResturantPaymentController.ResturantPaymentColumns)
+)
+    <script >
+        function loadResturantPaymentGridCompleteEvent() {
+            var ids = $("#ResturantPaymentGrid").jqGrid('getDataIDs');
+            for (var i = 0; i < ids.length; i++) {
+                var cl = ids[i];
+                ed = '<a class="ajaxLink"  href="/ResturantPayment/Create?Id=' + cl + '" title="ویرایش"><div class="fa fa-pencil"></div></a>';
+                dl = '<a class="ajaxLink delete"href="/ResturantPayment/Remove?Id=' + cl + '" title="حذف"   ><div class="fa fa-times"></div></a>';
+                $('#ResturantPaymentGrid').jqGrid('setRowData', ids[i], { act: dl + ed });
+            }
+        }
+        function SetPaymentType(type, name) {
+            var url = "/ResturantPayment/Create?type=" + type;
+            Swal.fire({
+                title: name,
+                text: "نوع پرداخت را انتخاب کنید",
+                type: 'success',
+                showCancelButton: true,
+                confirmButtonColor: '#3085d6',
+                cancelButtonColor: '#d33',
+                confirmButtonText: 'ثبت فيش پرداختي',
+                cancelButtonText: 'درگاه پرداخت آنلاين'
+            }).then((result) => {
+                if (result.value) {
+                    window.location.href = url+"&IsOnlinePayment=false";
+                } else {
+                    url = url+"&IsOnlinePayment=false";
+                    Swal.fire(
+                        'درگاه پرداخت آنلاين!',
+                        'در دست طراحی و بزودی.',
+                        'warning'
+                    )
+                }
+            });
+            return false;
+        }
+    </script>
+</div>
+
+
+
+

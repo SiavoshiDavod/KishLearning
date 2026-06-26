@@ -1,0 +1,58 @@
+﻿@model SenakLearn.Models.FactorModel
+@{
+    Layout = "~/Views/Shared/_LayoutAdmin.cshtml";
+    var urlList = "/FactorAdmin/LoadList";
+    ViewBag.Title = "فاکتور";
+}
+<!-- Page-Title -->
+<div class="row">
+    <div class="col-sm-12">
+        <div class="page-title-box">
+            <ol class="breadcrumb pull-right">
+                <li><a href="#">@ViewBag.Title</a></li>
+                <li class="active">Dashboard</li>
+            </ol>
+            <h4 class="page-title">@Html.ActionLink("اکسل", "Excel", new { @class = "page-title" }) </h4>
+        </div>
+    </div>
+</div>
+<div id="TadGoodsField">
+    @using MVC.Controls
+
+    @Html.Grid(
+    new GridControl().SetName("FactorGrid").
+    SetPageSize(10).
+    SetShrinkToFit(false).
+    SetIsAutoSize(true).
+    SetIsFilterToolbar(true).
+    IsRTL().
+    SetListUrl(urlList).
+        SetCaption("فاکتور").
+    SetOnLoadCompleteEvent("loadFactorGridCompleteEvent").
+        UseColumns(SenakLearn.Controllers.Admin.FactorAdminController.Columns)
+)
+    <script type="text/javascript">
+        function loadFactorGridCompleteEvent() {
+            var ids = $("#FactorGrid").jqGrid('getDataIDs');
+            for (var i = 0; i < ids.length; i++) {
+                var cl = ids[i];
+                dl = '<a class="ajaxLink delete" onclick="removeFactor(' + cl + ')" title="ابطال"   ><div class="tableDeleteLink">حذف</div></a>';
+                de = '<a class="ajaxLink "href="/Factor/Details?Id=' + cl + '" title="جزئیات"   ><div class="tableDetailLink">جزئیات</div></a>';
+                $('#FactorGrid').jqGrid('setRowData', ids[i], { act:  dl + de });
+            }
+        }
+        function removeFactor(id) {
+            $.ajax({
+                url: '/FactorAdmin/Delete?Id='+id,
+                type: 'Post',
+                success: function (res) {
+                    window.open('/FactorAdmin/Index','_Self')
+                }
+            });
+        }
+    </script>
+    
+</div>
+
+
+

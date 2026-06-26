@@ -1,0 +1,79 @@
+﻿@model IEnumerable<SenakLearn.Models.Person.Person_Certificate>
+@{
+    Layout = "~/Views/Shared/_LayoutAdmin.cshtml";
+    ViewBag.Title = "مدارک صادر شده";
+
+    var CoursSum = ViewBag.CoursSumDuration as List<SenakLearn.Models.Person.VW_Person_Certificate>;
+}
+<!-- Page-Title -->
+<div class="row">
+    <div class="col-sm-12">
+        <div class="page-title-box">
+            <ol class="breadcrumb pull-right">
+                <li><a href="#">@ViewBag.Title</a></li>
+                <li class="active">Dashboard</li>
+            </ol>
+            <h4 class="page-title">@Html.ActionLink("بازگشت", "Index", "Dashboard") </h4>
+        </div>
+    </div>
+</div>
+<div class="row">
+    <div class="col-sm-12  w3-hover-text-black thead-dark" style="font-weight:bold;"><div class="col-sm-3">دوره</div><div class="col-sm-1">جمع دوره</div></div>
+
+</div>
+<div class="row">
+    @foreach (var item in CoursSum)
+    {
+        <div class="col-sm-12 w3-hover-text-black"><div class="col-sm-3">@item.CoursLeader</div><div class="col-sm-1">@item.CoursSumDuration (ساعت) </div></div>
+    }
+
+</div>
+<section class="shop grid page-section-ptb">
+    <div class="container">
+        <div class="row">
+
+            <div class="col-md-9 mt-md-0 mt-3">
+                <div class="row">
+                    @foreach (var item in Model)
+                    {
+                        <div class="col-sm-6 col-sm-4" style=" border: 1px solid gray; border-radius:5px;margin:5px;padding:5px">
+                            <div class="product text-center mb-4">
+                                <div class="product-image">
+                                    <img class="img-fluid center-block" src="~/images/Interview/02.png" width="50%" height="50%" alt="@item.Person_Course">
+                                    <div class="product-overlay">
+                                        <div class="add-to-cart">
+                                            <a target="_blank" href="/MyCertificate/LoadFile?PersonCertificateId=@item.Id">مشاهده مدرک</a>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="product-des">
+                                    <div class="product-title" style="text-align:right">
+                                        <span>دوره : @item.Person_Course</span><br /><span>مجری دوره : @item.CourseLeader</span>
+                                    </div>
+                                    <div class="product-price">
+
+                                        <div style="text-align:right">  <span>شروع دوره :</span><span>@item.FromDate</span></div>
+                                        <div style="text-align:right">  <span>پایان دوره :</span><span>@item.ToDate</span></div>
+
+
+                                        <div style="text-align:right">  <span>مدت دوره :</span><span>@item.Duration</span></div>
+                                        <div style="text-align:right">  <span>استاد دوره :</span><span>@item.Person_Teacher</span></div>
+
+                                    </div>
+                                    <div class="product-price" style="text-align:right">
+                                        <a target="_blank" href="/MyCertificate/Details?certificateId=@item.Id">نمایش جزئیات</a>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
+                    }
+
+                </div>
+            </div>
+
+        </div>
+    </div>
+</section>
+<script type="text/javascript">
+</script>

@@ -1,0 +1,63 @@
+﻿
+@{
+    ViewBag.Title = "ثبت نام مشتری";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+<div class="container">
+
+    <div class="row justify-content-center">
+        <div class="col-md-8 text-center mt-3">
+            <div class="contact-form-title text-center mb-4">
+                <h4 class="mb-1"> ثبت نام مشتری</h4>
+            </div>
+        </div>
+    </div>
+</div>
+<section class="login-form page-section-ptb">
+    <div class="container">
+        <div class="row">
+            @*<div class="col-md-3">
+                <span style="color: blue;font-weight: bold;">برای ورود نام کاربری و کلمه عبور خود را وارد کنید</span>
+                @Html.Partial("_UserLoginForm")
+
+            </div>
+            <div class="col-md-2">
+
+            </div>*@
+            <div class="col-md-7">
+                <span style="color: blue;font-weight: bold;">اگر ثبت نام نکرده اید، اول ثبت  نام کنید</span>
+                @Html.Partial("_CustomerRegisterForm")
+
+            </div>
+        </div>
+        <div class="row MyHelp">
+            همکار گرامی
+        </div>
+        <div class="row MyHelp">*
+            اگر قبلا ثبت نام کرده اید کافیست نام کاربری وکلمه عبور خود را وارد کرده و کلید ورود را کلیک کنید
+        </div>
+        <div class="row MyHelp">*
+            در صورتیکه کلمه عبور خود را فراموش کرده اید، روی لینک فراموشی کلمه عبور کلیک کنید.کلمه عبور به ایمیلتان که در هنگام ثبت نام وارد کرده اید ارسال می گردد در غیر اینصورت با پشتیبان سیستم تماس بگیرید
+        </div>
+        <div class="row MyHelp">*
+            اگر قبلا ثبت نام نکرده اید ،در قسمت ثبت نام جهت اخذ مجوزاطلاعات را با دقت پر کرده و در انتها دکمه ثبت نام را کلیک کنید
+        </div>
+        <div class="row MyHelp">*
+            نام کاربری(ایمیل) و کلمه عبور خود را به خاطر بسپارید
+        </div>
+        <div class="row MyHelp">*
+            ورود تمام اطلاعات در قسمت ثبت نام جهت اخذ مجوز اجباریست
+        </div>
+        <div class="row MyHelp">
+            پس از تایید مدیر سیستم ، نام کاربری شما فعال شده و می توانید وارد سیستم شوید 
+        </div>
+        <div class="row MyHelp text-center">
+            <p style="width:100%">
+                فیلم راهنما
+            </p>
+            <video width="100%" height="auto" controls poster="/lib/SeoHub/images/kish1400.png">
+                <source src="/Login.mp4" type="video/mp4">
+            </video>
+        </div>
+    </div>
+</section>

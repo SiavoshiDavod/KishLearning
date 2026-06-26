@@ -1,0 +1,45 @@
+﻿@model SenakLearn.Models.BaseEntity
+@{
+    Layout = null;
+}
+<div class="row">
+    <div class="col-sm-12">
+        <div class="page-title-box">
+            <ol class="breadcrumb pull-right">
+                @*<li><a href="#">جزئیات  </a></li>*@
+                <li><a href="#">@ViewBag.Title</a></li>
+                <li class="active">Dashboard</li>
+            </ol>
+            <h4 class="page-title">  @ViewBag.Title </h4>
+        </div>
+    </div>
+</div>
+
+<div>
+    <dl class="dl-horizontal">
+        @foreach (var p in Model.GetType().GetProperties().Where(p => p.IsDefined(typeof(System.ComponentModel.DataAnnotations.DisplayAttribute), false)))
+        {
+            var val = p.GetValue(Model);
+            if (val != null)
+            {
+                var name = p.GetCustomAttributes(typeof(System.ComponentModel.DataAnnotations.DisplayAttribute), false).Cast<System.ComponentModel.DataAnnotations.DisplayAttribute>().Single().Name;
+                <dt>
+                    @Html.Label(name)
+                </dt>
+
+                <dd>
+                    @if (p.PropertyType == typeof(Boolean))
+                    {
+                        @Html.CheckBox(p.Name,(bool)val)
+                    }
+                    else
+                    {
+                        @Html.Label(val.ToString())
+                    }
+                    
+                </dd>
+            }
+        }
+
+    </dl>
+</div>

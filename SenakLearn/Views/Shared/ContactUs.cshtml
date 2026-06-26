@@ -1,0 +1,74 @@
+﻿@model SenakLearn.Models.UserCommnet
+@{
+    string header = "";
+    if (Model == null || Model.PageTypeId == SenakLearn.Models.PageType.None)
+    {
+        Layout = "~/Views/Shared/_Layout.cshtml";
+        header = "<div class='page-heading text-center'><div class='container'> <h2>ثبت نظرات</h2></div></div>";
+    }
+
+}
+
+@Html.Raw(header)
+    @*<h4>با ما در تماس باشید</h4>*@
+    <section class="page-section-pb">
+        <div class="container">
+            <div class="row">
+
+                <div class="col-md-12">
+                    @*@{
+                        var m = (string)ViewBag.Message;
+                        if (!string.IsNullOrEmpty(m))
+                        {
+                            <div id="formmessage">@m</div>
+                        }
+                    }*@
+
+                    <form class="gray-form row" role="form" method="post" action="/usercomment/Create">
+                        @Html.ValidationSummary(true, "", new { @class = "text-danger" })
+                        @Html.HiddenFor(x => x.PageTypeId)
+                        @Html.HiddenFor(x => x.TypeId)
+                        <div class="col-md-6">
+                            <div class="form-group">
+                                @Html.EditorFor(model => model.Title, new { htmlAttributes = new { @class = "form-control", @placeholder = "عنوان" } })
+                                @Html.ValidationMessageFor(model => model.Title, "", new { @class = "text-danger" })
+                            </div>
+                        </div>
+                        <div class="col-md-6">
+                            <div class="form-group">
+                                @Html.EditorFor(model => model.Name, new { htmlAttributes = new { @class = "form-control", @placeholder = "نام شما" } })
+                                @Html.ValidationMessageFor(model => model.Name, "", new { @class = "text-danger" })
+                            </div>
+                        </div>
+                        <div class="col-md-6">
+                            <div class="form-group">
+                                @Html.EditorFor(model => model.Email, new { htmlAttributes = new { @class = "form-control", @placeholder = "آدرس ایمیل" } })
+                                @Html.ValidationMessageFor(model => model.Email, "", new { @class = "text-danger" })
+                            </div>
+                        </div>
+                        <div class="col-md-6">
+                            <div class="form-group">
+                                @Html.EditorFor(model => model.Mobile, new { htmlAttributes = new { @class = "form-control", @placeholder = "شماره تماس" } })
+                                @Html.ValidationMessageFor(model => model.Mobile, "", new { @class = "text-danger" })
+                            </div>
+                        </div>
+                        <div class="col-md-12">
+                            <div class="form-group">
+                                @Html.EditorFor(model => model.Description, new { htmlAttributes = new { @class = "form-control height300", @placeholder = "پیام" } })
+                                @Html.ValidationMessageFor(model => model.Description, "", new { @class = "text-danger" })
+                            </div>
+                        </div>
+                        <div class="col-md-12">
+                            <input id="submit" type="submit" value="ثبت نظر" class="button" />
+                        </div>
+                    </form>
+                    <div id="ajaxloader" style="display:none"><img class="center-block" src="images/form-loader.gif" alt=""></div>
+                </div>
+            </div>
+        </div>
+    </section>
+  
+@*<script>
+    $(".k-textbox").removeClass("k-textbox");
+</script>*@
+

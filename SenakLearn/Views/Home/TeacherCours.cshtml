@@ -1,0 +1,147 @@
+﻿@model SenakLearn.Models.learn_teacher
+@{
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+@*<body id="teacher-single" class="page">*@
+<div id="teacher-single" class=" page">
+    <div class="container teacher-page">
+        <div class="row">
+            <div class="col-sm-3 text-center float-right">
+                <img style=" max-width: 100%; height: auto;" src="/images/teacher/@Model.image" alt="Avatar" class="teacher-avatar">
+                @*<ul class="social">
+                    <li><a href="#"><i class="zmdi zmdi-facebook"></i></a></li>
+                    <li> <a href="#"><i class="zmdi zmdi-twitter"></i></a></li>
+                    <li> <a href="#"><i class="zmdi zmdi-google-old"></i></a></li>
+                    <li> <a href="#"><i class="zmdi zmdi-pinterest"></i></a></li>
+                    <li> <a href="#"><i class="zmdi zmdi-instagram"></i></a></li>
+                    <li> <a href="#"><i class="zmdi zmdi-email"></i></a></li>
+                    <li> <a href="#"><i class="zmdi zmdi-globe-alt"></i></a></li>
+                </ul>*@
+            </div>
+            <div class="col-sm-9">
+                <h5>@Model.FullName</h5>
+                <p>@Model.education</p>
+                <p class="class-details"> <span class="lessons"><i class="zmdi zmdi-assignment"></i>8 دوره</span> <span class="views"><i class="zmdi zmdi-eye"></i>2241 نمایش</span> <span class="rating"><i class="zmdi zmdi-star"></i>میانگین امتیاز : 4,8</span> </p>
+                @*<p class="abs"> لورم ایپسوم متن ساختگی با تولید سادگی نامفهوم از صنعت چاپ و با استفاده از طراحان گرافیک است. چاپگرها و متون بلکه روزنامه و مجله در ستون و سطرآنچنان که لازم است و برای شرایط فعلی تکنولوژی مورد نیاز و کاربردهای متنوع با هدف بهبود ابزارهای کاربردی می باشد. کتابهای زیادی در شصت و سه درصد گذشته، حال و آینده شناخت فراوان جامعه و متخصصان را می طلبد تا با نرم افزارها شناخت بیشتری را برای طراحان رایانه ای علی الخصوص طراحان خلاقی و فرهنگ پیشرو در زبان فارسی ایجاد کرد. در این صورت می توان امید داشت که تمام و دشواری موجود در ارائه راهکارها و شرایط سخت تایپ به پایان رسد وزمان مورد نیاز شامل حروفچینی دستاوردهای اصلی و جوابگوی سوالات پیوسته اهل دنیای موجود طراحی اساسا مورد استفاده قرار گیرد. </p>*@
+                <p class="abs">@Html.Raw(Model.Resume)</p>
+            </div>
+        </div>
+    </div>
+    <div class="container popular">
+        <h4>دوره های @Model.FullName</h4>
+        <div class="row tutorials">
+            @foreach (var item in Model.learn_cours)
+            {
+                <div class="col-md-4">
+                    <div class="product text-center mb-4">
+                        <div class="product-image">
+                            <img class="img-fluid center-block" src="/images/cours/@item.image" alt="@item.name">
+                            <div class="product-overlay">
+                                <div class="add-to-cart">
+                                    <a href="/DetailsCours/Index?type=1&id=@item.id">نمایش دوره</a>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="product-des">
+                            @*<div class="product-title">
+                                    <a href="/DetailsCours/Index?type=1&id=@item.id">@item.name</a>
+                                </div>*@
+                            <div class="product-title">
+                                <a href="/DetailsCours/Index?type=1&id=@item.id">@item.name</a>
+                            </div>
+                            <div class="product-price">
+                                @item.doc
+                            </div>
+                            <div class="product-rating">
+                                <span class="lessons">
+                                    <i class="fa fa-building-o"></i>
+                                    @item.num_present جلسه
+                                </span>
+                                <span class="duration">
+                                    <i class="fa fa-clock-o"></i>
+                                    @item.time ساعت
+                                </span>
+                            </div>
+                            @*<div class="product-price">
+                                    <del>26 ه ت</del> <ins>13 ه ت</ins>
+                                </div>*@
+                        </div>
+                    </div>
+                </div>
+            }
+        </div>
+            @*<div class="tutorial">
+                    <img src="assets/img/popular/4.jpg" class="resp-img" alt="Tutorial">
+                    <div class="tutorial-details">
+                        <h6>چگونه یک طراح UX شویم</h6>
+                        <p><span class="lessons"><i class="zmdi zmdi-assignment"></i>12 درس</span><span class="duration"><i class="zmdi zmdi-time"></i>3:15 ساعت</span></p>
+                        <p class="abs">لورم ایپسوم متن ساختگی با تولید سادگی نامفهوم از صنعت چاپ و با استفاده از طراحان گرافیک است. چاپگرها و متون بلکه روزنامه و مجله در ستون و سطرآنچنان که.</p>
+                        <a href="#" class="greybutton">نمایش دوره</a>
+                    </div>
+                </div>
+                <div class="tutorial">
+                    <img src="assets/img/popular/5.jpg" class="resp-img" alt="Tutorial">
+                    <div class="tutorial-details">
+                        <h6>8 گام به راه اندازی استارت اپ خودتان</h6>
+                        <p><span class="lessons"><i class="zmdi zmdi-assignment"></i>4 درس</span><span class="duration"><i class="zmdi zmdi-time"></i>8:25 ساعت</span></p>
+                        <p class="abs">لورم ایپسوم متن ساختگی با تولید سادگی نامفهوم از صنعت چاپ و با استفاده از طراحان گرافیک است. چاپگرها و متون بلکه روزنامه و مجله در ستون و سطرآنچنان که.</p>
+                        <a href="#" class="greybutton">نمایش دوره</a>
+                    </div>
+                </div>
+                <div class="tutorial">
+                    <img src="assets/img/popular/6.jpg" class="resp-img" alt="Tutorial">
+                    <div class="tutorial-details">
+                        <h6>ارتباطات تجاری برای بازاریابان</h6>
+                        <p><span class="lessons"><i class="zmdi zmdi-assignment"></i>15 درس</span><span class="duration"><i class="zmdi zmdi-time"></i>4:07 ساعت</span></p>
+                        <p class="abs">لورم ایپسوم متن ساختگی با تولید سادگی نامفهوم از صنعت چاپ و با استفاده از طراحان گرافیک است. چاپگرها و متون بلکه روزنامه و مجله در ستون و سطرآنچنان که.</p>
+                        <a href="#" class="greybutton">نمایش دوره</a>
+                    </div>
+                </div>
+                <div class="tutorial">
+                    <img src="assets/img/popular/9.jpg" class="resp-img" alt="Tutorial">
+                    <div class="tutorial-details">
+                        <h6>8 گام به راه اندازی استارت اپ خودتان</h6>
+                        <p><span class="lessons"><i class="zmdi zmdi-assignment"></i>4 درس</span><span class="duration"><i class="zmdi zmdi-time"></i>8:25 ساعت</span></p>
+                        <p class="abs">لورم ایپسوم متن ساختگی با تولید سادگی نامفهوم از صنعت چاپ و با استفاده از طراحان گرافیک است. چاپگرها و متون بلکه روزنامه و مجله در ستون و سطرآنچنان که.</p>
+                        <a href="#" class="greybutton">نمایش دوره</a>
+                    </div>
+                </div>*@
+        </div>
+    </div>
+    @*@model IEnumerable<SenakLearn.Models.learn_cours>
+
+        <table class="table">
+            <tr>
+                <th>
+                    @Html.DisplayNameFor(model => model.learn_cours_group.name)
+                </th>
+                <th>
+                    @Html.DisplayNameFor(model => model.name)
+                </th>
+                <th>
+                    @Html.DisplayNameFor(model => model.doc)
+                </th>
+                <th>
+                    @Html.DisplayNameFor(model => model.image)
+                </th>
+            </tr>
+
+        @foreach (var item in Model) {
+            <tr>
+                <td>
+                    @Html.DisplayFor(modelItem => item.learn_cours_group.name)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.name)
+                </td>
+                <td>
+                    @Html.Raw(item.doc)
+                </td>
+                <td>
+                    <img src="/images/cours/@item.image" alt="@item.name" class="thumbnail" width="80" height="80"/>
+                </td>
+
+            </tr>
+        }
+
+        </table>*@

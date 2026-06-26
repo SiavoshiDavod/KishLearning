@@ -1,0 +1,143 @@
+﻿@model SenakLearn.Models.OnlineClass
+
+@{
+    Layout = "~/Views/Shared/_LayoutAdmin.cshtml";
+}
+
+<h2>جزئیات</h2>
+
+<div>
+    <h4>OnlineClass</h4>
+    <hr />
+    <dl class="dl-horizontal">
+        <dt>
+            @Html.DisplayNameFor(model => model.name)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.name)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.learn_cours_group.name)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.id_learn_cours_group)
+        </dd>
+
+        @*<dt>
+            @Html.DisplayNameFor(model => model.id_user_register)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.id_user_register)
+        </dd>*@
+
+        <dt>
+            @Html.DisplayNameFor(model => model.id_learn_teacher)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.learn_teacher.FullName)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.Amount)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.Amount)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.Duration)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.Duration)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.Time)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.Time)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.Days)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.Days)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.CreatedDate)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.CreatedDateShamsi)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.UpdateDate)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.UpdateDateShamsi)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.Capacity)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.Capacity)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.IsFavorite)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.IsFavorite)
+        </dd>
+
+        @*<dt>
+            @Html.DisplayNameFor(model => model.InterviewPathVideo)
+        </dt>
+
+        <dd>
+            
+            @Html.DisplayFor(model => model.InterviewPathVideo)
+        </dd>*@
+
+        <dt>
+@if (Model.InterviewPathImage != null)
+            {
+                 <img src="/images/Interview/@Model.InterviewPathImage" alt=@Model.name class="thumbnail" />
+            }
+            @*@Html.DisplayNameFor(model => model.InterviewPathImage)*@
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.InterviewPathImage)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.ClassType)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.ClassTypeString)
+        </dd>
+
+    </dl>
+</div>
+<p>
+    @Html.ActionLink("ویرایش", "Edit", new { id = Model.Id }) |
+   @Html.ActionLink("بازگشت به لیست", "Index")
+</p>

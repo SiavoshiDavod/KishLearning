@@ -1,0 +1,286 @@
+﻿@model SenakLearn.Models.AzmoonEntity
+
+@{
+    Layout = "~/Views/Shared/_LayoutAdmin.cshtml";
+    if (string.IsNullOrEmpty(Model.act))
+    {
+        Model.act = "/";
+    }
+    int timeDurationMili = Model.TimeDuration * 60000;
+}
+
+
+<h2 class="text-center">  آزمون @Model.Name</h2>
+
+@{
+    var list = Model.AzmoonQuestions.OrderBy(x => x.AzmoonOrder).ThenBy(x => x.AzmoonGroupQuestionId).ToList();
+    for (int i = 0; i < list.Count; i++)
+    {
+        SenakLearn.Models.AzmoonQuestion item = list[i];
+        item.AzmoonOrder = i + 1;
+        var pageFooter = "سوال " + item.AzmoonOrder + " از " + list.Count;
+        int prev = 0;
+        int next = 0;
+        if (i != 0)
+        {
+            prev = list[i - 1].Id;
+        }
+        if ((i + 1) != list.Count)
+        {
+            next = list[i + 1].Id;
+        }
+        if (Model.IsShowInSinglePage)
+        {
+            <div id="@item.Id" class="table table-bordered">
+                @Html.Partial("_a" + item.QuestionType.ToString(), item)
+            </div>
+        }
+        else
+        {
+            <div id="@item.Id" class="PartialQuestions">
+                @Html.Partial("_a" + item.QuestionType.ToString(), item, new ViewDataDictionary() { { "Next", next }, { "Prev", prev } })
+                <div class="text-center">
+                    @pageFooter
+                </div>
+            </div>
+        }
+
+    }
+    if (Model.IsShowInSinglePage)
+    {
+        <div class="text-center">
+            <input type="button" title="ثبت" value="ثبت" class="btn btn-success" onclick="return saveAzmoonForm()" />
+        </div>
+    }
+
+<script>
+    document.addEventListener('contextmenu', event => event.preventDefault());
+
+    document.onkeydown = function (e) {
+        if (e.which == 17)
+            isCtrl = true;
+        if (((e.which == 85) || (e.which == 117) || (e.which == 65) || (e.which == 97) || (e.which == 67) || (e.which == 99)) && isCtrl == true) {
+            // alert(‘Keyboard shortcuts are cool!’);
+            return false;
+        }
+    }
+        var currentShowId = 0;
+        var AzmoonEntityId = '@Model.Id';
+        function ShowQuestionById(id) {
+            var currentShow = $("[name='" + currentShowId + "']");
+            var parent = currentShow.parent().parent().parent().parent().parent();
+            var req = false;
+            if (parent.hasClass("AzmoonAnswerMultiOption")  && parent.hasClass("required")) {
+                var selected = currentShow.length;
+                if (selected==0) {
+                     req = true;
+                }
+            }
+            if (currentShow.hasClass("required") ) {
+                var currentValue = currentShow.val();
+                if (currentShow.type == "checkbox" ) {
+                    var selected = $('input[name="' + idselected + '"]:checked').length;
+                    if (selected == 0) {
+                        req = true;
+                    }
+                }
+                if (currentValue == '') {
+                      req = true;
+                }
+
+            }
+            if (req == true) {
+                         showError("پاسخ به این سوال اجباری است");
+                         return;
+                    }
+
+            if (parent.hasClass("AzmoonAnswerMultiOption")) {
+                var minCount =Number( parent[0].dataset.min);
+                var maxCount = Number(parent[0].dataset.max);
+                var idselected = parent[0].id;
+                var selected = $('input[name="' + idselected + '"]:checked').length;
+
+                if (minCount > 0 && selected <minCount) {
+                    showError("حداقل " + minCount + " گزینه را انتخاب کنید");
+                    return;
+                }
+                if (maxCount > 0 && selected > maxCount) {
+                    showError("حداکثر " + maxCount + " گزینه را انتخاب کنید");
+                    return;
+                }
+                if (selected == 0 && parent.hasClass("required")) {
+                    showError("پاسخ به این سوال اجباری است");
+                    return;
+                }
+            }
+            $('.PartialQuestions').each(function (index, value) {
+                //console.log('div' + index + ':' + $(this).attr('id'));
+                $(this).hide();
+            });
+            $('#' + id).show();
+            currentShowId = id;
+        }
+
+        ShowQuestionById('@list[0].Id');
+
+        function saveAzmoonForm() {
+            var result = [];
+            $('.AzmoonAnswer').each(function (index, value) {
+                if ($(this).val() != '') {
+                    var obj = { AzmoonEntityId: AzmoonEntityId, AzmoonQuestionId: $(this).attr('id'), Result: $(this).val(), AzmoonQuestionOptionId: "" }
+                    result.push(obj);
+                }
+            });
+
+            $('.AzmoonAnswerOption').each(function (index, value) {
+                var id = $(this).attr('id');
+                var val = $('input[name=' + id + ']:checked', '#' + id).val();
+                if (val != undefined && val != '') {
+                    var obj = { AzmoonEntityId: AzmoonEntityId, AzmoonQuestionId: id, Result: val, AzmoonQuestionOptionId: val }
+                    result.push(obj);
+                }
+
+            });
+
+            $('.AzmoonAnswerMultiOption').each(function (index, value) {
+                var id = $(this).attr('id');
+                var val = '';
+                $('input[name="' + id + '"]:checked').each(function () {
+                    val += this.value + ",";
+                });
+                if (val != undefined && val != '') {
+                    var obj = { AzmoonEntityId: AzmoonEntityId, AzmoonQuestionId: id, Result: val, AzmoonQuestionOptionId: val }
+                    result.push(obj);
+                }
+
+            });
+
+            // var fdata = new FormData();
+            //fdata.append("answers[]", JSON.stringify(result));
+            //fdata.append("answers[]",result);
+
+
+            //var formData = new FormData();
+            //formData.append('logo', logoImg);
+            //var objArr = [];
+
+            //objArr.push({"id": id, "name": userName});
+
+            ////JSON obj
+            //formData.append('objArr', JSON.stringify( objArr ))l
+
+
+            //$.ajax({
+            //    url: url,
+            //    type:"POST",
+            //    processData:false,
+            //    contentType: false,
+            //    data: formData,
+            //    complete: function(data){
+            //        alert("success");
+            //    }
+            //});
+            $('.AzmoonAnswerfileChosen').each(function (index, value) {
+                var id = $(this).attr('id');
+                if (value == null || value.files == null || value.files[0] == null) {
+                } else {
+                    var obj = { AzmoonEntityId: AzmoonEntityId, AzmoonQuestionId: id, Result: "File", AzmoonQuestionOptionId: '' }
+                    fdata.append("File", value.files[0]);
+                }
+                // console.log('id' + id + ',' + 'val' + value);
+            });
+
+            //var formData = new FormData();
+
+            ////For image file
+            //formData.append('logo', logoImg);
+
+            //var objArr = [];
+
+            //objArr.push({ "id": id, "name": userName });
+
+            ////JSON obj
+            //formData.append('objArr', objArr);
+
+            //$.ajax({
+            //    type: "POST",
+            //    url: url,
+            //    data: formData,
+            //    contentType: false,
+            //    processData: false,
+            //    cache: false,
+            //    async: false,
+            //    complete: function (data) {
+            //        alert("success");
+            //    }
+            //});
+
+
+
+            //for (var i = 0; i < result.length; i++) {
+            //  fdata.append("answers[]", JSON.stringify(result[i]));
+            //console.log('id:' + result[i].AzmoonQuestionId + ',' + 'Result:' + result[i].Result + ',' + 'AzmoonQuestionOptionId:' + result[i].AzmoonQuestionOptionId);
+            //}
+            var answers = JSON.stringify({ 'answers': result });
+            pw.openLoading();
+            //debugger;
+            $.ajax({
+                type: 'post',
+                url: "/Home/AzmoonAnswer",
+                // data: fdata,
+                //processData: false,
+                //contentType: false
+                data: answers,
+                contentType: 'application/json; charset=utf-8',
+                dataType: 'json'
+            }).done(function (response) {
+                debugger;
+                pw.closeLoading();
+                if (response.success) {
+                    var successFunction = function () {
+                          window.location.href = '@Model.act';
+                    }
+                    SwalSuccessMessage(response.Message,successFunction);
+                } else {
+                    showError(response.ErrorMessage);
+                }
+
+            });
+        }
+        function confirmTimeDurationMili(timeDurationMili) {
+        Swal.fire({
+            title: 'مدت زمان آزمون',
+            text: "مدت این آزمون "+"@Model.TimeDuration"+" دقیقه می باشد و پس از کلیک روی دکمه شروع ، آزمون به صورت خودکار پس از گذشت این زمان به پایان می رسد!",
+            type: 'warning',
+            showCancelButton: false,
+            confirmButtonColor: '#3085d6',
+            confirmButtonText: 'شروع آزمون!',
+        }).then((result) => {
+            if (result.value) {
+                window.setTimeout(function () { saveAzmoonForm(); }, timeDurationMili);
+                var msg = "آزمون پس از " + "@Model.TimeDuration" + ". دقیقه به صورت خودکار به پایان می رسد! ";
+                debugger;
+                if ('@Model.UserIdCurrent' == '0')
+                    msg += "در صورت عدم ورود امکان صدور کارنامه بعد از آزمون وجود ندارد ! <a href='/users/login'>ورود</a>";
+                Swal.fire(
+                    'مدت آزمون!',
+                    msg,
+                    'success'
+                )
+            }
+        });
+        return false;
+    }
+        $(document).ready(function () {
+            var timeDurationMili= Number('@timeDurationMili')
+  $("img").addClass("img-responsive");
+  $("textarea").addClass("form-control");
+            $("textbox").addClass("form-control");
+            if (timeDurationMili > 0) {
+                confirmTimeDurationMili(timeDurationMili);
+            }
+
+        });
+
+</script>
+}

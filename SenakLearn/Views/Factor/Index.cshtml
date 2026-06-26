@@ -1,0 +1,185 @@
+﻿@model SenakLearn.Models.FactorModel
+@{
+    Layout = "~/Views/Shared/_Layout.cshtml";
+    string success = TempData["SuccessMessage"]?.ToString();
+}
+<style>
+    h5 {
+        text-align: center;
+    }
+
+    h7 {
+        text-align: center !important;
+    }
+
+    .headerFactor {
+        padding: 20px;
+    }
+
+    .bodyFactor {
+        padding: 15px;
+    }
+
+    div.lbl {
+        color: grey;
+    }
+
+    .mg-t10 {
+        margin-top: 10px;
+    }
+
+    textarea {
+        border: 0;
+        min-width: 200px;
+    }
+</style>
+@Html.HiddenFor(a => a.Id)
+@Html.HiddenFor(a => a.CreateDate)
+@Html.HiddenFor(a => a.ServiceName)
+@Html.HiddenFor(a => a.FactorNo)
+@Html.HiddenFor(a => a.UserId)
+@Html.HiddenFor(a => a.Email)
+@Html.HiddenFor(a => a.StatusId)
+@Html.HiddenFor(a => a.Amount)
+@Html.HiddenFor(a => a.AmountMaster)
+@Html.HiddenFor(a => a.IdForSale)
+<div style="padding:20px;">
+    <div class="container">
+        <div class="border headerFactor">
+            <div class="row">
+                <div class="col-12 center-block">
+                    @if (Model.StatusId == SenakLearn.Models.FactorStatusEnum.Factor_Status_Success)
+                    {<h5 class=""> فاکتور فروش </h5>}
+                    else
+                    { <h5 class=""> پیش فاکتور </h5>}
+
+                </div>
+            </div>
+            <div class="row">
+                <div class="col-12 center-block" style="text-align:center">
+                    <h7> @Model.ServiceName @Model.Descript </h7>
+                </div>
+            </div>
+        </div>
+        <div class="bodyFactor  border">
+            <div class="row border-bottom">
+                <div class="col-3 lbl">تاریخ فاکتور:</div>
+                <div class="col-3" id="creatDatePer">@Model.CreatedDateShamsi</div>
+                <div class="col-3 lbl">شماره فاکتور:</div>
+                <div class="col-3" id="factorNo">@Model.FactorNo</div>
+            </div>
+            <div class="row border-bottom mg-t10">
+                <div class="col-3 lbl">کاربر:</div>
+                <div class="col-3" id="userName">@Model.UserName</div>
+                <div class="col-3 lbl">همراه :</div>
+                <div class="col-3">
+                    @if (string.IsNullOrEmpty(Model.Mobile))
+                    {
+                        @Html.TextBoxFor(a => a.Mobile)
+                    }
+                    else
+                    {
+                        <span id="Mobile">@Model.Mobile</span>
+                    }
+
+                </div>
+            </div>
+            <div class="row border-bottom mg-t10">
+                <div class="col-3 lbl">ایمیل:</div>
+                <div class="col-3">@Model.Email</div>
+                <div class="col-3 lbl">وضعیت :</div>
+                <div class="col-3">@Model.StatusName</div>
+            </div>
+            <div class="row border-bottom mg-t10">
+                <div class="col-3 lbl">مبلغ:</div>
+                <div class="col-3">@Model.Amount.ToString("N0") ریال </div>
+                <div class="col-3 lbl">مبلغ اصلی :</div>
+                <div class="col-3">@(Model?.AmountMaster?.ToString("N0")) ریال</div>
+            </div>
+            <div class="row border-bottom mg-t10">
+                <div class="col-3 lbl">توضیحات:</div>
+                <div class="col-9">
+                    @Html.TextAreaFor(a => a.Descript)
+                </div>
+            </div>
+            @if (Model.StatusId == SenakLearn.Models.FactorStatusEnum.Factor_Status_Success)
+            {
+                <div class="row border-bottom mg-t10">
+                    <div class="col-3 lbl">تراکنش بانکی:</div>
+                    <div class="col-3">@Model.PaymentTransaction</div>
+                    <div class="col-3 lbl">کد پیگیری :</div>
+                    <div class="col-3">@Model.PaymentTrace</div>
+                </div>
+            }
+            <div class="row mg-t10 " style="display:block">
+                @if (Model.StatusId == SenakLearn.Models.FactorStatusEnum.Factor_Status_Create ||
+                    Model.StatusId == SenakLearn.Models.FactorStatusEnum.Factor_Status_Sended ||
+                    Model.StatusId == SenakLearn.Models.FactorStatusEnum.Factor_Status_NoPayment)
+                {
+                    <button class="btn btn-small btn-success center-block" onclick="onPaymentFactor()">پرداخت</button>
+                }
+                else if (Model.StatusId == SenakLearn.Models.FactorStatusEnum.Factor_Status_Success)
+                {
+                    <button class="btn btn-small btn-primary center-block" onclick="onPrintFactor()">چاپ</button>
+                }
+            </div>
+        </div>
+
+    </div>
+</div>
+
+
+@section scripts
+{
+
+    <script>
+        function getparameters() {
+            var params = {};
+            params.Id = $('#Id').val();
+            params.CreateDate = $('#CreateDate').val();
+            params.ServiceName = $('#ServiceName').val();
+            params.FactorNo = $('#FactorNo').val();
+            params.Mobile = ($('#Mobile').val() != undefined && $('#Mobile').val() != '') ? $('#Mobile').val() : $('#Mobile').text();
+            params.Email = $('#Email').val();
+            params.StatusId = $('#StatusId').val();
+            params.Amount = $('#Amount').val();
+            params.AmountMaster = $('#AmountMaster').val();
+            params.Discount = $('#Discount').val();
+            params.Descript = $('#Descript').val();
+            params.IdForSale = $('#IdForSale').val();
+            return params;
+        };
+        function onPaymentFactor() {
+            var url = '@Url.Action("PaymentFactor", "Factor")';
+            var _data = getparameters();
+            //debugger;
+            $.ajax({
+                url: url,
+                type: 'Post',
+                data: _data,
+                success: function (res) {
+                    debugger;
+                    if (res.factorId != undefined && res.factorId != 0) {
+                        if (res.result.BankUrl != undefined && res.result.BankUrl != '' && res.result.ZarinpalStatus == 100) {
+                            window.open(res.result.BankUrl, '_self');
+                        }
+                        else {
+                            SwalErrorMessage(res.result.Message);
+                        }
+                    }
+                    else {
+                        SwalErrorMessage(res.result.Message);
+                    }
+                },
+                error: function (err, x, xhr) {
+                    //debugger;
+                    SwalErrorMessage(err.responseText);
+                }
+            });
+        };
+        function onPrintFactor() {
+            window.print();
+        }
+
+    </script>
+}

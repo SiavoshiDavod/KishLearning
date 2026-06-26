@@ -1,0 +1,137 @@
+﻿@model IEnumerable<AdobeConnectSDK.Model.MeetingItemViewModel>
+@{
+    ViewBag.Title = "MeetingItem";
+    Layout = "~/Views/Shared/_LayoutAdmin.cshtml";
+}
+@if (Model != null)
+{
+    <table class="table table-bordered table-responsive">
+        <tr>
+            <th>
+                @Html.DisplayNameFor(model => model.ScoIdVm)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.FullUrlVm)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.IconVm)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.MeetingNameVm)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.MeetingDescriptionVm)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.FolderIdVm)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.ActiveParticipantsVm)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.PermissionIdVm)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.PermissionIdRawVm)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.ItemTypeVm)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.ItemTypeRawVm)
+            </th>
+            
+            <th>
+                @Html.DisplayNameFor(model => model.LanguageVm)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.ScoTagVm)
+            </th>
+            
+            <th>
+                @Html.DisplayNameFor(model => model.IsFolderVm)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.DomainNameVm)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.UrlPathVm)
+            </th>
+            
+            <th>
+                @Html.DisplayNameFor(model => model.ExpiredVm)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.DurationVm)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.ByteCountVm)
+            </th>
+        </tr>
+        @foreach (var item in Model)
+        {
+            <tr>
+                <th>
+                    @Html.DisplayFor(modelItem => item.ScoIdVm)
+                </th>
+                <th>
+                    @Html.DisplayFor(model => item.FullUrlVm)
+                </th>
+                <th>
+                    @Html.DisplayFor(model => item.IconVm)
+                </th>
+                <th>
+                    @Html.DisplayFor(model => item.MeetingNameVm)
+                </th>
+                <th>
+                    @Html.DisplayFor(model => item.MeetingDescriptionVm)
+                </th>
+                <th>
+                    @Html.DisplayFor(modelItem => item.FolderIdVm)
+                </th>
+                <th>
+                    @Html.DisplayFor(modelItem => item.ActiveParticipantsVm)
+                </th>
+                <th>
+                    @Html.DisplayFor(modelItem => item.PermissionIdVm)
+                </th>
+                <th>
+                    @Html.DisplayFor(modelItem => item.PermissionIdRawVm)
+                </th>
+                <th>
+                    @Html.DisplayFor(model => item.ItemTypeVm)
+                </th>
+                <th>
+                    @Html.DisplayFor(model => item.ItemTypeRawVm)
+                </th>
+              
+                <th>
+                    @Html.DisplayFor(model => item.LanguageVm)
+                </th>
+                <th>
+                    @Html.DisplayFor(model => item.ScoTagVm)
+                </th>
+                
+                <th>
+                    @Html.DisplayFor(model => item.IsFolderVm)
+                </th>
+                <th>
+                    @Html.DisplayFor(model => item.DomainNameVm)
+                </th>
+                <th>
+                    @Html.DisplayFor(model => item.UrlPathVm)
+                </th>
+               
+                <th>
+                    @Html.DisplayFor(model => item.ExpiredVm)
+                </th>
+                <th>
+                    @Html.DisplayFor(model => item.DurationVm)
+                </th>
+                <th>
+                    @Html.DisplayFor(model => item.ByteCountVm)
+                </th>
+            </tr>
+        }
+    </table>
+}

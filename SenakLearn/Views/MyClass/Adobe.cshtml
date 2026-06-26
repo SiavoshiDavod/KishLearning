@@ -1,0 +1,51 @@
+﻿
+@model IEnumerable<AdobeConnectSDK.Model.MeetingItemViewModel>
+@{
+    ViewBag.Title = "MeetingItem";
+    Layout = "~/Views/Shared/_LayoutAdmin.cshtml";
+}
+@if (Model != null)
+{
+    <table class="table table-bordered table-responsive">
+        <tr>
+
+            <th>
+                @Html.Label("آدرس")
+            </th>
+            <th>
+                @Html.Label("نام کلاس")
+            </th>
+            <th>
+                @Html.Label("توضیحات")
+            </th>
+            <th>
+                @Html.Label("فعال/غیرفعال")
+            </th>
+        </tr>
+        @foreach (var item in Model)
+        {
+            <tr>
+                <th>
+                    <a href="@item.FullUrlVm" title="@item.FullUrlVm" name="@item.FullUrlVm" target="_blank">@item.FullUrlVm</a>
+                </th>
+                <th>
+                    @Html.DisplayFor(model => item.MeetingNameVm)
+                </th>
+                <th>
+                    @Html.DisplayFor(model => item.MeetingDescriptionVm)
+                </th>
+                <th>
+                    @if (item.ExpiredVm)
+                    {
+                        <span>منقضی شده</span>
+                    }
+                    else
+                    {
+                        <span>فعال</span>
+                    }
+
+                </th>
+            </tr>
+        }
+    </table>
+}

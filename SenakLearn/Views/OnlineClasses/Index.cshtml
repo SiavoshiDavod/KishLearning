@@ -1,0 +1,54 @@
+﻿@model IEnumerable<SenakLearn.Models.OnlineClass>
+
+@{
+    Layout = "~/Views/Shared/_LayoutAdmin.cshtml";
+    var urlList = "/OnlineClasses/LoadList";
+    ViewBag.Title = "کلاس های انلاین";
+}
+<!-- Page-Title -->
+<div class="row">
+    <div class="col-sm-12">
+        <div class="page-title-box">
+            <ol class="breadcrumb pull-right">
+                <li><a href="#">@ViewBag.Title</a></li>
+                <li class="active">Dashboard</li>
+            </ol>
+            <h4 class="page-title">@Html.ActionLink("افزودن", "Create") </h4>
+        </div>
+    </div>
+</div>
+<div id="TadGoodsField">
+    @using MVC.Controls
+
+    @Html.Grid(
+    new GridControl().SetName("OnlineClassesGrid").
+    SetPageSize(10).
+    SetShrinkToFit(false).
+    SetIsAutoSize(true).
+    SetIsFilterToolbar(true).
+    IsRTL().
+    SetListUrl(urlList).
+        SetCaption("کلاس های انلاین").
+    SetOnLoadCompleteEvent("loadOnlineClassesGridCompleteEvent").
+        UseColumns(SenakLearn.Controllers.OnlineClassesController.Columns)
+)
+    <script type="text/javascript">
+	function loadOnlineClassesGridCompleteEvent() {
+		var ids = $("#OnlineClassesGrid").jqGrid('getDataIDs');
+		for (var i = 0; i < ids.length; i++) {
+			var cl = ids[i];
+			ed = '<a class="ajaxLink"  href="/OnlineClasses/Edit?Id=' + cl + '" title="ویرایش"><div class="tableEditLink">ویرایش</div></a>';
+			clo = '<a class="ajaxLink"  href="/OnlineClasses/Edit?clone=true&Id=' + cl + '" title="ویرایش"><div class="tableEditLink">کپی</div></a>';
+			dl = '<a class="ajaxLink delete"href="/OnlineClasses/Delete?Id=' + cl + '" title="حذف"   ><div class="tableDeleteLink">حذف</div></a>';
+			de = '<a class="ajaxLink "href="/OnlineClasses/Details?Id=' + cl + '" title="جزئیات"   ><div class="tableDeleteLink">جزئیات</div></a>';
+			user = '<a class="ajaxLink "href="/OnlineClasses/ShowUser?Id=' + cl + '" title="دانشجویان"   target="_blank" ><div class="tableDeleteLink">دانشجویان</div></a>';
+			exel = '<a class="ajaxLink "href="/OnlineClasses/ExcelForAdobe?Id=' + cl + '" title="دانشجویان اکسل"   target="_blank" ><div class="tableDeleteLink">اکسل دانشجویان</div></a>';
+			$('#OnlineClassesGrid').jqGrid('setRowData', ids[i], { act: ed+clo + dl + de + exel + user });
+		}
+    }
+
+    </script>
+</div>
+
+
+

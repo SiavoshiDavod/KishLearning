@@ -1,0 +1,133 @@
+﻿@model AdobeConnectSDK.Model.UserInfoViewModel
+@{
+    ViewBag.Title = "AdobeConnectSDK";
+    Layout = "~/Views/Shared/_LayoutAdmin.cshtml";
+}
+@if (Model != null)
+{
+
+    <table class="table table-bordered" >
+        <tr>
+            <th>
+                @Html.DisplayNameFor(model => model.UserIdVm)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.NameVm)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.Login)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.session)
+            </th>
+        </tr>
+        <tr>
+            <td>
+                @(Model.UserId)
+            </td>
+            <td>
+                @(Model.Name)
+            </td>
+            <td>
+                @(Model.Login)
+            </td>
+            <td>
+                @(Model.session)
+            </td>
+        </tr>
+    </table>
+}
+<table class="table table-bordered">
+    <tr>
+        <th>
+           لینک
+        </th>
+    </tr>
+    <tr>
+        <td>
+            <a class="nav-link" href="/ShareableContentObject/get?isMeeting=false" target="_blank">GetAllShareableContentObject</a>
+        </td>
+    </tr>
+
+    <tr>
+        <td>
+            <a class="nav-link" href="/ShareableContentObject/get" target="_blank">GetAllMeeting</a>
+        </td>
+    </tr>
+    <tr>
+        <td>
+            <a class="nav-link" href="/ShareableContentObject/GetMeeting?likeName=" target="_blank">GetAllMeetingDetail</a>
+        </td>
+    </tr>
+    
+    <tr>
+        <td>
+            <a class="nav-link" href="/AdobeUser/get?LikeName=" target="_blank">GetAllUser</a>
+        </td>
+    </tr>
+    <tr>
+        <td>
+            <a class="nav-link" href="/AdobeGroup/get?LikeName=" target="_blank">GetAllGroup</a>
+        </td>
+    </tr>
+    <tr>
+        <td>
+            <a class="nav-link" href="/AdobeGroup/GetPrincipalByIdGroupId?groupId=22209" target="_blank">GetPrincipalByIdGroupId</a>
+        </td>
+    </tr>
+    <tr>
+        <td>
+            <a class="nav-link" href="/AdobeGroup/GetGroupsOfUserId?userId=@Model.UserId" target="_blank">GetGroupsOfUserId</a>
+        </td>
+    </tr>
+    <tr>
+        <td>
+            <a class="nav-link" href="/AdobeUser/GetByUserId?userId=@Model.UserId" target="_blank">GetByUserId</a>
+        </td>
+    </tr>
+    <tr>
+        <td>
+            <a class="nav-link" href="/AdobeUser/GetAllUserInGroupId?groupId=22209" target="_blank">GetAllUserInGroupId</a>
+        </td>
+    </tr>
+    <tr>
+        <td>
+            <a class="nav-link" href="/ShareableContentObject/GetMeetingDetail?scoId=21034" target="_blank">GetMeetingDetailbyscoId</a>
+        </td>
+    </tr>
+    @*<tr>
+        <td>
+            <a class="nav-link" href="/Permission/get" target="_blank">GetAllPermission</a>
+        </td>
+    </tr>*@
+    @*<tr>
+        <td>
+            <a class="nav-link" href="/AdobeConnectTest/GetAllMeetings">GetAllMeetings</a>
+        </td>
+    </tr>
+    <tr>
+        <td>
+            <a class="nav-link" href="/AdobeConnectTest/GetMyMeetings">GetMyMeetings</a>
+        </td>
+    </tr>
+    <tr>
+        <td>
+            <a class="nav-link" href="/AdobeConnectTest/GetPrincipalList">GetPrincipalList</a>
+        </td>
+    </tr>
+    <tr>
+        <td>
+            <a class="nav-link" href="/AdobeConnectTest/GetSCOshotcuts">GetSCOshotcuts</a>
+        </td>
+    </tr>
+    <tr>
+        <td>
+            <a class="nav-link" href="/AdobeConnectTest/GetMeetingShotcuts">GetMeetingShotcuts</a>
+        </td>
+    </tr>
+    <tr>
+        <td>
+            <a class="nav-link" href="/AdobeConnectTest/ReportMyEvents">ReportMyEvents</a>
+        </td>   
+    </tr>*@
+</table>

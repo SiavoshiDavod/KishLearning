@@ -1,0 +1,63 @@
+﻿@model SenakLearn.Models.learn_user
+
+@{
+    ViewBag.Title = SenakLearn.Models.Dictionary.ModelDictionary[typeof(SenakLearn.Models.learn_user)];
+    Layout = "~/Views/Shared/_LayoutAdmin.cshtml";
+}
+
+<h2>حذف</h2>
+
+<h3>آیا از حذف اطلاعات اطمینان دارید?</h3>
+<div>
+    <dl class="dl-horizontal">
+        <dt>
+            @Html.DisplayNameFor(model => model.user_name)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.user_name)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.date_register)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.date_register)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.status)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.status)
+        </dd>
+
+        @*<dt>
+            @Html.DisplayNameFor(model => model.learn_Role.RoleName)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.learn_Role.RoleName)
+        </dd>*@
+
+        @*<dt>
+            @Html.DisplayName("نام نام خانوادگی")
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.Person.name)  @Html.DisplayFor(model => model.Person.family)
+        </dd>*@
+
+    </dl>
+
+    @using (Html.BeginForm()) {
+        
+
+        <div class="form-actions no-color">
+            <input type="submit" value="حذف" class="btn btn-danger" /> |
+            @Html.ActionLink("نمایش لیست", "Index")
+        </div>
+    }
+</div>

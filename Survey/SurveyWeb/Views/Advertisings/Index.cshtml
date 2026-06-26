@@ -1,0 +1,58 @@
+﻿@model IEnumerable<SurveyWeb.Models.Advertising>
+
+@{
+    Layout = "~/Views/Shared/_LayoutAdmin.cshtml";
+    var urlList = "/Advertisings/LoadList";
+    ViewBag.Title = SurveyWeb.Models.Dictionary.ModelDictionary[typeof(SurveyWeb.Models.Advertising)];
+}
+
+<div class="row">
+    <div class="col-sm-12">
+        <div class="page-title-box">
+            <ol class="breadcrumb pull-right">
+                <li><a href="#">@ViewBag.Title</a></li>
+                <li class="active">Dashboard</li>
+            </ol>
+            <h4 class="page-title">@*@Html.ActionLink("افزودن", "Create")*@ @ViewBag.Title</h4>
+        </div>
+    </div>
+</div>
+<div id="TadGoodsField">
+    <select id="Archive" name="Archive" onchange="reloadResturantAdvertisingsGrid()">
+        <option value="true">   @ViewBag.Title تایید نشده </option>
+        <option value="false"> @ViewBag.Title تایید شده</option>
+    </select>
+    @using MVC.Controls
+
+    @Html.Grid(
+    new GridControl().SetName("AdvertisingGrid").
+    SetPageSize(10).
+    SetShrinkToFit(false).
+    SetIsAutoSize(true).
+    SetIsFilterToolbar(true).
+    IsRTL().
+    SetListUrl(urlList).
+        SetCaption((string)ViewBag.Title).
+    SetOnLoadCompleteEvent("loadAdvertisingGridCompleteEvent").
+        UseColumns(SurveyWeb.Controllers.AdvertisingsController.AdvertisingColumns)
+)
+    <script >
+        function loadAdvertisingGridCompleteEvent() {
+            var ids = $("#AdvertisingGrid").jqGrid('getDataIDs');
+            for (var i = 0; i < ids.length; i++) {
+                var cl = ids[i];
+                ed = '<a class="ajaxLink"  href="/Advertisings/Create?Id=' + cl + '" title="ویرایش"><div class="fa fa-pencil"></div></a>';
+                dl = '<a class="ajaxLink delete"href="/Advertisings/Delete?Id=' + cl + '" title="حذف"   ><div class="fa fa-times"></div></a>';
+                de = '<a class="ajaxLink "href="/Advertisings/Details?Id=' + cl + '" title="جزئیات"   ><div class="fa fa-building"></div></a>';
+                addorEditResturant = '<a class="ajaxLink "href="/Advertisings/AdvertisingAttachement?AdvertisingId=' + cl + '" title="فایل "   ><div class="fa fa-building"></div></a>';
+                 accept = '<a class="" onclick="confirmSwalFire(\'/Advertisings/Accept?id=' + cl + '\', reloadResturantAdvertisingsGrid,\'تبليغات تایید شود؟\')"  title="تایید"   ><div class="fa fa-check"></div></a>';
+			
+                $('#AdvertisingGrid').jqGrid('setRowData', ids[i], { act: ed + dl + addorEditResturant+accept });
+            }
+        }
+          function reloadResturantAdvertisingsGrid() {
+            var url = '@urlList' + '?Archive='+$("#Archive").val();
+            reloadJqGrid("AdvertisingGrid",url);
+        }
+    </script>
+</div>

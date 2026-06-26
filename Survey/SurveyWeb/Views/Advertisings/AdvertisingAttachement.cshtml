@@ -1,0 +1,78 @@
+﻿@model SurveyWeb.Models.Advertising
+
+@{
+    ViewBag.Title = "عکس ها  و ویدیو ها";
+    Layout = "~/Views/Shared/_LayoutAdmin.cshtml";
+}
+<div class="row">
+    <div class="col-sm-12">
+        <div class="page-title-box">
+            <div class="page-title">
+                <h4 class="page-title"><input type="submit" value="افزودن فایل" class="btn btn-default" onclick=" SaveAdvertisingAttachements()" /> </h4>
+            </div>
+        </div>
+    </div>
+</div>
+<div class="row">
+    <table class="table table-bordered">
+        @foreach (var item in Model.AdvertisingAttachements)
+        {
+            <tr>
+                <td>
+                    <a href="~/images/Advertising/@item.ImageUrl" target="_blank">
+                        @if (item.IsVideo)
+                        {
+                            <video  src="~/images/Advertising/@item.ImageUrl" width="auto" height="100"> </video>
+                        }
+                        else
+                        {
+                             <img src="~/images/Advertising/@item.ImageUrl" title="دانلود" height="50" />
+                        }
+                    </a>
+                </td>
+                <td>
+                    <button value="حذف" title="حذف" onclick="RemoveAdvertisingAttachement('@item.Id')">حذف</button>
+                </td>
+
+            </tr>
+        }
+
+    </table>
+
+</div>
+<div>
+    @Html.ActionLink("بازگشت", "Index")
+</div>
+<script>
+
+    function RemoveAdvertisingAttachement(id) {
+        var url = '/Advertisings/RemoveAdvertisingAttachement?id=' + id;
+        var sf = function () {location.reload(); };
+        confirmSwalFire(url, sf, "حذف")
+        //var functionR = function () { partialPageResturant(url, 'پیوست ها') };
+        //confirmDelete(functionR);
+    }
+    function SaveAdvertisingAttachements(id) {
+        var AdvertisingId = '@Model.Id';
+        var url = '/Advertisings/FindAdvertisingAttachements?AdvertisingId=' + AdvertisingId + '&id='; //+ id;
+        pw.modal('FindAdvertisingAttachementsInModal', "ذخیره سازی فایل", url, null, 'modal-md', true, null, null);
+
+    }
+    function AdvertisingAttachementsSave() {
+        var file = $(".fileChosen")[0].files;
+
+        if (file[0] == null) {
+            SwalErrorMessage('لطفا فایل را انتخاب کنید')
+            return;
+        } else {
+            var success = function () {
+                pw.closeModal('FindAdvertisingAttachementsInModal');
+                location.reload();
+               // OpenAttachement('Model.Id');
+            };
+            pw.submitForm('FormSaveAdvertisingAttachement', success);
+        }
+        
+
+    }
+</script>

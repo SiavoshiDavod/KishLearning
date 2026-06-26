@@ -1,0 +1,35 @@
+﻿@model ICollection<SurveyWeb.Models.BoardDirector>
+@{
+    ViewBag.Title = "هیأت مدیره";var counter = 0;
+}
+@if(Model!=null &&Model.Count>0)
+{ foreach (var item in Model)
+    {
+        if (counter == 4)
+        {
+@Html.Raw(" </div></div> </div><div class='row'> <div class='col-md-12'><div class='masonry columns-4' >")
+        }
+        counter += 1;
+
+<div class="masonry-item clearfix">
+    <div class="blog-entry mb-5 mb-4">
+        <div class="entry-image clearfix">
+            <a href="/Home/BoardDirector/@item.Id"><img class="img-fluid" src="~/Images/BoardDirector/@item.image" alt="@item.FullName"></a>
+        </div>
+        <div class="blog-detail">
+            <div class="entry-title mb-1">
+                <a href="/Home/BoardDirector/@item.Id">@item.FullName</a>
+            </div>
+            <div class="entry-meta mb-1">
+                <ul>
+                    <li><a href="#"><i class="ti-folder"></i> @item.email</a></li>
+                    @*<li><a href="#"><i class="ti-folder"></i> @item.NewsGroup.Title</a></li>*@
+                    @*<li><a href="#"> @item.VisitCount<i class="ti-comments"></i></a></li>*@
+                    @*<li><a href="#"><i class="ti-calendar"></i> @item.CreatedDateShamsi</a></li>*@
+                </ul>
+            </div>
+
+        </div>
+    </div>
+</div>
+    }               }

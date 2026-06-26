@@ -1,0 +1,58 @@
+﻿@model IEnumerable<SenakLearn.Models.AzmoonUserAnswer>
+
+@{
+    Layout = "~/Views/Shared/_LayoutAdmin.cshtml";
+    var urlList = "/MyAzmoon/LoadList";
+    ViewBag.Title = "آزمون های من";
+}
+<!-- Page-Title -->
+<div class="row">
+    <div class="col-sm-12">
+        <div class="page-title-box">
+            <ol class="breadcrumb pull-right">
+                <li><a href="#">@ViewBag.Title</a></li>
+                <li class="active">Dashboard</li>
+            </ol>
+            <h4 class="page-title"> </h4>
+        </div>
+    </div>
+</div>
+<div id="TadGoodsField">
+    @using MVC.Controls
+
+    @Html.Grid(
+    new GridControl().SetName("AzmoonUserAnswerGrid").
+    SetPageSize(10).
+    SetShrinkToFit(false).
+    SetIsAutoSize(true).
+    SetIsFilterToolbar(true).
+    IsRTL().
+    SetListUrl(urlList).
+        SetCaption("کاربران").
+    SetOnLoadCompleteEvent("loadAzmoonUserAnswerGridCompleteEvent").
+        UseColumns(SenakLearn.Controllers.Student.MyAzmoonController.AzmoonUserAnswerColumns)
+)
+    <script type="text/javascript">
+        function loadAzmoonUserAnswerGridCompleteEvent() {
+            var ids = $("#AzmoonUserAnswerGrid").jqGrid('getDataIDs');
+            for (var i = 0; i < ids.length; i++) {
+                var cl = ids[i];
+                ed = '<a class="ajaxLink"  href="/MyAzmoon/Details?Id=' + cl + '" title="جزئیات"><div class="fa fa-pencil"></div></a>';
+
+                var AcceptedDate = $('#AzmoonUserAnswerGrid').jqGrid('getCell', cl, 'AcceptedDatePersian');
+                var pr = '';
+                if (AcceptedDate != '')
+                    pr = '<a class="ajaxLink" style="color:green;text-decoration: underline;font-weight: bold;" href=# onclick="openCertificte(' + cl + ')"  title="چاپ گواهینامه">چاپ</a>';
+                $('#AzmoonUserAnswerGrid').jqGrid('setRowData', ids[i], { act: ed });
+                $('#AzmoonUserAnswerGrid').jqGrid('setRowData', ids[i], { act2: pr });
+            }
+        }
+        function openCertificte(cl) {
+            window.open('/MyAzmoon/Print?userAnswerId=' + cl, '_blank');
+        }
+    </script>
+</div>
+
+
+
+

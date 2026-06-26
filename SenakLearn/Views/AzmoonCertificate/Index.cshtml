@@ -1,0 +1,119 @@
+﻿@model SenakLearn.Models.Azmoon.AzmoonEntityWrapper
+@{
+    Layout = "~/Views/Shared/_LayoutAdmin.cshtml";
+    var urlList = "/AzmoonCertificate/LoadList?azmoonEntityId="+Model.AzmoonEntityId;
+    ViewBag.Title = "گواهینامه";
+    var excelname = SenakLearn.DateTimeExtensions.DateTimeNowPersian("") + "AzmoonCertificate.xls";
+    int countRow = 0;
+}
+
+
+<!-- Page-Title -->
+<div class="row">
+    <div class="col-sm-12">
+        <div class="page-title-box">
+            <ol class="breadcrumb pull-right">
+                @*<li><a href="#">@ViewBag.Title</a></li>
+                    <li class="active">Dashboard</li>*@
+                <li>
+                    <a id="dlink" style="display:none;"></a>
+                </li>
+            </ol>
+            <h4 class="page-title">گواهینامه های آزمون </h4>
+        </div>
+    </div>
+</div>
+<div class="row">
+    <div class="col-md-4">
+        <div class="col-md-2">
+            گروه :
+        </div>
+        <div style="font-weight:bold" class="col-md-10 pull-right">
+            @Model.GroupAzmoonName
+        </div>
+    </div>
+    <div class="col-md-4">
+        <div class="col-md-2">
+            دوره :
+        </div>
+        <div style="font-weight:bold" class="col-md-10 pull-right">
+            @Model.AzmoonEntityName
+        </div>
+    </div>
+</div>
+
+<br />
+<div id="TadGoodsField">
+    @using MVC.Controls
+
+    @Html.Grid(
+    new GridControl().SetName("AzmoonCertificateGrid").
+    SetPageSize(50).
+    SetShrinkToFit(false).
+    SetIsAutoSize(true).
+    SetIsFilterToolbar(true).
+    IsRTL().
+    SetListUrl(urlList).
+        SetCaption("گواهینامه").
+        SetSortName("AzmoonUserAnswerId").
+        SetSortOrder("dsc").
+
+    SetOnLoadCompleteEvent("loadAzmoonCertificateGridCompleteEvent").
+        UseColumns(SenakLearn.Controllers.AzmoonCertificateController.AzmoonCertificateColumns)
+)
+    <script type="text/javascript">
+        function loadAzmoonCertificateGridCompleteEvent() {
+                var ids = $("#AzmoonCertificateGrid").jqGrid('getDataIDs');
+                for (var i = 0; i < ids.length; i++) {
+                    var cl = ids[i];
+                    var AcceptedDate = $('#AzmoonCertificateGrid').jqGrid('getCell', cl, 'AcceptedDatePersian');
+                    ac = '<a class="ajaxLink"  href=# onclick=acceptUserAnswer("' + cl + '") title="قبولی آزمون"><div class="fa fa-check"></div></a>';
+                    rj = '<a class="ajaxLink"  href=# onclick=rejectUserAnswer("' + cl + '") title="حذف قبولی"><div class="fa fa-times"></div></a>';
+                    var pr = '';
+                    if (AcceptedDate != '')
+                        pr = '<a class="ajaxLink"  href="/AzmoonCertificate/Print?userAnswerId=' + cl + '" title="گواهینامه"><div class="fa fa-certificate"></div></a>';
+
+
+                    $('#AzmoonCertificateGrid').jqGrid('setRowData', ids[i], { act: ac +'   '+rj });
+                    $('#AzmoonCertificateGrid').jqGrid('setRowData', ids[i], { act2: pr });
+                }
+            }
+        function rejectUserAnswer(id) {
+                        $.ajax({
+                url: '/AzmoonCertificate/Reject?userAnswerId='+id,
+                type: 'Post',
+                success: function (res) {
+                    //debugger;
+                    if (res == true) {
+                        jQuery("#AzmoonCertificateGrid").jqGrid().setGridParam({ url: '@urlList' }).trigger("reloadGrid");
+                        alert('مدرک ابطال شد !');
+                    }
+                },
+                error: function (ex) {
+                    alert(ex);
+                }
+            });
+        }
+        function acceptUserAnswer(id) {
+            $.ajax({
+                url: '/AzmoonCertificate/Accept?userAnswerId='+id,
+                type: 'Post',
+                success: function (res) {
+                    //debugger;
+                    if (res == true) {
+                        jQuery("#AzmoonCertificateGrid").jqGrid().setGridParam({ url: '@urlList' }).trigger("reloadGrid");
+                        alert('مدرک صادر شد !');
+                    }
+                },
+                error: function (ex) {
+                    alert(ex);
+                }
+            });
+        }
+    </script>
+</div>
+
+
+
+
+

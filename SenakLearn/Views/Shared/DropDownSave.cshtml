@@ -1,0 +1,93 @@
+﻿@{
+    Layout = "~/Views/Shared/_LayoutAdmin.cshtml";
+    var ControllerName = (string)ViewBag.ControllerName;
+    var Id = (int)ViewBag.Id;
+    var DropDownTitle = (string)ViewBag.DropDownTitle;
+    string DropDownTitleE = "";
+    string IconPath = "";
+    var Title = (string)ViewBag.Title;
+    var HasEnglish = (bool)ViewBag.HasEnglish;
+    var HasIcon = (bool)ViewBag.HasIcon;
+    if (HasEnglish)
+    {
+        DropDownTitleE = (string)ViewBag.DropDownTitleE;
+    }
+    if (HasIcon)
+    {
+        IconPath = (string)ViewBag.IconPath;
+    }
+}
+<div class="row">
+    <div class="col-sm-12">
+        <div class="page-title-box">
+            <ol class="breadcrumb pull-right">
+                <li><a href="#">@ViewBag.Title</a></li>
+                <li class="active">Dashboard</li>
+            </ol>
+        </div>
+    </div>
+</div>
+<div class="row">
+    <div class="col-sm-12">
+        <div class="card-box">
+            @using (Html.BeginForm("Create", ControllerName, FormMethod.Post, new { enctype = "multipart/form-data", @class = "" }))
+            {
+                <div class="form-horizontal">
+                    @Html.Hidden("Id", Id)
+                    @Html.ValidationSummary(false, "", new { @class = "text-danger" })
+                    <div class="form-group">
+                        <label class="col-md-2 control-label  ">عنوان</label>
+                        <div class="col-md-10">
+                            @Html.TextBox("DropDownTitle", DropDownTitle, new { @class = "col-md-10 form-control" })
+                        </div>
+                    </div>
+
+
+
+
+                    @{
+                        if (HasEnglish)
+                        {
+                            <div class="form-group">
+                                <label class="col-md-2 control-label  ">عنوان انگلیسی</label>
+                                <div class="col-md-10">
+                                    @Html.TextBox("DropDownTitleE", DropDownTitleE, new { @class = "col-md-10 form-control" })
+                                </div>
+                            </div>
+                        }
+
+
+                        if (HasIcon)
+                        {
+                            <div class="form-group">
+                                <label class="col-md-2 control-label  ">ایکون </label>
+                                <div class="col-md-10">
+                                    @if (!string.IsNullOrEmpty(IconPath))
+                                    {
+                                        <img src="/images/PaperPublisher/@IconPath" alt="@IconPath" width="150px" class="thumbnail" />
+                                    }
+                                    <label class="btn btn-default"> انتخاب فایل  <input accept="image/*"  class="fileChosen" type="file" hidden id="ImageFile" name="ImageFile"></label><span class="fileChosenText"></span>
+                                    @Html.Hidden("IconPath")
+                                </div>
+                            </div>
+
+
+                          
+
+                        }
+                    }
+                    <div class="row">
+                        <button class=" btn btn-success">ثبت</button>
+                    </div>
+                    <script src="~/Scripts/jquery.validate.min.js"></script>
+                    <script src="~/Scripts/jquery.validate.unobtrusive.min.js"></script>
+                    <script>
+                    </script>
+                </div>
+                        }
+        </div>
+    </div>
+</div>
+@section Scripts {
+    @Scripts.Render("~/bundles/jqueryval")
+}

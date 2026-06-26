@@ -1,0 +1,88 @@
+﻿@model SurveyWeb.Models.JobBoard.EducationalBackground
+
+
+<div id="educational-background-form">
+    @Html.AntiForgeryToken()
+
+    <div class="form-horizontal">
+        <h4>سوابق تحصیلی</h4>
+        <hr />
+        @Html.ValidationSummary(true, "", new { @class = "text-danger" })
+        <div class="row">
+            <div class="form-group col-md-6">
+                @Html.LabelFor(model => model.FromDate, htmlAttributes: new { @class = "control-label col-md-2" })
+                <div class="col-md-10">
+                    @*@Html.EditorFor(model => model.FromDate, new { htmlAttributes = new { @class = "form-control", id = "EduBackFromDate", } })*@
+                    <input type="text" name="FromDate" id="EduBackFromDate" class ="form-control" data-mddatetimepicker="true" data-dateFormat="yyyy-MM-dd" data-EnableTimePicker="false" data-englishnumber="true" />
+                    @Html.ValidationMessageFor(model => model.FromDate, "", new { @class = "text-danger" })
+                </div>
+            </div>
+
+            <div class="form-group col-md-6">
+                @Html.LabelFor(model => model.ToDate, htmlAttributes: new { @class = "control-label col-md-2" })
+                <div class="col-md-10">
+                    @*@Html.EditorFor(model => model.ToDate, new { htmlAttributes = new { @class = "form-control", id = "EduBackToDate" } })*@
+                    <input type="text" name="ToDate" id="EduBackToDate" class="form-control" data-mddatetimepicker="true" data-dateFormat="yyyy-MM-dd" data-EnableTimePicker="false" data-englishnumber="true" />
+
+                    @Html.ValidationMessageFor(model => model.ToDate, "", new { @class = "text-danger" })
+                </div>
+            </div>
+        </div>
+        <div class="row">
+            <div class="form-group col-md-6">
+                @Html.LabelFor(model => model.InstituteName, htmlAttributes: new { @class = "control-label col-md-2" })
+                <div class="col-md-10">
+                    @Html.EditorFor(model => model.InstituteName, new { htmlAttributes = new { @class = "form-control" } })
+                    @Html.ValidationMessageFor(model => model.InstituteName, "", new { @class = "text-danger" })
+                </div>
+            </div>
+
+            <div class="form-group col-md-6">
+                @Html.LabelFor(model => model.Field, htmlAttributes: new { @class = "control-label col-md-2" })
+                <div class="col-md-10">
+                    @Html.EditorFor(model => model.Field, new { htmlAttributes = new { @class = "form-control" } })
+                    @Html.ValidationMessageFor(model => model.Field, "", new { @class = "text-danger" })
+                </div>
+            </div>
+        </div>
+        <div class="form-group">
+            <div class="col-md-offset-1 col-md-10">
+                <input type="button" value="افزودن" class="btn btn-default" onclick="post_educational_background()" />
+            </div>
+        </div>
+    </div>
+</div>
+
+<script>
+
+    //$('#EduBackFromDate').MdPersianDateTimePicker();
+    //$('#EduBackFromDate').MdPersianDateTimePicker();
+
+    function post_educational_background() {
+        debugger
+        var FromDate = $("#EduBackFromDate").val();
+        var ToDate = $("#EduBackToDate").val();
+        var InstituteName = $("#InstituteName").val();
+        var Field = $("#Field").val();
+
+        var form_data = new FormData();
+        form_data.append("FromDate", FromDate)
+        form_data.append("ToDate", ToDate)
+        form_data.append("InstituteName", InstituteName)
+        form_data.append("Field", Field)
+
+        $.ajax({
+            url: "/EmployeeProfile/AddEducationalBackground",
+            type: "post",
+            data: form_data,
+            processData: false,
+            contentType: false,
+            success: function (res) {
+                $('#educational-background-list').html(res)
+            },
+            error: function (res) {
+                eval(res.responseText)
+            }
+        })
+    }
+</script>

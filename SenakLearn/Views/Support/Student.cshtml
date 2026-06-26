@@ -1,0 +1,76 @@
+﻿@model IEnumerable<SenakLearn.Models.StudentSupport>
+@{
+    Layout = "~/Views/Shared/_Layout.cshtml";
+    SiteSetting.SiteSetting setting = (SiteSetting.SiteSetting)ViewBag.SiteSetting;
+}
+<div class="container">
+
+    <div class="row justify-content-center">
+        <div class="col-md-8 page-heading text-center">
+            <div class="contact-form-title text-center mb-4">
+                <h4 class="mb-1"> ویدئوهای آموزشی دانشجویان</h4>
+            </div>
+        </div>
+    </div>
+</div>
+<div class="row">
+    <div class="tab-content col-xs-12 col-sm-12 col-md-4" style="vertical-align: top;">
+        <a href="#" class="btn btn-info">تلفن های پشتیبانی<br /> @setting.tel <br /> @setting.Mobile</a>
+
+        <div role="tabpanel" class="tab-pane active show" id="all-faqs">
+            <div class="accordion">
+                @{
+                    string a = "acd-active";
+                    string d = "block";
+                    int count = 1;
+                    foreach (var item in Model.Where(x => x.ParentId == null).OrderBy(x => x.Order))
+                    {
+                        var childs = Model.Where(c => c.ParentId == item.Id).OrderBy(x => x.Order);
+                        <div class="acd-group  text-black @a">
+                            <a href="#" onclick="return ShowVideoStudentSupport(@item.Id);" class="acd-heading text-black"><i class="fa fa-pencil-square-o" aria-hidden="true"></i>@count: @item.Description</a>
+                            <div class="acd-des text-gray" style="display: @d;">
+                                <div class="option-wrapper">
+                                    <ul class="option-items">
+                                        @if (childs != null)
+                                        {
+                                            foreach (var Subitem in childs)
+                                            {
+                                                <li class="option-item">
+                                                    <div class="pull-right" onclick="return ShowVideoStudentSupport(@Subitem.Id);"> @Subitem.Description </div>
+                                                </li>
+                                            }
+                                        }
+                                    </ul>
+                                </div>
+                            </div>
+                        </div>
+                        a = "";
+                        d = "none";
+                        count++;
+                    }
+                }
+            </div>
+        </div>
+
+    </div>
+    <div id="OnlineClassDetailsDiv" style="vertical-align: top;" class="col-xs-12 col-sm-12 col-md-8">
+        @Html.Partial("~/Views/Shared/_PartialVideo.cshtml", setting.DefaultVideoUrl)
+    </div>
+</div>
+<script type="text/javascript">
+    function ShowVideoStudentSupport(id) {
+        $.ajax(
+            {
+                type: 'Get',
+                //data: { Code:  },
+                url: '/Support/ShowVideo?id=' + id,
+                success: function (result) {
+                    $('#OnlineClassDetailsDiv').html(result);
+                },
+                error: function (error) {
+                    alert(error.toString());
+                }
+            });
+        return false;
+    }
+</script>

@@ -1,0 +1,51 @@
+﻿@model IEnumerable<SurveyWeb.Models.UserComment>
+@{var list = Model.Where(x => x.ParentId == null).ToList(); string avatar = "";}
+@foreach (var item in list)
+{
+    if (item.user != null && !string.IsNullOrEmpty(item.user.UserImageUrl))
+    {
+        avatar = item.user.UserImageUrl;
+    }
+    else
+    {
+        avatar = "man.png";
+    }
+    if (item.user != null && !string.IsNullOrEmpty(item.user.Name) && !string.IsNullOrEmpty(item.user.Family))
+    {
+        item.Name = item.user.Name + " " + item.user.Family;
+    }
+    var child = Model.Where(x => x.ParentId == item.Id).ToList();
+    <div class="comments-1">
+        <div class="comments-photo">
+            <img src="/images/Users/@avatar" alt="@item.Name">
+        </div>
+        <div class="comments-info">
+            <h6> @item.Name <span>@item.CreatedDateShamsi</span></h6>
+            <div class="port-post-social float-left">
+                <a href="#">پاسخ</a>
+            </div>
+            <p class="mt-1">
+                @item.Description
+            </p>
+        </div>
+    </div>
+
+    foreach (var item2 in child)
+    {
+        <div class="comments-1 comments-2">
+            <div class="comments-photo">
+                <img src="/images/Users/@avatar" alt="@item.Name">
+            </div>
+            <div class="comments-info">
+                <h6> @item.Name <span>@item.CreatedDateShamsi</span></h6>
+                <div class="port-post-social float-left">
+                    <a href="#">پاسخ</a>
+                </div>
+                <p class="mt-1">
+                    @item.Description
+                </p>
+            </div>
+        </div>
+    }
+
+}

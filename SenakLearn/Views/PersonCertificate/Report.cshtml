@@ -1,0 +1,220 @@
+﻿
+@{
+    @model SenakLearn.Models.Person.PersonCertificateReportSearach
+    Layout = "~/Views/Shared/_LayoutAdmin.cshtml";
+    var urlList = "/PersonCertificate/LoadListReport";
+    ViewBag.Title = "گزارش دوره پرسنل";
+    var user = (SenakLearn.Models.learn_user)ViewBag.User;
+    var coursList = (List<SelectListItem>)ViewBag.CoursList;
+}
+<style>
+    .serchDiv {
+        border: 1px solid lightgray;
+        border-radius: 4px;
+        padding: 5px;
+        margin: 5px
+    }
+</style>
+<!-- Page-Title -->
+<div class="row">
+    <div class="col-sm-12">
+        <div class="page-title-box">
+            <ol class="breadcrumb pull-right">
+                <li><a href="#">@ViewBag.Title</a></li>
+                <li class="active">Dashboard</li>
+            </ol>
+            <h4 class="page-title">@Html.ActionLink("بازگشت", "Index", "PersonCourse") </h4>
+        </div>
+    </div>
+</div>
+<div class="row serchDiv" id="searchDiv">
+    <div class="form-horizontal">
+        <div class="form-group">
+            <div class="col-md-4">
+                <div class="col-md-2 text-left">
+                    <label for="@Model.CourseName">دوره</label>
+                </div>
+                <div class="col-md-4">
+                    @Html.DropDownListFor(a => a.CourseName, coursList, new { @class = "form-control", @style = "min-width: 200px;" })
+                </div>
+            </div>
+            <div class="col-md-4">
+                <div class="col-md-2 text-left">
+                    <label for="@Model.CourseLeader">مجری دوره</label>
+                </div>
+                <div class="col-md-4">
+                    @Html.DropDownListFor(a => a.CourseLeader, (List<SelectListItem>)ViewBag.CourseLeader, new { @class = "form-control", @style = "min-width: 200px;" })
+                </div>
+            </div>
+        </div>
+        <div class="form-group">
+            <div class="col-md-4">
+                <div class="col-md-2 text-left">
+                    <label for="@Model.PersonName">پرسنل</label>
+                </div>
+                <div class="col-md-8">
+                    @*@Html.DropDownListFor(a => a.PersonName, (List<SelectListItem>)ViewBag.Persons, new { @class = "form-control", @style = "min-width: 200px;" })*@
+                    @*@Html.TextBoxFor(a => a.PersonName, new { @class = "form-control",@disabled = "disabled" })*@
+                    <div class="row">
+                        <input name="PersonName" id="PersonName" class="col-md-10" disabled="disabled" style="min-height:35px"/>
+                        <button class="btn btn-micro glyphicon glyphicon-search  col-md-1" style="padding:5px" onclick="fn_searchUser()"></button>
+                        <button class="btn btn-micro glyphicon glyphicon-refresh  col-md-1" style="padding:5px" onclick="fn_searchRemove()"></button>
+                    </div>
+                </div>
+            </div>
+            <div class="col-md-4">
+                <div class="col-md-2 text-left">
+                    <label for="@Model.PersonOrgId">سازمان</label>
+                </div>
+                <div class="col-md-4">
+                    @Html.DropDownListFor(a => a.PersonOrgId, (List<SelectListItem>)ViewBag.Orgs, new { @class = "form-control", @style = "min-width: 200px;" })
+                </div>
+            </div>
+        </div>
+        <div class="form-group">
+            <div class="col-md-4">
+                <div class="col-md-2 text-left">
+                    <label for="@Model.CourseFromDate">تاریخ صدور مدرک از</label>
+                </div>
+                <div class="col-md-4">
+                    <div class="input-group-addon" data-mddatetimepicker="true" data-targetselector="#CourseFromDate" data-trigger="click" data-enabletimepicker="false">
+                        <span class="glyphicon glyphicon-calendar" style="padding: 0 5px; width:25px;float:right"></span>
+                        <input type="text" class="form-control" id="CourseFromDate" name="CourseFromDate" value="@Model.CourseFromDate" placeholder="" style="width:120px;height:25px" />
+                    </div>
+                </div>
+            </div>
+            <div class="col-md-4">
+                <div class="col-md-2 text-left">
+                    <label for="@Model.CourseToDate">تاریخ صدور مدرک تا</label>
+                </div>
+                <div class="col-md-4">
+                    <div class="input-group-addon" data-mddatetimepicker="true" data-targetselector="#CourseToDate" data-trigger="click" data-enabletimepicker="false">
+                        <span class="glyphicon glyphicon-calendar" style="padding: 0 5px; width:25px;float:right"></span>
+                        <input type="text" class="form-control" id="CourseToDate" name="CourseToDate" value="@Model.CourseToDate" placeholder="" style="width:120px;height:25px" />
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="form-group">
+            <div class="col-md-4">
+                <div class="col-md-2 text-left">
+                    <label for="@Model.ShowPersonDetail">به تفکیک پرسنل</label>
+                </div>
+                <div class="col-md-4">
+                    @Html.CheckBoxFor(x => x.ShowPersonDetail, new { @onchange = "fnSearchReport()" })
+                    @*<input type="checkbox" name="ShowPersonDetail" id="ShowPersonDetail" onclick="fnSearchReport()" />*@
+                </div>
+            </div>
+            <div class="col-md-4">
+                <div class="col-md-2 text-left">
+                    <label for="@Model.CourseToDate">نوع دوره</label>
+                </div>
+                <div class="col-md-4">
+                    @Html.DropDownListFor(a => a.InOut,new List<SelectListItem> { new SelectListItem {Text="...",Value="" },new SelectListItem {Text="داخلی",Value= "داخلی" },new SelectListItem { Text = "خارجی", Value = "خارجی" } }, new { @class = "form-control", @style = "min-width: 200px;" })
+                </div>
+            </div>
+        </div>
+        <div class="row">
+            <div class="col-md-6">
+                <button class="btn btn-info" onclick="fnSearchReport()">جستجو</button>
+                <button class="btn btn-success" onclick="fnReportExcel()">اکسل</button>
+            </div>
+        </div>
+    </div>
+</div>
+<div id="TadGoodsField">
+    @using MVC.Controls
+
+    @Html.Grid(
+    new GridControl().SetName("PersonCertificateGrid").
+    SetPageSize(10).
+    SetShrinkToFit(false).
+    SetIsAutoSize(true).
+    SetIsFilterToolbar(false).
+    IsRTL().
+    SetListUrl(urlList).
+        SetCaption((string)ViewBag.Title).
+    //SetOnLoadCompleteEvent("loadPersonCertificateGridCompleteEvent").
+        UseColumns(SenakLearn.Controllers.Person.PersonCertificateController.PersonCertificateColumnReports)
+)
+    <script type="text/javascript">
+
+        function fn_UrlGet(_baseUrl) {
+            var urlReport = '';
+                            var coursId = $('#CourseName').val();
+                if (coursId == "...") coursId = '';
+                var userIds = $('#PersonName').val();
+                if (userIds == "...") userIds = '';
+                var coursLeader = $('#CourseLeader').val();
+            if (coursLeader == "...") coursLeader = '';
+           // debugger;
+            urlReport = _baseUrl + '?Person_CourseId=' + coursId + '&CourseLeader=' + (coursLeader) + '&UserIds=' + userIds
+                    + '&CourseFromDate=' + $('#CourseFromDate').val() + '&CourseToDate=' + $('#CourseToDate').val() + '&PersonOrgId=' + $('#PersonOrgId').val()
+                + '&ShowPersonDetail=' + $('#ShowPersonDetail').is(':checked') + '&InOut=' + $('#InOut').val();
+            return urlReport;
+
+        }
+        function fnSearchReport() {
+            //console.log('loged');
+            //    var checked = $('#ShowPersonDetail').is(':checked');
+            //if (checked == true) {
+
+            //    $('#CourseFromDate').val("");
+            //    $('#CourseToDate').val("");
+            //    //debugger;
+            //    var FromDateDiv = $('#CourseFromDate').parent().closest('div');
+            //    FromDateDiv.hide();
+            //    var ToDateDiv = $('#CourseToDate').parent().closest('div');
+            //    ToDateDiv.hide();
+
+            //}
+            //else {
+            //    debugger;
+            //    var parent = $('#CourseFromDate').parent().closest('div');
+            //    parent.show();
+            //    var ToDateDiv = $('#CourseToDate').parent().closest('div');
+            //    ToDateDiv.show();
+
+            //}
+                var url_ = fn_UrlGet('@urlList');
+                $("#PersonCertificateGrid").jqGrid('setGridParam', { url: url_, page: 1 }).trigger("reloadGrid");
+
+        }
+        function fn_searchRemove() {
+            $('#PersonName').val('');
+        }
+        function fnReportExcel(){
+            var url = fn_UrlGet('/PersonCertificate/GetReportExcel');
+            window.open(url, '_blank');
+        }
+
+        function fn_searchUser() {
+            $(".dialogUserSearchClass").remove();
+            var $dialog = $("<div class='dialogUserSearchClass' style='padding:15px'></div>").get(0);
+            $.ajax({
+                url: "/UsersAdmin/IndexSearch",
+                type: "Get",
+                data: { "ModalClassDiv": "dialogUserSearchClass", "FieldPushData":"PersonName" },
+                success: function (res) {
+
+                    /* var div = $($dialog).find('div.dialogVideoUploadClass').prevObject[0];*/
+                    //debugger;
+                    $($dialog).html(res);
+                    $($dialog).dialog({
+                        autoOpen: true, modal: true, show: "blind", hide: "blind", width: '750px',
+                        height: 'auto', title: 'جستجو کاربر',
+                        close: function () {
+                            //$('#OfflineVideo').jstree("refresh");
+                            //createOfflineVideoChild(null, null);
+                            //debugger;
+                            //$('#VideoId').val($($dialog).find('#fileUploadedId').val());
+                            //$('#VideoName').val($($dialog).find('#fileUploadedName').val());
+                            //$(".dialogUserSearchClass").remove();
+                        }
+                    });
+                }
+            });
+        }
+
+    </script>
+</div>

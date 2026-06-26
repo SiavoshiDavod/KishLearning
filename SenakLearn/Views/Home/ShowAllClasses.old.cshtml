@@ -1,0 +1,213 @@
+﻿@{
+    Layout = "~/Views/Shared/_Layout.cshtml";
+    var count = 0;
+    int? groupId = ViewBag.groupId;
+    int? teacherId = ViewBag.teacherId;
+    string keyword = ViewBag.keyword;
+    var onlineClass = SenakLearn.Biz.OnlineClassBiz.Instance.GetAllPage(i => i.ClassType != SenakLearn.Enums.OnlineClassType.Archived && (groupId == null || groupId == i.id_learn_cours_group) && (teacherId == null || teacherId == i.id_learn_teacher) && (string.IsNullOrEmpty(keyword) || i.name.Contains(keyword)), 0, 50);
+    var listCourse = SenakLearn.Biz.CourseBiz.Instance.GetAllPage(i => i.status && (groupId == null || groupId == i.id_group) && (teacherId == null || teacherId == i.id_teacher) && (string.IsNullOrEmpty(keyword) || i.name.Contains(keyword)), 0, 50);
+    var listPaper = SenakLearn.Biz.PaperBiz.Instance.GetAllPage(i => (groupId == null || groupId == i.GroupId) && (string.IsNullOrEmpty(keyword) || i.Keyword.Contains(keyword)), 0, 50);
+    var listBook = SenakLearn.Biz.BookBiz.Instance.GetAllPage(i => (groupId == null || groupId == i.GroupId) && (string.IsNullOrEmpty(keyword) || i.Keyword.Contains(keyword)), 0, 50);
+}
+<div class="row toolbar">
+    <div class="col-md-4 col-sm-6 col-xs-12 select-categories">
+
+        @Html.Cours_Group_DropDown("CoursGroupId", false, new { @class = "jquery-select" }, "یک دسته را انتخاب کنید", (int?)ViewBag.groupId)
+    </div>
+    <div class="col-md-4 col-sm-6 col-xs-12 select-numofvids">
+        @Html.Teacher_DropDown("TeacherId", false, new { @class = "jquery-select" }, "یک مدرس را انتخاب کنید", (int?)ViewBag.teacherId)
+    </div>
+
+    <div class="col-sm-6 col-xs-12 text-keywords float-right">
+        <input class="keywords" name="keywords" id="keywords" type="text" placeholder="کلمات کلیدی" value="@ViewBag.keyword">
+    </div>
+    <div class="col-sm-6 col-xs-12 search-button float-left">
+        <button class="search-teachers" onclick="ReloadPage()">جستجو</button>
+    </div>
+</div>
+<div class="container popular">
+    <div class="text-center">
+        <h3 style="margin-top: 12px;padding-bottom:0; ">آموزش های آنلاین</h3>
+    </div>
+    <div class="row tutorials" style="margin-top: 0;">
+        @if (!onlineClass.Any())
+        {
+            <span> موردی یافت نشد</span>
+        }
+        else
+        {
+            foreach (var item in onlineClass)
+            {
+                var img = "/images/Interview/" + item.InterviewPathImage;
+                if (string.IsNullOrEmpty(item.InterviewPathImage))
+                {
+                    img = "/images/logo.png";
+                }
+                if (count % 3 == 0)
+                {
+                    if (count != 0)
+                    {
+                        @Html.Raw("</div>")
+                    }
+                    @Html.Raw("<div class='row tutorials'>")
+
+                }
+                count++;
+                <div class="col-xs-12 col-sm-6 col-md-4">
+                    <div class="tutorial">
+                        <img src="@img" class="resp-img" alt="@item.name" style="width:370px;height:220px">
+                        <div class="tutorial-details">
+                            <h6>@item.name</h6>
+                            <p>
+                                <span class="lessons">
+                                    <i class="zmdi zmdi-assignment"></i>
+                                    @item.SessionCount جلسه
+                                </span>
+                                <span class="duration">
+                                    <i class="zmdi zmdi-time"></i>
+                                    @item.Time ساعت
+                                </span>
+                            </p>
+                            <p class="abs">@item.Description</p>
+                            <a href="/DetailsOnlineClass/Index?type=2&id=@item.Id" class="greybutton">نمایش دوره</a>
+                        </div>
+                    </div>
+                </div>
+            }
+        }
+    </div>
+</div>
+
+<div class="container popular">
+    <div class="text-center">
+        <h3 style="margin-top: 20px;padding-bottom:0; ">فیلمهای آموزشی</h3>
+    </div>
+    <div class="row tutorials" style="margin-top: 0;">
+        @{ count = 0;}
+        @if (!listCourse.Any())
+        {
+            <span> موردی یافت نشد</span>
+        }
+        else
+        {
+            foreach (var item in listCourse)
+            {
+                if (count % 3 == 0)
+                {
+                    if (count != 0)
+                    {
+                        @Html.Raw("</div>")
+                    }
+                    @Html.Raw("<div class='row tutorials'>")
+
+                }
+                count++;
+                <div class="col-xs-12 col-sm-6 col-md-4">
+                    <div class="tutorial">
+                        <img src="/images/cours/@item.image" class="resp-img" alt="@item.name" style="width:370px;height:220px">
+                        <div class="tutorial-details">
+                            <h6>@item.name</h6>
+                            <p>
+                                <span class="lessons">
+                                    <i class="zmdi zmdi-assignment"></i>
+                                    @item.num_present جلسه
+                                </span>
+                                <span class="duration">
+                                    <i class="zmdi zmdi-time"></i>
+                                    3:15 ساعت
+                                </span>
+                            </p>
+                            <p class="abs">@item.doc</p>
+                            <a href="/DetailsCours/Index?type=1&id=@item.id" class="greybutton">نمایش دوره</a>
+                        </div>
+                    </div>
+                </div>
+            }
+        }
+    </div>
+</div>
+<div class="container index-3-categories">
+    <div class="text-center">
+        <h3 style="margin-top: 20px;padding-bottom:0; ">کتاب های آموزشی</h3>
+    </div>
+    <div class="row text-center">
+        @if (!listBook.Any())
+        {
+            <span> موردی یافت نشد</span>
+        }
+        else
+        {
+            foreach (var item in listBook)
+            {
+                <div class="col-xs-12 col-sm-6 col-md-4">
+                    <div class="category-with-bg " style="background-image: url(../../images/book/@item.ScreenShotId);">
+                        <h5> @item.TitleF</h5>
+                        <p>@item.Title</p>
+                        <a href="/Books/detail?Id=@item.Id" class="goto"><i class="zmdi zmdi-long-arrow-right"></i></a>
+                    </div>
+                </div>
+            }
+        }
+    </div>
+</div>
+<div id="mainPaper" class=" courses-browse popular no-gutters">
+    <div class="text-center">
+        <h3 style="margin-top: 20px;padding-bottom:0; ">مقالات آموزشی</h3>
+    </div>
+    <div class="row tutorial ">
+        @if (!listPaper.Any())
+        {
+            <span> موردی یافت نشد</span>
+        }
+        else
+        {
+            foreach (var item in listPaper)
+            {
+                <div class="col-xs-12 col-sm-12 col-md-6">
+                    <div class="tutorial-details">
+                        <div class="pull-right fav favorite">
+                            <i class="zmdi zmdi-star"></i>
+                        </div>
+                        <h6>@item.TitleF</h6>
+                        <p><span class="duration"><i class="zmdi zmdi-time"></i>@item.Year </span></p>
+                        <p class="abs">@item.Title</p>
+                        <a href="/paper/detail?Id=@item.Id" class="greybutton">نمایش مقاله</a>
+                    </div>
+                </div>
+            }
+        }
+    </div>
+</div>
+<script>
+    function paging(currentPage, pages, divId) {
+        if (pages <= 1) {
+            return "";
+        }
+        var htm = '<div class="row text-center"><div class="col-xs-12"><div class="paginations">';
+        if (currentPage > 1) {
+            var i = currentPage - 1;
+            htm += '<a class="prev" onclick="showClasses(' + i + ')"><i class="zmdi zmdi-chevron-right"></i>قبلی</a>';
+        }
+        for (var i = 1; i < pages; i++) {
+            htm += '<a onclick="showClasses(' + i + ')">' + i + '</a>';
+        }
+        if (currentPage < pages) {
+            var i = currentPage + 1;
+            htm += '<a class="next" onclick="showClasses(' + i + ')">بعدی<i class="zmdi zmdi-chevron-left"></i></a>';
+        }
+        htm += '</div></div></div>';
+        $('#' + divId).html(htm);
+    }
+    function showClasses(page) {
+
+    }
+</script>
+<script>
+    function ReloadPage() {
+        window.location.href = "/home/ShowAllClasses?groupId=" + $('#CoursGroupId').val() + "&teacherId=" + $('#TeacherId').val() + "&keyword=" + $('#keywords').val();
+    }
+
+</script>
+
+
+
