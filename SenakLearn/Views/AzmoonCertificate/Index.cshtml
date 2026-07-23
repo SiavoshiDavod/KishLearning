@@ -71,7 +71,7 @@
                     rj = '<a class="ajaxLink"  href=# onclick=rejectUserAnswer("' + cl + '") title="حذف قبولی"><div class="fa fa-times"></div></a>';
                     var pr = '';
                     if (AcceptedDate != '')
-                        pr = '<a class="ajaxLink"  href="/AzmoonCertificate/Print?userAnswerId=' + cl + '" title="گواهینامه"><div class="fa fa-certificate"></div></a>';
+                        pr = '<a class="ajaxLink" target="_blank" href="/AzmoonCertificate/Print?userAnswerId=' + cl + '" title="گواهینامه"><div class="fa fa-certificate"></div></a>';
 
 
                     $('#AzmoonCertificateGrid').jqGrid('setRowData', ids[i], { act: ac +'   '+rj });

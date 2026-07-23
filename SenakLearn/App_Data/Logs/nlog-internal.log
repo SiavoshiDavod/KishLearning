@@ -1,0 +1,110 @@
+2026-06-26 18:42:44.0475 Warn Error has been raised. Exception: NLog.NLogConfigurationException: Failed to create LayoutRenderer with unknown type-alias: 'aspnet-user-identity' - Extension NLog.Web not included?
+   at NLog.Config.FactoryExtensions.CreateInstance[TBaseType](IFactory`1 factory, String typeAlias)
+   at NLog.Layouts.LayoutParser.GetLayoutRenderer(String typeName, ConfigurationItemFactory configurationItemFactory, Nullable`1 throwConfigExceptions)
+2026-06-26 18:42:44.0475 Warn Error has been raised. Exception: NLog.NLogConfigurationException: Failed to create LayoutRenderer with unknown type-alias: 'aspnet-request-ip' - Extension NLog.Web not included?
+   at NLog.Config.FactoryExtensions.CreateInstance[TBaseType](IFactory`1 factory, String typeAlias)
+   at NLog.Layouts.LayoutParser.GetLayoutRenderer(String typeName, ConfigurationItemFactory configurationItemFactory, Nullable`1 throwConfigExceptions)
+2026-06-26 18:42:44.0475 Warn Error has been raised. Exception: NLog.NLogConfigurationException: Failed to create LayoutRenderer with unknown type-alias: 'aspnet-request-url' - Extension NLog.Web not included?
+   at NLog.Config.FactoryExtensions.CreateInstance[TBaseType](IFactory`1 factory, String typeAlias)
+   at NLog.Layouts.LayoutParser.GetLayoutRenderer(String typeName, ConfigurationItemFactory configurationItemFactory, Nullable`1 throwConfigExceptions)
+2026-06-26 18:42:44.0475 Warn Error has been raised. Exception: NLog.NLogConfigurationException: Failed to create LayoutRenderer with unknown type-alias: 'aspnet-user-identity' - Extension NLog.Web not included?
+   at NLog.Config.FactoryExtensions.CreateInstance[TBaseType](IFactory`1 factory, String typeAlias)
+   at NLog.Layouts.LayoutParser.GetLayoutRenderer(String typeName, ConfigurationItemFactory configurationItemFactory, Nullable`1 throwConfigExceptions)
+2026-06-26 18:42:44.0475 Warn Error has been raised. Exception: NLog.NLogConfigurationException: Failed to create LayoutRenderer with unknown type-alias: 'aspnet-request-ip' - Extension NLog.Web not included?
+   at NLog.Config.FactoryExtensions.CreateInstance[TBaseType](IFactory`1 factory, String typeAlias)
+   at NLog.Layouts.LayoutParser.GetLayoutRenderer(String typeName, ConfigurationItemFactory configurationItemFactory, Nullable`1 throwConfigExceptions)
+2026-06-26 18:42:44.0475 Warn Error has been raised. Exception: NLog.NLogConfigurationException: Failed to create LayoutRenderer with unknown type-alias: 'aspnet-request-url' - Extension NLog.Web not included?
+   at NLog.Config.FactoryExtensions.CreateInstance[TBaseType](IFactory`1 factory, String typeAlias)
+   at NLog.Layouts.LayoutParser.GetLayoutRenderer(String typeName, ConfigurationItemFactory configurationItemFactory, Nullable`1 throwConfigExceptions)
+2026-06-26 18:42:44.0475 Warn Error has been raised. Exception: NLog.NLogConfigurationException: Failed to create LayoutRenderer with unknown type-alias: 'aspnet-request-useragent' - Extension NLog.Web not included?
+   at NLog.Config.FactoryExtensions.CreateInstance[TBaseType](IFactory`1 factory, String typeAlias)
+   at NLog.Layouts.LayoutParser.GetLayoutRenderer(String typeName, ConfigurationItemFactory configurationItemFactory, Nullable`1 throwConfigExceptions)
+2026-06-26 20:47:27.0820 Debug Message Template Auto Format enabled
+2026-06-26 20:47:27.1750 Debug Adding target NLog.Targets.FileTarget(Name=appFile)
+2026-06-26 20:47:27.1750 Info Registered target NLog.Targets.FileTarget(Name=appFile)
+2026-06-26 20:47:27.1750 Trace ParseRulesElement
+2026-06-26 20:47:27.1906 Info NLog, Version=6.0.0.0, Culture=neutral, PublicKeyToken=5120e14c03d0593c. File version: 6.1.3.5285. Product version: 6.1.3+7f18a90739535f5ddc71c48e0fa28c59e5ee8969. GlobalAssemblyCache: False
+2026-06-26 20:47:27.1906 Debug AutoReload Config File Monitor refreshing after configuration changed
+2026-06-26 20:47:27.1906 Debug AutoReload Config File Monitor starting
+2026-06-26 20:47:27.1974 Debug Start watching file-filter 'NLog.config' in directory: D:\Rezaei\Senak\Source\SenakLearn
+2026-06-26 20:47:27.1974 Debug --- NLog configuration dump ---
+2026-06-26 20:47:27.1974 Debug Targets:
+2026-06-26 20:47:27.1974 Debug FileTarget(Name=appFile)
+2026-06-26 20:47:27.1974 Debug Rules:
+2026-06-26 20:47:27.1974 Debug logNamePattern: (:All) levels: [ Trace Debug Info Warn Error Fatal ] writeTo: [ appFile ]
+2026-06-26 20:47:27.1974 Debug --- End of NLog configuration dump ---
+2026-06-26 20:47:27.1974 Trace FindReachableObject<System.Object>:
+2026-06-26 20:47:27.1974 Trace Scanning LoggingRule 'logNamePattern: (:All) levels: [ Trace Debug Info Warn Error Fatal ] writeTo: [ appFile ]'
+2026-06-26 20:47:27.2130 Trace  Scanning Property Targets 'System.Collections.Generic.List`1[NLog.Targets.Target]' System.Collections.Generic.IList`1[NLog.Targets.Target]
+2026-06-26 20:47:27.2130 Trace  Scanning FileTarget 'FileTarget(Name=appFile)'
+2026-06-26 20:47:27.2306 Trace   Scanning Property FileName 'D:\Rezaei\Senak\Source\SenakLearn\App_Data\Logs\app-${shortdate}.log' NLog.Layouts.Layout
+2026-06-26 20:47:27.2306 Trace   Scanning SimpleLayout 'D:\Rezaei\Senak\Source\SenakLearn\App_Data\Logs\app-${shortdate}.log'
+2026-06-26 20:47:27.2306 Trace    Scanning Property LayoutRenderers 'NLog.LayoutRenderers.LayoutRenderer[]' System.Collections.Generic.IEnumerable`1[NLog.LayoutRenderers.LayoutRenderer]
+2026-06-26 20:47:27.2306 Trace    Scanning LiteralLayoutRenderer 'Layout Renderer: ${literal}'
+2026-06-26 20:47:27.2306 Trace    Scanning ShortDateLayoutRenderer 'Layout Renderer: ${shortdate}'
+2026-06-26 20:47:27.2306 Trace    Scanning LiteralLayoutRenderer 'Layout Renderer: ${literal}'
+2026-06-26 20:47:27.2306 Trace   Scanning Property Layout '${longdate} | ${level:uppercase=true} | ${logger} | ${message} | ${exception:format=tostring}' NLog.Layouts.Layout
+2026-06-26 20:47:27.2306 Trace   Scanning SimpleLayout '${longdate} | ${level:uppercase=true} | ${logger} | ${message} | ${exception:format=tostring}'
+2026-06-26 20:47:27.2306 Trace    Scanning Property LayoutRenderers 'NLog.LayoutRenderers.LayoutRenderer[]' System.Collections.Generic.IEnumerable`1[NLog.LayoutRenderers.LayoutRenderer]
+2026-06-26 20:47:27.2306 Trace    Scanning LongDateLayoutRenderer 'Layout Renderer: ${longdate}'
+2026-06-26 20:47:27.2306 Trace    Scanning LiteralLayoutRenderer 'Layout Renderer: ${literal}'
+2026-06-26 20:47:27.2306 Trace    Scanning LevelLayoutRenderer 'Layout Renderer: ${level}'
+2026-06-26 20:47:27.2306 Trace    Scanning LiteralLayoutRenderer 'Layout Renderer: ${literal}'
+2026-06-26 20:47:27.2306 Trace    Scanning LoggerNameLayoutRenderer 'Layout Renderer: ${loggername}'
+2026-06-26 20:47:27.2306 Trace    Scanning LiteralLayoutRenderer 'Layout Renderer: ${literal}'
+2026-06-26 20:47:27.2306 Trace    Scanning MessageLayoutRenderer 'Layout Renderer: ${message}'
+2026-06-26 20:47:27.2306 Trace    Scanning LiteralLayoutRenderer 'Layout Renderer: ${literal}'
+2026-06-26 20:47:27.2306 Trace    Scanning ExceptionLayoutRenderer 'Layout Renderer: ${exception}'
+2026-06-26 20:47:27.2306 Trace     Scanning Property Formats 'System.Collections.Generic.List`1[NLog.Config.ExceptionRenderingFormat]' System.Collections.Generic.IEnumerable`1[NLog.Config.ExceptionRenderingFormat]
+2026-06-26 20:47:27.2306 Trace  Scanning Property ChildRules 'System.Collections.Generic.List`1[NLog.Config.LoggingRule]' System.Collections.Generic.IList`1[NLog.Config.LoggingRule]
+2026-06-26 20:47:27.2306 Trace  Scanning Property Filters 'System.Collections.Generic.List`1[NLog.Filters.Filter]' System.Collections.Generic.IList`1[NLog.Filters.Filter]
+2026-06-26 20:47:27.2306 Debug Unused target checking is started... Rule Count: 1, Target Count: 1
+2026-06-26 20:47:27.2452 Debug Unused target checking is completed. Total Rule Count: 1, Total Target Count: 1, Unused Target Count: 0
+2026-06-26 20:47:27.2452 Trace Initializing Layout Renderer: ${exception}
+2026-06-26 20:47:27.2599 Trace Initializing Layout Renderer: ${literal}
+2026-06-26 20:47:27.2599 Trace Initializing Layout Renderer: ${message}
+2026-06-26 20:47:27.2599 Trace Initializing Layout Renderer: ${literal}
+2026-06-26 20:47:27.2599 Trace Initializing Layout Renderer: ${loggername}
+2026-06-26 20:47:27.2599 Trace Initializing Layout Renderer: ${literal}
+2026-06-26 20:47:27.2599 Trace Initializing Layout Renderer: ${level}
+2026-06-26 20:47:27.2599 Trace Initializing Layout Renderer: ${literal}
+2026-06-26 20:47:27.2599 Trace Initializing Layout Renderer: ${longdate}
+2026-06-26 20:47:27.2599 Trace Initializing ${longdate} | ${level:uppercase=true} | ${logger} | ${message} | ${exception:format=tostring}
+2026-06-26 20:47:27.2599 Trace FindReachableObject<NLog.Internal.IRenderable>:
+2026-06-26 20:47:27.2599 Trace Scanning SimpleLayout '${longdate} | ${level:uppercase=true} | ${logger} | ${message} | ${exception:format=tostring}'
+2026-06-26 20:47:27.2599 Trace  Scanning Property LayoutRenderers 'NLog.LayoutRenderers.LayoutRenderer[]' System.Collections.Generic.IEnumerable`1[NLog.LayoutRenderers.LayoutRenderer]
+2026-06-26 20:47:27.2599 Trace  Scanning LongDateLayoutRenderer 'Layout Renderer: ${longdate}'
+2026-06-26 20:47:27.2599 Trace  Scanning LiteralLayoutRenderer 'Layout Renderer: ${literal}'
+2026-06-26 20:47:27.2599 Trace  Scanning LevelLayoutRenderer 'Layout Renderer: ${level}'
+2026-06-26 20:47:27.2599 Trace  Scanning LiteralLayoutRenderer 'Layout Renderer: ${literal}'
+2026-06-26 20:47:27.2599 Trace  Scanning LoggerNameLayoutRenderer 'Layout Renderer: ${loggername}'
+2026-06-26 20:47:27.2599 Trace  Scanning LiteralLayoutRenderer 'Layout Renderer: ${literal}'
+2026-06-26 20:47:27.2599 Trace  Scanning MessageLayoutRenderer 'Layout Renderer: ${message}'
+2026-06-26 20:47:27.2599 Trace  Scanning LiteralLayoutRenderer 'Layout Renderer: ${literal}'
+2026-06-26 20:47:27.2599 Trace  Scanning ExceptionLayoutRenderer 'Layout Renderer: ${exception}'
+2026-06-26 20:47:27.2599 Trace   Scanning Property Formats 'System.Collections.Generic.List`1[NLog.Config.ExceptionRenderingFormat]' System.Collections.Generic.IEnumerable`1[NLog.Config.ExceptionRenderingFormat]
+2026-06-26 20:47:27.2599 Trace Initializing Layout Renderer: ${literal}
+2026-06-26 20:47:27.2599 Trace Initializing Layout Renderer: ${shortdate}
+2026-06-26 20:47:27.2599 Trace Initializing Layout Renderer: ${literal}
+2026-06-26 20:47:27.2599 Trace Initializing D:\Rezaei\Senak\Source\SenakLearn\App_Data\Logs\app-${shortdate}.log
+2026-06-26 20:47:27.2599 Trace FindReachableObject<NLog.Internal.IRenderable>:
+2026-06-26 20:47:27.2599 Trace Scanning SimpleLayout 'D:\Rezaei\Senak\Source\SenakLearn\App_Data\Logs\app-${shortdate}.log'
+2026-06-26 20:47:27.2599 Trace  Scanning Property LayoutRenderers 'NLog.LayoutRenderers.LayoutRenderer[]' System.Collections.Generic.IEnumerable`1[NLog.LayoutRenderers.LayoutRenderer]
+2026-06-26 20:47:27.2599 Trace  Scanning LiteralLayoutRenderer 'Layout Renderer: ${literal}'
+2026-06-26 20:47:27.2599 Trace  Scanning ShortDateLayoutRenderer 'Layout Renderer: ${shortdate}'
+2026-06-26 20:47:27.2599 Trace  Scanning LiteralLayoutRenderer 'Layout Renderer: ${literal}'
+2026-06-26 20:47:27.2599 Trace Initializing FileTarget(Name=appFile)
+2026-06-26 20:47:27.2775 Trace FindReachableObject<NLog.Layouts.Layout>:
+2026-06-26 20:47:27.2775 Trace Scanning FileTarget 'FileTarget(Name=appFile)'
+2026-06-26 20:47:27.2775 Trace  Scanning Property FileName 'D:\Rezaei\Senak\Source\SenakLearn\App_Data\Logs\app-${shortdate}.log' NLog.Layouts.Layout
+2026-06-26 20:47:27.2775 Trace  Scanning Property Layout '${longdate} | ${level:uppercase=true} | ${logger} | ${message} | ${exception:format=tostring}' NLog.Layouts.Layout
+2026-06-26 20:47:27.2775 Trace FileTarget(Name=appFile) has 2 layouts
+2026-06-26 20:47:27.2775 Info Configuration initialized: TargetNames=appFile, ConfigItems=16, AutoReload=true, FilePath=D:\Rezaei\Senak\Source\SenakLearn\NLog.config
+2026-06-26 20:47:27.2775 Debug Targets configured when LogLevel >= Trace for Logger: SenakLearn.SendEmail
+2026-06-26 20:47:27.2775 Debug Logger SenakLearn.SendEmail [Trace] => appFile
+2026-06-26 20:47:27.2775 Debug Logger SenakLearn.SendEmail [Debug] => appFile
+2026-06-26 20:47:27.2775 Debug Logger SenakLearn.SendEmail [Info] => appFile
+2026-06-26 20:47:27.2775 Debug Logger SenakLearn.SendEmail [Warn] => appFile
+2026-06-26 20:47:27.2775 Debug Logger SenakLearn.SendEmail [Error] => appFile
+2026-06-26 20:47:27.2775 Debug Logger SenakLearn.SendEmail [Fatal] => appFile
+2026-06-26 20:47:27.3185 Debug FileTarget(Name=appFile): Verify directory and creating writer to file: D:\Rezaei\Senak\Source\SenakLearn\App_Data\Logs\app-2026-06-26.log

@@ -5,15 +5,19 @@ using SenakLearn.JqGrid;
 using SenakLearn.JqGrid.Common;
 using SenakLearn.Models.Common;
 using SenakLearn.Models.wrapper;
+using SixLabors.ImageSharp;
+using SixLabors.ImageSharp.Formats;
+using SixLabors.ImageSharp.Processing;
 using System;
 using System.Collections.Generic;
 using System.Data.Entity;
 using System.Drawing;
+using System.Drawing.Drawing2D;
 using System.IO;
 using System.Linq;
 using System.Threading.Tasks;
-using System.Web.Mvc;
-using static SenakLearn.Controllers.BaseController;
+using ISImage = SixLabors.ImageSharp.Image;
+using ISSize = SixLabors.ImageSharp.Size;
 
 namespace SenakLearn.Biz
 {
@@ -179,6 +183,67 @@ namespace SenakLearn.Biz
             return item;
         }
 
+        public static byte[] UpscaleImageBytes(byte[] imageBytes, double scaleFactor)
+        {
+            if (imageBytes == null || imageBytes.Length == 0)
+                throw new ArgumentException("آرایه بایت ورودی خالی است.");
+
+            using (var inputStream = new MemoryStream(imageBytes))
+            {
+                // استفاده از نام مستعار ISImage به جای Image برای عدم تداخل با System.Drawing.Image
+                using (ISImage image = ISImage.Load(inputStream, out IImageFormat format))
+                {
+                    int newWidth = (int)(image.Width * scaleFactor);
+                    int newHeight = (int)(image.Height * scaleFactor);
+
+                    // استفاده از نام مستعار ISSize برای مشخص کردن ابعاد جدید
+                    image.Mutate(x => x.Resize(new ResizeOptions
+                    {
+                        Size = new ISSize(newWidth, newHeight),
+                        Mode = ResizeMode.Max,
+                        Sampler = KnownResamplers.Lanczos3
+                    }));
+
+                    using (var outputStream = new MemoryStream())
+                    {
+                        image.Save(outputStream, format);
+                        return outputStream.ToArray();
+                    }
+                }
+            }
+        }
+
+        public  byte[] ResizeImageLegacy(byte[] imageBytes, int targetWidth, int targetHeight)
+        {
+            using (var msInput = new MemoryStream(imageBytes))
+            {
+                using (var originalImage = System.Drawing.Image.FromStream(msInput))
+                {
+                    using (var bitmap = new Bitmap(targetWidth, targetHeight))
+                    {
+                        using (var graphics = Graphics.FromImage(bitmap))
+                        {
+                            // تنظیم کیفیت رندرینگ برای خروجی بهتر
+                            graphics.CompositingQuality = CompositingQuality.HighQuality;
+                            graphics.InterpolationMode = InterpolationMode.HighQualityBicubic;
+                            graphics.SmoothingMode = SmoothingMode.HighQuality;
+
+                            graphics.DrawImage(originalImage, 0, 0, targetWidth, targetHeight);
+                        }
+
+                        using (var msOutput = new MemoryStream())
+                        {
+                            // حفظ فرمت اصلی تصویر (مثلاً JPEG)
+                            bitmap.Save(msOutput, originalImage.RawFormat);
+                            return msOutput.ToArray();
+                        }
+                    }
+                }
+            }
+        }
+
+     
+
         internal async Task<FileStreamResponse> GetCertificate(int userAnswerId, string cerPath, string fontPath)
         {
             MemoryStream result = new MemoryStream();
@@ -213,6 +278,8 @@ namespace SenakLearn.Biz
 
                 if (cerFile.Length > 0)
                 {
+                    //cerFile = ResizeImageLegacy(cerFile, 1025, 682);
+                    cerFile = ResizeImageLegacy(cerFile, 1025, 682);
                     //byte[] output = ImageTextPrinterBiz.DrawTextOnImage(
                     //    imageBytes: cerFile,
                     //    text: $"گواهی می شود           ابراهیم حیدری \nنام پدر محمد        کد ملی ۳۴۲۵۷۶۹۸۰۰۹\n" +
@@ -242,7 +309,7 @@ namespace SenakLearn.Biz
    x: 50,
    y: 230,
    lineSpacingPx: 8,
-   Color.Black
+   System.Drawing.Color.Black
              );
                     byte[] output2 = ImageTextPrinterBiz.DrawTextOnImage(
                         imageBytes: output,
@@ -255,9 +322,10 @@ namespace SenakLearn.Biz
                         x: 30,
                         y: 70,
                         lineSpacingPx: 3,
-                        color: Color.Black
+                        color: System.Drawing.Color.Black
                     );
                     //File.WriteAllBytes("output.jpg", output);
+                    output2 = UpscaleImageBytes(output2, 2);
                     return new FileStreamResponse
                     {
                         Stream = new MemoryStream(output2),
@@ -266,6 +334,7 @@ namespace SenakLearn.Biz
                         PathFull = cerPathFull,
                     };
                 }
+                cerFile = UpscaleImageBytes(cerFile, 2);
                 return new FileStreamResponse
                 {
                     Stream = new MemoryStream(cerFile),
