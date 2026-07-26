@@ -1,12 +1,14 @@
-﻿using System.Threading.Tasks;
-using System.Net;
-using System.Web.Mvc;
-using SenakLearn.Models;
+﻿using MVC.Controls.Grid;
 using SenakLearn.Biz;
+using SenakLearn.Biz.Person;
 using SenakLearn.JqGrid;
-using System;
-using MVC.Controls.Grid;
+using SenakLearn.Models;
+using SenakLearn.Models.Person;
 using SenakLearn.Models.wrapper;
+using System;
+using System.Net;
+using System.Threading.Tasks;
+using System.Web.Mvc;
 
 namespace SenakLearn.Controllers
 {
@@ -154,6 +156,18 @@ namespace SenakLearn.Controllers
             var azmonList = AzmoonEntityBiz.Instance.DropDown();
             ViewBag.azmoonList = azmonList;
             return RedirectToAction("Index", "AzmoonUserAnswers");
+        }
+
+        public ActionResult GetReportExcel(int EntityId)
+        {
+
+            var memoryStream = AzmoonUserAnswerBiz.Instance.GetAllReportExcel(EntityId);
+
+            FileContentResult result = new FileContentResult(memoryStream.ToArray(), "application/vnd.ms-excel")
+            {
+                FileDownloadName = "Azmoon_User_Answer_" + DateTime.Now.ToShortDateString() + ".xlsx"
+            };
+            return result;
         }
     }
 }

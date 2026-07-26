@@ -31,6 +31,7 @@
         <div class="col-md-10">
             <button class="btn btn-info" onclick="fnChangeVal(this)">جستجو</button>
             <button class="btn btn-success" onclick="fnShowCertificated(this)">گواهینامه</button>
+            <button class="btn btn-warning" onclick="fnGetExcel(this)">اکسل</button>
         </div>
     </div>
 </div>
@@ -85,6 +86,16 @@
                     alert('یک آزمون معتبر را انتخاب نمایید .')
                 }
                 window.open('/AzmoonCertificate/Index?EntityId=' + selected)
+            }
+            function fnGetExcel(e) {
+                var selected = $('#AzmoonId').val();
+
+                if (selected == undefined || selected == '' || selected == 'همه') {
+                    alert('یک آزمون معتبر را انتخاب نمایید .')
+                    return;
+                }
+                var url = '/AzmoonUserAnswers/GetReportExcel?EntityId=' + selected;
+                window.open(url, '_blank');
             }
 
         </script>

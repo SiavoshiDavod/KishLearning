@@ -3,7 +3,9 @@ using DocumentFormat.OpenXml.Presentation;
 using MVC.Controls;
 using SenakLearn.JqGrid;
 using SenakLearn.JqGrid.Common;
+using SenakLearn.Models;
 using SenakLearn.Models.Common;
+using SenakLearn.Models.Person;
 using SenakLearn.Models.wrapper;
 using SixLabors.ImageSharp;
 using SixLabors.ImageSharp.Formats;
@@ -31,7 +33,7 @@ namespace SenakLearn.Biz
                 return await ctx.AzmoonUserAnswer.CountAsync(x => x.AzmoonEntityId == idAzmoonEntityId);
             }
         }
-        public SenakLearn.JqGrid.PagedList<SurveyUserAnswerVM> GetAllPagedListVm(GridSettings grid, int? azmoonEntityId)
+        public List<SurveyUserAnswerVM> GetListVm( int? azmoonEntityId)
         {
             using (var ctx = new SWEntities())
             {
@@ -60,9 +62,27 @@ namespace SenakLearn.Biz
                             });
                 if (azmoonEntityId != null)
                     list = list.Where(w => w.AzmoonEntityId == azmoonEntityId);
-                var result = list.FilterAndSortJqGrid<SurveyUserAnswerVM>(grid).ToPagedList<SurveyUserAnswerVM>(grid);
+                List<SurveyUserAnswerVM> result = new List<SurveyUserAnswerVM>();
+                result = list.ToList();
                 return result;
             }
+        }
+        public SenakLearn.JqGrid.PagedList<SurveyUserAnswerVM> GetAllPagedListVm(GridSettings grid, int? azmoonEntityId)
+        {
+
+                var list = GetListVm(azmoonEntityId).AsQueryable();
+                var result = list.FilterAndSortJqGrid<SurveyUserAnswerVM>(grid).ToPagedList<SurveyUserAnswerVM>(grid);
+                return result;
+            
+        }
+        public MemoryStream GetAllReportExcel(int? entityId)
+        {
+            var list = GetListVm(entityId);
+
+            var excelService = new ExcelService();
+            var memoryStream = excelService.GenerateExcelFile(list);
+            return memoryStream;
+
         }
 
         public SenakLearn.JqGrid.PagedList<SurveyUserAnswerVM> GetAllAzmoonByUserId(GridSettings grid, int current_learn_userId)
