@@ -116,6 +116,9 @@ namespace SenakLearn.Models
         [Display(Name = "مدت آزمون(دقیقه)")]
 
         public byte TimeDuration { get; set; }
+        [Display(Name = "مدت دوره-ساعت")]
+
+        public byte CoursTimeDuration { get; set; }
         [NotMapped]
         public int UserIdCurrent { get; set; }
 

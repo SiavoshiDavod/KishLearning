@@ -3,7 +3,7 @@
 <Project>
   <PropertyGroup>
     <_PublishTargetUrl>D:\SenakLearnPublish</_PublishTargetUrl>
-    <History>True|2026-07-26T15:42:41.6084096Z||;True|2026-07-23T08:54:19.5750071+03:30||;True|2026-06-26T20:52:23.4329471+03:30||;True|2026-06-26T18:46:31.4636439+03:30||;</History>
+    <History>True|2026-07-30T07:49:26.1883651Z||;True|2026-07-26T19:12:41.6084096+03:30||;True|2026-07-23T08:54:19.5750071+03:30||;True|2026-06-26T20:52:23.4329471+03:30||;True|2026-06-26T18:46:31.4636439+03:30||;</History>
     <LastFailureDetails />
   </PropertyGroup>
   <ItemGroup>
@@ -665,10 +665,10 @@
       <publishTime>03/01/2025 10:26:49</publishTime>
     </File>
     <File Include="bin/AdobeConnect.dll">
-      <publishTime>07/26/2026 19:12:33</publishTime>
+      <publishTime>07/30/2026 11:19:17</publishTime>
     </File>
     <File Include="bin/AdobeConnect.pdb">
-      <publishTime>07/26/2026 19:12:33</publishTime>
+      <publishTime>07/30/2026 11:19:17</publishTime>
     </File>
     <File Include="bin/Antlr3.Runtime.dll">
       <publishTime>03/01/2025 10:27:26</publishTime>
@@ -899,10 +899,10 @@
       <publishTime>03/01/2025 10:27:28</publishTime>
     </File>
     <File Include="bin/SenakLearn.dll">
-      <publishTime>07/26/2026 19:12:35</publishTime>
+      <publishTime>07/30/2026 11:19:20</publishTime>
     </File>
     <File Include="bin/SenakLearn.pdb">
-      <publishTime>07/26/2026 19:12:35</publishTime>
+      <publishTime>07/30/2026 11:19:20</publishTime>
     </File>
     <File Include="bin/SiteSetting.dll">
       <publishTime>06/26/2026 18:45:49</publishTime>
@@ -914,13 +914,13 @@
       <publishTime>11/25/2025 14:29:58</publishTime>
     </File>
     <File Include="bin/Sms.dll">
-      <publishTime>07/26/2026 19:12:32</publishTime>
+      <publishTime>07/30/2026 11:19:16</publishTime>
     </File>
     <File Include="bin/Sms.dll.config">
       <publishTime>03/01/2025 10:27:04</publishTime>
     </File>
     <File Include="bin/Sms.pdb">
-      <publishTime>07/26/2026 19:12:32</publishTime>
+      <publishTime>07/30/2026 11:19:16</publishTime>
     </File>
     <File Include="bin/System.Buffers.dll">
       <publishTime>02/19/2020 13:35:18</publishTime>
@@ -10934,7 +10934,7 @@
       <publishTime>07/23/2026 07:49:59</publishTime>
     </File>
     <File Include="Views/AzmoonEntitys/Create.cshtml">
-      <publishTime>02/13/2026 08:58:39</publishTime>
+      <publishTime>07/30/2026 11:04:53</publishTime>
     </File>
     <File Include="Views/AzmoonEntitys/Delete.cshtml">
       <publishTime>03/01/2025 10:26:47</publishTime>

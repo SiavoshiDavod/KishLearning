@@ -55,6 +55,8 @@ namespace SenakLearn.Controllers
                 AzmoonEntityColumns.Add(x => x.MaxScore).SetCaption("حداکثر نمره").SetWidth("50");
                 AzmoonEntityColumns.Add(x => x.TotalScore).SetCaption("جمع کل نمرات").SetWidth("50");
                 AzmoonEntityColumns.Add(x => x.ZaribManfi).SetCaption("ضريب نمره منفي").SetWidth("50");
+                AzmoonEntityColumns.Add(x => x.CoursTimeDuration).SetCaption("مدت دوره").SetWidth("50");
+                AzmoonEntityColumns.Add(x => x.TimeDuration).SetCaption("مدت آزمون").SetWidth("50");
             }
             return AzmoonEntityColumns;
         }

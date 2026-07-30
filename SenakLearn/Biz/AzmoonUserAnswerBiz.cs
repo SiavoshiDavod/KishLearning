@@ -320,7 +320,7 @@ namespace SenakLearn.Biz
    text: $"گواهی می شود       {user.Name + " " + user.Family} \n" +
    $"نام پدر {user.FatherName}        کد ملی {user.NationaCode}\n" +
    $" دوره " + groupAzmoon + $"<color red>{answerEntity.Name}</color>" + "\n" +
-   $"را در تاریخ  {answerUser.AcceptedDate?.ToPersianDate()} به مدت {answerEntity.TimeDuration} ساعت با موفقیت به پایان رسانده است.",
+   $"را در تاریخ  {answerUser.CreatedDate.ToPersianDate()} به مدت {answerEntity.CoursTimeDuration} ساعت با موفقیت به پایان رسانده است.",
    fontPath: fontPath + "BYekan.ttf", // اگر ندارید null بفرستید
    fontName: "BYekan",
    initialFontSize: 21,
