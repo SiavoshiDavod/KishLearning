@@ -144,7 +144,7 @@ namespace SenakLearn.Biz
                             Accepted = u.AcceptedDate != null ? true : false,
                             AzmounDate = u.CreatedDate,
                             AcceptedDate = u.AcceptedDate,
-                            TimeDuration = e.TimeDuration,
+                            TimeDuration = e.CoursTimeDuration,
                             FromDate = e.FromDate,
                             ToDate = e.ToDate,
 
@@ -185,7 +185,7 @@ namespace SenakLearn.Biz
                             Accepted = u.AcceptedDate != null ? true : false,
                             AzmounDate = u.CreatedDate,
                             AcceptedDate = u.AcceptedDate,
-                            TimeDuration = e.TimeDuration,
+                            TimeDuration = e.CoursTimeDuration,
                             FromDate = e.FromDate,
                             ToDate = e.ToDate,
 
