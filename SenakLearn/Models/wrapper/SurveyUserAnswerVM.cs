@@ -22,6 +22,7 @@ namespace SenakLearn.Models.wrapper
         [Description("نام کاربري")]
         [Excel(IsColumnOut = true, Title = "")]
         public string UserName { get; set; }
+        public int? UserId { get; set; }
         [Description("پاسخ داده نشده")]
         [Excel(IsColumnOut = true, Title = "")]
         public int NoAnswerd { get; set; }

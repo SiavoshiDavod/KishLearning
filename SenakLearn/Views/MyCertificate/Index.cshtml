@@ -42,7 +42,11 @@
                                     <img class="img-fluid center-block" src="~/images/Interview/02.png" width="50%" height="50%" alt="@item.Person_Course">
                                     <div class="product-overlay">
                                         <div class="add-to-cart">
-                                            <a target="_blank" href="/MyCertificate/LoadFile?PersonCertificateId=@item.Id">مشاهده مدرک</a>
+                                            @if (item.TypeCourse == "Course")
+                                            {<a target="_blank" href="/MyAzmoon/Print?userAnswerId=@item.Id">مشاهده مدرک</a> }
+                                            else
+                                            {<a target="_blank" href="/MyCertificate/LoadFile?PersonCertificateId=@item.Id">مشاهده مدرک</a>}
+
                                         </div>
                                     </div>
                                 </div>

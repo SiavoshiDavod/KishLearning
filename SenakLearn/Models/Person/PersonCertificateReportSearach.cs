@@ -10,6 +10,7 @@ namespace SenakLearn.Models.Person
 {
     public class PersonCertificateReportSearach
     {
+        public int Id { get; set; }
         public  int? PersonCertificateId { get; set; }
         public int? Person_CourseId { get; set; }
         public string CourseTitle { get; set; }
@@ -85,5 +86,6 @@ namespace SenakLearn.Models.Person
         [Excel(IsColumnOut = true)]
         public string InOut { get; set; }
         public string act { get; set; }
+        public string ReportType { get; set; }
     }
 }

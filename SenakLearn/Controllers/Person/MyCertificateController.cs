@@ -17,18 +17,19 @@ namespace SenakLearn.Controllers.Person
             {
                 var certificates_person = PersonCertificateBiz.Instance.FindByUserId(Current_learn_userId);
                 var certificates_cours = AzmoonUserAnswerBiz.Instance.GetAllAzmoonAcceptedByUserId(Current_learn_userId);
-                certificates_person.AddRange(certificates_cours.Select(a => new Person_Certificate
+                var certificateCoursList = certificates_cours.Select(a => new Person_Certificate
                 {
-                    Id=a.Id,
-                    Person_Course=a.SurveyEntity,
-                    CourseLeader="KishLearning",
+                    Id = a.Id,
+                    Person_Course = a.SurveyEntity,
+                    CourseLeader = "KishLearning",
                     Code = a.Id.ToString(),
                     IssueDate = a.AcceptedDatePersian,
                     FromDate = a.FromDateCourse,
                     ToDate = a.ToDateCourse,
-                    Duration=a.TimeDuration,
-                    TypeCourse="Course"
-                }).ToList());
+                    Duration = a.TimeDuration,
+                    TypeCourse = "Course"
+                }).ToList();
+                certificates_person.AddRange(certificateCoursList);
                 var courSums = certificates_person.GroupBy(g => g.CourseLeader).Select(a => new VW_Person_Certificate
                 {
                     CoursLeader = a.Key,

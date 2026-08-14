@@ -2880,6 +2880,7 @@
     <Content Include="images\paper\22.jpg" />
     <Content Include="images\paper\download.png" />
     <Content Include="images\paper\paper.jpg" />
+    <Content Include="images\PersonCertificate\3a60ebe89cff45b99b548bda186ddf48.png" />
     <Content Include="images\Question\00.jpg" />
     <Content Include="images\Question\01.jpg" />
     <Content Include="images\Question\01فرم مشخصات شرکت کنندگان.jpg" />
@@ -4399,7 +4400,6 @@
     <Folder Include="images\64x64\" />
     <Folder Include="images\Answer\" />
     <Folder Include="images\AzmoonCer\" />
-    <Folder Include="images\PersonCertificate\" />
     <Folder Include="images\VideoFile\" />
     <Folder Include="Views\BookSlide\" />
   </ItemGroup>

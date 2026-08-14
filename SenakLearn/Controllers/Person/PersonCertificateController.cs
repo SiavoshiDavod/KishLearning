@@ -68,6 +68,7 @@ namespace SenakLearn.Controllers.Person
                 PersonCertificateColumnReports = new GridColumnModelList<PersonCertificateReportSearach>();
                 PersonCertificateColumnReports.Add(x => x.PersonCertificateId).SetAsPrimaryKey().SetHidden(true).SetWidth("50");
                 PersonCertificateColumnReports.Add(x => x.act).SetCaption("").SetWidth("50");
+                PersonCertificateColumnReports.Add(x => x.ReportType).SetCaption("نوع گزارش").SetWidth("130");
                 PersonCertificateColumnReports.Add(x => x.Code).SetCaption("کد مدرک").SetWidth("130");
                 PersonCertificateColumnReports.Add(x => x.Person_Course).SetCaption("نام دوره").SetWidth("200");
                 PersonCertificateColumnReports.Add(x => x.CourseLeader).SetCaption("مجری دوره").SetWidth("150");

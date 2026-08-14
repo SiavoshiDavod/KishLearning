@@ -162,6 +162,51 @@ namespace SenakLearn.Biz
             });
             return list;
         }
+        public IEnumerable<SurveyUserAnswerVM> GetAllAzmoonAccepted()
+        {
+            List<SurveyUserAnswerVM> list;
+            using (var ctx = new SWEntities())
+                list = (from u in ctx.AzmoonUserAnswer
+                        join e in ctx.AzmoonEntity on u.AzmoonEntityId equals e.Id
+                        join o in ctx.learn_user on u.UserId equals o.id
+                        where u.AcceptedDate != null
+                        select new SurveyUserAnswerVM()
+                        {
+                            Id = u.Id,
+                            Ip = u.Ip,
+                            SurveyEntity = e.Name,
+                            CorrectAnswerd = u.CorrectAnswerd,
+                            NoAnswerd = u.NoAnswerd,
+                            WrongAnswerd = u.WrongAnswerd,
+                            TotalScore = u.TotalScore,
+                            TotalRank = u.TotalRank,
+                            TotalCorrectScore = e.TotalScore,
+                            maxScore = e.MaxScore,
+                            minScore = e.MinScore,
+                            zaribManfi = e.ZaribManfi,
+                            Accepted = u.AcceptedDate != null ? true : false,
+                            AzmounDate = u.CreatedDate,
+                            AcceptedDate = u.AcceptedDate,
+                            TimeDuration = e.CoursTimeDuration,
+                            FromDate = e.FromDate,
+                            ToDate = e.ToDate,
+                            UserId=u.UserId,
+                            UserName=o.user_name,
+                            AzmoonEntityId=e.Id,
+                        }).ToList();
+            list.ForEach(row =>
+            {
+                if (row.AcceptedDate != null)
+                    row.AcceptedDatePersian = row.AcceptedDate.Value.GeogianToPersianStringDateOnly();
+                if (row.FromDate != null)
+                    row.FromDateCourse = row.FromDate.Value.GeogianToPersianStringDateOnly();
+                if (row.ToDate != null)
+                    row.ToDateCourse = row.ToDate.Value.GeogianToPersianStringDateOnly();
+                if (row.AzmounDate.HasValue)
+                    row.AzmounDatePersian = row.AzmounDate.Value.GeogianToPersianStringDateOnly();
+            });
+            return list;
+        }
         public SurveyUserAnswerVM GetAzmoonById(int AzmoonUserAnswerId)
         {
             SurveyUserAnswerVM item;

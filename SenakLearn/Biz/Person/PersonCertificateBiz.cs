@@ -1,12 +1,13 @@
-﻿using SenakLearn.JqGrid.Common;
+﻿using DocumentFormat.OpenXml.Office2010.ExcelAc;
+using DocumentFormat.OpenXml.Spreadsheet;
 using SenakLearn.JqGrid;
+using SenakLearn.JqGrid.Common;
+using SenakLearn.Models.Person;
 using System;
 using System.Collections.Generic;
+using System.IO;
 using System.Linq;
 using System.Web;
-using SenakLearn.Models.Person;
-using DocumentFormat.OpenXml.Spreadsheet;
-using System.IO;
 
 namespace SenakLearn.Biz.Person
 {
@@ -32,7 +33,7 @@ namespace SenakLearn.Biz.Person
                     Id = a.Id,
                     InOutTitle = a.InOut == true ? "داخلی" : "خارجی",
                     InOut = a.InOut,
-                    TypeCourse = "Person"
+                    TypeCourse = "Person",
                 }).ToList();
                 var certificates_cours = AzmoonUserAnswerBiz.Instance.GetAllAzmoonAcceptedByUserId(userId);
                 list.AddRange(certificates_cours.Select(a => new Person_Certificate
@@ -51,9 +52,32 @@ namespace SenakLearn.Biz.Person
                 return list.AsQueryable().FilterAndSortJqGrid(grid).ToPagedList(grid);
             }
         }
+        private List<PersonCertificateReportSearach> GetAllAzmoonAccepted()
+        {
+            var listCourse = AzmoonUserAnswerBiz.Instance.GetAllAzmoonAccepted();
+           return listCourse.Select(a => new PersonCertificateReportSearach()
+            {
+                Id = a.Id,
+                ReportType = "Course",
+                Code = a.Id.ToString(),
+                IssueDatePersian = a.AcceptedDatePersian,
+                Person_Course = a.SurveyEntity,
+                CourseLeader = "KishLearning",
+                UserId = a.UserId,
+                CourseFromDate = a.FromDateCourse,
+                CourseToDate = a.ToDateCourse,
+                PersonName = a.UserName,
+                Course_Code = a.AzmoonEntityId.ToString(),
+                Duration = a.TimeDuration,
+                InOut = "داخلی",
+                PersonCode = a.UserId?.ToString()
+            }).ToList();
+        }
         public PagedList<PersonCertificateReportSearach> GetAllPagedListReport(GridSettings grid, PersonCertificateReportSearach search)
         {
             var list = GetAllList(search);
+            var listCourse = GetAllAzmoonAccepted();
+            list.AddRange(listCourse);
             var pagedLists = list.AsQueryable().FilterAndSortJqGrid(grid).ToPagedList(grid);
             return pagedLists;
 
@@ -61,6 +85,10 @@ namespace SenakLearn.Biz.Person
         public MemoryStream GetAllReportExcel(PersonCertificateReportSearach search)
         {
             var list = GetAllList(search);
+
+            var listCourse = GetAllAzmoonAccepted();
+            list.AddRange(listCourse);
+
             list.Add(new PersonCertificateReportSearach { CourseLeader = "جمع", Duration = list.Sum(s => s.Duration) });
             var excelService = new ExcelService();
             var memoryStream = excelService.GenerateExcelFile(list);
@@ -112,7 +140,8 @@ namespace SenakLearn.Biz.Person
                                  Course_Code = p != null ? p.Code : string.Empty,
                                  Teacher_Expertise = t != null ? t.Expertise : string.Empty,
                                  Course_Description = p.Description,
-                                 InOut = i.InOut == true ? "خارجی" : "داخلی"
+                                 InOut = i.InOut == true ? "خارجی" : "داخلی",
+                                 ReportType="Person"
                              }
                                 );
                 }
