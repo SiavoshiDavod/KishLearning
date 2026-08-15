@@ -31,7 +31,7 @@ namespace SenakLearn.Biz.Person
                     ToDate = a.ToDate,
                     Duration = a.Duration,
                     Id = a.Id,
-                    InOutTitle = a.InOut == true ? "داخلی" : "خارجی",
+                    InOutTitle = a.InOut == true ? "خارجی" : "داخلی",
                     InOut = a.InOut,
                     TypeCourse = "Person",
                 }).ToList();
@@ -46,16 +46,23 @@ namespace SenakLearn.Biz.Person
                     FromDate = a.FromDateCourse,
                     ToDate = a.ToDateCourse,
                     Duration = a.TimeDuration,
-                    InOutTitle =  "داخلی" ,
+                    InOutTitle = "داخلی",
                     TypeCourse = "Course"
                 }).ToList());
                 return list.AsQueryable().FilterAndSortJqGrid(grid).ToPagedList(grid);
             }
         }
-        private List<PersonCertificateReportSearach> GetAllAzmoonAccepted()
+        private List<PersonCertificateReportSearach> GetAllAzmoonAccepted(PersonCertificateReportSearach search)
         {
+            if (search != null && (search.Person_CourseId != null || search.PersonOrgId != null))
+                return new List<PersonCertificateReportSearach>();
+
             var listCourse = AzmoonUserAnswerBiz.Instance.GetAllAzmoonAccepted();
-           return listCourse.Select(a => new PersonCertificateReportSearach()
+            if (search != null && search.UserId != null)
+                listCourse = listCourse.Where(w => w.UserId == search.UserId).ToList();
+            if (search != null && !string.IsNullOrEmpty(search.UserIds))
+                listCourse = listCourse.Where(w => search.UserIds.Contains(w.UserId.ToString())).ToList();
+            return listCourse.Select(a => new PersonCertificateReportSearach()
             {
                 Id = a.Id,
                 ReportType = "Course",
@@ -76,7 +83,7 @@ namespace SenakLearn.Biz.Person
         public PagedList<PersonCertificateReportSearach> GetAllPagedListReport(GridSettings grid, PersonCertificateReportSearach search)
         {
             var list = GetAllList(search);
-            var listCourse = GetAllAzmoonAccepted();
+            var listCourse = GetAllAzmoonAccepted(search);
             list.AddRange(listCourse);
             var pagedLists = list.AsQueryable().FilterAndSortJqGrid(grid).ToPagedList(grid);
             return pagedLists;
@@ -86,7 +93,7 @@ namespace SenakLearn.Biz.Person
         {
             var list = GetAllList(search);
 
-            var listCourse = GetAllAzmoonAccepted();
+            var listCourse = GetAllAzmoonAccepted(search);
             list.AddRange(listCourse);
 
             list.Add(new PersonCertificateReportSearach { CourseLeader = "جمع", Duration = list.Sum(s => s.Duration) });
@@ -141,7 +148,7 @@ namespace SenakLearn.Biz.Person
                                  Teacher_Expertise = t != null ? t.Expertise : string.Empty,
                                  Course_Description = p.Description,
                                  InOut = i.InOut == true ? "خارجی" : "داخلی",
-                                 ReportType="Person"
+                                 ReportType = "Person"
                              }
                                 );
                 }
