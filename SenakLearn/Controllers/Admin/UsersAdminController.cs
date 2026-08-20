@@ -161,9 +161,9 @@ namespace SenakLearn.Controllers.Admin
                 return HttpNotFound();
             }
             var postList = PostBiz.Instance.DropDown();
-            postList.Insert(0, new SelectListItem { Text = "..." });
+            postList.Insert(0, new SelectListItem { Text = "...", Value = string.Empty });
             var orgList = OrgBiz.Instance.DropDown();
-            orgList.Insert(0, new SelectListItem { Text = "..." });
+            orgList.Insert(0, new SelectListItem { Text = "...", Value = string.Empty });
             ViewBag.PostList = postList;
             ViewBag.OrgList = orgList;
 
@@ -196,9 +196,9 @@ namespace SenakLearn.Controllers.Admin
             if (userNameExist == null)
             {
                 var postList = PostBiz.Instance.DropDown();
-                postList.Insert(0, new SelectListItem { Text = "..." });
+                postList.Insert(0, new SelectListItem { Text = "...",Value=string.Empty });
                 var orgList = OrgBiz.Instance.DropDown();
-                orgList.Insert(0, new SelectListItem { Text = "..." });
+                orgList.Insert(0, new SelectListItem { Text = "...", Value = string.Empty });
                 ViewBag.PostList = postList;
                 ViewBag.OrgList = orgList;
                 ModelState.AddModelError("user_name", " کاربر معتبر نیست");
@@ -231,6 +231,7 @@ namespace SenakLearn.Controllers.Admin
             userNameExist.user_name = learn_user.user_name;
             userNameExist.Name = learn_user.Name;
             userNameExist.Family = learn_user.Family;
+            userNameExist.FatherName = learn_user.FatherName;
             userNameExist.Email = learn_user.Email;
             userNameExist.status = learn_user.status;
             userNameExist.RoleId = learn_user.RoleId;

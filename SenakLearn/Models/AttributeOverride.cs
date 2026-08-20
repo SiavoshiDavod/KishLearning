@@ -85,26 +85,31 @@ namespace SenakLearn.Models
             yield return rule;
         }
     }
-    public class GenericStringLength : StringLengthAttribute, IClientValidatable
+
+
+public class GenericStringLength : StringLengthAttribute, IClientValidatable
     {
-        public GenericStringLength(int length) : base(length)
+        public GenericStringLength(int maximumLength)
+            : base(maximumLength)
         {
-            this.ErrorMessage = "حداکثر طول {0} تعداد {1} می باشد";
+            ErrorMessage = "حداکثر طول {0} تعداد {1} می‌باشد.";
         }
 
-        public IEnumerable<ModelClientValidationRule> GetClientValidationRules(ModelMetadata metadata, ControllerContext context)
+        public override string FormatErrorMessage(string name)
         {
-            var rule = new ModelClientValidationRule
-            {
-                ErrorMessage = FormatErrorMessage(metadata.DisplayName),
-                ValidationType = "length",
-            };
-            rule.ValidationParameters.Add("max", this.MaximumLength);
-            if (this.MinimumLength > 0)
-            {
-                rule.ValidationParameters.Add("max", this.MinimumLength);
-            }
-            yield return rule;
+            return string.Format(ErrorMessageString, name, MaximumLength);
+        }
+
+        public IEnumerable<ModelClientValidationRule> GetClientValidationRules(
+            ModelMetadata metadata,
+            ControllerContext context)
+        {
+            yield return new ModelClientValidationStringLengthRule(
+                FormatErrorMessage(metadata.GetDisplayName()),
+                MinimumLength,
+                MaximumLength
+            );
         }
     }
+
 }

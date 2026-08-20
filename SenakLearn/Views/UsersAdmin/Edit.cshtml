@@ -10,9 +10,8 @@
 <h2>@ViewBag.Title</h2>
 
 
-@using (Html.BeginForm())
+@using (Html.BeginForm("Edit", "UsersAdmin", FormMethod.Post, new { id = "editUserForm" }))
 {
-
 
     <div class="form-horizontal">
 
@@ -21,12 +20,12 @@
         @Html.HiddenFor(model => model.date_register)
 
         @*<div class="form-group">
-            @Html.LabelFor(model => model.id_person,  new { @class = "control-label col-md-2" })
-            <div class="col-md-10">
-                @Html.DropDownList("id_person", String.Empty)
-                @Html.ValidationMessageFor(model => model.id_person)
-            </div>
-        </div>*@
+                @Html.LabelFor(model => model.id_person,  new { @class = "control-label col-md-2" })
+                <div class="col-md-10">
+                    @Html.DropDownList("id_person", String.Empty)
+                    @Html.ValidationMessageFor(model => model.id_person)
+                </div>
+            </div>*@
 
         <div class="form-group">
             @Html.LabelFor(model => model.user_name, new { @class = "control-label col-md-2" })
@@ -77,6 +76,14 @@
         </div>
 
         <div class="form-group">
+            @Html.LabelFor(model => model.FatherName, new { @class = "control-label col-md-2" })
+            <div class="col-md-10">
+                @Html.TextBoxFor(model => model.FatherName)
+                @Html.ValidationMessageFor(model => model.FatherName)
+            </div>
+        </div>
+
+        <div class="form-group">
             @Html.LabelFor(model => model.TypeUser, new { @class = "control-label col-md-2" })
             <div class="col-md-10">
                 @Html.DropDownListFor(model => model.TypeUser, new List<SelectListItem> { new SelectListItem { Text = "شخصی", Value = "1" }, new SelectListItem { Text = "سازمانی", Value = "2" } })
@@ -102,12 +109,14 @@
             @Html.LabelFor(model => model.PostId, new { @class = "control-label col-md-2" })
             <div class="col-md-10">
                 @Html.DropDownListFor(model => model.PostId, Posts, htmlAttributes: new { @class = "form-control" })
+                @Html.ValidationMessageFor(model => model.PostId)
             </div>
         </div>
         <div class="form-group">
             @Html.LabelFor(model => model.OrgId, new { @class = "control-label col-md-2" })
             <div class="col-md-10">
                 @Html.DropDownListFor(model => model.OrgId, Orgs, htmlAttributes: new { @class = "form-control" })
+                @Html.ValidationMessageFor(model => model.OrgId)
             </div>
         </div>
 
@@ -128,5 +137,30 @@
 
 @section Scripts {
     <script src='/Scripts/Learn.js' type='text/javascript'></script>
-    @Scripts.Render("~/bundles/jqueryval")s
+    @Scripts.Render("~/bundles/jqueryval")
+    <script>
+        $(function () {
+            var form = $("#editUserForm");
+
+            form.on("invalid-form.validate", function (event, validator) {
+                console.log("POST متوقف شد؛ فرم نامعتبر است.");
+
+                console.table(
+                    validator.errorList.map(function (item) {
+                        return {
+                            FieldName: item.element.name,
+                            FieldId: item.element.id,
+                            Value: item.element.value,
+                            Message: item.message
+                        };
+                    })
+                );
+            });
+
+            form.on("submit", function () {
+                console.log("submit event reached.");
+                console.log("form.valid():", form.valid());
+            });
+        });
+    </script>
 }

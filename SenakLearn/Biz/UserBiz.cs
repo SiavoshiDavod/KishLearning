@@ -309,7 +309,7 @@ namespace SenakLearn.Biz
                 return user;
             }
         }
-        public Tuple<bool,string> UploadUser(HttpPostedFileBase file, int OrgId)
+        public Tuple<bool, string> UploadUser(HttpPostedFileBase file, int OrgId)
         {
 
             int fileSize = file.ContentLength;
@@ -322,7 +322,7 @@ namespace SenakLearn.Biz
             var excelService = new ExcelService();
             var importDataList = excelService.ProcessExcelFile<UserImportExcelWrapper>(data).ToList();
             if (importDataList == null || importDataList.Count == 0)
-                return new Tuple<bool, string>(false,"فایل اکسل نامعتبر است !");
+                return new Tuple<bool, string>(false, "فایل اکسل نامعتبر است !");
             List<learn_user> users = new List<learn_user>();
             importDataList = importDataList.Where(w => w.CodeMeli != null).ToList();
             if (importDataList.Count == 0) return new Tuple<bool, string>(false, "فایل اکسل نامعتبر است !");
@@ -354,19 +354,19 @@ namespace SenakLearn.Biz
                 {
                     var res = user.Validate(true);
                     if (res.Count > 0)
-                        validations.AddRange(res.Select(a=>a.ErrorMessage).Distinct());
+                        validations.AddRange(res.Select(a => a.ErrorMessage).Distinct());
                 });
                 if (validations.Count > 0)
                 {
                     var error = new Tuple<bool, string>(false, validations.Distinct().FirstOrDefault());
                     return error;
                 }
-                if (users.Count == 0)   return new Tuple<bool, string>(false, "فایل اکسل نامعتبر است !");
-                
+                if (users.Count == 0) return new Tuple<bool, string>(false, "فایل اکسل نامعتبر است !");
+
                 db.learn_user.AddRange(users);
                 db.SaveChanges();
             }
-            return  new Tuple<bool, string>(true, ""); ;
+            return new Tuple<bool, string>(true, ""); ;
         }
         public Models.learn_user UpdateUser(learn_user user)
         {
@@ -397,12 +397,13 @@ namespace SenakLearn.Biz
                 {
                     throw new Exception("کاربر یافت نشد");
                 }
-                var usedNationalCode = db.learn_user.Where(w => w.NationaCode == user.NationaCode);
-                if(usedNationalCode!=null)
+                var usedNationalCode = db.learn_user.Where(w => w.NationaCode == user.NationaCode && w.id != user.Id);
+                if (usedNationalCode.Any())
                 {
                     throw new Exception("کد ملی تکراری است !");
                 }
                 existuser.Province = user.Province;
+                existuser.Email = user.Email;
                 existuser.City = user.City;
                 existuser.Education = user.Education;
                 existuser.Expertise = user.Expertise;
