@@ -80,12 +80,12 @@ namespace SenakLearn.Models
 
         [Display(Name = "تاریخ تولد")]
         public DateTime? BirthDay { get; set; }
-
-        public virtual string BirthDayShamsi
-        {
-            get => BirthDay==null?"": BirthDay.Value.ToPersianDate();
-            set => BirthDay = value.ToGregorianDate();
-        }
+        public string BirthDayShamsi { get; set; }
+        //public virtual string BirthDayShamsi
+        //{
+        //    get => BirthDay==null?"": BirthDay.Value.ToPersianDate();
+        //    set => BirthDay = value.ToGregorianDate();
+        //}
 
         [Display(Name = "شماره شناسنامه"), GenericStringLength(15)]
         public string Shenasname { get; set; }

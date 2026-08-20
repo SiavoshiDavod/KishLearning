@@ -91,14 +91,10 @@
 
                     @Html.LabelFor(model => model.BirthDay, new { @class = "control-label col-md-2 " })
                     <div  class="input-group   col-md-10">
-                        @*<input type="text" class="form-control MyDate" id="BirthDayShamsi" data-targetselector="#FromDate_l" name="BirthDayShamsi" placeholder="تاریخ" data-mddatetimepicker="true" data-placement="right" data-englishnumber="true" value="@Model.BirthDayShamsi" />*@
-                        @*@Html.TextBoxFor(model => model.BirthDay, new { @style = " ", @maxlength = 100, @class = "form-control" })*@
-                        @*@Html.ValidationMessageFor(model => model.BirthDayShamsi, "", new { @class = "text-danger" })*@
-
                         <div class="input-group-addon" data-mddatetimepicker="true" data-targetselector="#BirthDayShamsi" data-trigger="click" data-enabletimepicker="false">
                             <span class="glyphicon glyphicon-calendar"></span>
                         </div>
-                        <input type="text" class="form-control" id="BirthDayShamsi" name="BirthDayShamsi" value="@Model.BirthDayShamsi" placeholder="تاریخ تولد" />
+                        <input type="text" style=" width:fit-content;" class="form-control" id="BirthDayShamsi" name="BirthDayShamsi" value="@Model.BirthDayShamsi" placeholder="تاریخ تولد" />
                     </div>
                 </div>
 

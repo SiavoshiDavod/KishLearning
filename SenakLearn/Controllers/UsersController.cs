@@ -266,6 +266,7 @@ namespace SenakLearn.Controllers
                 Expertise = register.Expertise,
                 BirthLocation = register.BirthLocation,
                 BirthDay = register.BirthDay,
+                BirthDayShamsi=register.BirthDay.HasValue? register.BirthDay.Value.ToPersianDate():string.Empty,
                 Tel = register.Tel,
                 Shenasname = register.Shenasname,
                 FatherName = register.FatherName,
@@ -277,6 +278,10 @@ namespace SenakLearn.Controllers
         {
             try
             {
+                if(!string.IsNullOrEmpty(register.BirthDayShamsi))
+                {
+                    register.BirthDay= register.BirthDayShamsi.PersianStringDateToDatetime(true);
+                }
                 register.ImageUrl = EditFile(ImageFile, pathFile.Users, GetSessionUser().ImageUrl);
                 register.Id = Current_learn_userId;
                 var updatedUser = UserBiz.Instance.UpdateUser(register);
