@@ -54,6 +54,9 @@ namespace SenakLearn.Models
         public override DateTime CreatedDate { get { return CreateDate; }  }
         [Display(Name = "مبلغ اصلی")]
         public decimal? AmountMaster { get; set; }
+        [NotMapped]
+        [Display(Name = "عنوان محصول")]
+        public string TitleForSale { get; set; }
         //[NotMapped]
         //public virtual string CreatedDateShamsi
         //{

@@ -239,6 +239,7 @@
     <Compile Include="Biz\FactorBiz.cs" />
     <Compile Include="Biz\ImageTextPrinterBiz.cs" />
     <Compile Include="Biz\ImageTextPrinterColorBiz.cs" />
+    <Compile Include="Biz\ParsianBankBiz.cs" />
     <Compile Include="Models\Common\FileStreamResponse.cs" />
     <Compile Include="Biz\GroupAzmoonBiz.cs" />
     <Compile Include="Biz\GroupBiz.cs" />
@@ -453,6 +454,7 @@
     <Compile Include="Models\PaperTranslateQuality.cs" />
     <Compile Include="Models\PaperTrend.cs" />
     <Compile Include="Models\PaperUniversity.cs" />
+    <Compile Include="Models\Parsian\ParsianPaymentResponse.cs" />
     <Compile Include="Models\Person\PersonCertificateReportSearach.cs" />
     <Compile Include="Models\Person\Person_Certificate.cs" />
     <Compile Include="Models\Person\Person_Course.cs" />

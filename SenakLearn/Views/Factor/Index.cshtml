@@ -57,7 +57,7 @@
             </div>
             <div class="row">
                 <div class="col-12 center-block" style="text-align:center">
-                    <h7> @Model.ServiceName @Model.Descript </h7>
+                    <h7> @Model.ServiceName @Model.TitleForSale </h7>
                 </div>
             </div>
         </div>
@@ -94,7 +94,7 @@
                 <div class="col-3 lbl">مبلغ:</div>
                 <div class="col-3">@Model.Amount.ToString("N0") ریال </div>
                 <div class="col-3 lbl">مبلغ اصلی :</div>
-                <div class="col-3">@(Model?.AmountMaster?.ToString("N0")) ریال</div>
+                <div class="col-3">@(Model.AmountMaster!=null? Model?.AmountMaster?.ToString("N0")+" ریال ":string.Empty) </div>
             </div>
             <div class="row border-bottom mg-t10">
                 <div class="col-3 lbl">توضیحات:</div>

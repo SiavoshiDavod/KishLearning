@@ -150,7 +150,28 @@ namespace SenakLearn.Biz
                 code = "C-" + new Random().Next(10000, 99999);
             else if (servicename == "پادکست")
                 code = "P-" + new Random().Next(10000, 99999);
+            else if (servicename == "کتاب")
+                code = "B-" + new Random().Next(10000, 99999);
             return code;
+        }
+        public FactorModel LoadNewFactore(FactorModel model)
+        {
+
+
+            if (model.ServiceName == "دوره آموزشی")
+            { }
+            else if (model.ServiceName == "پادکست")
+            { } 
+            else if (model.ServiceName == "کتاب")
+                {
+                var book = BookBiz.Instance.Get(int.Parse(model.IdForSale));
+                if (book == null)
+                    return null;
+                model.TitleForSale = book.TitleF;
+                model.Amount = book.Price;
+            }
+
+            return model;
         }
     }
 }
