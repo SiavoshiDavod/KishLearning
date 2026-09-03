@@ -2,6 +2,8 @@
 @{
     Layout = "~/Views/Shared/_Layout.cshtml";
     ViewBag.Title = "کتاب " + Model.TitleF;
+    var isAuthorize = ViewBag.IsAuthorized;
+    List<string> saleIdUsers = ViewBag.saleIdUsers;
 }
 <div class="container">
     <div class="row">
@@ -44,15 +46,33 @@
                                             <div style="text-align: center;">
                                                 @if (Model.Price == 0)
                                                 {
-                                                    <a href="~/images/Book/@Model.FileId" onclick='return countPreviewItemByClient("@SenakLearn.Models.ObjCount.objType_BookDownload",@Model.Id)' class="large otw-aqua round right-icon otw-button" target="_blank">
+                                                    <a href="/Books/DownloadBook/@Model.Id" onclick='return countPreviewItemByClient("@SenakLearn.Models.ObjCount.objType_BookDownload",@Model.Id)' class="large otw-aqua round right-icon otw-button" target="_blank">
                                                         <i class="general foundicon-down-arrow"></i>دانلود رایگان کتاب
                                                     </a>
                                                 }
                                                 else
                                                 {
-                                                    <a href="#" onclick='fn_buyBooks(@Model.Id)' class="large otw-aqua round right-icon otw-button" target="_blank">
-                                                        <i class="general foundicon-down-arrow"></i>خرید کتاب
-                                                    </a>
+                                                    if (isAuthorize == false)
+                                                    {
+                                                        <a href="#" onclick='fn_buyBooks(@Model.Id)' class="large otw-aqua round right-icon otw-button" target="_blank">
+                                                            <i class="general foundicon-down-arrow"></i>خرید کتاب
+                                                        </a>
+                                                    }
+                                                    else
+                                                    {
+                                                        if (saleIdUsers.Any(a => a == Model.Id.ToString()))
+                                                        {
+                                                            <a href="/Books/DownloadBook/@Model.Id" onclick='return countPreviewItemByClient("@SenakLearn.Models.ObjCount.objType_BookDownload",@Model.Id)' class="large otw-aqua round right-icon otw-button" target="_blank">
+                                                                <i class="general foundicon-down-arrow"></i>دانلود کتاب
+                                                            </a>
+                                                        }
+                                                        else
+                                                        {
+                                                            <a href="#" onclick='fn_buyBooks(@Model.Id)' class="large otw-aqua round right-icon otw-button" target="_blank">
+                                                                <i class="general foundicon-down-arrow"></i>خرید کتاب
+                                                            </a>
+                                                        }
+                                                    }
                                                 }
                                                 &nbsp;
                                             </div>
@@ -111,10 +131,10 @@
                                     </tr>
                                     @if (Model.Price > 0)
                                     {
-                                    <tr style="height: 15px;">
-                                        <td style="width: 27%; background-color: #f2f2f2; height: 15px;">مبلغ : </td>
-                                        <td style="height: 15px; width: 72.8522%;">@Model.Price.ToString("N0")</td>
-                                    </tr>
+                                        <tr style="height: 15px;">
+                                            <td style="width: 27%; background-color: #f2f2f2; height: 15px;">مبلغ : </td>
+                                            <td style="height: 15px; width: 72.8522%;">@Model.Price.ToString("N0")</td>
+                                        </tr>
                                     }
                                 </tbody>
                             </table>
@@ -181,7 +201,7 @@
 @section scripts {
     <script>
         function fn_buyBooks(bookId) {
-            window.open("/Factor/Index?IdForSale=" + bookId +"&ServiceName=کتاب")
+            window.open("/Factor/Index?IdForSale=" + bookId + "&ServiceName=کتاب")
         }
 
     </script>

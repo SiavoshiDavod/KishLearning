@@ -12,7 +12,7 @@
                 <li><a href="#">@ViewBag.Title</a></li>
                 <li class="active">Dashboard</li>
             </ol>
-            <h4 class="page-title">@Html.ActionLink("اکسل", "Excel", new { @class = "page-title" }) </h4>
+            <h4 class="page-title">@Html.ActionLink("اکسل", "Excel") </h4>
         </div>
     </div>
 </div>
@@ -36,9 +36,13 @@
             var ids = $("#FactorGrid").jqGrid('getDataIDs');
             for (var i = 0; i < ids.length; i++) {
                 var cl = ids[i];
-                dl = '<a class="ajaxLink delete" onclick="removeFactor(' + cl + ')" title="ابطال"   ><div class="tableDeleteLink">حذف</div></a>';
+
+                dl = '<a class="ajaxLink delete" onclick="removeFactor(' + cl + ')" title="ابطال"   ><div class="tableDeleteLink">ابطال</div></a>';
                 de = '<a class="ajaxLink "href="/Factor/Details?Id=' + cl + '" title="جزئیات"   ><div class="tableDetailLink">جزئیات</div></a>';
-                $('#FactorGrid').jqGrid('setRowData', ids[i], { act:  dl + de });
+                var statusId = $("#FactorGrid").jqGrid('getCell', cl, 'StatusId');
+                if (statusId == @SenakLearn.Models.FactorStatusEnum.Factor_Status_Success || statusId == @SenakLearn.Models.FactorStatusEnum.Factor_Status_Removed)
+                    dl = '';
+                $('#FactorGrid').jqGrid('setRowData', ids[i], { act: de + dl  });
             }
         }
         function removeFactor(id) {

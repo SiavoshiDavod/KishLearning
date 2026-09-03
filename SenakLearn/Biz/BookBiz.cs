@@ -1,7 +1,9 @@
-﻿using SenakLearn.Models;
+﻿using DocumentFormat.OpenXml.Presentation;
+using SenakLearn.Models;
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Threading.Tasks;
 using System.Web;
 
 namespace SenakLearn.Biz
@@ -28,7 +30,7 @@ namespace SenakLearn.Biz
             using (var context = new SWEntities())
             {
 
-                    return context.Set<Book>().Where(Expr).OrderByDescending(x => x.Id).ToList();
+                return context.Set<Book>().Where(Expr).OrderByDescending(x => x.Id).ToList();
             }
         }
         public List<BookSlideModel> GetBooksInSlider()
@@ -36,8 +38,23 @@ namespace SenakLearn.Biz
             using (var context = new SWEntities())
             {
 
-                return context.Set<BookSlideModel>().Where(w=>w.IsActive==true).OrderByDescending(x => x.Id).ToList();
+                return context.Set<BookSlideModel>().Where(w => w.IsActive == true).OrderByDescending(x => x.Id).ToList();
             }
+        }
+        public Dictionary<Book, byte[]> GetBookFile(int bookId, string serverBookPath)
+        {
+            var result = new Dictionary<Book, byte[]>();
+            byte[] bytes = null;
+            using (var context = new SWEntities())
+            {
+                Book book = Get(bookId);
+                if (book == null)
+                    return null;
+                var videoDir = serverBookPath + "/" + book.FileId;
+                bytes = System.IO.File.ReadAllBytes(videoDir);
+                result.Add(book, bytes);
+            }
+            return result;
         }
         public override int Remove(int id)
         {

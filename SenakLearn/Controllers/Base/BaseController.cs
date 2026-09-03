@@ -108,6 +108,7 @@ namespace SenakLearn.Controllers
         }
         public learn_user Current_learn_user { get; private set; }
         public int Current_learn_userId { get; private set; }
+        public bool IsAuthorized { get { return Current_learn_userId == 0 ? false : true; } private set { } }
         protected learn_user GetSessionUser()
         {
             try

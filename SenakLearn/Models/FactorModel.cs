@@ -31,7 +31,8 @@ namespace SenakLearn.Models
         [NotMapped]
         public string StatusName
         {
-            get => StatusId == 1 ? "پرداخت نشده" : StatusId == 2 ? "ارسال به درگاه" : StatusId == 3 ? "پرداخت موفق" : StatusId == 4 ? "پرداخت ناموفق" : StatusId == 5 ? "ابطال شده" : "";
+            get => StatusId == FactorStatusEnum.Factor_Status_Create ? "پرداخت نشده" : StatusId == FactorStatusEnum.Factor_Status_Sended ? "ارسال به درگاه" : StatusId == FactorStatusEnum.Factor_Status_Success
+                ? "پرداخت موفق" : StatusId == FactorStatusEnum.Factor_Status_NoPayment ? "پرداخت ناموفق" : StatusId == FactorStatusEnum.Factor_Status_Removed ? "ابطال شده" : "";
             set => value = null;
         }
         [Display(Name = "مبلغ")]
@@ -44,6 +45,8 @@ namespace SenakLearn.Models
         public string PaymentTrace { get; set; }
         [Display(Name = "تاریخ پرداخت")]
         public DateTime? PaymentDatetime { get; set; }
+        [NotMapped]
+        public string PaymentDatetimePer { get; set; }
         [Display(Name = "توضیحات")]
         public string Descript { get; set; }
         [Display(Name = "شماره فاکتور")]
@@ -92,5 +95,12 @@ namespace SenakLearn.Models
         /// ابطال شده
         /// </summary>
         public static readonly int Factor_Status_Removed = 5;
+    }
+
+    public static class FactorServiceName
+    {
+        public static readonly string Factor_ServiceName_Course = "دوره آموزشی";
+        public static readonly string Factor_ServiceName_Podcast = "پادکست";
+        public static readonly string Factor_ServiceName_Book = "کتاب";
     }
 }

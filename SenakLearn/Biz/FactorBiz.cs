@@ -6,7 +6,10 @@ using SenakLearn.JqGrid.Common;
 using SenakLearn.Models;
 using System;
 using System.Collections.Generic;
+using System.Data.Entity;
+using System.IO;
 using System.Linq;
+using System.Threading.Tasks;
 using System.Web;
 
 namespace SenakLearn.Biz
@@ -74,14 +77,60 @@ namespace SenakLearn.Biz
         }
         public PagedList<FactorViewModel> GetAllPagedList(GridSettings grid, int userId, bool isAdmin)
         {
+            using (SWEntities db = new SWEntities())
+            {
+                var query = GetAllQuery(db, userId, isAdmin);
+                var list = query.FilterAndSortJqGrid(grid).ToPagedList(grid);
+
+                list.ForEach(item =>
+                {
+                    if (item.PaymentDatetime.HasValue)
+                        item.PaymentDatetimePer = item.PaymentDatetime.Value.ToPersianDateTime();
+                    if (!string.IsNullOrEmpty(item.IdForSale) && !string.IsNullOrEmpty(item.ServiceName))
+                        item.TitleForSale = item.ServiceName == FactorServiceName.Factor_ServiceName_Book ?
+                                                BookBiz.Instance.Get(int.Parse(item.IdForSale))?.TitleF :
+                                                  string.Empty;
+                });
+                return list;
+            }
+        }
+
+        public async Task<List<FactorViewModel>> GetAllList(int userId, bool isAdmin)
+        {
+            using (SWEntities db = new SWEntities())
+            {
+                var query = GetAllQuery(db,userId, isAdmin);
+                var list = await query.ToListAsync();
+                list.ForEach(item =>
+                {
+                    if (item.PaymentDatetime.HasValue)
+                        item.PaymentDatetimePer = item.PaymentDatetime.Value.ToPersianDateTime();
+                    if (!string.IsNullOrEmpty(item.IdForSale) && !string.IsNullOrEmpty(item.ServiceName))
+                        item.TitleForSale = item.ServiceName == FactorServiceName.Factor_ServiceName_Book ?
+                                                BookBiz.Instance.Get(int.Parse(item.IdForSale))?.TitleF :
+                                                  string.Empty;
+                });
+                return list;
+            }
+        }
+        public async Task<MemoryStream> GetAllReportExcel(int userId, bool isAdmin)
+        {
+            var list =await GetAllList( userId,  isAdmin);
+
+            var excelService = new ExcelService();
+            var memoryStream = excelService.GenerateExcelFile(list);
+            return memoryStream;
+
+        }
+        public IQueryable<FactorViewModel> GetAllQuery(SWEntities db, int userId, bool isAdmin)
+        {
             try
             {
-                using (SWEntities db = new SWEntities())
-                {
                     db.Configuration.LazyLoadingEnabled = false;
                     db.Configuration.ProxyCreationEnabled = false;
                     //var lid = db.Factors.Where(w => (isAdmin || w.UserId == userId)).ToList();
                     var list = (from i in db.Factors
+                                join u in db.learn_user on i.UserId equals u.id
                                 select new FactorViewModel
                                 {
                                     Id = i.Id,
@@ -97,10 +146,13 @@ namespace SenakLearn.Biz
                                     PaymentTrace = i.PaymentTrace,
                                     PaymentTransaction = i.PaymentTransaction,
                                     PaymentDatetime = i.PaymentDatetime,
-                                    UserId = i.UserId
-                                }).Where(w => (isAdmin || w.UserId == userId)).FilterAndSortJqGrid(grid).ToPagedList(grid);
+                                    UserId = i.UserId,
+                                    UserName = u.user_name,
+                                    IdForSale = i.IdForSale,
+                                }).Where(w => (isAdmin || w.UserId == userId));
+
                     return list;
-                }
+                
             }
             catch (Exception ex)
             {
@@ -135,7 +187,7 @@ namespace SenakLearn.Biz
             }
             using (var context = new SWEntities())
             {
-                var item = context.Factors.Where(x => x.UserId == userId && x.IdForSale == idForSale && x.ServiceName==serviceName).FirstOrDefault();
+                var item = context.Factors.Where(x => x.UserId == userId && x.IdForSale == idForSale && x.ServiceName == serviceName).FirstOrDefault();
                 if (item == null) return null;
                 if (item.UserId != null && item.UserId != 0)
                     item.UserName = UserBiz.Instance.Find(item.UserId.Value)?.user_name;
@@ -158,12 +210,12 @@ namespace SenakLearn.Biz
         {
 
 
-            if (model.ServiceName == "دوره آموزشی")
+            if (model.ServiceName == FactorServiceName.Factor_ServiceName_Course)
             { }
-            else if (model.ServiceName == "پادکست")
-            { } 
-            else if (model.ServiceName == "کتاب")
-                {
+            else if (model.ServiceName == FactorServiceName.Factor_ServiceName_Podcast)
+            { }
+            else if (model.ServiceName == FactorServiceName.Factor_ServiceName_Book)
+            {
                 var book = BookBiz.Instance.Get(int.Parse(model.IdForSale));
                 if (book == null)
                     return null;
