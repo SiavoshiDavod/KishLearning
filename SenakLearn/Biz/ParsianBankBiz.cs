@@ -92,6 +92,7 @@ namespace SenakLearn.Biz
                     else
                     {
                         response.Message = !string.IsNullOrEmpty(message) ? message : GetParsianErrorMessage(status);
+                        response.ResponseContent = saleResponse?.Document?.ToString();
                     }
                 }
                 else

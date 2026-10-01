@@ -3,7 +3,7 @@
 @model Pagination<Book>
 @{
     Layout = "~/Views/Shared/_Layout.cshtml";
-    ViewBag.Title = "کتاب";
+    ViewBag.Title = "فهرست کتاب‌ها";
 
     int? groupId = ViewBag.groupId;
     int? publisherId = ViewBag.publisherId;
@@ -11,171 +11,582 @@
     string title = ViewBag.TitleE;
     string titleF = ViewBag.TitleF;
     string author = ViewBag.Author;
-    //var books = SenakLearn.Biz.BookBiz.Instance.GetAllPage(i => (groupId == null || groupId == i.GroupId) && (string.IsNullOrEmpty(keyword) || i.Keyword.Contains(keyword)) && (string.IsNullOrEmpty(titleF) || i.TitleF.Contains(titleF)) && (string.IsNullOrEmpty(title) || i.Title.Contains(title)) && (string.IsNullOrEmpty(author) || i.Author.Contains(author)), 0, 50);
-    //var books = (List<Book>)Model.DataPage;
     int countPage = Model.CountPage;
     int currentPage = Model.CurrentPage;
-    List<BookSlideModel> sliderBooks = ViewBag.SliderBooks;
+    List<BookSlideModel> sliderBooks = ViewBag.SliderBooks ?? new List<BookSlideModel>();
+    bool isFilterOpen = ViewBag.filter != null && (bool)ViewBag.filter;
 }
+
 <style>
-    .btn_Serach_p {
-        border: 1px solid lightgray;
-        margin: 15px 15px 0px 0px;
-        border-radius: 5px;
-        padding: 3px;
-        contain-intrinsic-block-size: auto;
+    /* =================== استایل اختصاصی صفحه کتاب‌ها =================== */
+    .book-page-section {
+        padding: 30px 0 60px;
+        background-color: #f9fbfd;
     }
 
-        .btn_Serach_p:hover {
-            background-color: lightgray;
-            cursor: pointer;
+    /* دکمه تاگل فیلتر */
+    .btn-toggle-filter {
+        display: inline-flex;
+        align-items: center;
+        gap: 8px;
+        background: #ffffff;
+        border: 1px solid #e2e8f0;
+        border-radius: 10px;
+        padding: 10px 18px;
+        color: #334155;
+        font-weight: 600;
+        font-size: 0.95rem;
+        cursor: pointer;
+        transition: all 0.25s ease;
+        box-shadow: 0 2px 4px rgba(0,0,0,0.03);
+    }
+
+        .btn-toggle-filter:hover {
+            background: #007bff;
+            color: #ffffff;
+            border-color: #007bff;
+            transform: translateY(-1px);
+            box-shadow: 0 4px 10px rgba(0,123,255,0.2);
         }
 
-    .carousel-caption h5 {
-        color: white;
+    /* باکس فیلتر و جستجو */
+    .filter-card {
+        background: #ffffff;
+        border: 1px solid #e9ecef;
+        border-radius: 14px;
+        padding: 22px;
+        box-shadow: 0 8px 24px rgba(149, 157, 165, 0.08);
+        margin-bottom: 30px;
     }
+
+        .filter-card .form-control, .filter-card .jquery-select {
+            border-radius: 8px;
+            border: 1px solid #dce2e6;
+            height: 44px;
+            font-size: 0.9rem;
+        }
+
+            .filter-card .form-control:focus {
+                border-color: #007bff;
+                box-shadow: 0 0 0 3px rgba(0, 123, 255, 0.15);
+            }
+
+    .btn-search-submit {
+        height: 44px;
+        border-radius: 8px;
+        background: #007bff;
+        color: #fff;
+        font-weight: 600;
+        border: none;
+        width: 100%;
+        transition: all 0.2s ease;
+    }
+
+        .btn-search-submit:hover {
+            background: #0056b3;
+            color: #fff;
+        }
+
+    /* کارت کتاب (Book Card) */
+    .book-card {
+        background: #ffffff;
+        border-radius: 14px;
+        border: 1px solid #edf2f7;
+        overflow: hidden;
+        transition: all 0.3s cubic-bezier(0.165, 0.84, 0.44, 1);
+        display: flex;
+        flex-direction: column;
+        height: 100%;
+        position: relative;
+        box-shadow: 0 3px 12px rgba(0, 0, 0, 0.04);
+    }
+
+        .book-card:hover {
+            transform: translateY(-6px);
+            box-shadow: 0 16px 32px rgba(30, 41, 59, 0.12);
+            border-color: #cbd5e1;
+        }
+
+    /* بخش کاور کتاب */
+    .book-cover-wrap {
+        position: relative;
+        width: 100%;
+        height: 270px;
+        background: #f1f5f9;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        overflow: hidden;
+    }
+
+        .book-cover-wrap img {
+            max-height: 90%;
+            max-width: 85%;
+            object-fit: contain;
+            transition: transform 0.4s ease;
+            filter: drop-shadow(0 6px 12px rgba(0,0,0,0.15));
+        }
+
+    .book-card:hover .book-cover-wrap img {
+        transform: scale(1.05);
+    }
+
+    /* بج تخفیف روی تصویر */
+    .badge-discount-float {
+        position: absolute;
+        top: 12px;
+        right: 12px;
+        background: linear-gradient(135deg, #ef4444, #dc2626);
+        color: #ffffff;
+        font-size: 0.8rem;
+        font-weight: 700;
+        padding: 4px 9px;
+        border-radius: 8px;
+        box-shadow: 0 4px 8px rgba(220, 38, 38, 0.35);
+        z-index: 2;
+    }
+
+    /* لایه شناور اکشن (Overlay) */
+    .book-overlay-action {
+        position: absolute;
+        inset: 0;
+        background: rgba(15, 23, 42, 0.55);
+        backdrop-filter: blur(2px);
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        opacity: 0;
+        visibility: hidden;
+        transition: all 0.3s ease;
+        z-index: 3;
+    }
+
+    .book-card:hover .book-overlay-action {
+        opacity: 1;
+        visibility: visible;
+    }
+
+    .btn-view-book {
+        background: #ffffff;
+        color: #0f172a;
+        font-weight: 700;
+        padding: 9px 20px;
+        border-radius: 30px;
+        text-decoration: none !important;
+        font-size: 0.88rem;
+        box-shadow: 0 4px 12px rgba(0,0,0,0.2);
+        transition: all 0.2s ease;
+    }
+
+        .btn-view-book:hover {
+            background: #007bff;
+            color: #ffffff;
+            transform: scale(1.05);
+        }
+
+    /* بدنه محتوای کتاب */
+    .book-card-body {
+        padding: 16px;
+        display: flex;
+        flex-direction: column;
+        flex-grow: 1;
+        justify-content: space-between;
+    }
+
+    .book-title-fa {
+        font-size: 0.98rem;
+        font-weight: 700;
+        color: #1e293b;
+        margin-bottom: 4px;
+        line-height: 1.5;
+        height: 44px;
+        overflow: hidden;
+        display: -webkit-box;
+        -webkit-line-clamp: 2;
+        -webkit-box-orient: vertical;
+    }
+
+        .book-title-fa a {
+            color: inherit;
+            text-decoration: none;
+            transition: color 0.2s ease;
+        }
+
+            .book-title-fa a:hover {
+                color: #007bff;
+            }
+
+    .book-title-en {
+        font-size: 0.8rem;
+        color: #64748b;
+        direction: ltr;
+        text-align: right;
+        margin-bottom: 12px;
+        white-space: nowrap;
+        overflow: hidden;
+        text-overflow: ellipsis;
+    }
+
+    /* قیمت و وضعیت رایگان */
+    .book-pricing-box {
+        margin-top: auto;
+        padding-top: 12px;
+        border-top: 1px dashed #e2e8f0;
+        min-height: 52px;
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+    }
+
+    .badge-free-tag {
+        background-color: #10b981;
+        color: #ffffff;
+        font-size: 0.88rem;
+        font-weight: 700;
+        padding: 5px 14px;
+        border-radius: 6px;
+        display: inline-block;
+        box-shadow: 0 2px 6px rgba(16, 185, 129, 0.25);
+    }
+
+    .price-discount-container {
+        display: flex;
+        flex-direction: column;
+        align-items: flex-end;
+        width: 100%;
+    }
+
+    .price-original-del {
+        font-size: 0.82rem;
+        color: #94a3b8;
+        text-decoration: line-through;
+        margin-bottom: 2px;
+    }
+
+    .price-final-toman {
+        font-size: 1.05rem;
+        font-weight: 800;
+        color: #0f172a;
+    }
+
+        .price-final-toman.has-discount {
+            color: #dc2626;
+        }
+
+    .price-currency {
+        font-size: 0.75rem;
+        font-weight: normal;
+        color: #64748b;
+        margin-right: 3px;
+    }
+
+    /* کاروسل اسلایدر */
+    .carousel-item {
+        border-radius: 16px;
+        overflow: hidden;
+    }
+
+        .carousel-item img {
+            max-height: 420px;
+            object-fit: cover;
+        }
+
+    .carousel-caption {
+        background: linear-gradient(transparent, rgba(0,0,0,0.8));
+        bottom: 0;
+        left: 0;
+        right: 0;
+        padding: 30px 20px 15px;
+    }
+
+    /* پیجینیشن */
+    .pagination-custom {
+        display: inline-flex;
+        gap: 6px;
+        list-style: none;
+        padding: 0;
+        margin: 0;
+        align-items: center;
+    }
+
+        .pagination-custom .page-link {
+            border-radius: 8px !important;
+            border: 1px solid #cbd5e1;
+            color: #334155;
+            font-weight: 600;
+            padding: 8px 16px;
+            transition: all 0.2s ease;
+        }
+
+            .pagination-custom .page-link:hover {
+                background-color: #007bff;
+                color: #fff;
+                border-color: #007bff;
+            }
+
+        .pagination-custom .active-page {
+            background-color: #007bff !important;
+            color: #ffffff !important;
+            border-color: #007bff !important;
+        }
 </style>
-<section>
+
+<section class="book-page-section">
     <div class="container">
-        @if (sliderBooks.Any())
+        @* =================== بخش ۱: اسلایدر بنر کتاب‌ها =================== *@
+        @if (sliderBooks != null && sliderBooks.Any())
         {
-            <div class="row">
+            <div class="row mb-4">
                 <div class="col-12">
-                    <div id="carouselExampleIndicators" class="carousel slide" data-ride="carousel">
+                    <div id="carouselExampleIndicators" class="carousel slide shadow-sm rounded-lg" data-ride="carousel">
                         <ol class="carousel-indicators">
                             @for (int i = 0; i < sliderBooks.Count; i++)
                             {
-                                if (i == 0)
-                                {
-                                    <li data-target="#carouselExampleIndicators" data-slide-to="0" class="active"></li>
-                                }
-                                else
-                                {
-                                    <li data-target="#carouselExampleIndicators" data-slide-to="@i"></li>
-                                }
+                                <li data-target="#carouselExampleIndicators" data-slide-to="@i" class="@(i == 0 ? "active" : "")"></li>
                             }
                         </ol>
                         <div class="carousel-inner">
                             @for (int i = 0; i < sliderBooks.Count; i++)
                             {
                                 BookSlideModel slide = sliderBooks[i];
-                                if (i == 0)
-                                {
-                                    <div class="carousel-item active">
-                                        <a href="/@slide.Url">
-                                            <img class="d-block w-100" src="/images/book/@slide.Img" alt="slide @i++">
-                                        </a>
-                                        <div class="carousel-caption d-none d-md-block">
-                                            <h5>@slide.Title</h5>
+                                <div class="carousel-item @(i == 0 ? "active" : "")">
+                                    <a href="/@slide.Url">
+                                        <img class="d-block w-100" src="/images/book/@slide.Img" alt="@slide.Title">
+                                    </a>
+                                    @if (!string.IsNullOrEmpty(slide.Title))
+                                    {
+                                        <div class="carousel-caption d-none d-md-block text-right">
+                                            <h5 class="text-white font-weight-bold mb-0">@slide.Title</h5>
                                         </div>
-                                    </div>
-                                }
-                                else
-                                {
-                                    <div class="carousel-item">
-                                        <a href="/@slide.Url">
-                                            <img class="d-block w-100" src="/images/book/@slide.Img" alt="slide @i++">
-                                        </a>
-                                        <div class="carousel-caption d-none d-md-block">
-                                            <h5>@slide.Title</h5>
-                                        </div>
-                                    </div>
-                                }
+                                    }
+                                </div>
                             }
                         </div>
                         <a class="carousel-control-prev" href="#carouselExampleIndicators" role="button" data-slide="prev">
                             <span class="carousel-control-prev-icon" aria-hidden="true"></span>
-                            <span class="sr-only">Previous</span>
+                            <span class="sr-only">قبلی</span>
                         </a>
                         <a class="carousel-control-next" href="#carouselExampleIndicators" role="button" data-slide="next">
                             <span class="carousel-control-next-icon" aria-hidden="true"></span>
-                            <span class="sr-only">Next</span>
+                            <span class="sr-only">بعدی</span>
                         </a>
                     </div>
                 </div>
             </div>
         }
-        <div class="row">
-            <div class="float-right btn_Serach_p" onclick="fn_show_Filter_boxes()">
-                <i class="fa fa-search fa-f4 "></i>
-                <span class="text-dark  header-title m-t-0"> جستجو</span>
-            </div>
-        </div>
-        <div class="row" style="display:@(ViewBag.filter?"inline-block":"none")" id="rowFilterBoxes">
-            <div class="col-md-3 col-sm-6 col-xs-12   search-button select-categories" style="display:inline-block">
-                <input type="search" class="form-control placeholder" id="BookTitle" placeholder="دنبال چه کتابی هستید؟" value="@ViewBag.TitleFilter">
-            </div>
-            <div class="col-md-3 col-sm-6 col-xs-12  search-button select-numofvids" style="display:inline-block">
-                <input type="search" name="author" class="form-control placeholder" id="author" placeholder="نویسنده خاصی مدنظرتان است" value="@ViewBag.Author">
-            </div>
 
-            <div class="col-sm-3 col-xs-6  search-button text-keywords float-right" style="display:inline-block">
-                <input class="keywords form-control placeholder" name="keywords" id="keywords" type="text" placeholder="کلمات کلیدی" value="@ViewBag.keyword">
-            </div>
-            <div class="col-xl-2 col-md-6 col-sm-6 col-xs-12 select-categories search-button" style="display:inline-block">
-                @Html.Cours_Group_DropDown("CoursGroupId", false, new { @class = "jquery-select" }, "یک گروه را انتخاب کنید", (int?)ViewBag.groupId, null, null, null, true, null)
-            </div>
-            <div class="col-sm-1 col-xs-6 search-button text-center" style="display:inline-block">
-                <button class="search-teachers button " onclick="ReloadPage()">مشاهده</button>
+        @* =================== بخش ۲: دکمه و پنل فیلتر و جستجو =================== *@
+        <div class="row align-items-center mb-3">
+            <div class="col-12 d-flex justify-content-between align-items-center flex-wrap gap-2">
+                <button type="button" class="btn-toggle-filter" onclick="fn_show_Filter_boxes()">
+                    <i class="fa fa-sliders-h fa-fw text-primary"></i>
+                    <span>جستجو و فیلتر کتاب‌ها</span>
+                </button>
+                <span class="text-muted small">تعداد کتاب‌های این صفحه: <b>@(Model.DataPage?.Count() ?? 0)</b></span>
             </div>
         </div>
-    </div>
-</section>
-<section class="shop grid page-section-ptb" style="padding:20px 0;">
-    <div class="container">
+
+        <div class="filter-card" id="rowFilterBoxes" style="display:@(isFilterOpen ? "block" : "none")">
+            <div class="row">
+                <div class="col-lg-3 col-md-6 col-12 mb-3">
+                    <label class="small text-muted font-weight-bold">عنوان کتاب:</label>
+                    <input type="search" class="form-control" id="BookTitle" placeholder="نام فارسی یا انگلیسی..." value="@ViewBag.TitleFilter">
+                </div>
+                <div class="col-lg-3 col-md-6 col-12 mb-3">
+                    <label class="small text-muted font-weight-bold">نویسنده / مولف:</label>
+                    <input type="search" name="author" class="form-control" id="author" placeholder="نام نویسنده..." value="@ViewBag.Author">
+                </div>
+                <div class="col-lg-3 col-md-6 col-12 mb-3">
+                    <label class="small text-muted font-weight-bold">کلمات کلیدی:</label>
+                    <input class="form-control" name="keywords" id="keywords" type="text" placeholder="برچسب‌ها و موضوع..." value="@ViewBag.keyword">
+                </div>
+                <div class="col-lg-2 col-md-6 col-12 mb-3">
+                    <label class="small text-muted font-weight-bold">گروه / دسته‌بندی:</label>
+                    @Html.Cours_Group_DropDown("CoursGroupId", false, new { @class = "form-control jquery-select" }, "همه گروه‌ها", (int?)ViewBag.groupId, null, null, null, true, null)
+                </div>
+                <div class="col-lg-1 col-md-6 col-12 mb-3 d-flex align-items-end">
+                    <button class="btn btn-search-submit" onclick="ReloadPage()">
+                        <i class="fa fa-search"></i>
+                    </button>
+                </div>
+            </div>
+        </div>
+
+        @* =================== بخش ۳: گرید لیست کتاب‌ها =================== *@
         <div class="row">
-            @foreach (var item in Model.DataPage)
+            @if (Model.DataPage != null && Model.DataPage.Any())
             {
-                <div class="col-md-4">
-                    <div class="product text-center mb-4">
-                        <div class="product-image">
-                            <img class="img-fluid center-block" src="/images/book/@item.ScreenShotId" alt="@item.TitleF">
-                            <div class="product-overlay">
-                                <div class="add-to-cart">
-                                    <a onclick='return countPreviewItemByClient("@SenakLearn.Models.ObjCount.objType_Book",@item.Id)' href="/Books/detail?Id=@item.Id">نمایش کتاب</a>
+                foreach (var item in Model.DataPage)
+                {
+                    <div class="col-xl-3 col-lg-4 col-md-6 col-12 mb-4">
+                        <div class="book-card">
+                            @* برچسب درصد تخفیف *@
+                            @if (item.HasValidDiscount && item.DiscountPercent > 0)
+                            {
+                                <span class="badge-discount-float">
+                                    <i class="fa fa-tag ml-1"></i> @item.DiscountPercent% تخفیف
+                                </span>
+                            }
+
+                            @* تصویر جلد کتاب *@
+                            <div class="book-cover-wrap">
+                                <img src="/images/book/@item.ScreenShotId" alt="@item.TitleF" onerror="this.src='/images/book/default-book.png';">
+                                <div class="book-overlay-action">
+                                    <a class="btn-view-book" onclick='return countPreviewItemByClient("@SenakLearn.Models.ObjCount.objType_Book", @item.Id)' href="/Books/detail?Id=@item.Id">
+                                        <i class="fa fa-eye ml-1"></i> مشاهده و جزئیات
+                                    </a>
+                                </div>
+                            </div>
+
+                            @* محتوای کارت *@
+                            <div class="book-card-body">
+                                <div>
+                                    <h3 class="book-title-fa" title="@item.TitleF">
+                                        <a onclick='return countPreviewItemByClient("@SenakLearn.Models.ObjCount.objType_Book", @item.Id)' href="/Books/detail?Id=@item.Id">@item.TitleF</a>
+                                    </h3>
+                                    @if (!string.IsNullOrEmpty(item.Title))
+                                    {
+                                        <div class="book-title-en" title="@item.Title">@item.Title</div>
+                                    }
+                                </div>
+
+                                @* بخش قیمت / تخفیف / رایگان *@
+                                <div class="book-pricing-box">
+                                    @if (item.IsFree)
+                                    {
+                                        <div class="d-flex align-items-center justify-content-between w-100">
+                                            <span class="badge-free-tag">
+                                                <i class="fa fa-gift ml-1"></i> رایگان
+                                            </span>
+                                            @if (item.PriceToman > 0)
+                                            {
+                                                <del class="price-original-del">@item.PriceToman.ToString("N0") تومان</del>
+                                            }
+                                        </div>
+                                    }
+                                    else if (item.HasValidDiscount)
+                                    {
+                                        <div class="price-discount-container">
+                                            <del class="price-original-del">@item.PriceToman.ToString("N0") تومان</del>
+                                            <div class="price-final-toman has-discount">
+                                                @((item.PriceAfterDiscountToman ?? 0).ToString("N0"))
+                                                <span class="price-currency">تومان</span>
+                                            </div>
+                                        </div>
+                                    }
+                                    else
+                                    {
+                                        <div class="d-flex align-items-center justify-content-end w-100">
+                                            <div class="price-final-toman">
+                                                @item.PriceToman.ToString("N0")
+                                                <span class="price-currency">تومان</span>
+                                            </div>
+                                        </div>
+                                    }
                                 </div>
                             </div>
                         </div>
-                        <div class="product-des">
-                            <div class="product-title">
-                                <a href="/Books/detail?Id=@item.Id">@item.TitleF</a>
-                            </div>
-                            <div class="product-title">
-                                <a href="/Books/detail?Id=@item.Id">@item.Title</a>
-                            </div>
-                        </div>
+                    </div>
+                }
+            }
+            else
+            {
+                <div class="col-12 py-5 text-center">
+                    <div class="alert alert-warning d-inline-block px-5 py-3 rounded-pill shadow-sm">
+                        <i class="fa fa-info-circle ml-2"></i> هیچ کتابی با مشخصات جستجو شده یافت نشد!
                     </div>
                 </div>
             }
         </div>
 
-        <div class="row">
-            <nav class="center-block">
-                <div class="navigation" style="text-align: center">
-                    <ul class="pagination">
-                        <li> صفحات : @countPage</li>
-                        <li class="page-item @Model.PreviousClass"><a class="page-link" href="?page=@((currentPage>1)?currentPage-1:currentPage)">&laquo; </a></li>
-                        <li class="page-item " style="font-weight: bolder;"><span class="page-link" style="background-color: lightgray" href="?page=@currentPage ">@currentPage</span></li>
-                        <li class="page-item @Model.NextClass"><a class="page-link" href="?page=@((currentPage<countPage)?currentPage+1:currentPage)">&raquo;</a></li>
+        @* =================== بخش ۴: صفحه‌بندی (Pagination) =================== *@
+        @if (countPage > 1)
+        {
+            <div class="row mt-4">
+                <div class="col-12 d-flex justify-content-center">
+                    <ul class="pagination-custom">
+                        <li class="page-item @Model.PreviousClass">
+                            <a class="page-link" href="?page=@((currentPage > 1) ? currentPage - 1 : 1)&groupId=@groupId&publisherId=@publisherId&title=@ViewBag.TitleFilter&author=@author&keyword=@keyword&filter=@isFilterOpen.ToString().ToLower()">&laquo; قبلی</a>
+                        </li>
+
+                        @for (int p = 1; p <= countPage; p++)
+                        {
+                            if (p == currentPage)
+                            {
+                                <li class="page-item">
+                                    <span class="page-link active-page">@p</span>
+                                </li>
+                            }
+                            else if (p == 1 || p == countPage || (p >= currentPage - 2 && p <= currentPage + 2))
+                            {
+                                <li class="page-item">
+                                    <a class="page-link" href="?page=@p&groupId=@groupId&publisherId=@publisherId&title=@ViewBag.TitleFilter&author=@author&keyword=@keyword&filter=@isFilterOpen.ToString().ToLower()">@p</a>
+                                </li>
+                            }
+                            else if (p == currentPage - 3 || p == currentPage + 3)
+                            {
+                                <li class="page-item disabled"><span class="page-link border-0">...</span></li>
+                            }
+                        }
+
+                        <li class="page-item @Model.NextClass">
+                            <a class="page-link" href="?page=@((currentPage < countPage) ? currentPage + 1 : countPage)&groupId=@groupId&publisherId=@publisherId&title=@ViewBag.TitleFilter&author=@author&keyword=@keyword&filter=@isFilterOpen.ToString().ToLower()">بعدی &raquo;</a>
+                        </li>
                     </ul>
                 </div>
-            </nav>
-        </div>
+            </div>
+        }
     </div>
 </section>
 
-
-
+@* =================== جاوااسکریپت =================== *@
 <script>
     function ReloadPage() {
-        window.location.href = "/books/Index?groupId=" + $('#CoursGroupId').val() + "&publisherId=" + $('#publisherId').val() + "&title=" + $('#BookTitle').val() + "&author=" + $('#author').val() + "&keyword=" + $('#keywords').val() + "&filter=true";
+        var groupElem = document.getElementById('CoursGroupId');
+        var pubElem = document.getElementById('publisherId');
+        var titleElem = document.getElementById('BookTitle');
+        var authorElem = document.getElementById('author');
+        var keyElem = document.getElementById('keywords');
+
+        var groupId = groupElem ? encodeURIComponent(groupElem.value || '') : '';
+        var publisherId = pubElem ? encodeURIComponent(pubElem.value || '') : '';
+        var title = titleElem ? encodeURIComponent(titleElem.value || '') : '';
+        var author = authorElem ? encodeURIComponent(authorElem.value || '') : '';
+        var keyword = keyElem ? encodeURIComponent(keyElem.value || '') : '';
+
+        window.location.href = "/books/Index?groupId=" + groupId +
+            "&publisherId=" + publisherId +
+            "&title=" + title +
+            "&author=" + author +
+            "&keyword=" + keyword +
+            "&filter=true";
     }
+
     function fn_show_Filter_boxes() {
-        //debugger;
-        if ($('#rowFilterBoxes').css('display') == 'none') {
-            $('#rowFilterBoxes').show();
+        var box = document.getElementById('rowFilterBoxes');
+        if (box) {
+            if (box.style.display === 'none' || box.style.display === '') {
+                box.style.display = 'block';
+            } else {
+                box.style.display = 'none';
+            }
         }
-        else
-            $('#rowFilterBoxes').hide();
     }
+
+    // منتظر ماندن تا لود کامل DOM و اتصال ایونت Enter
+    document.addEventListener("DOMContentLoaded", function () {
+        var inputs = ['BookTitle', 'author', 'keywords'];
+        inputs.forEach(function (id) {
+            var elem = document.getElementById(id);
+            if (elem) {
+                elem.addEventListener("keypress", function (e) {
+                    if (e.key === "Enter" || e.keyCode === 13) {
+                        e.preventDefault();
+                        ReloadPage();
+                    }
+                });
+            }
+        });
+    });
 </script>
+

@@ -45,6 +45,7 @@ namespace SenakLearn.Biz
                     if (item == null)
                         return false;
                     item.StatusId = model.StatusId;
+                    item.Descript = model.Descript;
                     context.SaveChanges();
                     return true;
                 }
@@ -95,11 +96,13 @@ namespace SenakLearn.Biz
             }
         }
 
-        public async Task<List<FactorViewModel>> GetAllList(int userId, bool isAdmin)
+        public async Task<List<FactorViewModel>> GetAllList(int userId, bool isAdmin, bool? onlySuccess = null)
         {
             using (SWEntities db = new SWEntities())
             {
-                var query = GetAllQuery(db,userId, isAdmin);
+                var query = GetAllQuery(db, userId, isAdmin);
+                if (onlySuccess == true)
+                    query = query.Where(w => w.StatusId == FactorStatusEnum.Factor_Status_Success);
                 var list = await query.ToListAsync();
                 list.ForEach(item =>
                 {
@@ -115,7 +118,7 @@ namespace SenakLearn.Biz
         }
         public async Task<MemoryStream> GetAllReportExcel(int userId, bool isAdmin)
         {
-            var list =await GetAllList( userId,  isAdmin);
+            var list = await GetAllList(userId, isAdmin);
 
             var excelService = new ExcelService();
             var memoryStream = excelService.GenerateExcelFile(list);
@@ -126,33 +129,33 @@ namespace SenakLearn.Biz
         {
             try
             {
-                    db.Configuration.LazyLoadingEnabled = false;
-                    db.Configuration.ProxyCreationEnabled = false;
-                    //var lid = db.Factors.Where(w => (isAdmin || w.UserId == userId)).ToList();
-                    var list = (from i in db.Factors
-                                join u in db.learn_user on i.UserId equals u.id
-                                select new FactorViewModel
-                                {
-                                    Id = i.Id,
-                                    ServiceName = i.ServiceName,
-                                    StatusId = i.StatusId,
-                                    CreateDate = i.CreateDate,
-                                    CreatedDate = i.CreateDate,
-                                    Amount = i.Amount,
-                                    Descript = i.Descript,
-                                    Discount = i.Discount,
-                                    Email = i.Email,
-                                    Mobile = i.Mobile,
-                                    PaymentTrace = i.PaymentTrace,
-                                    PaymentTransaction = i.PaymentTransaction,
-                                    PaymentDatetime = i.PaymentDatetime,
-                                    UserId = i.UserId,
-                                    UserName = u.user_name,
-                                    IdForSale = i.IdForSale,
-                                }).Where(w => (isAdmin || w.UserId == userId));
+                db.Configuration.LazyLoadingEnabled = false;
+                db.Configuration.ProxyCreationEnabled = false;
+                //var lid = db.Factors.Where(w => (isAdmin || w.UserId == userId)).ToList();
+                var list = (from i in db.Factors
+                            join u in db.learn_user on i.UserId equals u.id
+                            select new FactorViewModel
+                            {
+                                Id = i.Id,
+                                ServiceName = i.ServiceName,
+                                StatusId = i.StatusId,
+                                CreateDate = i.CreateDate,
+                                CreatedDate = i.CreateDate,
+                                Amount = i.Amount,
+                                Descript = i.Descript,
+                                Discount = i.Discount,
+                                Email = i.Email,
+                                Mobile = i.Mobile,
+                                PaymentTrace = i.PaymentTrace,
+                                PaymentTransaction = i.PaymentTransaction,
+                                PaymentDatetime = i.PaymentDatetime,
+                                UserId = i.UserId,
+                                UserName = u.user_name,
+                                IdForSale = i.IdForSale,
+                            }).Where(w => (isAdmin || w.UserId == userId));
 
-                    return list;
-                
+                return list;
+
             }
             catch (Exception ex)
             {
@@ -170,10 +173,21 @@ namespace SenakLearn.Biz
             }
             using (var context = new SWEntities())
             {
-                var item = context.Set<FactorModel>().Where(x => x.Id == id).FirstOrDefault();
+                var item = context.Factors.Where(x => x.Id == id).FirstOrDefault();
                 item.CreatedDate = item.CreateDate;
                 if (item.UserId != null && item.UserId != 0)
-                    item.UserName = UserBiz.Instance.Find(item.UserId.Value)?.user_name;
+                {
+                    var user = UserBiz.Instance.Find(item.UserId.Value);
+                    item.UserName = user?.user_name;
+                    item.FullName = (!string.IsNullOrEmpty(user.Name) || !string.IsNullOrEmpty(user.Family)) ? (user.Name + " " + user.Family) : string.Empty;
+                }
+                if (item.ServiceName == FactorServiceName.Factor_ServiceName_Book)
+                {
+                    int bookid = int.Parse(item.IdForSale);
+                    var book = BookBiz.Instance.Get(bookid);
+                    item.TitleForSale = book.TitleF;
+
+                }
                 return item;
             }
             //return result;
@@ -187,10 +201,23 @@ namespace SenakLearn.Biz
             }
             using (var context = new SWEntities())
             {
-                var item = context.Factors.Where(x => x.UserId == userId && x.IdForSale == idForSale && x.ServiceName == serviceName).FirstOrDefault();
+                var item = context.Factors.Where(x => x.UserId == userId && x.IdForSale == idForSale && x.ServiceName == serviceName && x.StatusId != FactorStatusEnum.Factor_Status_Removed).FirstOrDefault();
+
+
                 if (item == null) return null;
+                if (serviceName == FactorServiceName.Factor_ServiceName_Book)
+                {
+                    int bookid = int.Parse(idForSale);
+                    var book = BookBiz.Instance.Get(bookid);
+                    item.TitleForSale = book.TitleF;
+
+                }
                 if (item.UserId != null && item.UserId != 0)
-                    item.UserName = UserBiz.Instance.Find(item.UserId.Value)?.user_name;
+                {
+                    var user = UserBiz.Instance.Find(item.UserId.Value);
+                    item.UserName = user?.user_name;
+                    item.FullName = (!string.IsNullOrEmpty(user.Name) || !string.IsNullOrEmpty(user.Family)) ? (user.Name + " " + user.Family) : string.Empty;
+                }
                 return item;
             }
             //return result;
@@ -219,8 +246,14 @@ namespace SenakLearn.Biz
                 var book = BookBiz.Instance.Get(int.Parse(model.IdForSale));
                 if (book == null)
                     return null;
+
+                int bookid = int.Parse(model.IdForSale);
                 model.TitleForSale = book.TitleF;
-                model.Amount = book.Price;
+
+
+                model.TitleForSale = book.TitleF;
+                model.Descript = book.TitleF;
+                model.Amount = book.PriceAfterDiscount ?? book.Price;
             }
 
             return model;

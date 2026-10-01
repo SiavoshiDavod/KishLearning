@@ -73,7 +73,7 @@ namespace SenakLearn.Controllers
                     throw new Exception("برای دانلود کتاب وارد پورتال کاربری شده و در صورتیکه خریداری نکرده اید آن را خریداری نمایید !");
                 else
                 {
-                    var salesIdUsers = await FactorBiz.Instance.GetAllList(Current_learn_userId, false);
+                    var salesIdUsers = await FactorBiz.Instance.GetAllList(Current_learn_userId, false, true);
                     if (!salesIdUsers.Any(a => a.IdForSale == id.ToString()))
                         throw new Exception("برای دانلود کتاب آن را خریداری نمایید !");
                     else
@@ -88,7 +88,7 @@ namespace SenakLearn.Controllers
             ViewBag.IsAuthorized = IsAuthorized;
             if (IsAuthorized)
             {
-                var saleIdUsers = await FactorBiz.Instance.GetAllList(Current_learn_userId, false);
+                var saleIdUsers = await FactorBiz.Instance.GetAllList(Current_learn_userId, false, true);
                 ViewBag.saleIdUsers = saleIdUsers.Select(a => a.IdForSale).ToList();
             }
             var obj = Biz.BookBiz.Instance.GetInclude(new Models.Book { Id = id }, new string[] { "Publisher", "Group" });

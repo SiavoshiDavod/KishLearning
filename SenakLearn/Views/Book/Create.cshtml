@@ -159,6 +159,14 @@
                 </div>
 
                 <div class="form-group">
+                    @Html.LabelFor(model => model.PriceAfterDiscount, htmlAttributes: new { @class = "control-label col-md-2" })
+                    <div class="col-md-10">
+                        @Html.EditorFor(model => model.PriceAfterDiscount, new { htmlAttributes = new { @class = "form-control", @Style = " max-width: 200px;" } })
+                        @Html.ValidationMessageFor(model => model.PriceAfterDiscount, "", new { @class = "text-danger" })
+                    </div>
+                </div>
+
+                <div class="form-group">
                     @Html.LabelFor(model => model.FileId, htmlAttributes: new { @class = "control-label col-md-2" })
                     <div class="col-md-10">
                         <label class="btn btn-default"> انتخاب فایل اصلی  <input accept=".pdf, .doc , .docx" class="fileChosen" type="file" hidden id="File" name="File"></label><span class="fileChosenText">
@@ -187,26 +195,26 @@
                     </div>
                 </div>
                 @*<div class="form-group">
-                    @Html.LabelFor(model => model.IsSlider, htmlAttributes: new { @class = "control-label col-md-2" })
-                    <div class="col-md-10">
-                        @Html.EditorFor(model => model.IsSlider, new { htmlAttributes = new { @class = "form-control", @Style = " max-width: 200px;" } })
-                        @Html.ValidationMessageFor(model => model.IsSlider, "", new { @class = "text-danger" })
-                    </div>
-                </div>*@
+            @Html.LabelFor(model => model.IsSlider, htmlAttributes: new { @class = "control-label col-md-2" })
+            <div class="col-md-10">
+                @Html.EditorFor(model => model.IsSlider, new { htmlAttributes = new { @class = "form-control", @Style = " max-width: 200px;" } })
+                @Html.ValidationMessageFor(model => model.IsSlider, "", new { @class = "text-danger" })
+            </div>
+        </div>*@
                 @*<div class="form-group">
-                    @Html.LabelFor(model => model.SlideImg, htmlAttributes: new { @class = "control-label col-md-2" })
-                    <div class="col-md-10">
-                        <label class="btn btn-default"> انتخاب تصویر اسلایدر  <input accept="image/*" class="fileChosen1" type="file" hidden id="SlideImgFile" name="SlideImgFile"></label><span class="fileChosenText1">
-                            @if (Model != null && !string.IsNullOrEmpty(Model.SlideImg))
-                            {
-                                <a href="~/images/Book/@Model.SlideImg">دانلود</a>
-                            }
-                        </span>
-                        @Html.HiddenFor(x => x.SlideImg)
-                        @Html.ValidationMessageFor(model => model.SlideImg, "", new { @class = "text-danger" })
+            @Html.LabelFor(model => model.SlideImg, htmlAttributes: new { @class = "control-label col-md-2" })
+            <div class="col-md-10">
+                <label class="btn btn-default"> انتخاب تصویر اسلایدر  <input accept="image/*" class="fileChosen1" type="file" hidden id="SlideImgFile" name="SlideImgFile"></label><span class="fileChosenText1">
+                    @if (Model != null && !string.IsNullOrEmpty(Model.SlideImg))
+                    {
+                        <a href="~/images/Book/@Model.SlideImg">دانلود</a>
+                    }
+                </span>
+                @Html.HiddenFor(x => x.SlideImg)
+                @Html.ValidationMessageFor(model => model.SlideImg, "", new { @class = "text-danger" })
 
-                    </div>
-                </div>*@
+            </div>
+        </div>*@
                 <div class="form-group">
                     <div class="col-md-offset-2 col-md-10">
                         <input type="submit" value="ثبت" class="btn btn-default" />

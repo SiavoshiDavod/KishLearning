@@ -87,6 +87,7 @@ namespace SenakLearn
         public DbSet<EntityMasterData> EntityMasterDatas { get; set; }
         public DbSet<FactorModel> Factors { get; set; }
         public DbSet<BookSlideModel> BookSlides { get; set; }
+        public DbSet<FactorePaymentRequest> FactorePaymentRequests { get; set; }
         //protected override void OnModelCreating(DbModelBuilder modelBuilder)
         //{
         //    modelBuilder.Entity<StarRating>().Property(t => t.PageTypeId).IsRequired();

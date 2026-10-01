@@ -2,37 +2,377 @@
 @{
     Layout = "~/Views/Shared/_Layout.cshtml";
     string success = TempData["SuccessMessage"]?.ToString();
+    bool isSuccess = Model.StatusId == SenakLearn.Models.FactorStatusEnum.Factor_Status_Success;
+    bool isBookProduct = (bool)(ViewBag.IsBookProduct ?? false);
+    int bookId = Convert.ToInt32(ViewBag.BookId ?? 0);
 }
+
 <style>
-    h5 {
-        text-align: center;
+    /* =================== استایل فاکتور رسمی و مدرن =================== */
+    .invoice-wrapper {
+        padding: 40px 0 80px;
+        background-color: #f1f5f9;
+        min-height: 85vh;
+        font-family: inherit;
     }
 
-    h7 {
-        text-align: center !important;
+    .invoice-card {
+        background: #ffffff;
+        border-radius: 16px;
+        border: 1px solid #e2e8f0;
+        box-shadow: 0 10px 30px rgba(0, 0, 0, 0.06);
+        padding: 40px;
+        margin: 0 auto;
+        max-width: 900px;
+        position: relative;
     }
 
-    .headerFactor {
+    /* سربرگ فاکتور */
+    .invoice-header {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        border-bottom: 2px solid #e2e8f0;
+        padding-bottom: 25px;
+        margin-bottom: 30px;
+    }
+
+    .invoice-title h2 {
+        font-size: 1.6rem;
+        font-weight: 800;
+        color: #0f172a;
+        margin: 0 0 6px 0;
+    }
+
+    .invoice-title span {
+        font-size: 0.9rem;
+        color: #64748b;
+    }
+
+    .invoice-badge-status {
+        display: inline-block;
+        padding: 6px 16px;
+        border-radius: 20px;
+        font-size: 0.88rem;
+        font-weight: 700;
+    }
+
+    .status-success {
+        background-color: #dcfce7;
+        color: #15803d;
+        border: 1px solid #bbf7d0;
+    }
+
+    .status-pending {
+        background-color: #fef9c3;
+        color: #a16207;
+        border: 1px solid #fef08a;
+    }
+
+    /* مشخصات فاکتور و خریدار */
+    .invoice-info-grid {
+        display: grid;
+        grid-template-columns: 1fr 1fr;
+        gap: 24px;
+        margin-bottom: 30px;
+    }
+
+    .info-card {
+        background: #f8fafc;
+        border: 1px solid #edf2f7;
+        border-radius: 12px;
         padding: 20px;
     }
 
-    .bodyFactor {
-        padding: 15px;
+        .info-card h6 {
+            font-size: 0.95rem;
+            font-weight: 800;
+            color: #1e293b;
+            margin-bottom: 15px;
+            border-bottom: 1px dashed #cbd5e1;
+            padding-bottom: 10px;
+        }
+
+    .info-row {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        margin-bottom: 10px;
+        font-size: 0.88rem;
     }
 
-    div.lbl {
-        color: grey;
+        .info-row:last-child {
+            margin-bottom: 0;
+        }
+
+    .info-label {
+        color: #64748b;
+        font-weight: 600;
     }
 
-    .mg-t10 {
-        margin-top: 10px;
+    .info-val {
+        color: #0f172a;
+        font-weight: 700;
     }
 
-    textarea {
-        border: 0;
-        min-width: 200px;
+    .info-input {
+        border: 1px solid #cbd5e1;
+        border-radius: 6px;
+        padding: 4px 10px;
+        font-size: 0.85rem;
+        width: 150px;
+        outline: none;
+    }
+
+    /* جدول اقلام */
+    .invoice-table-wrapper {
+        margin-bottom: 30px;
+        border-radius: 12px;
+        overflow: hidden;
+        border: 1px solid #e2e8f0;
+    }
+
+    .invoice-table {
+        width: 100%;
+        border-collapse: collapse;
+        text-align: right;
+    }
+
+        .invoice-table thead {
+            background-color: #f8fafc;
+            border-bottom: 2px solid #e2e8f0;
+        }
+
+        .invoice-table th {
+            padding: 14px 18px;
+            font-size: 0.88rem;
+            font-weight: 700;
+            color: #475569;
+        }
+
+        .invoice-table td {
+            padding: 16px 18px;
+            font-size: 0.9rem;
+            color: #1e293b;
+            border-bottom: 1px solid #f1f5f9;
+        }
+
+    /* باکس جمع کل و توضیحات */
+    .invoice-summary-grid {
+        display: grid;
+        grid-template-columns: 1.2fr 0.8fr;
+        gap: 24px;
+        margin-bottom: 30px;
+    }
+
+    .notes-box textarea {
+        width: 100%;
+        border: 1px solid #e2e8f0;
+        border-radius: 10px;
+        padding: 12px;
+        font-size: 0.88rem;
+        background: #f8fafc;
+        resize: vertical;
+        min-height: 90px;
+        outline: none;
+    }
+
+    .total-calc-box {
+        background: #f8fafc;
+        border-radius: 12px;
+        padding: 20px;
+        border: 1px solid #e2e8f0;
+    }
+
+    .calc-row {
+        display: flex;
+        justify-content: space-between;
+        margin-bottom: 10px;
+        font-size: 0.9rem;
+        color: #475569;
+    }
+
+        .calc-row.final {
+            border-top: 2px dashed #cbd5e1;
+            padding-top: 12px;
+            margin-top: 12px;
+            font-size: 1.1rem;
+            font-weight: 800;
+            color: #0f172a;
+        }
+
+    /* تراکنش بانکی */
+    .bank-transaction-box {
+        background: #f0fdf4;
+        border: 1px solid #bbf7d0;
+        border-radius: 10px;
+        padding: 15px 20px;
+        margin-bottom: 30px;
+        display: flex;
+        justify-content: space-around;
+        flex-wrap: wrap;
+        gap: 15px;
+    }
+
+    .transaction-item {
+        font-size: 0.88rem;
+        color: #166534;
+    }
+
+    /* باکس دانلود کتاب (پرداخت موفق) */
+    .download-hero {
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+        gap: 20px;
+        background: linear-gradient(135deg, #ecfdf5, #d1fae5);
+        border: 1px solid #a7f3d0;
+        border-radius: 14px;
+        padding: 20px 26px;
+        margin-bottom: 30px;
+    }
+
+    .download-hero-icon {
+        width: 56px;
+        height: 56px;
+        background: linear-gradient(135deg, #10b981, #059669);
+        color: #ffffff;
+        border-radius: 14px;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        font-size: 1.5rem;
+        box-shadow: 0 6px 16px rgba(16, 185, 129, 0.35);
+        flex-shrink: 0;
+    }
+
+    .download-hero-text h6 {
+        font-weight: 800;
+        color: #065f46;
+        margin: 0 0 4px 0;
+        font-size: 1rem;
+    }
+
+    .download-hero-text span {
+        font-size: 0.85rem;
+        color: #047857;
+    }
+
+    .btn-download {
+        background: linear-gradient(135deg, #10b981, #059669);
+        color: #ffffff !important;
+        text-decoration: none !important;
+        white-space: nowrap;
+        box-shadow: 0 4px 14px rgba(16, 185, 129, 0.3);
+    }
+
+        .btn-download:hover {
+            background: linear-gradient(135deg, #059669, #047857);
+            transform: translateY(-2px);
+        }
+
+    /* دکمه‌های اکشن */
+    .invoice-actions {
+        display: flex;
+        justify-content: center;
+        gap: 15px;
+    }
+
+    .btn-custom {
+        padding: 12px 36px;
+        font-size: 1rem;
+        font-weight: 700;
+        border-radius: 10px;
+        border: none;
+        cursor: pointer;
+        display: inline-flex;
+        align-items: center;
+        gap: 8px;
+        transition: all 0.2s ease;
+    }
+
+    .btn-pay {
+        background: linear-gradient(135deg, #10b981, #059669);
+        color: #ffffff;
+        box-shadow: 0 4px 14px rgba(16, 185, 129, 0.3);
+    }
+
+        .btn-pay:hover {
+            background: linear-gradient(135deg, #059669, #047857);
+            transform: translateY(-2px);
+        }
+
+    .btn-print {
+        background: #3b82f6;
+        color: #ffffff;
+        box-shadow: 0 4px 14px rgba(59, 130, 246, 0.3);
+    }
+
+        .btn-print:hover {
+            background: #2563eb;
+            transform: translateY(-2px);
+        }
+
+    /* استایل پرینت */
+    @@media print {
+        body * {
+            visibility: hidden;
+        }
+
+        .invoice-wrapper, .invoice-wrapper * {
+            visibility: visible;
+        }
+
+        .invoice-wrapper {
+            position: absolute;
+            left: 0;
+            top: 0;
+            width: 100%;
+            padding: 0;
+            background: #ffffff;
+        }
+
+        .invoice-card {
+            border: none;
+            box-shadow: none;
+            padding: 0;
+            max-width: 100%;
+        }
+
+        .invoice-actions, textarea, .download-hero {
+            display: none !important;
+        }
+
+        .print-notes-view {
+            display: block !important;
+        }
+    }
+
+    .print-notes-view {
+        display: none;
+        font-size: 0.88rem;
+        color: #334155;
+    }
+
+    @@media (max-width: 768px) {
+        .invoice-info-grid, .invoice-summary-grid {
+            grid-template-columns: 1fr;
+        }
+
+        .invoice-header {
+            flex-direction: column;
+            text-align: center;
+            gap: 15px;
+        }
+
+        .download-hero {
+            flex-direction: column;
+            text-align: center;
+        }
     }
 </style>
+
+@* فیلدهای مخفی برای ثبت و پرداخت فاکتور *@
 @Html.HiddenFor(a => a.Id)
 @Html.HiddenFor(a => a.CreateDate)
 @Html.HiddenFor(a => a.ServiceName)
@@ -42,96 +382,203 @@
 @Html.HiddenFor(a => a.StatusId)
 @Html.HiddenFor(a => a.Amount)
 @Html.HiddenFor(a => a.AmountMaster)
+@Html.HiddenFor(a => a.Discount)
 @Html.HiddenFor(a => a.IdForSale)
-<div style="padding:20px;">
+
+<div class="invoice-wrapper">
     <div class="container">
-        <div class="border headerFactor">
-            <div class="row">
-                <div class="col-12 center-block">
-                    @if (Model.StatusId == SenakLearn.Models.FactorStatusEnum.Factor_Status_Success)
-                    {<h5 class=""> فاکتور فروش </h5>}
-                    else
-                    { <h5 class=""> پیش فاکتور </h5>}
+        <div class="invoice-card">
 
+            @* سربرگ فاکتور *@
+            <div class="invoice-header">
+                <div class="invoice-title">
+                    <h2>@(isSuccess ? "فاکتور فروش" : "پیش‌فاکتور الکترونیکی")</h2>
+                    <span>سامانه آموزشی و فروشگاهی مجازی کیش</span>
                 </div>
-            </div>
-            <div class="row">
-                <div class="col-12 center-block" style="text-align:center">
-                    <h7> @Model.ServiceName @Model.TitleForSale </h7>
-                </div>
-            </div>
-        </div>
-        <div class="bodyFactor  border">
-            <div class="row border-bottom">
-                <div class="col-3 lbl">تاریخ فاکتور:</div>
-                <div class="col-3" id="creatDatePer">@Model.CreatedDateShamsi</div>
-                <div class="col-3 lbl">شماره فاکتور:</div>
-                <div class="col-3" id="factorNo">@Model.FactorNo</div>
-            </div>
-            <div class="row border-bottom mg-t10">
-                <div class="col-3 lbl">کاربر:</div>
-                <div class="col-3" id="userName">@Model.UserName</div>
-                <div class="col-3 lbl">همراه :</div>
-                <div class="col-3">
-                    @if (string.IsNullOrEmpty(Model.Mobile))
+                <div>
+                    @if (isSuccess)
                     {
-                        @Html.TextBoxFor(a => a.Mobile)
+                        <span class="invoice-badge-status status-success">
+                            <i class="fa fa-check-circle ml-1"></i> پرداخت شده
+                        </span>
                     }
                     else
                     {
-                        <span id="Mobile">@Model.Mobile</span>
+                        <span class="invoice-badge-status status-pending">
+                            <i class="fa fa-clock-o ml-1"></i> @Model.StatusName
+                        </span>
                     }
+                </div>
+            </div>
 
+            @* مشخصات فاکتور و خریدار *@
+            <div class="invoice-info-grid">
+                @* اطلاعات فاکتور *@
+                <div class="info-card">
+                    <h6><i class="fa fa-file-text-o ml-2 text-primary"></i> اطلاعات فاکتور</h6>
+                    <div class="info-row">
+                        <span class="info-label">شماره فاکتور:</span>
+                        <span class="info-val" id="factorNo">@Model.FactorNo</span>
+                    </div>
+                    <div class="info-row">
+                        <span class="info-label">تاریخ ثبت:</span>
+                        <span class="info-val" id="creatDatePer">@Model.CreatedDateShamsi</span>
+                    </div>
+                    <div class="info-row">
+                        <span class="info-label">نوع خدمت:</span>
+                        <span class="info-val">@Model.ServiceName</span>
+                    </div>
+                </div>
+
+                @* مشخصات خریدار *@
+                <div class="info-card">
+                    <h6><i class="fa fa-user ml-2 text-primary"></i> مشخصات خریدار</h6>
+                    <div class="info-row">
+                        <span class="info-label">نام و نام خانوادگی:</span>
+                        <span class="info-val">
+                            @(string.IsNullOrWhiteSpace(Model.FullName) ? (!string.IsNullOrWhiteSpace(Model.UserName) ? Model.UserName : "کاربر مهمان") : Model.FullName)
+                        </span>
+                    </div>
+                    <div class="info-row">
+                        <span class="info-label">شماره همراه:</span>
+                        <div class="info-val">
+                            @if (string.IsNullOrEmpty(Model.Mobile))
+                            {
+                                @Html.TextBoxFor(a => a.Mobile, new { @class = "info-input", placeholder = "09xxxxxxxxx" })
+                            }
+                            else
+                            {
+                                <span id="Mobile">@Model.Mobile</span>
+                            }
+                        </div>
+                    </div>
+                    <div class="info-row">
+                        <span class="info-label">ایمیل:</span>
+                        <span class="info-val">@Model.Email</span>
+                    </div>
                 </div>
             </div>
-            <div class="row border-bottom mg-t10">
-                <div class="col-3 lbl">ایمیل:</div>
-                <div class="col-3">@Model.Email</div>
-                <div class="col-3 lbl">وضعیت :</div>
-                <div class="col-3">@Model.StatusName</div>
+
+            @* جدول شرح اقلام فاکتور *@
+            <div class="invoice-table-wrapper">
+                <table class="invoice-table">
+                    <thead>
+                        <tr>
+                            <th style="width: 8%;">ردیف</th>
+                            <th>شرح کالا / خدمات</th>
+                            <th style="width: 25%;">مبلغ پایه (ریال)</th>
+                            <th style="width: 25%;">مبلغ پرداختی (ریال)</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <td>۱</td>
+                            <td>
+                                <strong>@Model.ServiceName : @Model.TitleForSale</strong>
+                            </td>
+                            <td>
+                                @(Model.AmountMaster != null && Model.AmountMaster > 0 ? Model.AmountMaster.Value.ToString("N0") : Model.Amount.ToString("N0"))
+                            </td>
+                            <td>
+                                <span class="font-weight-bold">@Model.Amount.ToString("N0")</span>
+                            </td>
+                        </tr>
+                    </tbody>
+                </table>
             </div>
-            <div class="row border-bottom mg-t10">
-                <div class="col-3 lbl">مبلغ:</div>
-                <div class="col-3">@Model.Amount.ToString("N0") ریال </div>
-                <div class="col-3 lbl">مبلغ اصلی :</div>
-                <div class="col-3">@(Model.AmountMaster!=null? Model?.AmountMaster?.ToString("N0")+" ریال ":string.Empty) </div>
-            </div>
-            <div class="row border-bottom mg-t10">
-                <div class="col-3 lbl">توضیحات:</div>
-                <div class="col-9">
-                    @Html.TextAreaFor(a => a.Descript)
+
+            @* یادداشت و خلاصه مبالغ *@
+            <div class="invoice-summary-grid">
+                <div class="notes-box">
+                    <label class="info-label mb-2 d-block"><i class="fa fa-pencil ml-1"></i> توضیحات و یادداشت سفارش:</label>
+                    @Html.TextAreaFor(a => a.Descript, new { placeholder = "در صورت نیاز به توضیحات، در این قسمت وارد نمایید..." })
+                    <div class="print-notes-view">
+                        @Model.Descript
+                    </div>
+                </div>
+
+                <div class="total-calc-box">
+                    @if (Model.AmountMaster != null && Model.AmountMaster > Model.Amount)
+                    {
+                        var discountAmount = Model.AmountMaster.Value - Model.Amount;
+                        <div class="calc-row">
+                            <span>مبلغ کل:</span>
+                            <span>@Model.AmountMaster.Value.ToString("N0") ریال</span>
+                        </div>
+                        <div class="calc-row text-danger">
+                            <span>تخفیف:</span>
+                            <span>- @discountAmount.ToString("N0") ریال</span>
+                        </div>
+                    }
+                    <div class="calc-row final">
+                        <span>مبلغ نهایی:</span>
+                        <span>@Model.Amount.ToString("N0") ریال</span>
+                    </div>
+                    <div class="text-left mt-1" style="font-size: 0.8rem; color: #64748b;">
+                        (معادل @((Model.Amount / 10).ToString("N0")) تومان)
+                    </div>
                 </div>
             </div>
-            @if (Model.StatusId == SenakLearn.Models.FactorStatusEnum.Factor_Status_Success)
+
+            @* اطلاعات تراکنش بانکی (در صورت پرداخت موفق) *@
+            @if (isSuccess)
             {
-                <div class="row border-bottom mg-t10">
-                    <div class="col-3 lbl">تراکنش بانکی:</div>
-                    <div class="col-3">@Model.PaymentTransaction</div>
-                    <div class="col-3 lbl">کد پیگیری :</div>
-                    <div class="col-3">@Model.PaymentTrace</div>
+                <div class="bank-transaction-box">
+                    <div class="transaction-item">
+                        <strong><i class="fa fa-credit-card ml-1"></i> شماره تراکنش:</strong>
+                        <span>@Model.PaymentTrace</span>
+                    </div>
+                    <div class="transaction-item">
+                        <strong><i class="fa fa-hashtag ml-1"></i> کد پیگیری (RRN):</strong>
+                        <span>@Model.PaymentTransaction</span>
+                    </div>
                 </div>
             }
-            <div class="row mg-t10 " style="display:block">
+
+            @* باکس دانلود کتاب (فقط در وضعیت پرداخت موفق و نوع کتاب) *@
+            @if (isSuccess && isBookProduct && bookId > 0)
+            {
+                <div class="download-hero">
+                    <div class="download-hero-icon">
+                        <i class="fa fa-book"></i>
+                    </div>
+                    <div class="download-hero-text">
+                        <h6><i class="fa fa-check-circle ml-1"></i> خرید شما با موفقیت تکمیل شد</h6>
+                        <span>فایل کتاب «@Model.TitleForSale» هم‌اکنون برای دانلود آماده است.</span>
+                    </div>
+                    <a href="/Books/DownloadBook/@bookId"
+                       target="_blank"
+                       class="btn-custom btn-download"
+                       onclick="trackBookDownload(@bookId);">
+                        <i class="fa fa-download"></i> دانلود کتاب
+                    </a>
+                </div>
+            }
+
+            @* دکمه‌های اقدام *@
+            <div class="invoice-actions">
                 @if (Model.StatusId == SenakLearn.Models.FactorStatusEnum.Factor_Status_Create ||
                     Model.StatusId == SenakLearn.Models.FactorStatusEnum.Factor_Status_Sended ||
                     Model.StatusId == SenakLearn.Models.FactorStatusEnum.Factor_Status_NoPayment)
                 {
-                    <button class="btn btn-small btn-success center-block" onclick="onPaymentFactor()">پرداخت</button>
+                    <button type="button" class="btn-custom btn-pay" onclick="onPaymentFactor()">
+                        <i class="fa fa-shield"></i> درگاه پرداخت
+                    </button>
                 }
-                else if (Model.StatusId == SenakLearn.Models.FactorStatusEnum.Factor_Status_Success)
+                else if (isSuccess)
                 {
-                    <button class="btn btn-small btn-primary center-block" onclick="onPrintFactor()">چاپ</button>
+                    <button type="button" class="btn-custom btn-print" onclick="onPrintFactor()">
+                        <i class="fa fa-print"></i> چاپ فاکتور
+                    </button>
                 }
             </div>
-        </div>
 
+        </div>
     </div>
 </div>
 
-
 @section scripts
 {
-
     <script>
         function getparameters() {
             var params = {};
@@ -149,37 +596,48 @@
             params.IdForSale = $('#IdForSale').val();
             return params;
         };
+
+        function trackBookDownload(bookId) {
+            if (typeof countPreviewItemByClient === 'function') {
+                countPreviewItemByClient('@SenakLearn.Models.ObjCount.objType_BookDownload', bookId);
+            }
+        };
+
         function onPaymentFactor() {
             var url = '@Url.Action("PaymentFactor", "Factor")';
             var _data = getparameters();
-            //debugger;
+
             $.ajax({
                 url: url,
                 type: 'Post',
                 data: _data,
+                beforeSend: function () {
+                    $('.btn-pay').prop('disabled', true).html('<i class="fa fa-spinner fa-spin"></i> در حال انتقال به درگاه...');
+                },
                 success: function (res) {
-                    debugger;
                     if (res.factorId != undefined && res.factorId != 0) {
                         if (res.result.BankUrl != undefined && res.result.BankUrl != '' && res.result.ZarinpalStatus == 100) {
                             window.open(res.result.BankUrl, '_self');
                         }
                         else {
+                            $('.btn-pay').prop('disabled', false).html('<i class="fa fa-shield"></i> درگاه پرداخت');
                             SwalErrorMessage(res.result.Message);
                         }
                     }
                     else {
+                        $('.btn-pay').prop('disabled', false).html('<i class="fa fa-shield"></i> درگاه پرداخت');
                         SwalErrorMessage(res.result.Message);
                     }
                 },
                 error: function (err, x, xhr) {
-                    //debugger;
-                    SwalErrorMessage(err.responseText);
+                    $('.btn-pay').prop('disabled', false).html('<i class="fa fa-shield"></i> درگاه پرداخت');
+                    SwalErrorMessage(err.responseText || "خطا در برقراری ارتباط با سرور");
                 }
             });
         };
+
         function onPrintFactor() {
             window.print();
         }
-
     </script>
 }

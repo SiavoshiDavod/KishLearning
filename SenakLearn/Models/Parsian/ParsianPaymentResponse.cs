@@ -11,6 +11,7 @@ namespace SenakLearn.Models.Parsian
         public string Token { get; set; }
         public short Status { get; set; }
         public string Message { get; set; }
+        public string ResponseContent { get; set; }
 
         /// <summary>
         /// جهت تطابق کامل با کدهای جاوااسکریپت موجود در ویو (Index.cshtml)

@@ -60,6 +60,8 @@ namespace SenakLearn.Models
         [NotMapped]
         [Display(Name = "عنوان محصول")]
         public string TitleForSale { get; set; }
+        [NotMapped]
+        public string FullName { get; set; }
         //[NotMapped]
         //public virtual string CreatedDateShamsi
         //{

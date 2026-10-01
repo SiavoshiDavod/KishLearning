@@ -237,6 +237,7 @@
     <Compile Include="Biz\EmailSmsBiz.cs" />
     <Compile Include="Biz\EntityMasterDataBiz.cs" />
     <Compile Include="Biz\FactorBiz.cs" />
+    <Compile Include="Biz\FactorPaymentRequestBiz.cs" />
     <Compile Include="Biz\ImageTextPrinterBiz.cs" />
     <Compile Include="Biz\ImageTextPrinterColorBiz.cs" />
     <Compile Include="Biz\ParsianBankBiz.cs" />
@@ -429,6 +430,7 @@
     <Compile Include="Models\DynamicForm.cs" />
     <Compile Include="Models\EmailSms.cs" />
     <Compile Include="Models\ExamedViewModel.cs" />
+    <Compile Include="Models\FactorePaymentRequest.cs" />
     <Compile Include="Models\FactorModel.cs" />
     <Compile Include="Models\FactorViewModel.cs" />
     <Compile Include="Models\Group.cs" />
