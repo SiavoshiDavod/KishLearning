@@ -5,6 +5,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 using System.Web;
+using System.Web.Razor.Tokenizer.Symbols;
 
 namespace SenakLearn.Biz
 {
@@ -31,6 +32,26 @@ namespace SenakLearn.Biz
             {
 
                 return context.Set<Book>().Where(Expr).OrderByDescending(x => x.Id).ToList();
+            }
+        }
+        public List<Book> ListBooks(string title, int? groupId, int? publisherId, string author, string keyword, int page = 1, bool filter = false)
+        {
+            using (var context = new SWEntities())
+            {
+
+                var query= context.Set<Book>().AsQueryable();
+                if (!string.IsNullOrEmpty(title))
+                    query = query.Where(w => w.Title.Contains(title) || w.TitleF.Contains(title));
+                if (!string.IsNullOrEmpty(author))
+                    query = query.Where(w => w.Author.Contains(author));
+                if (!string.IsNullOrEmpty(keyword))
+                    query = query.Where(w => w.Keyword.Contains(keyword));
+                if (groupId != null && groupId != 0)
+                    query = query.Where(w => w.GroupId == groupId);
+                if (publisherId != null && publisherId != 0) query = query.Where(w => w.PublisherId == publisherId);
+
+
+                return query.OrderByDescending(x => x.Id).ToList();
             }
         }
         public List<BookSlideModel> GetBooksInSlider()

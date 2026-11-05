@@ -3,7 +3,7 @@
 <Project>
   <PropertyGroup>
     <_PublishTargetUrl>D:\SenakLearnPublish</_PublishTargetUrl>
-    <History>True|2026-09-03T17:14:16.0867165Z||;True|2026-08-28T16:51:57.2764674+03:30||;True|2026-08-20T12:53:24.8074131+03:30||;True|2026-08-20T10:22:38.2411875+03:30||;True|2026-08-15T18:46:51.4828327+03:30||;True|2026-08-07T16:27:16.8132564+03:30||;True|2026-07-30T11:19:26.1883651+03:30||;True|2026-07-26T19:12:41.6084096+03:30||;True|2026-07-23T08:54:19.5750071+03:30||;True|2026-06-26T20:52:23.4329471+03:30||;True|2026-06-26T18:46:31.4636439+03:30||;</History>
+    <History>True|2026-10-08T13:14:50.6299129Z||;True|2026-09-03T20:44:16.0867165+03:30||;True|2026-08-28T16:51:57.2764674+03:30||;True|2026-08-20T12:53:24.8074131+03:30||;True|2026-08-20T10:22:38.2411875+03:30||;True|2026-08-15T18:46:51.4828327+03:30||;True|2026-08-07T16:27:16.8132564+03:30||;True|2026-07-30T11:19:26.1883651+03:30||;True|2026-07-26T19:12:41.6084096+03:30||;True|2026-07-23T08:54:19.5750071+03:30||;True|2026-06-26T20:52:23.4329471+03:30||;True|2026-06-26T18:46:31.4636439+03:30||;</History>
     <LastFailureDetails />
   </PropertyGroup>
   <ItemGroup>
@@ -665,10 +665,10 @@
       <publishTime>03/01/2025 10:26:49</publishTime>
     </File>
     <File Include="bin/AdobeConnect.dll">
-      <publishTime>10/01/2026 08:35:47</publishTime>
+      <publishTime>10/08/2026 16:44:42</publishTime>
     </File>
     <File Include="bin/AdobeConnect.pdb">
-      <publishTime>10/01/2026 08:35:47</publishTime>
+      <publishTime>10/08/2026 16:44:42</publishTime>
     </File>
     <File Include="bin/Antlr3.Runtime.dll">
       <publishTime>03/01/2025 10:27:26</publishTime>
@@ -899,10 +899,10 @@
       <publishTime>03/01/2025 10:27:28</publishTime>
     </File>
     <File Include="bin/SenakLearn.dll">
-      <publishTime>10/01/2026 14:48:29</publishTime>
+      <publishTime>10/08/2026 16:44:45</publishTime>
     </File>
     <File Include="bin/SenakLearn.pdb">
-      <publishTime>10/01/2026 14:48:29</publishTime>
+      <publishTime>10/08/2026 16:44:45</publishTime>
     </File>
     <File Include="bin/SiteSetting.dll">
       <publishTime>06/26/2026 18:45:49</publishTime>
@@ -914,13 +914,13 @@
       <publishTime>11/25/2025 14:29:58</publishTime>
     </File>
     <File Include="bin/Sms.dll">
-      <publishTime>10/01/2026 08:35:46</publishTime>
+      <publishTime>10/08/2026 16:44:42</publishTime>
     </File>
     <File Include="bin/Sms.dll.config">
       <publishTime>03/01/2025 10:27:04</publishTime>
     </File>
     <File Include="bin/Sms.pdb">
-      <publishTime>10/01/2026 08:35:46</publishTime>
+      <publishTime>10/08/2026 16:44:42</publishTime>
     </File>
     <File Include="bin/System.Buffers.dll">
       <publishTime>02/19/2020 13:35:18</publishTime>

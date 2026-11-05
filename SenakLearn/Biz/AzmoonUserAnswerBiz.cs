@@ -378,7 +378,7 @@ namespace SenakLearn.Biz
              );
                     byte[] output2 = ImageTextPrinterBiz.DrawTextOnImage(
                         imageBytes: output,
-                        text: $"شماره : {answerUser.Id + "-" + user.id}\n" + $"تاریخ : {DateTime.Now.ToPersianDate()}\n",
+                        text: $"شماره : {answerUser.Id + "-" + user.id}\n" + $"تاریخ : {answerUser.AcceptedDate?.ToPersianDate()?? answerUser.CreatedDate.ToPersianDate()}\n",
                         fontPath: fontPath + "BYekan.ttf", // اگر ندارید null بفرستید
                         fontName: "BYekan",
                         initialFontSize: 13,

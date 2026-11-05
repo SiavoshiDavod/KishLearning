@@ -29,7 +29,11 @@ namespace SenakLearn.Controllers
             ViewBag.TitleFilter = title;
             ViewBag.Author = author;
             Pagination<Book> model = new Pagination<Book>();
-            model.Data = BookBiz.Instance.GetAllBooks(i => (groupId == null || groupId == i.GroupId) && (string.IsNullOrEmpty(keyword) || i.Keyword.Contains(keyword)) && (string.IsNullOrEmpty(titleF) || i.TitleF.Contains(titleF)) && (string.IsNullOrEmpty(title) || i.Title.Contains(title)) && (string.IsNullOrEmpty(author) || i.Author.Contains(author)));
+            var list = BookBiz.Instance.ListBooks(title, groupId, publisherId, author, keyword, page, filter);
+
+
+            //model.Data = BookBiz.Instance.GetAllBooks(i => (groupId == null || groupId == i.GroupId) && (string.IsNullOrEmpty(keyword) || i.Keyword.Contains(keyword)) && (string.IsNullOrEmpty(titleF) || i.TitleF.Contains(titleF)) && (string.IsNullOrEmpty(title) || i.Title.Contains(title)) && (string.IsNullOrEmpty(author) || i.Author.Contains(author)));
+            model.Data = list;
             model.CurrentPage = page;
             ViewBag.CoursGroupIds = CourseBiz.Instance.FindAllGroupDropdown();
             ViewBag.filter = filter;
