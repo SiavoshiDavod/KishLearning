@@ -1,0 +1,113 @@
+﻿@model SenakLearn.Models.JoinUs
+
+@using (Html.BeginForm("joinUs", "Home", FormMethod.Post, new { enctype = "multipart/form-data" }))
+{   
+
+    <div class="form-horizontal container">
+        <h3>همکاری با ما</h3>
+        <hr />
+        @Html.ValidationSummary(true, "", new { @class = "text-danger" })
+        <div class="form-group form-groupRtl">
+            @Html.LabelFor(model => model.Name,  new { @class = "control-label col-md-2" })
+            <div class="col-md-10">
+                @Html.EditorFor(model => model.Name, new { @class = "form-control" })
+                @Html.ValidationMessageFor(model => model.Name, "", new { @class = "text-danger" })
+            </div>
+        </div>
+        <div class="form-group form-groupRtl">
+            @Html.LabelFor(model => model.Family, new { @class = "control-label col-md-2" })
+            <div class="col-md-10">
+                @Html.EditorFor(model => model.Family, new { @class = "form-control" })
+                @Html.ValidationMessageFor(model => model.Family, "", new { @class = "text-danger" })
+            </div>
+        </div>
+
+        <div class="form-group form-groupRtl">
+            @Html.LabelFor(model => model.NationalCode,  new { @class = "control-label col-md-2" })
+            <div class="col-md-10">
+                @Html.EditorFor(model => model.NationalCode, new { @class = "form-control" })
+                @Html.ValidationMessageFor(model => model.NationalCode, "", new { @class = "text-danger" })
+            </div>
+        </div>
+
+        <div class="form-group form-groupRtl">
+            @Html.LabelFor(model => model.Email,  new { @class = "control-label col-md-2" })
+            <div class="col-md-10">
+                @Html.EditorFor(model => model.Email, new { @class = "form-control" })
+                @Html.ValidationMessageFor(model => model.Email, "", new { @class = "text-danger" })
+            </div>
+        </div>
+
+        <div class="form-group form-groupRtl">
+            @Html.LabelFor(model => model.Mobile,  new { @class = "control-label col-md-2" })
+            <div class="col-md-10">
+                @Html.EditorFor(model => model.Mobile, new { @class = "form-control" })
+                @Html.ValidationMessageFor(model => model.Mobile, "", new { @class = "text-danger" })
+            </div>
+        </div>
+
+        <div class="form-group form-groupRtl">
+            @Html.LabelFor(model => model.Description,  new { @class = "control-label col-md-2" })
+            <div class="col-md-10">
+                @Html.TextAreaFor(model => model.Description, new
+           {
+               @class = "form-control",
+               @cols = 80,
+               @rows = 10
+           })
+                @Html.ValidationMessageFor(model => model.Description, "", new { @class = "text-danger" })
+            </div>
+        </div>
+
+        <div class="form-group form-groupRtl">
+            @Html.LabelFor(model => model.ResumeFile,  new { @class = "control-label col-md-2" })
+            <div class="col-md-10">
+                @Html.HiddenFor(model => model.ResumeFile)
+
+                <label class="btn btn-default">
+                    انتخاب فایل رزومه <input type="file" hidden id="files" name="files" accept=".pdf, .doc , .docx">
+                </label>
+                <span id="resumeText"></span>
+                @*<input type="file"  id="files" name="files">*@
+                @Html.ValidationMessageFor(model => model.ResumeFile, "", new { @class = "text-danger" })
+            </div>
+        </div>
+
+        <div class="form-group form-groupRtl">
+            @Html.LabelFor(model => model.GroupIds,  new { @class = "control-label col-md-2" })
+            <div class="col-md-10">
+                @Html.Cours_Group_DropDown("GroupIds", true, new { @class = "jquery-select" })
+                @Html.ValidationMessageFor(model => model.GroupIds, "", new { @class = "text-danger" })
+            </div>
+        </div>
+
+        <div class="form-group">
+            <div class="col-md-offset-2 col-md-10">
+                <input type="submit" value="ثبت اطلاعات" class="btn btn-default" />
+            </div>
+        </div>
+    </div>
+}
+
+@section Scripts {
+    @Scripts.Render("~/bundles/jqueryval")
+}
+
+
+
+<script>
+    $("#files").change(function () {
+        filename = this.files[0].name;
+        $("#resumeText").html(filename);
+    });
+</script>
+<style>
+    [hidden] {
+        display: none !important;
+    }
+
+    .col-md-2 {
+        float: right !important;
+    }
+</style>
+

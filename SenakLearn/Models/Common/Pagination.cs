@@ -8,7 +8,7 @@ namespace SenakLearn.Models.Common
     public class Pagination<T>
     {
         public List<PageEntity> Pages { get; set; }
-        public int InPage { get; set; } = 9;
+        public int InPage { get; set; } = 8;
         public int CurrentPage { get; set; } = 1;
         public int Next { get; set; }
         public int Previous { get; set; }

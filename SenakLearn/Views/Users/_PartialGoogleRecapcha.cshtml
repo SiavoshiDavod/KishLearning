@@ -1,56 +1,75 @@
 ﻿@model string
-<style>
-    .captcha {
-        font-size: 21px;
-        margin: 15px 0;
-        font-weight: bold;
-        direction:ltr;
-        display:flow;
-    }
-</style>
 
-<div class="box">
-    <div><span class="captcha" id="captchaText"></span></div>
-    <input type="number" id="userAnswer" placeholder="پاسخ را وارد کن">
-    <button onclick="newCaptcha()" style="background: #b6ff00; border: none; font-size: x-small;">سؤال جدید</button>
-    <div class="msg" id="message"></div>
+<div class="w-full space-y-2.5">
+    <!-- سؤال در سمت چپ و دکمه تغییر کد در سمت راست -->
+    <div dir="ltr"
+         class="flex items-center justify-between bg-white rounded-xl border border-slate-200"
+         style="height: 44px; padding-left: 5px; padding-right: 12px;">
+
+        <!-- عبارت ریاضی کپچا -->
+        <span id="captchaText"
+              dir="ltr"
+              class="font-mono text-base font-bold tracking-wider text-slate-700 select-none">
+        </span>
+
+        <!-- دکمه سؤال جدید -->
+        <button type="button"
+                onclick="newCaptcha()"
+                dir="rtl"
+                class="inline-flex items-center gap-1 text-[11px] text-gray-400 hover:text-blue-600 transition-colors py-1 px-2 rounded-lg hover:bg-slate-50 border border-transparent hover:border-slate-200"
+                title="سؤال جدید">
+            <i class="fa fa-refresh text-[10px]"></i>
+            <span>تغییر کد</span>
+        </button>
+    </div>
+
+    <!-- باکس پاسخ با ارتفاع یکسان با باکس سؤال -->
+    <input type="number"
+           id="userAnswer"
+           placeholder="پاسخ را وارد کنید"
+           class="block w-full px-3.5 bg-white border border-slate-200 rounded-xl text-slate-800 placeholder-slate-400 focus:outline-none focus:ring-2 focus:ring-blue-500/20 focus:border-blue-500 text-sm transition-all"
+           style="height: 44px;" />
+
+    <!-- پیام نتیجه اعتبارسنجی -->
+    <div id="message"
+         class="text-xs font-medium text-right min-h-[16px]">
+    </div>
 </div>
-<script>
 
+<script>
     let correctAnswer = 0;
 
     function newCaptcha() {
-      let a = Math.floor(Math.random() * 10) + 1;
+        let a = Math.floor(Math.random() * 10) + 1;
         let b = Math.floor(Math.random() * 10) + 1;
         let op = Math.random() > 0.5 ? '+' : '-';
-        debugger;
-      if (op === '+') {
-        correctAnswer = a + b;
-      } else {
-        if (a < b) [a, b] = [b, a];
-        correctAnswer = a - b;
-      }
 
-      document.getElementById("captchaText").textContent = `${a} ${op} ${b} = ?`;
-      document.getElementById("message").textContent = "";
-      document.getElementById("userAnswer").value = "";
-    };
+        if (op === '+') {
+            correctAnswer = a + b;
+        } else {
+            if (a < b) [a, b] = [b, a];
+            correctAnswer = a - b;
+        }
+
+        document.getElementById("captchaText").textContent = `${a} ${op} ${b} = ?`;
+        document.getElementById("message").textContent = "";
+        document.getElementById("userAnswer").value = "";
+    }
 
     function checkCaptcha() {
-        const userAnswer = parseInt(document.getElementById("userAnswer").value);
+        const userAnswer = parseInt(document.getElementById("userAnswer").value, 10);
         const msg = document.getElementById("message");
 
         if (userAnswer === correctAnswer) {
-            msg.textContent = "درست بود! ";
-            msg.style.color = "green";
-            return true; // یعنی اوکی هست
+            msg.textContent = "";
+            return true;
         } else {
-            msg.textContent = "اشتباهه! دوباره تلاش کن ";
-            msg.style.color = "red";
-            newCaptcha(); // رفرش کردن کد در صورت اشتباه
-            return false; // یعنی سابمیت نشه
+            msg.textContent = "پاسخ امنیتی اشتباه است؛ لطفاً دوباره تلاش کنید.";
+            msg.className = "text-xs font-medium text-rose-500";
+            newCaptcha();
+            return false;
         }
-    };
-    newCaptcha();
+    }
 
+    newCaptcha();
 </script>

@@ -10,6 +10,7 @@ using System.Collections.Generic;
 using System.IO;
 using System.Linq;
 using System.Net;
+using System.Text;
 using System.Text.RegularExpressions;
 using System.Web;
 using System.Web.Mvc;
@@ -302,149 +303,114 @@ namespace SenakLearn.Controllers
         protected override void OnException(ExceptionContext filterContext)
         {
             var innerEx = filterContext.Exception;
-            //var ex1 = filterContext.Exception;
 
-            if (innerEx is Exception)
+            if (innerEx != null)
             {
-                //var innerEx = ex;
-                while (innerEx.InnerException != null && innerEx.InnerException.Message != null)
+                // استخراج عمیق‌ترین InnerException
+                while (innerEx.InnerException != null && !string.IsNullOrEmpty(innerEx.InnerException.Message))
                 {
                     innerEx = innerEx.InnerException;
                 }
-                if (innerEx != null && innerEx.Message != null && innerEx.Message.StartsWith("The DELETE statement conflicted with the REFERENCE constraint"))
+
+                if (innerEx.Message != null && innerEx.Message.StartsWith("The DELETE statement conflicted with the REFERENCE constraint"))
                 {
-                    //var d = reverseStringFormat("The DELETE statement conflicted with the REFERENCE constraint \"{0}\". The conflict occurred in database \"{1}\", table \"{2}\", column '{3}'.\r\nThe statement has been terminated.", innerEx.Message);
-
-
-                    //var iSqlTableFieldTitleBiz = DependencyResolver.Current.GetService<ISqlTableFieldTitleBiz>();
-                    //اگر نوع خطا حذف به دلیل وابستگی باشد ، نام جدول و نام فیلد لود و سپس از عنوان های آنها از جدولی در دیتابیس آورده می شود تا پیغام مناسب داده شود
                     var exMessageSplitedQuoute = innerEx.Message.Split('"');
                     var exMessageSplitedOneQuote = innerEx.Message.Split('\'');
-                    //if (exMessageSplitedQuoute.Length > 5 && exMessageSplitedOneQuote.Length > 2)
-                    //{
-                    //    var sqlTableField = iSqlTableFieldTitleBiz.FindSqlTableFieldTitle(exMessageSplitedQuoute[5], exMessageSplitedOneQuote[1]);
-                    //    if (sqlTableField != null)
-                    //        innerEx = new BusinessException("به علت وابستگی به جدول " + sqlTableField.TableTitle + " فیلد " + sqlTableField.FieldTitle + " حذف امکان پذیر نمی باشد.");
-                    //    else
-                    //        innerEx = new BusinessException("به علت وابستگی به جدول " + exMessageSplitedQuoute[5] + " فیلد " + exMessageSplitedOneQuote[1] + " حذف امکان پذیر نمی باشد.");
-                    //}
-                    //else
-                    //    innerEx = new BusinessException("خطای وابستگی ");
-
-
                 }
             }
 
+            // لاگ‌گیری در فایل
+            if (innerEx != null && !regex.IsMatch(innerEx.Message))
+            {
+                try
+                {
+                    string fileName = Server.MapPath("/LogException.log");
+                    using (var streamWriter = new StreamWriter(fileName, true, System.Text.Encoding.Unicode))
+                    {
+                        streamWriter.WriteLine(System.DateTime.Now.ToString("yyyy-MM-dd HH:mm:ss") + " | " + innerEx.Message + Environment.NewLine + ExceptionExtensions.GetStackTraceWithMessage(innerEx));
+                        streamWriter.WriteLine(new string('-', 80));
+                    }
+                }
+                catch (Exception)
+                {
+                    // در صورت خطای I/O لاگ، نادیده گرفته شود تا روند اصلی متوقف نشود
+                }
+            }
+
+            // ۱. مدیریت درخواست‌های Ajax
             if (Request.IsAjaxRequest())
             {
-
                 var isJson = Request.AcceptTypes != null && Request.AcceptTypes.Any(a => a.Contains("json"));
                 if (isJson)
                 {
                     filterContext.ExceptionHandled = true;
                     filterContext.HttpContext.Response.StatusCode = (int)HttpStatusCode.OK;
 
-                    //var ErrorObject = (innerEx is BusinessException) ? ((BusinessException)innerEx).ErrorObject : null;
-
-                    //context.Response.ContentType = "application/json";
-                    //context.Response.StatusCode = StatusCodes.Status500InternalServerError;
-                    //await context.Response.WriteAsync(exception.Message);
                     filterContext.Result = new JsonResult
                     {
-                        Data = new ApiJsonResult { success = false, ErrorMessage = innerEx.Message, InnerExceptionMessage = ExceptionExtensions.GetStackTraceWithMessage(innerEx) },
+                        Data = new ApiJsonResult
+                        {
+                            success = false,
+                            ErrorMessage = innerEx.Message,
+                            InnerExceptionMessage = ExceptionExtensions.GetStackTraceWithMessage(innerEx)
+                        },
                         JsonRequestBehavior = JsonRequestBehavior.AllowGet
                     };
                 }
                 else
                 {
                     filterContext.ExceptionHandled = true;
-
-                    var res = new JavaScriptResult();
                     filterContext.HttpContext.Response.StatusCode = (int)HttpStatusCode.BadRequest;
-                    //filterContext.HttpContext.Response.Status = innerEx.Message;
-                    //filterContext.HttpContext.Response.StatusDescription = innerEx.Message;
                     filterContext.HttpContext.Response.ContentType = "text/rtf; charset=UTF-8";
                     filterContext.HttpContext.Response.Charset = "UTF-8";
                     filterContext.HttpContext.Response.Write(innerEx.Message);
-                    //if (innerEx is BusinessException)
-                    //{
-                    //res.Script = "SwalErrorMessage('" + innerEx.Message + "');";
-                    //}
-                    //else
-                    //{
-                    //    res.Script = "SwalErrorMessage('<div>خطای سمت سرور رخ داد. لطفا با پشتیبانی تماس بگیرید.</div><div style=\"display:none;\">" + HttpUtility.JavaScriptStringEncode(innerEx.Message.Replace("'", "\"")) + "</div>');";
-                    //}
-                    filterContext.Result = new ContentResult() { Content= innerEx.Message };
+                    filterContext.Result = new ContentResult { Content = innerEx.Message };
                 }
-
             }
+            // ۲. مدیریت درخواست‌های معمولی مرورگر (Non-Ajax)
             else
             {
                 filterContext.ExceptionHandled = true;
-                filterContext.HttpContext.Response.StatusCode = (int)HttpStatusCode.OK;
-                //if (innerEx is BusinessException)
-                //filterContext.Result = new RedirectResult("/Error/Error?ErrorMessage=" + innerEx.Message);
-                //else
-                //{
-                //    TempData["_UnknownErrorMessage"] = innerEx.Message;
-                //    TempData["_UnknownErrorMessageStack"] = innerEx.StackTrace;
-                //    TempData["_UnknownInnerErrorMessage"] = innerEx.InnerException != null ? innerEx.InnerException.Message : "";
                 TempData["ErrorMessage"] = innerEx.Message;
-                //filterContext.Controller.ViewData.Model = viewModel;
-                //filterContext.Result = new ViewResult { ViewName = "Login", ViewData = new ViewDataDictionary(viewModel) };
-                //filterContext.ExceptionHandled = true;
-                filterContext.Result = new RedirectResult("/");
-                //}
-            }
 
-            //if (!(ex1 is BusinessException))
-            //{
+                string rawUrl = Request.RawUrl?.ToLower() ?? "";
+                bool isTargetingHome = rawUrl == "/" || rawUrl.Contains("/home/index") || rawUrl == "";
 
-            //    //Get a StackTrace object for the exception
-            //    StackTrace st = new StackTrace(ex1, true);
-
-            //    var frame = st.GetFrames() == null ? null : st.GetFrames().Where(a => a.GetMethod() != null && a.GetMethod().Module != null && a.GetMethod().Module.Name != null && a.GetMethod().Module.Name.Contains("Business")).FirstOrDefault();
-            //    if (frame != null)
-            //    {
-
-            //        //Get the file name
-            //        string fileName = frame.GetFileName();
-
-            //        //Get the method name
-            //        string methodName = frame.GetMethod().Name;
-
-            //        //Get the line number from the stack frame
-            //        int line = frame.GetFileLineNumber();
-
-            //        //Get the column number
-            //        int col = frame.GetFileColumnNumber();
-            //        if (!string.IsNullOrEmpty(ex.Message))
-            //            Business.Log.ExceptionLog.Instance.Add(new BaseSystemModel.Model.Log.ExceptionLog { CreatedDate = DateTime.Now, FileName = fileName, MethodName = methodName, LineNumber = line, ColNo = col, Body = ex.Message });
-            //    }
-            //}
-            if (!regex.IsMatch(innerEx.Message))
-            {
-
-                try
+                // الف) اگر در محیط لوکال/دیباگ هستیم یا خطا دقیقاً در صفحه اصلی رخ داده است:
+                // برای جلوگیری از ایجاد حلقه ریدایرکت (Loop 302)، متن کامل خطا را چاپ می‌کنیم
+                if (HttpContext.IsDebuggingEnabled || isTargetingHome)
                 {
-                    // string fileName = System.IO.Path.Combine(System.AppDomain.CurrentDomain.BaseDirectory + "LogEXCEPTION.log");
-                    //string fileName = Path.Combine(HttpRuntime.AppDomainAppPath, "Log" + DateUtil.CurrentJalaliDate().Replace("/", "") + ".log"); 
-                    string fileName = Server.MapPath("/LogException.log");
-                    //if (!File.Exists(fileName))
-                    using (var streamWriter = new StreamWriter(fileName, true, System.Text.Encoding.Unicode))
-                    {
-                        streamWriter.WriteLine(System.DateTime.Now.ToString() + " " + innerEx.Message + " " + ExceptionExtensions.GetStackTraceWithMessage(innerEx));
-                        // streamWriter.WriteLine("---------------------------------------------------");
-                    }
+                    filterContext.HttpContext.Response.StatusCode = (int)HttpStatusCode.InternalServerError;
+                    filterContext.HttpContext.Response.TrySkipIisCustomErrors = true;
 
+                    var htmlError = new StringBuilder();
+                    htmlError.Append("<div dir='ltr' style='font-family: Consolas, monospace; background: #fff5f5; border: 2px solid #e53e3e; padding: 25px; margin: 20px; border-radius: 8px;'>");
+                    htmlError.Append("<h2 style='color: #c53030; margin-top:0;'>⚠️ Unhandled Application Exception (Debug Mode)</h2>");
+                    htmlError.Append($"<p style='font-size: 16px; color: #2d3748;'><b>Error Message:</b> {HttpUtility.HtmlEncode(innerEx.Message)}</p>");
+                    htmlError.Append($"<p style='color: #4a5568;'><b>Source Controller:</b> {filterContext.RouteData.Values["controller"]} | <b>Action:</b> {filterContext.RouteData.Values["action"]}</p>");
+                    htmlError.Append("<hr style='border: none; border-top: 1px solid #feb2b2; margin: 15px 0;' />");
+                    htmlError.Append("<h4 style='color: #742a2a; margin-bottom: 5px;'>Stack Trace:</h4>");
+                    htmlError.Append($"<pre style='background: #2d3748; color: #edf2f7; padding: 15px; border-radius: 6px; overflow-x: auto; font-size: 13px;'>{HttpUtility.HtmlEncode(ExceptionExtensions.GetStackTraceWithMessage(innerEx))}</pre>");
+                    htmlError.Append("</div>");
+
+                    filterContext.Result = new ContentResult
+                    {
+                        Content = htmlError.ToString(),
+                        ContentType = "text/html",
+                        ContentEncoding = System.Text.Encoding.UTF8
+                    };
                 }
-                catch (Exception)
-                {//
+                // ب) در سرور پروداکشن (اگر صفحه دیگری غیر از صفحه اصلی بود)
+                else
+                {
+                    filterContext.HttpContext.Response.StatusCode = (int)HttpStatusCode.OK;
+                    filterContext.Result = new RedirectResult("/");
                 }
             }
 
             base.OnException(filterContext);
         }
+
 
         [NonAction]
         public static ActionResult PrintListToExcel<T>(List<T> list, List<GridColumnModel> gridColumnModelList, string worksheetCaption, bool rtl = true)

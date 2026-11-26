@@ -45,7 +45,7 @@ namespace SenakLearn.Biz
                 if (!string.IsNullOrEmpty(author))
                     query = query.Where(w => w.Author.Contains(author));
                 if (!string.IsNullOrEmpty(keyword))
-                    query = query.Where(w => w.Keyword.Contains(keyword));
+                    query = query.Where(w => w.Keyword.Contains(keyword) || w.Title.Contains(keyword) || w.TitleF.Contains(keyword) || w.Indicator.Contains(keyword));
                 if (groupId != null && groupId != 0)
                     query = query.Where(w => w.GroupId == groupId);
                 if (publisherId != null && publisherId != 0) query = query.Where(w => w.PublisherId == publisherId);

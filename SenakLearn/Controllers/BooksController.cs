@@ -39,7 +39,7 @@ namespace SenakLearn.Controllers
             ViewBag.filter = filter;
 
             ViewBag.SliderBooks = BookBiz.Instance.GetBooksInSlider();
-
+            //model.CountPage = 8;
             return View(model);
         }
 

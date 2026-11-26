@@ -1,275 +1,400 @@
 ﻿@model SenakLearn.Models.learn_cours
 @{
     Layout = "~/Views/Shared/_Layout.cshtml";
-    ViewBag.Title = "دوره " + Model.name;
-    string onclick = "SwalErrorMessage('جهت پخش پادکست ، لطفا این فایل را خریداری نمایید')";
+    ViewBag.Title = "پادکست " + (Model != null ? Model.name : "");
     bool buy = (bool?)ViewBag.Buy ?? false;
-    SiteSetting.SiteSetting setting = (SiteSetting.SiteSetting)ViewBag.SiteSetting;
 }
+
 <style>
-    .descriptP {
-        font-family: 'vazirBL', 'Poppins', sans-serif;
-        color: black;
+    /* ==================== فونت‌ها و استایل کلی صفحه پادکست ==================== */
+    body {
+        font-family: 'Byekan', 'IRANSANSExpanded', Tahoma, sans-serif;
     }
 
-    .divAudioLoad {
-        padding: 8px;
-        /*        border: 1px solid;
-        border-radius: 8px;*/
-        margin: 5px;
+    .podcast-titles, h1, h2, h3, h4, h5, h6, .podcast-numbers {
+        font-family: 'Btraffic', 'IRANSans-Bold', Tahoma, sans-serif;
+    }
+
+    .podcast-detail-wrapper {
+        padding: 45px 0 80px;
+        background: #f8fafc;
+        min-height: 100vh;
+        box-sizing: border-box;
+    }
+
+    /* سایدبار اطلاعات خرید و مدرس (سمت راست) */
+    .podcast-sticky-sidebar {
+        position: sticky;
+        top: 25px;
+        z-index: 10;
+        width: 100%;
+        box-sizing: border-box;
+    }
+
+    .podcast-order-card, .podcast-teacher-card {
+        background: #ffffff;
+        border-radius: 16px;
+        border: 1px solid #e2e8f0;
+        box-shadow: 0 10px 30px rgba(0, 0, 0, 0.06);
+        padding: 26px;
+        margin-bottom: 22px;
+        box-sizing: border-box;
+        width: 100%;
+        text-align: center;
+    }
+
+    .podcast-price-box {
+        font-size: 1.5rem;
+        font-weight: 800;
+        color: #059669;
+        margin-bottom: 20px;
+    }
+
+        .podcast-price-box span {
+            font-size: 0.9rem;
+            color: #64748b;
+            margin-right: 5px;
+        }
+
+    .btn-buy-podcast {
+        display: block;
+        width: 100%;
+        padding: 13px 0;
+        background: #2563eb;
+        color: #ffffff !important;
+        text-align: center;
+        border-radius: 10px;
+        font-weight: 700;
+        text-decoration: none !important;
+        transition: all 0.2s ease;
+        box-shadow: 0 4px 12px rgba(37, 99, 235, 0.2);
+        box-sizing: border-box;
+        border: none;
+        cursor: pointer;
+        font-size: 1.05rem;
+    }
+
+        .btn-buy-podcast:hover {
+            background: #1d4ed8;
+            transform: translateY(-2px);
+        }
+
+    .btn-purchased-badge {
+        display: block;
+        width: 100%;
+        padding: 12px 0;
+        background: #d1fae5;
+        color: #065f46;
+        text-align: center;
+        border-radius: 10px;
+        font-weight: 700;
+        font-size: 1rem;
+    }
+
+    /* کارت مدرس در سایدبار */
+    .podcast-teacher-avatar {
+        width: 110px;
+        height: 110px;
+        border-radius: 50%;
+        object-fit: cover;
+        margin: 0 auto 15px;
+        border: 3px solid #e2e8f0;
+        display: block;
+    }
+
+    .podcast-teacher-name {
+        font-size: 1.15rem;
+        font-weight: 800;
+        color: #1e293b;
+        margin-bottom: 5px;
+    }
+
+    .podcast-teacher-edu {
+        font-size: 0.88rem;
+        color: #64748b;
+        margin-bottom: 15px;
+    }
+
+    /* بخش اصلی محتوا (سمت چپ) */
+    .content-box-card {
+        background: #ffffff;
+        border-radius: 16px;
+        border: 1px solid #e2e8f0;
+        box-shadow: 0 4px 16px rgba(0, 0, 0, 0.03);
+        padding: 30px;
+        margin-bottom: 22px;
+        box-sizing: border-box;
+        width: 100%;
+    }
+
+    .podcast-main-title {
+        font-size: 1.5rem;
+        font-weight: 800;
+        color: #1e293b;
+        margin-bottom: 15px;
+        line-height: 1.4;
+    }
+
+    .podcast-meta-bar {
+        display: flex;
+        flex-wrap: wrap;
+        gap: 20px;
+        border-top: 1px solid #f1f5f9;
+        border-bottom: 1px solid #f1f5f9;
+        padding: 14px 0;
+        margin-bottom: 22px;
+        font-size: 0.9rem;
+        color: #475569;
+        font-weight: 600;
+    }
+
+        .podcast-meta-bar span i {
+            color: #2563eb;
+            margin-left: 6px;
+        }
+
+    .podcast-desc {
+        font-size: 0.95rem;
+        color: #475569;
+        line-height: 1.9;
+        margin-bottom: 25px;
+    }
+
+    /* لیست جلسات و پادکست‌ها */
+    .sessions-section-title {
+        font-size: 1.2rem;
+        font-weight: 800;
+        color: #1e293b;
+        margin-bottom: 18px;
+        padding-bottom: 10px;
+        border-bottom: 2px solid #f1f5f9;
+    }
+
+    .podcast-session-item {
+        background: #f8fafc;
+        border: 1px solid #e2e8f0;
+        border-radius: 12px;
+        padding: 16px 20px;
+        margin-bottom: 12px;
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        transition: all 0.2s ease;
+    }
+
+        .podcast-session-item:hover {
+            border-color: #cbd5e1;
+            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.03);
+        }
+
+    .session-info {
+        display: flex;
+        align-items: center;
+        gap: 12px;
+        flex-grow: 1;
+    }
+
+        .session-info i {
+            color: #2563eb;
+            font-size: 1.2rem;
+        }
+
+    .session-title {
+        font-size: 0.98rem;
+        font-weight: 700;
+        color: #1e293b;
+        margin: 0;
+    }
+
+    .session-action-badge {
+        font-size: 0.82rem;
+        padding: 6px 14px;
+        border-radius: 8px;
+        font-weight: 700;
+        text-decoration: none !important;
+    }
+
+    .badge-free {
+        background: #dcfce7;
+        color: #166534;
+    }
+
+    .badge-locked {
+        background: #fee2e2;
+        color: #991b1b;
+    }
+
+    /* ریسپانسیو */
+    @@media (max-width: 991px) {
+        .podcast-sticky-sidebar {
+            position: static;
+        }
+
+        .podcast-detail-wrapper {
+            padding: 25px 0 50px;
+        }
     }
 </style>
-<div id="course-single" class="page">
-    <div class="page-heading text-center">
-        <div class="container">
-            <h2>@Model.name</h2>
-            <p class="breadcrumbs"> <a href="#">خانه</a> <i class="zmdi zmdi-chevron-left"></i> <a href="#">@(Model.TypeCours==2?"پادکست":"دوره") ها</a> <i class="zmdi zmdi-chevron-left"></i> <a href="#">@Model.learn_cours_group.name</a> <i class="zmdi zmdi-chevron-left"></i> <span>@Model.name</span> </p>
-        </div>
-    </div>
+
+<div class="podcast-detail-wrapper">
     <div class="container">
-        <div class="row">
-            <div class="col-md-9 float-right">
+        @if (Model == null)
+        {
+            <div class="alert alert-warning text-center">پادکست یا دوره مورد نظر یافت نشد.</div>
+        }
+        else
+        {
+            <div class="row">
 
+                @* ==================== سایدبار سمت راست: خرید و اطلاعات مدرس ==================== *@
+                <div class="col-lg-4 col-md-5 mb-4">
+                    <div class="podcast-sticky-sidebar">
 
-                @*<img src="/assets/img/test.jpg" alt="Course" class="resp-img course-preview">*@
-                <h3>@Model.name</h3>
-                <p class="class-details">
-                    <span class="lessons"><i class="zmdi zmdi-assignment"></i>@Model.OfflineVideo.Count جلسه</span> <span class="duration"><i class="zmdi zmdi-time"></i>@Model.time ساعت</span> <span class="views">
-                        <i class="zmdi zmdi-eye"></i>@*2562 نمایش*@
-                    </span>
-                    <span class="tag"><i class="zmdi zmdi-label"></i>@Model.learn_cours_group.name</span>
-                </p>
-                <h4>جزئیات @(Model.TypeCours==2?"پادکست":"دوره")</h4>
-                <p class="abs">@Model.doc</p>
-                <h5>چه چیزی داخل این @(Model.TypeCours==2?"پادکست":"دوره") می آموزید؟</h5>
-                <div class="includes">
-                    @Html.Raw(Model.doc2)
-                </div>
-                <h4>محتوای @(Model.TypeCours==2?"پادکست":"دوره")</h4>
-
-                <div class="tab-content">
-                    <div role="tabpanel" class="tab-pane active show" id="all-faqs">
-                        <div class="accordion">
+                        @* کارت قیمت و خرید *@
+                        <div class="podcast-order-card">
                             @{
-                                //string a = "acd-active";
-                                //string d = "block";
-                                //int count = 1;
-                                foreach (var item in Model.OfflineVideo.Where(x => x.ParentId == null).OrderBy(x => x.Order))
+                                int? finalAmount = Model.PriceAfterDiscount != null ? Model.PriceAfterDiscount.Value : Model.Monetary;
+                            }
+
+                            @if (buy)
+                            {
+                                <div class="btn-purchased-badge">
+                                    <i class="fa fa-check-circle ml-1"></i> شما این پادکست را خریده‌اید
+                                </div>
+                            }
+                            else if (Model.Monetary == null || Model.Monetary == 0)
+                            {
+                                <div class="podcast-price-box" style="color: #2563eb;">رایگان</div>
+                                <a href="#" onclick="fn_FactorConstant(@Model.id, 0, 0, '@Model.name'); return false;" class="btn-buy-podcast">
+                                    ثبت‌نام رایگان در پادکست
+                                </a>
+                            }
+                            else
+                            {
+                                <div class="podcast-price-box podcast-numbers">
+                                    @Model.AmountFarsi <span>ریال</span>
+                                </div>
+                                <button type="button" onclick="fn_FactorConstant(@Model.id, @(finalAmount ?? 0), @(Model.Monetary ?? 0), '@Model.name');" class="btn-buy-podcast">
+                                    <i class="fa fa-shopping-cart ml-1"></i> خرید و دانلود پادکست
+                                </button>
+                            }
+                        </div>
+
+                        @* کارت مدرس *@
+                        @if (Model.learn_teacher != null)
+                        {
+                            <div class="podcast-teacher-card">
+                                @{
+                                    var teacherAvatar = !string.IsNullOrEmpty(Model.learn_teacher.image)
+                                        ? "/images/teacher/" + Model.learn_teacher.image
+                                        : "/images/avatar.png";
+                                }
+                                <img src="@teacherAvatar" alt="@Model.learn_teacher.FullName" class="podcast-teacher-avatar" onerror="this.src='/images/avatar.png';">
+                                <h5 class="podcast-teacher-name">@Model.learn_teacher.FullName</h5>
+                                <p class="podcast-teacher-edu">@Model.learn_teacher.education</p>
+                                <a href="/Home/TeacherCours/@Model.learn_teacher.id" class="btn btn-sm btn-outline-primary w-100 font-weight-bold">مشاهده پروفایل استاد</a>
+                            </div>
+                        }
+
+                    </div>
+                </div>
+
+                @* ==================== بخش اصلی سمت چپ: جزئیات و جلسات پادکست ==================== *@
+                <div class="col-lg-8 col-md-7">
+                    <div class="content-box-card">
+
+                        <h1 class="podcast-main-title">@Model.name</h1>
+
+                        <div class="podcast-meta-bar">
+                            <span><i class="fa fa-folder-open"></i> @(Model.learn_cours_group != null ? Model.learn_cours_group.name : "دسته‌بندی نشده")</span>
+                            <span><i class="fa fa-clock-o"></i> <strong class="podcast-numbers">@Model.time</strong> ساعت</span>
+                            <span><i class="fa fa-file-audio-o"></i> <strong class="podcast-numbers">@(Model.OfflineVideo != null ? Model.OfflineVideo.Count : 0)</strong> جلسه</span>
+                        </div>
+
+                        <div class="podcast-desc">
+                            @Html.Raw(Model.doc)
+                        </div>
+
+                        @if (!string.IsNullOrEmpty(Model.doc2))
+                        {
+                            <div class="podcast-desc mt-3">
+                                @Html.Raw(Model.doc2)
+                            </div>
+                        }
+
+                        @* بخش فایل‌ها و جلسات پادکست *@
+                        <div class="mt-4">
+                            <h4 class="sessions-section-title">فایل‌های صوتی و جلسات پادکست</h4>
+
+                            @if (Model.OfflineVideo == null || !Model.OfflineVideo.Any())
+                            {
+                                <div class="text-center py-4 text-muted">
+                                    <i class="fa fa-info-circle fa-2x mb-2"></i>
+                                    <p>هنوز فایلی برای این پادکست آپلود نشده است.</p>
+                                </div>
+                            }
+                            else
+                            {
+                                foreach (var item in Model.OfflineVideo.OrderBy(x => x.Order))
                                 {
-
-                                    if (item.IsFree || buy)
-                                    {
-                                        var video = SenakLearn.Biz.VideoFileBiz.Instance.Find(item.VideoId, item.Id);
-                                        <div class="divAudioLoad" id="offlineClassDetailsDiv">
-
-                                            <span class="descriptP"> @item.Description</span>
-                                            @Html.Partial("~/Views/Shared/_PartialAudio.cshtml", video)
-                                            <span></span>
-                                        </div>
-                                        //onclick = "<div style='display:inline' ><span style='padding:0!important' class='fa fa-film button' title='برای نمایش پادکست کلیک کنید ' onclick='return ShowVideoStudentSupport(\"" + item.Id + "\");' ></span><span style='padding:0!important' class='fa fa-cloud-download button' title='برای دانلود پادکست کلیک کنید'   onclick='return downloadVideoFileGet(" + item.Id + ")' ></span></div>";
-                                    }
-                                    else
-                                    {
-                                        <span class="descriptP"> @item.Description</span>
-                                        <div style='display:inline' class='button' style='padding:0!important' title='برای پخش پادکست خرید نمایید'><span>(خرید)</span></div>
-                                    }
-                                    <div class="acd-active  text-black ">
-                                        @*<a href="#" class="acd-heading text-black"><i class="fa fa-video-camera" aria-hidden="true"></i>@count: @item.Description @Html.Raw(onclick) </a>*@
-                                        <div class="acd-des text-gray">
-                                            <div class="option-wrapper">
-                                                <div class="option-items">
-
-                                                    @foreach (var Subitem in Model.OfflineVideo.Where(x => x.ParentId == item.Id).OrderBy(x => x.Order))
-                                                    {
-                                                        var videoSub = SenakLearn.Biz.VideoFileBiz.Instance.Find(Subitem.VideoId, Subitem.Id);
-                                                        <div class="option-item">
-
-                                                            @*@Html.Raw(onclick)*@
-
-                                                            @if (Subitem.IsFree || buy)
-                                                            {
-
-                                                                //onclick = "<a style='cursor: pointer;padding:1px 5px!important;margin:1px 5px!important' class='fa fa-film button' title='برای نمایش فیلم کلیک کنید' onclick='return ShowVideoStudentSupport(\"" + Subitem.Id + "\");'><span></span></a><a style='cursor: pointer;padding:1px 5px!important;margin:1px 5px!important' class='fa fa-cloud-download button' title='برای دانلود پادکست کلیک کنید' onclick='return downloadVideoFileGet( " + Subitem.Id + ")'><span></span></a>";
-                                                                <div class="divAudioLoad" id="offlineClassDetailsDiv">
-                                                                    <span class="descriptP"> @Subitem.Description</span>
-                                                                    @Html.Partial("~/Views/Shared/_PartialAudio.cshtml", videoSub)
-                                                                </div>
-                                                            }
-                                                            else
-                                                            {
-                                                                <span class="descriptP"> @Subitem.Description</span>
-                                                                <a style='cursor: pointer;padding:1px 5px!important;margin:1px 5px!important' class='button' title='برای پخش پادکست خرید نمایید' ;><span>خرید</span></a>
-                                                            }
-                                                        </div>
-                                                    }
-                                                </div>
+                                    <div class="podcast-session-item">
+                                        <div class="session-info">
+                                            <i class="fa fa-volume-up"></i>
+                                            <div>
+                                                <p class="session-title">@item.Description</p>
+                                                @if (item.IsFree || buy)
+                                                {
+                                                    <small class="text-success font-weight-bold">قابل پخش و دانلود</small>
+                                                }
+                                                else
+                                                {
+                                                    <small class="text-danger font-weight-bold">نیازمند خرید پادکست</small>
+                                                }
                                             </div>
                                         </div>
+
+                                        <div>
+                                            @if (item.IsFree || buy)
+                                            {
+                                                var video = SenakLearn.Biz.VideoFileBiz.Instance.Find(item.VideoId, item.Id);
+                                                if (video != null)
+                                                {
+                                                    <div style="max-width: 280px;">
+                                                        @Html.Partial("~/Views/Shared/_PartialAudio.cshtml", video)
+                                                    </div>
+                                                }
+                                                else
+                                                {
+                                                    <span class="session-action-badge badge-free">فایل صوتی موجود است</span>
+                                                }
+                                            }
+                                            else
+                                            {
+                                                <a href="#" onclick="fn_FactorConstant(@Model.id, @(finalAmount ?? 0), @(Model.Monetary ?? 0), '@Model.name'); return false;" class="session-action-badge badge-locked">
+                                                    <i class="fa fa-lock ml-1"></i> خرید جهت پخش
+                                                </a>
+                                            }
+                                        </div>
                                     </div>
-                                    //a = "";
-                                    //d = "none";
-                                    //count++;
                                 }
                             }
                         </div>
+
                     </div>
                 </div>
 
-                <h4 class="comment">نظرات</h4>
-
-                @Html.Action("ShowComments", "UserComment", new { id = Model.id, type = SenakLearn.Models.PageType.OfflineClass })
-
-                <h4 class="comment">ارسال دیدگاه</h4>
-                @Html.Action("ContactUs", "UserComment", new { id = Model.id, type = SenakLearn.Models.PageType.OfflineClass })
-
             </div>
-            <div class="col-md-3 float-left">
-                <div class="order text-center">
-                    @{var url = "/Zarinpal/PaymentRequest?amount=" + Model.Monetary + "&courseId=" + Model.id + "&Description=" + Model.name;
-                        int? amount = 0;
-                        amount = Model.PriceAfterDiscount != null ? Model.PriceAfterDiscount.Value : Model.Monetary;}
-
-                    @if (Model.Monetary == null || Model.Monetary == 0)
-                    {
-                        <div>
-                            <p class="button border-black">رایگان</p>
-                        </div>
-                        @*<a href="@url" class="blueplay button ">ثبت نام</a>*@
-                    }
-                    else
-                    {
-                        <p class="button border-black">@Model.AmountFarsi<span>ریال</span></p>
-                        <p>
-                            <script src="https://www.zarinpal.com/webservice/TrustCode" type="text/javascript"></script>
-                        </p>
-                        <a href="#" onclick="fn_FactorConstant(@Model.id,@amount,@Model.Monetary,'@Model.name')" class="blueplay button ">خرید و ثبت نام</a>
-                    }
-
-                </div>
-                @if (Model.learn_teacher != null)
-                {
-                    <div class="pros">
-                        <h4>درباره مدرس</h4>
-                        <div class="teacher text-center">
-                            <div class="imgcontainer">
-                                <img src="/images/teacher/@Model.learn_teacher.image" alt="@Model.learn_teacher.FullName" style="width:130px;height:130px">
-                                <div class="overlay">
-                                    <img src="/assets/img/profile.png" alt="Profile">
-                                    <p>@Model.learn_teacher.CourseCount پادکست</p>
-                                </div>
-                            </div>
-                            <a href="/Home/TeacherCours/@Model.id_teacher">@Model.learn_teacher.FullName</a>
-                            <p>@Model.learn_teacher.education</p>
-                        </div>
-                    </div>
-                }
-
-                <div class="ratings">
-                    <h4>امتیاز دوره</h4>
-                    @Html.Action("ShowRating", "StarRating", new { id = Model.id, type = SenakLearn.Models.PageType.OfflineClass })
-                </div>
-                <div style="padding:2px;"><h5 class="center-block" style="text-align:center;">محبوب ترین فیلم های آموزشی</h5></div>
-                <div class="owl-carousel" data-nav-dots="true" data-nav-arrow="false" data-items="1" data-sm-items="1" data-lg-items="1" data-md-items="1" data-autoplay="true">
-                    @{
-                        var listCourse = SenakLearn.Biz.CourseBiz.Instance.FindAll(x => x.id != Model.id && x.status && x.IsFavorite, 3);
-                        foreach (var item in listCourse)
-                        {
-                            var img = "/images/cours/" + item.image;
-                            if (string.IsNullOrEmpty(item.image))
-                            {
-                                img = "/images/logo.png";
-                            }
-                            <div class="item">
-                                <div class="">
-                                    <div class=" text-center " style="">
-                                        <img src="@img" style="z-index:-1;position:absolute;top:0;left:0;width:100%" />
-                                        <div style="text-shadow:2px 1px 2px white ">
-                                            <div style="" class="">
-                                                <a style="font-weight: bold;" href="/DetailsCours/Index?type=1&id=@item.id" class="testimonial-info">
-                                                    <br />
-                                                    <div style="min-width:100px;min-height:130px"></div>
-                                                    @*<h5 style="font-weight: bold;">@item.name</h5>
-                                                        <br />
-                                                        <p style="font-weight: bold;">@item.doc</p>*@
-                                                </a>
-                                            </div>
-                                        </div>
-                                    </div>
-                                </div>
-                            </div>
-                        }
-                    }
-                </div>
-                <div class="categories">
-                    <h6>دسته بندی ها</h6>
-                    <ul>
-                        @{
-                            var categorieslist = SenakLearn.Biz.CourseBiz.Instance.FindAllGroup(null, true, null, null, null);
-                            foreach (var item in categorieslist)
-                            {
-                                <li><a href="#">@item.name (@item.OfflineCount)</a></li>
-                            }
-                        }
-
-                    </ul>
-                </div>
-            </div>
-        </div>
+        }
     </div>
 </div>
 
-@section scripts
-{
+@section scripts {
     <script>
         function fn_FactorConstant(podcastId, amount, amountMaster, descript) {
-            //debugger;
-            var url = '/Factor/Index?ServiceName=پادکست&IdForSale=' + podcastId + '&Amount=' + amount + '&AmountMaster=' + amountMaster + '&Descript=' + descript;
+            var url = '/Factor/Index?ServiceName=پادکست&IdForSale=' + podcastId
+                + '&Amount=' + amount + '&AmountMaster=' + amountMaster
+                + '&Descript=' + encodeURIComponent(descript);
             window.open(url, '_blank');
-
-
-        }
-        function downloadVideoFileGet(coursId) {
-            var type = "@SenakLearn.Models.ObjCount.objType_Podcast";
-            countPreviewItemByClient(type, coursId);
-            var url = '/DetailsPodcast/DownloadAudio?id=' + coursId;
-            window.open(url, '_blank');
-        }
-        var lockObj = false;
-        function ShowVideoStudentSupport(id) {
-
-            if (lockObj) {
-                setTimeout(function () {
-                    ShowVideoStudentSupport(id);
-                }, 3000);
-                return false;
-            }
-            countPreviewItemByClient('@SenakLearn.Models.ObjCount.objType_Podcast', id);
-            $.ajax(
-                {
-                    type: 'Get',
-                    //data: { Code:  },
-                    url: '/DetailsPodcast/ShowPodcast?id=' + id,
-                    beforeSend: function () {
-                        lockObj = true;
-                    },
-                    success: function (result) {
-                        if (result != null && result != "") {
-                            $('#offlineClassDetailsDiv').html(result);
-                            document.getElementById('offlineClassDetailsDiv').scrollIntoView();
-                        } else {
-                            SwalErrorMessage('جهت پخش و دانلود پادکست ، لطفا این پادکست را خریداری نمایید');
-                        }
-                    },
-
-                    error: function (error) {
-                         lockObj = false;
-                        console.log(error);
-                    },
-                    complete: function () {
-                        lockObj = false;
-                    },
-                });
-            return false;
         }
     </script>
 }

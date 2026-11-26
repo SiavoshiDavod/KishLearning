@@ -1,0 +1,1009 @@
+﻿@{
+    Layout = "~/Views/Shared/_Layout.cshtml";
+    SiteSetting.SiteSetting setting = (SiteSetting.SiteSetting)ViewBag.SiteSetting;
+}
+@*
+    <div class="row">
+        <div class="col-md-8 col-md-offset-2 text-center">
+            <p class="pretitle" id="mainpreTitleForchangingSlider">آموزش آنلاین ویدیویی</p>
+            <h2 class="wow pulse" id="mainTitleForchangingSlider">توانایی هاتو افزایش بده</h2>
+            <p id="mainDescriptionForchangingSlider">هر روز مطالبی جدید یاد گرفته و از تنوع یادگیری آنلاین لذت ببرید.</p>
+            <a href="/home/ShowAllClasses" style="display:inline-block;width:200px;margin-top:25px;line-height:25px;" class="bluebutton wow fadeInDown">میخواهم لیست دوره هاتون رو ببینم</a>
+            <a href="/home/JoinUs" style="display:inline-block;width:200px;margin-top:25px;line-height:25px;" class="bluebutton wow fadeInDown">می خواهم باهاتون همکار بشم</a>
+            <a href="/Support/Index" style="display:inline-block;width:200px;margin-top:25px;line-height:25px;" class="bluebutton wow fadeInDown">پشتیبانی و راهنمائی کلاسهای آنلاین</a>
+            <a href="/paper/index" style="display:inline-block;width:200px;margin-top:25px;line-height:25px;" class="bluebutton wow fadeInDown">میخواهم مقالات رو ببینم</a>
+            <a href="/Books/index" style="display:inline-block;width:200px;margin-top:25px;line-height:25px;" class="bluebutton wow fadeInDown">میخواهم کتاب مورد نظرم رو تهیه کنم</a>
+        </div>
+    </div>
+                    var listSlider = SenakLearn.Biz.SlidersBiz.Instance.GetAll();
+                    if (listSlider.Count() > 0)
+                    {
+                        <ul class="rslides-header">
+                            @foreach (var item in listSlider)
+                            {
+                                var idInput = "idInput" + item.Id;
+                                <li>
+                                    <img src="~/images/slider/@item.IconPath" class="resp-img" alt="@item.DropDownTitle" id="@idInput">
+                                </li>
+                            }
+                        </ul>
+                        foreach (var item in listSlider)
+                        {
+                            var idInputTitle = "idInput" + item.Id + "Title";
+                            var idInputpreTitle = "idInput" + item.Id + "preTitle";
+                            var idInputDescription = "idInput" + item.Id + "Description";
+                            var idInputColor = "idInput" + item.Id + "Color";
+                            <input type="hidden" value="@item.PreTitle" id="@idInputpreTitle" />
+                            <input type="hidden" value="@item.DropDownTitle" id="@idInputTitle" />
+                            <input type="hidden" value="@item.Description" id="@idInputDescription" />
+                                <input type="hidden" value="@item.Color" id="@idInputColor" />
+                        }
+                    }
+                    else
+                    {
+                        <ul class="rslides-header">
+                            <li><img src="/assets/img/slide-2.jpg" class="resp-img" alt="Slide"></li>
+                            <li><img src="/assets/img/slide-1.jpg" class="resp-img" alt="Slide"></li>
+                        </ul>
+                    }
+*@
+<!--=================================
+   banner -->
+<div id="rev_slider_15_1_wrapper" class="rev_slider_wrapper fullwidthbanner-container" data-alias="seo-2"
+     data-source="gallery"
+     style="margin:0px auto;background-color:transparent;padding:0px;margin-top:0px;margin-bottom:0px;">
+    <!-- START REVOLUTION SLIDER 5.3.0.2.1 fullwidth mode -->
+    <div id="rev_slider_15_1" class="rev_slider fullwidthabanner" style="display:none;" data-version="5.3.0.2.1">
+        <ul>
+            <!-- SLIDE  -->
+            <li data-index="rs-49" data-transition="random-static,random-premium,random"
+                data-slotamount="default,default,default,default" data-hideafterloop="0"
+                data-hideslideonmobile="off" data-randomtransition="on"
+                data-easein="default,default,default,default" data-easeout="default,default,default,default"
+                data-masterspeed="default,default,default,default"
+                data-thumb="revolution/assets/100x50_1cf5f-21.jpg" data-rotate="0,0,0,0" data-saveperformance="off"
+                data-title="Slide" data-param1="" data-param2="" data-param3="" data-param4="" data-param5=""
+                data-param6="" data-param7="" data-param8="" data-param9="" data-param10="" data-description="">
+                <!-- MAIN IMAGE -->
+                <img src="kishlearning724/revolution/assets/1cf5f-21.jpg" alt="" data-bgposition="center center" data-bgfit="cover"
+                     data-bgrepeat="no-repeat" class="rev-slidebg" data-no-retina>
+                <!-- LAYERS -->
+                <!-- LAYER NR. 1 -->
+                <div class="tp-caption   tp-resizeme" id="slide-49-layer-4" data-x="right" data-y="center"
+                     data-hoffset="100" data-voffset="-100" data-width="['auto']" data-height="['171']"
+                     data-type="text" data-responsive_offset="on"
+                     data-frames='[{"delay":500,"split":" ","splitdelay":0.05,"speed":1990,"frame":"0","from":"x:[-105%];z:0;rX:45deg;rY:0deg;rZ:90deg;sX:1;sY:1;skX:0;skY:0;","mask":"x:0px;y:0px;s:inherit;e:inherit;","to":"o:1;","ease":"Power4.easeInOut"},{"delay":"wait","speed":310,"frame":"999","to":"opacity:0;","ease":"Power3.easeInOut"}]'
+                     data-textAlign="['inherit','inherit','inherit','inherit']" data-paddingtop="[0,0,0,0]"
+                     data-paddingright="[0,0,0,0]" data-paddingbottom="[0,0,0,0]" data-paddingleft="[0,0,0,0]"
+                     style="z-index: 5; min-width: 759px; max-width: 759px; max-width: 171px; max-width: 171px; white-space: nowrap; font-size: 74px; line-height: 82px; font-weight: 900; color: rgba(32, 70, 242, 1.00);font-family: 'vazirB', 'Poppins', sans-serif;">
+                    @setting.NameFa
+                    <br>بدون آن نمی توان زندگی کرد
+                </div>
+                <!-- LAYER NR. 4 -->
+                <div class="tp-caption rev-btn button tp-resizeme" id="slide-49-layer-7" data-x="right"
+                     data-hoffset="100" data-y="center" data-voffset="30" data-width="['auto']"
+                     data-height="['auto']" data-type="button" data-responsive_offset="on"
+                     data-frames='[{"delay":2500,"speed":1000,"frame":"0","from":"x:50px;opacity:0;","to":"o:1;","ease":"Power3.easeInOut"},{"delay":"wait","speed":310,"frame":"999","to":"opacity:0;","ease":"Power3.easeInOut"}]'
+                     data-textAlign="['inherit','inherit','inherit','inherit']" data-paddingtop="[12,12,12,12]"
+                     data-paddingright="[35,35,35,35]" data-paddingbottom="[12,12,12,12]"
+                     data-paddingleft="[35,35,35,35]" style="cursor:pointer;">فیلمهای آموزشی</div>
+
+                <!-- LAYER NR. 5 -->
+                <div class="tp-caption rev-btn  tp-resizeme button black rev-right-slide-btn" id="slide-49-layer-8"
+                     data-x="right" data-y="center" data-hoffset="280" data-voffset="30" data-width="['auto']"
+                     data-height="['auto']" data-type="button" data-responsive_offset="on"
+                     data-frames='[{"delay":2500,"speed":1000,"frame":"0","from":"x:-50px;opacity:0;","to":"o:1;","ease":"Power3.easeInOut"},{"delay":"wait","speed":310,"frame":"999","to":"opacity:0;","ease":"Power3.easeInOut"}]'
+                     data-textAlign="['inherit','inherit','inherit','inherit']" data-paddingtop="[12,12,12,12]"
+                     data-paddingright="[35,35,35,35]" data-paddingbottom="[12,12,12,12]"
+                     data-paddingleft="[35,35,35,35]" style="cursor:pointer;">کلاسهای آنلاین</div>
+
+            </li>
+            <!-- SLIDE  -->
+            <li data-index="rs-50" data-transition="random-static,random-premium,random"
+                data-slotamount="default,default,default,default" data-hideafterloop="0"
+                data-hideslideonmobile="off" data-randomtransition="on"
+                data-easein="default,default,default,default" data-easeout="default,default,default,default"
+                data-masterspeed="default,default,default,default"
+                data-thumb="revolution/assets/100x50_29a7f-20.jpg" data-rotate="0,0,0,0" data-saveperformance="off"
+                data-title="Slide" data-param1="" data-param2="" data-param3="" data-param4="" data-param5=""
+                data-param6="" data-param7="" data-param8="" data-param9="" data-param10="" data-description="">
+                <!-- MAIN IMAGE -->
+                <img src="kishlearning724/revolution/assets/29a7f-20.jpg" alt="" data-bgposition="center center" data-bgfit="cover"
+                     data-bgrepeat="no-repeat" class="rev-slidebg" data-no-retina>
+                <!-- LAYERS -->
+                <!-- LAYER NR. 6 -->
+                <div class="tp-caption   tp-resizeme" id="slide-50-layer-4" data-x="center" data-hoffset=""
+                     data-y="center" data-voffset="-50" data-width="['auto']" data-height="['174']" data-type="text"
+                     data-responsive_offset="on"
+                     data-frames='[{"delay":520,"split":" ","splitdelay":0.05,"speed":1000,"frame":"0","from":"y:50px;opacity:0;","to":"o:1;","ease":"Power3.easeInOut"},{"delay":"wait","speed":300,"frame":"999","to":"opacity:0;","ease":"Power3.easeInOut"}]'
+                     data-textAlign="['center','center','center','center']" data-paddingtop="[0,0,0,0]"
+                     data-paddingright="[0,0,0,0]" data-paddingbottom="[0,0,0,0]" data-paddingleft="[0,0,0,0]"
+                     style="z-index: 5; min-width: 629px; max-width: 629px; max-width: 174px; max-width: 174px; white-space: nowrap; font-size: 74px; line-height: 82px; font-weight: 900; color: rgba(255, 255, 255, 1.00);font-family: 'vazirB', 'Poppins', sans-serif;">
+                    سطح علمی خود را افزایش دهید<br>از خدمات ما استفاده کنید
+                </div>
+                <!-- LAYER NR. 8 -->
+                <div class="tp-caption rev-btn button tp-resizeme rev-right-button" id="slide-50-layer-7"
+                     data-x="center" data-hoffset="90" data-y="center" data-voffset="80" data-width="['auto']"
+                     data-height="['auto']" data-type="button" data-responsive_offset="on"
+                     data-frames='[{"delay":2250,"speed":1000,"frame":"0","from":"x:50px;opacity:0;","to":"o:1;","ease":"Power4.easeInOut"},{"delay":"wait","speed":300,"frame":"999","to":"opacity:0;","ease":"Power3.easeInOut"}]'
+                     data-textAlign="['inherit','inherit','inherit','inherit']" data-paddingtop="[12,12,12,12]"
+                     data-paddingright="[35,35,35,35]" data-paddingbottom="[12,12,12,12]"
+                     data-paddingleft="[35,35,35,35]" style="cursor:pointer;">کتابخانه</div>
+                <!-- LAYER NR. 9 -->
+                <div class="tp-caption rev-btn  tp-resizeme button black rev-left-button" id="slide-50-layer-8"
+                     data-x="center" data-hoffset="-90" data-y="center" data-voffset="80" data-width="['auto']"
+                     data-height="['auto']" data-type="button" data-responsive_offset="on"
+                     data-frames='[{"delay":2250,"speed":1000,"frame":"0","from":"x:-50px;opacity:0;","to":"o:1;","ease":"Power4.easeInOut"},{"delay":"wait","speed":300,"frame":"999","to":"opacity:0;","ease":"Power3.easeInOut"}]'
+                     data-textAlign="['inherit','inherit','inherit','inherit']" data-paddingtop="[12,12,12,12]"
+                     data-paddingright="[35,35,35,35]" data-paddingbottom="[12,12,12,12]"
+                     data-paddingleft="[35,35,35,35]" style="cursor:pointer;">مقالات علمی</div>
+            </li>
+            <!-- SLIDE  -->
+            <li data-index="rs-51" data-transition="random-static,random-premium,random"
+                data-slotamount="default,default,default,default" data-hideafterloop="0"
+                data-hideslideonmobile="off" data-randomtransition="on"
+                data-easein="default,default,default,default" data-easeout="default,default,default,default"
+                data-masterspeed="default,default,default,default"
+                data-thumb="revolution/assets/100x50_72bde-10.jpg" data-rotate="0,0,0,0" data-saveperformance="off"
+                data-title="Slide" data-param1="" data-param2="" data-param3="" data-param4="" data-param5=""
+                data-param6="" data-param7="" data-param8="" data-param9="" data-param10="" data-description="">
+                <!-- MAIN IMAGE -->
+                <img src="kishlearning724/revolution/assets/72bde-10.jpg" alt="" data-bgposition="center center" data-bgfit="cover"
+                     data-bgrepeat="no-repeat" class="rev-slidebg" data-no-retina>
+                <!-- LAYERS -->
+                <!-- LAYER NR. 10 -->
+                <div class="tp-caption   tp-resizeme" id="slide-51-layer-4" data-x="left" data-hoffset="50"
+                     data-y="center" data-voffset="-100" data-width="['auto']" data-height="['172']" data-type="text"
+                     data-responsive_offset="on"
+                     data-frames='[{"delay":500,"speed":1000,"frame":"0","from":"x:-50px;opacity:0;","to":"o:1;","ease":"Power3.easeInOut"},{"delay":"wait","speed":300,"frame":"999","to":"opacity:0;","ease":"Power3.easeInOut"}]'
+                     data-textAlign="['left','left','left','left']" data-paddingtop="[0,0,0,0]"
+                     data-paddingright="[0,0,0,0]" data-paddingbottom="[0,0,0,0]" data-paddingleft="[0,0,0,0]"
+                     style="z-index: 5; min-width: 851px; max-width: 851px; max-width: 172px; max-width: 172px; white-space: nowrap; font-size: 74px; line-height: 82px; font-weight: 900; color: rgba(32, 70, 242, 1.00);font-family: 'vazirB', 'Poppins', sans-serif;">
+                    ما در توسعه آموزشهای مجازی <br>متخصص هستیم
+                </div>
+
+                <!-- LAYER NR. 13 -->
+                <div class="tp-caption rev-btn button tp-resizeme rev-left-slide-btn" id="slide-51-layer-7"
+                     data-x="left" data-hoffset="220" data-y="center" data-voffset="30" data-width="['auto']"
+                     data-height="['auto']" data-type="button" data-responsive_offset="on"
+                     data-frames='[{"delay":3370,"speed":1000,"frame":"0","from":"x:50px;opacity:0;","to":"o:1;","ease":"Power3.easeInOut"},{"delay":"wait","speed":300,"frame":"999","to":"opacity:0;","ease":"Power3.easeInOut"}]'
+                     data-textAlign="['inherit','inherit','inherit','inherit']" data-paddingtop="[12,12,12,12]"
+                     data-paddingright="[35,35,35,35]" data-paddingbottom="[12,12,12,12]"
+                     data-paddingleft="[35,35,35,35]" style="cursor:pointer;">فروشگاه کتاب</div>
+                <!-- LAYER NR. 14 -->
+                <div class="tp-caption rev-btn  tp-resizeme button black" id="slide-51-layer-8" data-x="left"
+                     data-hoffset="50" data-y="center" data-voffset="30" data-width="['auto']" data-height="['auto']"
+                     data-type="button" data-responsive_offset="on"
+                     data-frames='[{"delay":2660,"speed":1000,"frame":"0","from":"x:50px;opacity:0;","to":"o:1;","ease":"Power3.easeInOut"},{"delay":"wait","speed":300,"frame":"999","to":"opacity:0;","ease":"Power3.easeInOut"}]'
+                     data-textAlign="['inherit','inherit','inherit','inherit']" data-paddingtop="[12,12,12,12]"
+                     data-paddingright="[35,35,35,35]" data-paddingbottom="[12,12,12,12]"
+                     data-paddingleft="[35,35,35,35]" style="cursor:pointer;">فروشگاه لوازم التحریر</div>
+            </li>
+        </ul>
+        <div class="tp-bannertimer tp-bottom" style="visibility: hidden !important;"></div>
+    </div>
+</div>
+<!--=================================
+banner -->
+<!--=================================
+Newsletter -->
+<section class="newsletter blue-bg page-section-pb">
+    <div class="container">
+        <div class="row justify-content-center">
+            <div class="col-lg-8 col-md-12 text-center">
+                <div class="newsletter-info">
+                    <h4 class="text-white mb-3">مشترک خبرنامه ما شوید</h4>
+                    <p class="mb-4 text-white">با عضویت در خبرنامه می توانید از آخرین اخبار فناوری و تکنولوژی در سریعترین زمان با خبر شوید. آدرس ایمیلتان را وارد کرده و دکمه حالا مشترک می شوم را بفشارید.</p>
+                </div>
+                <form class="form-inline d-inline">
+                    <div class="row">
+                        <div class="col-md-8 col-sm-8">
+                            <div class="form-group">
+                                <input type="text" class="form-control" id="inputPassword2"
+                                       placeholder="آدرس ایمیل خود را وارد کنید">
+                            </div>
+                        </div>
+                        <div class="col-md-4 col-sm-4 text-center text-md-right">
+                            <a class="button border-white" href="#">حالا مشترک می شوم</a>
+                        </div>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+</section>
+<!--=================================
+Newsletter -->
+<!-- ************************************ -->
+<!--=================================
+wecomel 1-->
+@{
+    var list = SenakLearn.Biz.MenuBiz.Instance.GetActiveMenu();
+    foreach (var item in list)
+    {
+
+        <section class="education page-section-ptb" style="background:url(lib/SeoHub/images/bg-element/01.png) no-repeat 150px 70px;">
+            <div class="container">
+                <div class="row">
+                    <!--================================= -->
+                    <div class="col-md-12">
+                        <div class="section-title text-center">
+                            <span>میز خدمت @item.Title</span>
+                            <h3 class="text-center">@item.Title</h3>
+                        </div>
+                    </div>
+                    @if (item.DynamicForms != null && item.DynamicForms.Count > 0)
+                    {
+                        foreach (var submenu in item.DynamicForms@*.OrderBy(x => x.Order)*@)
+{
+if (string.IsNullOrEmpty(submenu.Url))
+{
+submenu.Url = "/Home/Details/" + submenu.Id;
+}
+<div class="col-md-4">
+    <div class="feature-box-01 round text-center">
+        <div class="feature-box-img mb-2">
+            <a href="@submenu.Url">
+                 <img class="img-fluid" src="~/images/DynamicForm/@submenu.Image" title="@submenu.Title" alt="@submenu.Title">
+            </a>
+        </div>
+        <div class="feature-box-info mt-2">
+            <a href="@submenu.Url">
+                <h5 class="text-blue mb-2">@submenu.Title</h5>
+            </a>
+        </div>
+    </div>
+</div>
+}
+}
+                </div>
+            </div>
+        </section>
+    }
+}
+<!--=================================
+wecomel 4-->
+<!--=================================
+wecomel 5-->
+<!-- blog-section -->
+<section class="our-blog page-section-ptb">
+    <div class="container">
+        <div class="row">
+            <div class="col-md-12">
+                <div class="section-title text-center">
+                    <span>بیائید نگاهی بیاندازیم به</span>
+                    <h3 class="text-center">محبوبترین کلاسهای آنلاین</h3>
+                </div>
+            </div>
+        </div>
+        <div class="row">
+            <div class="col-md-12">
+                <div class="owl-carousel" data-nav-dots="false" data-nav-arrow="true" data-items="3"
+                     data-xs-items="2" data-sm-items="2" data-md-items="3" data-lg-items="3" data-autoplay="false"
+                     data-loop="true">
+                    @{
+                        var onlineClass = SenakLearn.Biz.OnlineClassBiz.Instance.GetAllPage(x => x.IsFavorite && x.ClassType != SenakLearn.Enums.OnlineClassType.Archived, 0, 5);
+                        foreach (var item in onlineClass)
+                        {
+                            var img = "/images/Interview/" + item.InterviewPathImage;
+                            if (string.IsNullOrEmpty(item.InterviewPathImage))
+                            {
+                                img = "/images/logo.png";
+                            }
+                            <div class="item">
+                                <div class="blog-entry">
+                                    <div class="entry-image clearfix">
+                                        <img class="img-fluid" src="@img" alt="@item.name">
+                                    </div>
+                                    <div class="blog-detail">
+                                        <div class="entry-title mb-1">
+                                            <a href="/DetailsOnlineClass/Index?type=2&id=@item.Id">@item.name</a>
+                                        </div>
+                                        <div class="entry-meta mb-1">
+                                            <ul>
+                                                <li><a href="#"><i class="ti-folder"></i> @item.SessionCount جلسه</a></li>
+                                                <li><a href="#"> 5<i class="ti-comments"></i></a></li>
+                                                <li><a href="#"><i class="ti-calendar"></i>@item.Duration ساعت</a></li>
+                                            </ul>
+                                        </div>
+                                        <div class="entry-content">
+                                            <p>
+                                                @item.Description
+                                            </p>
+                                        </div>
+                                        <div class="entry-share clearfix">
+                                            <div class="entry-button">
+                                                <a class="button arrow" href="/DetailsOnlineClass/Index?type=2&id=@item.Id">
+                                                    نمایش دوره<i class="fa fa-angle-left"
+                                                                 aria-hidden="true"></i>
+                                                </a>
+                                            </div>
+                                            @*<div class="social list-style-none pull-left">
+                                                    <strong>انتشار: </strong>
+                                                    <ul>
+                                                        <li>
+                                                            <a href="#"> <i class="fa fa-facebook"></i> </a>
+                                                        </li>
+                                                        <li>
+                                                            <a href="#"> <i class="fa fa-twitter"></i> </a>
+                                                        </li>
+                                                        <li>
+                                                            <a href="#"> <i class="fa fa-pinterest-p"></i> </a>
+                                                        </li>
+                                                        <li>
+                                                            <a href="#"> <i class="fa fa-dribbble"></i> </a>
+                                                        </li>
+                                                    </ul>
+                                                </div>*@
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+
+                        }
+                    }
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+<!--=================================
+blog-section -->
+<!-- blog-section -->
+<section class="our-blog page-section-ptb">
+    <div class="container">
+        <div class="row">
+            <div class="col-md-12">
+                <div class="section-title text-center">
+                    <span>بیائید نگاهی بیاندازیم به</span>
+                    <h3 class="text-center">محبوبترین فیلمهای آموزشی</h3>
+                </div>
+            </div>
+        </div>
+        <div class="row">
+            <div class="col-md-12">
+                <div class="owl-carousel" data-nav-dots="false" data-nav-arrow="true" data-items="3"
+                     data-xs-items="2" data-sm-items="2" data-md-items="3" data-lg-items="3" data-autoplay="false"
+                     data-loop="true">
+                    @{
+                        var listCourse = SenakLearn.Biz.CourseBiz.Instance.FindAll(x => x.status && x.IsFavorite, 5);
+                        foreach (var item in listCourse)
+                        {
+                            <div class="item">
+                                <div class="blog-entry">
+                                    <div class="entry-image clearfix">
+                                        <img class="img-fluid" src="/images/cours/@item.image" alt="@item.name">
+                                    </div>
+                                    <div class="blog-detail">
+                                        <div class="entry-title mb-1">
+                                            <a href="/DetailsCours/Index?type=1&id=@item.id">@item.name</a>
+                                        </div>
+                                        <div class="entry-meta mb-1">
+                                            <ul>
+                                                <li><a href="#"><i class="ti-folder"></i> @item.num_present جلسه</a></li>
+                                                <li><a href="#"> 5<i class="ti-comments"></i></a></li>
+                                                <li><a href="#"><i class="ti-calendar"></i>@item.time ساعت</a></li>
+                                            </ul>
+                                        </div>
+                                        <div class="entry-content">
+                                            <p>
+                                                @item.doc
+                                            </p>
+                                        </div>
+                                        <div class="entry-share clearfix">
+                                            <div class="entry-button">
+                                                <a class="button arrow" href="/DetailsCours/Index?type=1&id=@item.id">
+                                                    نمایش دوره<i class="fa fa-angle-left"
+                                                                 aria-hidden="true"></i>
+                                                </a>
+                                            </div>
+                                            @*<div class="social list-style-none pull-left">
+                                                    <strong>انتشار: </strong>
+                                                    <ul>
+                                                        <li>
+                                                            <a href="#"> <i class="fa fa-facebook"></i> </a>
+                                                        </li>
+                                                        <li>
+                                                            <a href="#"> <i class="fa fa-twitter"></i> </a>
+                                                        </li>
+                                                        <li>
+                                                            <a href="#"> <i class="fa fa-pinterest-p"></i> </a>
+                                                        </li>
+                                                        <li>
+                                                            <a href="#"> <i class="fa fa-dribbble"></i> </a>
+                                                        </li>
+                                                    </ul>
+                                                </div>*@
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+
+                        }
+                    }
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+<!--=================================
+blog-section -->
+<!--=================================
+welcome -->
+<section class="welcome-01 page-section-ptb">
+    <div class="container">
+        <div class="row">
+            <div class="col-md-12">
+                <div class="section-title text-center">
+                    <span>ما @setting.NameFa هستیم</span>
+                    <h3 class="text-center">در 6 مرحله ساده به موفقیت خود دست پیدا کنید</h3>
+                </div>
+            </div>
+            @{
+                var detailList = SenakLearn.Biz.MenuBiz.Instance.Get6StepMenu();
+            }
+            <div class="col-md-4">
+                <div class="feature-box-01 text-center text-md-right mb-5">
+                    <div class="feature-box-img mb-2">
+                        <img class="img-fluid" src="kishlearning724/images/icon/1.png" alt="">
+                    </div>
+                    <div class="feature-box-info mt-2">
+                        <a class="wow fadeInLeftBig" data-wow-delay="0.5s" href="@detailList[0]">
+                            <h5 class="mb-2 mt-4">1- هدف تان را انتخاب کنید</h5>
+                        </a>
+                        <p>همواره يكي از مهمترين عواملي كه مي تواند باعث موفقيت و يا عدم موفقيت افراد باشد انتخاب هدف مناسب است. با ما همراه باشيد تا نكاتي را درباره انتخاب هدف مناسب مرور كنيم.</p>
+                    </div>
+                </div>
+            </div>
+            <div class="col-md-4">
+                <div class="feature-box-01 text-center text-md-right mb-5">
+                    <div class="feature-box-img mb-2">
+                        <img class="img-fluid" src="kishlearning724/images/icon/2.png" alt="">
+                    </div>
+                    <div class="feature-box-info mt-2">
+                        <a class="wow fadeInLeftBig" data-wow-delay="0.5s" href="@detailList[1]">
+                            <h5 class="mb-2 mt-4">2- در سايت @setting.NameFa ثبت نام کنید</h5>
+                        </a>
+
+                        <p>پس از انتخاب هدف، كسب مهارتهاي لازم جهت رسيدن به هدف مورد نظر يكي از مهمترين عوامل محسوب ميشود. لذا با ثبت نام در سايت @setting.NameFa مي توانيد با اين مهارتها آشناشويد.</p>
+                    </div>
+                </div>
+            </div>
+            <div class="col-md-4">
+                <div class="feature-box-01 text-center text-md-right mb-5">
+                    <div class="feature-box-img mb-2">
+                        <img class="img-fluid" src="kishlearning724/images/icon/3.png" alt="">
+                    </div>
+                    <div class="feature-box-info mt-2">
+                        <a class="wow fadeInLeftBig" data-wow-delay="0.5s" href="@detailList[2]">
+                            <h5 class="mb-2 mt-4">3- دوره مورد نظرتان را انتخاب کنید</h5>
+                        </a>
+
+                        <p>سومين مرحله انتخاب دوره هاي آموزشي مناسب جهت رسيدن به مهارتهاي لازم براي دست يافتن به هدف مي باشد. انتخاب دوره هاي مناسب كه شما را بتواند به مهارتهاي لازم برساند بسيار مهم و حياتي مي باشد. </p>
+                    </div>
+                </div>
+            </div>
+            <div class="col-md-4">
+                <div class="feature-box-01 text-center text-md-right mb-5">
+                    <div class="feature-box-img mb-2">
+                        <img class="img-fluid" src="kishlearning724/images/icon/4.png" alt="">
+                    </div>
+                    <div class="feature-box-info mt-2">
+                        <a class="wow fadeInLeftBig" data-wow-delay="0.5s" href="@detailList[3]">
+                            <h5 class="mb-2 mt-4">4- در آزمونهاي پايان دوره شركت كنيد</h5>
+                        </a>
+
+                        <p>در آزمونهاي پايان دوره شركت نموده و مهارتهاي كسب كرده را محك بزنيد. كسب نمره قبولي و موفقيت در آزمونهاي پاياني نشانه مهارت و تبحر شما در كسب و كار آينده تان خواهد بود.</p>
+                    </div>
+                </div>
+            </div>
+            <div class="col-md-4">
+                <div class="feature-box-01 text-center text-md-right mb-5">
+                    <div class="feature-box-img mb-2">
+                        <img class="img-fluid" src="kishlearning724/images/icon/5.png" alt="">
+                    </div>
+                    <div class="feature-box-info mt-2">
+                        <a class="wow fadeInLeftBig" data-wow-delay="0.5s" href="@detailList[4]">
+                            <h5 class="mb-2 mt-4">5- گواهينامه معتبر دريافت كنيد</h5>
+                        </a>
+
+                        <p>داشتن يك مدرك معتبر جهت ارائه به محل كارتان و يا اثبات مهارت هايتان لازم و ضروري است. با گذراندن دوره هاي مورد نظر و قبولي در آزمون مي توانيد گواهينامه معتبري را دريافت نمائيد كه نشانه تبحر و مهارت شماست. </p>
+                    </div>
+                </div>
+            </div>
+            <div class="col-md-4">
+                <div class="feature-box-01 text-center text-md-right mb-5">
+                    <div class="feature-box-img mb-2">
+                        <img class="img-fluid" src="kishlearning724/images/icon/6.png" alt="">
+                    </div>
+                    <div class="feature-box-info mt-2">
+                        <a class="wow fadeInLeftBig" data-wow-delay="0.5s" href="@detailList[5]">
+                            <h5 class="mb-2 mt-4">6- از كار و زندگيتان لذت ببريد</h5>
+                        </a>
+
+                        <p>حالا شما با توجه به گذراندن مراحل قبل و كسب مهارتهاي لازم و اخذ گواهينامه هاي معتبر مي توانيد با توجه به هدف تان كسب و كار مناسب را انتخاب نمود و از آن همواره لذت ببريد.</p>
+                    </div>
+                </div>
+            </div>
+            <div class="col-md-12 text-center">
+                <div class="btn-group d-inline-block">
+                    <a class="button" href="/home/ShowAllClasses">مشاهده همه ویژگی ها</a>
+                    <a class="button border-black" href="/Users/Register">همین حالا شروع کنید!</a>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+<!--=================================
+welcome -->
+<!--=================================
+Our story  -->
+<section class="our-story popup-gallery bg" style="background:url(kishlearning724/images/bg/02.jpg);">
+    <div class="container-fluid">
+        <div class="row no-gutter text-center">
+            <div class="col-lg-6 col-md-12 align-self-center">
+                <div class="play-video">
+                    <a class="popup-youtube" href="~/images/slider/aboutme.mp4">
+                        <span class="ti-control-play"></span>
+                    </a>
+                </div>
+            </div>
+            <div class="col-lg-6 col-md-12 p-0">
+                <div class="our-story-content text-right blue-bg">
+                    <h2 class="text-white mb-2">داستان ما</h2>
+                    <span class="mb-2 text-white">@setting.NameFa در سال 1394 در جزیره زیبای کیش شروع بکار کرد.</span>
+                    <p class="mb-2 text-white">
+                        @setting.NameFa در سال 1394 در جزیره زیبای کیش شروع بکار کرد. با توجه به اهداف والای این موسسه در کسب رتبه اول در ایران، استفاده از فناوریهای نوین را در دستور کار قراردادیم. آموزش مجازی کیش قصد دارد یک موسسه آموزشی بین المللی را در بستر فناوری و تکنولوژی و بصورت کاملا آنلاین ایجاد نماید. تا بتواند دسترسی به آموزشهای حرفه ای و نوین را در اختیار و دسترس تمام افراد متقاضی قرار دهد. امید است در سال 1400 بتوانیم رتبه اول آموزش مجازی و آنلاین ایران را کسب کرده و بعد از آن در بعد بین المللی رقابت نمائیم.
+                        <br>
+                        <br> @setting.NameFa، برترین موسسه آموزشی در فضای مجازی در خدمت تمام هموطنان و دانشجویان و دانش پژوهان ایرانی در تمام دنیا می باشد.
+                    </p>
+                    <img class="img-fluid" alt="" src="kishlearning724/images/kishlearning/100s.png">
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+<!--=================================
+Our story -->
+<!--=================================
+blog-section -->
+<section class="our-blog page-section-ptb">
+    <div class="container">
+        <div class="row">
+            <div class="col-md-12">
+                <div class="section-title text-center">
+                    <span>اخبار مورد نیاز شما</span>
+                    <h3 class="text-center">آخرین اخبار موسسه @setting.NameFa</h3>
+                </div>
+            </div>
+        </div>
+        <div class="row">
+            <div class="col-md-12">
+                <div class="owl-carousel" data-nav-dots="false" data-nav-arrow="true" data-items="3"
+                     data-xs-items="2" data-sm-items="2" data-md-items="3" data-lg-items="3" data-autoplay="false"
+                     data-loop="true">
+                    @{
+                        var news = SenakLearn.Biz.NewsBiz.Instance.GetActiveMenu();
+                        foreach (var item in news)
+                        {
+                            <div class="item">
+                                <div class="blog-entry">
+                                    <div class="entry-image clearfix">
+                                        <img class="img-fluid" src="~/Images/News/@item.ImageUrl" alt="@item.Title">
+                                    </div>
+                                    <div class="blog-detail">
+                                        <div class="entry-title mb-1">
+                                            <a href="/Home/News/@item.Id">@item.Title</a>
+                                        </div>
+                                        <div class="entry-meta mb-1">
+                                            <ul>
+                                                <li><a href="#"><i class="ti-folder"></i> @item.NewsGroup.Title</a></li>
+                                                <li><a href="#"> @item.VisitCount<i class="ti-comments"></i></a></li>
+                                                <li><a href="#"><i class="ti-calendar"></i> @item.CreatedDateShamsi</a></li>
+                                            </ul>
+                                        </div>
+                                        <div class="entry-content">
+                                            <p>
+                                                @item.Summary
+                                            </p>
+                                            @if (item.Author != null)
+                                            {
+                                                <cite class="text-white">  @item.Author.FullName</cite>
+                                            }
+                                        </div>
+                                        <div class="entry-share clearfix">
+                                            <div class="entry-button">
+                                                <a class="button arrow" href="/Home/News/@item.Id">
+                                                    بیشتر بخوانید<i class="fa fa-angle-left"
+                                                                    aria-hidden="true"></i>
+                                                </a>
+                                            </div>
+                                            <div class="social list-style-none pull-left">
+                                                <strong>انتشار: </strong>
+                                                <ul>
+                                                    <li>
+                                                        <a href="#"> <i class="fa fa-facebook"></i> </a>
+                                                    </li>
+                                                    <li>
+                                                        <a href="#"> <i class="fa fa-twitter"></i> </a>
+                                                    </li>
+                                                    <li>
+                                                        <a href="#"> <i class="fa fa-pinterest-p"></i> </a>
+                                                    </li>
+                                                    <li>
+                                                        <a href="#"> <i class="fa fa-dribbble"></i> </a>
+                                                    </li>
+                                                </ul>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+
+                        }
+                    }
+
+                </div>
+            </div>
+            <a class="button mt-3" href="/Home/Allnews">مشاهده همه اخبار</a>
+        </div>
+
+    </div>
+</section>
+<!--=================================
+blog-section -->
+<!--=================================
+testimonial -->
+<section class="testimonial testimonial-02 page-section-ptb">
+    <div class="container">
+        <div class="row row-eq-height testimonial-bg">
+            <div class="col-lg-4 col-md-4 blue-bg">
+                <div class="testimonial-title">
+                    <div class="mt-4">
+                        <span class="text-white text-uppercase">اونا میگن ما کار بزرگی انجام دادیم!</span>
+                        <h3 class="text-white mt-1">دانشجویان، دانش پژوهان و دانش آموزان</h3>
+                    </div>
+                </div>
+            </div>
+            <div class="col-lg-8 col-md-8 white-bg">
+                <div class="owl-carousel" data-nav-dots="false" data-nav-arrow="true" data-items="1"
+                     data-sm-items="1" data-lg-items="1" data-md-items="1" data-autoplay="true" data-loop="true">
+                    @{var comments = SenakLearn.Biz.UserCommnetBiz.Instance.GetAll(x => x.PageTypeId == SenakLearn.Models.PageType.None && x.Status);
+                        var avatar = "man.png";
+                        foreach (var item in comments)
+                        {
+                            if (item.learn_user != null && !string.IsNullOrEmpty(item.learn_user.ImageUrl))
+                            {
+                                avatar = item.learn_user.ImageUrl;
+                            }
+                            else
+                            {
+                                avatar = "man.png";
+                            }
+                            if (item.learn_user != null && !string.IsNullOrEmpty(item.learn_user.Name) && !string.IsNullOrEmpty(item.learn_user.Family))
+                            {
+                                item.Name = item.learn_user.Name + " " + item.learn_user.Family;
+                            }
+                            <div class="item">
+                                <div class="testimonial-block text-center">
+                                    <div class="testimonial-avtar mb-3">
+                                        <img class="img-fluid center-block" src="/images/Users/@avatar" alt="@item.Name">
+                                    </div>
+                                    <div class="testimonial-info">
+                                        <div class="testimonial-name mb-1">
+                                            <h5 class="text-blue">@item.Name</h5>
+                                            <span class="text-black">@item.Title</span>
+                                        </div>
+                                        <p>@item.Description</p>
+                                    </div>
+                                </div>
+                            </div>
+                        }
+                    }
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+
+<!--=================================
+testimonial -->
+<!--+*+*+*+*+*+*+*+*+*+*+*+*+*+* -->
+<!--=================================
+  page-section -->
+
+<section class="feature-left page-section-ptb">
+    <div class="container">
+        <div class="row">
+            <div class="col-sm-12">
+                <div class="section-title text-center">
+                    <span>@setting.NameFa</span>
+                    <h3 class="text-center">گروه های آموزشی</h3>
+                </div>
+            </div>
+        </div>
+        @{ var group = SenakLearn.Biz.CourseBiz.Instance.FindAllGroup(null, null, null, null, null);
+            var count = 0;
+            foreach (var item in group)
+            {
+                if (count % 3 == 0)
+                {
+                    if (count != 0)
+                    {
+                        @Html.Raw("</div>")
+                    }
+                    @Html.Raw("<div class='row '>")
+
+                }
+                count++;
+                <div class="col-md-4 mb-5 sm-mb-1">
+                    <div class="d-flex">
+                        <div class="icon-rounded blue-bg bg-dark-hover text-white border-0 rounded-circle  ml-3">
+                            <img src="/images/Group/@item.ImageUrl" alt="Category">
+                            @*<span class="ti-rocket"></span>*@
+                            @*@if (item.Paper)
+                                {
+                                    <h6 class=""><span>@item.PaperCount</span>مقاله</h6>
+                                }
+                                @if (item.Book)
+                                {
+                                    <h6 class=""><span>@item.BookCount</span>کتاب</h6>
+                                }
+                                @if (item.Booklet)
+                                {
+                                    <h6 class=""><span>@item.BookletCount</span>جزوه</h6>
+                                }
+                                @if (item.Online)
+                                {
+                                    <h6 class=""><span>@item.OnlineCount</span>کلاس آنلاین</h6>
+                                }
+                                @if (item.Offline)
+                                {
+                                    <h6 class=""><span>@item.OfflineCount</span>دروه</h6>
+                                }*@
+                        </div>
+                        <div class="">
+                            <h5><a href="/home/ShowAllClasses?groupId=@item.id"> @item.name</a></h5>
+                            <p class="mb-0">
+                                @item.Description
+                            </p>
+                        </div>
+                    </div>
+                </div>
+            }
+
+        }
+
+
+    </div>
+</section>
+
+<!--=================================
+page-section -->
+<!--+*+*+*+*+*+*+*+*+*+*+*+*+*+* -->
+<!--=================================
+counter-->
+<section class="counter page-section-ptb bg fixed bg-overlay-black-80" style="background:url(kishlearning724/images/bg/02.jpg);">
+    <div class="container">
+        <div class="row">
+            <div class="col-lg-3 col-md-6 text-center">
+                <div class="counter-block">
+                    <span class="ti-cloud-up"></span>
+                    <b id="AllUserCountMain" class="timer mt-3 mb-3" data-to="0" data-speed="10000"></b>
+                    <h6 class="text-white">تعداد کل کاربران</h6>
+                </div>
+            </div>
+            <div class="col-lg-3 col-md-6 text-center">
+                <div class="counter-block">
+                    <span class="ti-bar-chart"></span>
+                    <b id="AllSiteCountMain" class="timer mt-3 mb-3" data-to="0" data-speed="10000"></b>
+                    <h6 class="text-white">تعداد کل بازدید ها</h6>
+                </div>
+            </div>
+            <div class="col-lg-3 col-md-6 text-center">
+                <div class="counter-block">
+                    <span class="ti-panel"></span>
+                    <b id="AllVideoCountMain"  class="timer mt-3 mb-3" data-to="0" data-speed="10000"></b>
+                    <h6 class="text-white">تعداد کل بازدید فیلمها</h6>
+                </div>
+            </div>
+            <div class="col-lg-3 col-md-6 text-center">
+                <div class="counter-block">
+                    <span class="ti-shield"></span>
+                    <b id="AllBookCountMain" class="timer mt-3 mb-3" data-to="0" data-speed="10000"></b>
+                    <h6 class="text-white">تعداد کل بازدید کتابها </h6>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+<!--=================================
+counter-->
+<!--=================================
+our-team -->
+
+<section class="our-team page-section-ptb">
+    <div class="container">
+        <div class="row">
+            <div class="col-lg-12 col-md-12 mb-3">
+                <div class="section-title text-center">
+                    <span>منابع ارزشمند ما</span>
+                    <h3 class="text-center">تیم ما</h3>
+                </div>
+            </div>
+            <div class="col-sm-12">
+                <div class="owl-carousel" data-nav-dots="false" data-nav-arrow="true" data-items="4"
+                     data-md-items="3" data-sm-items="3" data-xs-items="2" data-autoplay="false" data-loop="true">
+                    @{
+                        var teacherlist = SenakLearn.Biz.TeacherBiz.Instance.FindAll();
+                        foreach (var item in teacherlist)
+                        {
+                            <div class="item">
+                                <div class="team">
+                                    <div class="team-images">
+                                        <img class="img-fluid" src="/images/teacher/@item.image" alt="@item.FullName">
+                                    </div>
+                                    <div class="team-description">
+                                        <a href="/Home/TeacherCours/@item.id">
+                                            <h6>@item.FullName</h6>
+                                            <p>@item.education</p>
+                                        </a>
+                                    </div>
+                                    <div class="team-social">
+                                        <ul>
+                                            <li>
+                                                <a href="#"> <i class="fa fa-facebook"></i> </a>
+                                            </li>
+                                            <li>
+                                                <a href="#"> <i class="fa fa-twitter"></i> </a>
+                                            </li>
+                                            <li>
+                                                <a href="#"> <i class="fa fa-pinterest-p"></i> </a>
+                                            </li>
+                                            <li>
+                                                <a href="#"> <i class="fa fa-dribbble"></i> </a>
+                                            </li>
+                                        </ul>
+                                    </div>
+                                </div>
+                            </div>
+                        }
+                    }
+
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+
+<!--=================================
+our-team -->
+<!--=================================
+feature -->
+
+<section class="working-process page-section-ptb"
+         style="background:url(kishlearning724/images/bg-element/05.png) no-repeat left bottom;">
+    <div class="container">
+        <div class="row">
+            <div class="col-md-12">
+                <div class="section-title text-center">
+                    <span>برای کار در ادوبی کانکت</span>
+                    <h3 class="text-center">نرم افزارهای مورد نیاز</h3>
+                </div>
+            </div>
+            <div class="col-lg-3 col-md-6">
+                <div class="feature-box-01 round text-center">
+                    <a href="https://www.adobeconnect.ir/zip/Adobe.Flash.Player.Last.Ver_www.adobeconnect.ir.zip">
+                        <div class="feature-box-img mb-2">
+                            <img class="img-fluid center-block" src="kishlearning724/images/icon/a001.jpg" alt="Adobe Flash Player" title="دانلود و بروز رسانی فلش پلیر Adobe.Flash.Player.v31.00.153 به همراه کیبورد فارسی">
+                        </div>
+                        <div class="feature-box-info mt-2">
+                            <h6 class="text-blue mb-2">فلش پلیر</h6>
+                            <p>دانلود و بروز رسانی فلش پلیر Adobe.Flash.Player.v31.00.153 به همراه کیبورد فارسی </p>
+                        </div>
+                    </a>
+                </div>
+            </div>
+            <div class="col-lg-3 col-md-6">
+                <div class="feature-box-01 round text-center">
+                    <a href="/App/ConnectAppSetup.rar">
+                        <div class="feature-box-img mb-2">
+                            <img class="img-fluid center-block" src="kishlearning724/images/icon/a004.jpg" alt="Adobe Connect 9 Meeting Add-in for Windows" title="Download latest Adobe Connect 9 Meeting Add-in for Windows v985.57">
+                        </div>
+                        <div class="feature-box-info mt-2">
+                            <h6 class="text-blue mb-2">ادوبی کانکت برای ویندوز</h6>
+                            <p>Download latest Adobe Connect 9 Meeting Add-in for Windows v985.57 </p>
+                        </div>
+                    </a>
+                </div>
+            </div>
+
+            <div class="col-lg-3 col-md-6">
+                <div class="feature-box-01 round text-center">
+                    <a href="/App/AdobeConnect_Android.zip" target="_blank">
+                        <div class="feature-box-img mb-2">
+                            <img class="img-fluid center-block" src="kishlearning724/images/icon/a005.jpg" alt="Adobe Connect Mobile for Android devices" title="Android Apps - Download latest Adobe Connect Tablet &amp; Mobile v2.6.9">
+                        </div>
+                        <div class="feature-box-info mt-2">
+                            <h6 class="text-blue mb-2">ادوبی کانکت برای اندروید</h6>
+                            <p>Adobe Connect Mobile for Android devices  </p>
+                        </div>
+                    </a>
+                </div>
+            </div>
+            <div class="col-lg-3 col-md-6">
+                <div class="feature-box-01 round text-center">
+                    <a href="/App/AdobeConnect_985.57_MacOsX.zip">
+                        <div class="feature-box-img mb-2">
+                            <img class="img-fluid center-block" src="kishlearning724/images/icon/a003.jpg" alt="Adobe Connect 9 Meeting Add-in for Mac" title="Download latest Adobe Connect 9 Meeting Add-in for Mac">
+                        </div>
+                        <div class="feature-box-info mt-2">
+                            <h6 class="text-blue mb-2">ادوبی کانکت برای مک</h6>
+                            <p>Adobe Connect 9 Meeting Add-in for Mac </p>
+                        </div>
+                    </a>
+                </div>
+            </div>
+            <div class="col-lg-3 col-md-6">
+                <div class="feature-box-01 round text-center">
+                    <a href="https://itunes.apple.com/us/app/adobe-connect-mobile/id430437503?mt=8" target="_blank">
+                        <div class="feature-box-img mb-2">
+                            <img class="img-fluid center-block" src="kishlearning724/images/icon/a002.jpg" alt="Adobe Connect Mobile for iOS devices" title="Adobe Connect Mobile for iOS devices - Download latest Version">
+                        </div>
+                        <div class="feature-box-info mt-2">
+                            <h6 class="text-blue mb-2">ادوبی کانکت برای iOS</h6>
+                            <p>Adobe Connect Mobile for iOS devices </p>
+                        </div>
+                    </a>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+<!--=================================
+feature -->
+<!--=================================
+our-clients -->
+<section class="our-clients page-section-pb">
+    <div class="container">
+        <div class="row">
+            <div class="col-md-12">
+                <div class="owl-carousel" data-nav-dots="true" data-nav-arrow="false" data-items="5"
+                     data-md-items="4" data-sm-items="3" data-xs-items="2" data-xx-items="1" data-autoplay="false"
+                     data-loop="true">
+                    @{
+                        foreach (var item in SenakLearn.Biz.CompanyLogoAndLinkBiz.Instance.GetAllSync())
+                        {
+                            <div class="item" title="@item.Name">
+                                <a href="@item.Link" title="@item.Name"><img title="@item.Name" class="img-fluid center-block" src="~/Images/Logo/@item.ImageUrl" alt="@item.Name"></a>
+                            </div>
+                        }
+                    }
+                    @*<div class="item">
+                            <img class="img-fluid center-block" src="~/lib/SeoHub/images/clients/06.png" alt="">
+                        </div>
+                        <div class="item">
+                            <img class="img-fluid center-block" src="~/lib/SeoHub/images/clients/07.png" alt="">
+                        </div>
+                        <div class="item">
+                            <img class="img-fluid center-block" src="~/lib/SeoHub/images/clients/08.png" alt="">
+                        </div>
+                        <div class="item">
+                            <img class="img-fluid center-block" src="~/lib/SeoHub/images/clients/09.png" alt="">
+                        </div>
+                        <div class="item">
+                            <img class="img-fluid center-block" src="~/lib/SeoHub/images/clients/10.png" alt="">
+                        </div>
+                        <div class="item">
+                            <img class="img-fluid center-block" src="~/lib/SeoHub/images/clients/06.png" alt="">
+                        </div>
+                        <div class="item">
+                            <img class="img-fluid center-block" src="~/lib/SeoHub/images/clients/07.png" alt="">
+                        </div>*@
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+<!--=================================
+our-clients -->

@@ -1,147 +1,366 @@
 ﻿@model SenakLearn.Models.learn_teacher
 @{
     Layout = "~/Views/Shared/_Layout.cshtml";
+    ViewBag.Title = "صفحه استاد";
 }
-@*<body id="teacher-single" class="page">*@
-<div id="teacher-single" class=" page">
-    <div class="container teacher-page">
-        <div class="row">
-            <div class="col-sm-3 text-center float-right">
-                <img style=" max-width: 100%; height: auto;" src="/images/teacher/@Model.image" alt="Avatar" class="teacher-avatar">
-                @*<ul class="social">
-                    <li><a href="#"><i class="zmdi zmdi-facebook"></i></a></li>
-                    <li> <a href="#"><i class="zmdi zmdi-twitter"></i></a></li>
-                    <li> <a href="#"><i class="zmdi zmdi-google-old"></i></a></li>
-                    <li> <a href="#"><i class="zmdi zmdi-pinterest"></i></a></li>
-                    <li> <a href="#"><i class="zmdi zmdi-instagram"></i></a></li>
-                    <li> <a href="#"><i class="zmdi zmdi-email"></i></a></li>
-                    <li> <a href="#"><i class="zmdi zmdi-globe-alt"></i></a></li>
-                </ul>*@
-            </div>
-            <div class="col-sm-9">
-                <h5>@Model.FullName</h5>
-                <p>@Model.education</p>
-                <p class="class-details"> <span class="lessons"><i class="zmdi zmdi-assignment"></i>8 دوره</span> <span class="views"><i class="zmdi zmdi-eye"></i>2241 نمایش</span> <span class="rating"><i class="zmdi zmdi-star"></i>میانگین امتیاز : 4,8</span> </p>
-                @*<p class="abs"> لورم ایپسوم متن ساختگی با تولید سادگی نامفهوم از صنعت چاپ و با استفاده از طراحان گرافیک است. چاپگرها و متون بلکه روزنامه و مجله در ستون و سطرآنچنان که لازم است و برای شرایط فعلی تکنولوژی مورد نیاز و کاربردهای متنوع با هدف بهبود ابزارهای کاربردی می باشد. کتابهای زیادی در شصت و سه درصد گذشته، حال و آینده شناخت فراوان جامعه و متخصصان را می طلبد تا با نرم افزارها شناخت بیشتری را برای طراحان رایانه ای علی الخصوص طراحان خلاقی و فرهنگ پیشرو در زبان فارسی ایجاد کرد. در این صورت می توان امید داشت که تمام و دشواری موجود در ارائه راهکارها و شرایط سخت تایپ به پایان رسد وزمان مورد نیاز شامل حروفچینی دستاوردهای اصلی و جوابگوی سوالات پیوسته اهل دنیای موجود طراحی اساسا مورد استفاده قرار گیرد. </p>*@
-                <p class="abs">@Html.Raw(Model.Resume)</p>
-            </div>
-        </div>
-    </div>
-    <div class="container popular">
-        <h4>دوره های @Model.FullName</h4>
-        <div class="row tutorials">
-            @foreach (var item in Model.learn_cours)
-            {
-                <div class="col-md-4">
-                    <div class="product text-center mb-4">
-                        <div class="product-image">
-                            <img class="img-fluid center-block" src="/images/cours/@item.image" alt="@item.name">
-                            <div class="product-overlay">
-                                <div class="add-to-cart">
-                                    <a href="/DetailsCours/Index?type=1&id=@item.id">نمایش دوره</a>
-                                </div>
-                            </div>
-                        </div>
-                        <div class="product-des">
-                            @*<div class="product-title">
-                                    <a href="/DetailsCours/Index?type=1&id=@item.id">@item.name</a>
-                                </div>*@
-                            <div class="product-title">
-                                <a href="/DetailsCours/Index?type=1&id=@item.id">@item.name</a>
-                            </div>
-                            <div class="product-price">
-                                @item.doc
-                            </div>
-                            <div class="product-rating">
-                                <span class="lessons">
-                                    <i class="fa fa-building-o"></i>
-                                    @item.num_present جلسه
-                                </span>
-                                <span class="duration">
-                                    <i class="fa fa-clock-o"></i>
-                                    @item.time ساعت
-                                </span>
-                            </div>
-                            @*<div class="product-price">
-                                    <del>26 ه ت</del> <ins>13 ه ت</ins>
-                                </div>*@
-                        </div>
-                    </div>
-                </div>
-            }
-        </div>
-            @*<div class="tutorial">
-                    <img src="assets/img/popular/4.jpg" class="resp-img" alt="Tutorial">
-                    <div class="tutorial-details">
-                        <h6>چگونه یک طراح UX شویم</h6>
-                        <p><span class="lessons"><i class="zmdi zmdi-assignment"></i>12 درس</span><span class="duration"><i class="zmdi zmdi-time"></i>3:15 ساعت</span></p>
-                        <p class="abs">لورم ایپسوم متن ساختگی با تولید سادگی نامفهوم از صنعت چاپ و با استفاده از طراحان گرافیک است. چاپگرها و متون بلکه روزنامه و مجله در ستون و سطرآنچنان که.</p>
-                        <a href="#" class="greybutton">نمایش دوره</a>
-                    </div>
-                </div>
-                <div class="tutorial">
-                    <img src="assets/img/popular/5.jpg" class="resp-img" alt="Tutorial">
-                    <div class="tutorial-details">
-                        <h6>8 گام به راه اندازی استارت اپ خودتان</h6>
-                        <p><span class="lessons"><i class="zmdi zmdi-assignment"></i>4 درس</span><span class="duration"><i class="zmdi zmdi-time"></i>8:25 ساعت</span></p>
-                        <p class="abs">لورم ایپسوم متن ساختگی با تولید سادگی نامفهوم از صنعت چاپ و با استفاده از طراحان گرافیک است. چاپگرها و متون بلکه روزنامه و مجله در ستون و سطرآنچنان که.</p>
-                        <a href="#" class="greybutton">نمایش دوره</a>
-                    </div>
-                </div>
-                <div class="tutorial">
-                    <img src="assets/img/popular/6.jpg" class="resp-img" alt="Tutorial">
-                    <div class="tutorial-details">
-                        <h6>ارتباطات تجاری برای بازاریابان</h6>
-                        <p><span class="lessons"><i class="zmdi zmdi-assignment"></i>15 درس</span><span class="duration"><i class="zmdi zmdi-time"></i>4:07 ساعت</span></p>
-                        <p class="abs">لورم ایپسوم متن ساختگی با تولید سادگی نامفهوم از صنعت چاپ و با استفاده از طراحان گرافیک است. چاپگرها و متون بلکه روزنامه و مجله در ستون و سطرآنچنان که.</p>
-                        <a href="#" class="greybutton">نمایش دوره</a>
-                    </div>
-                </div>
-                <div class="tutorial">
-                    <img src="assets/img/popular/9.jpg" class="resp-img" alt="Tutorial">
-                    <div class="tutorial-details">
-                        <h6>8 گام به راه اندازی استارت اپ خودتان</h6>
-                        <p><span class="lessons"><i class="zmdi zmdi-assignment"></i>4 درس</span><span class="duration"><i class="zmdi zmdi-time"></i>8:25 ساعت</span></p>
-                        <p class="abs">لورم ایپسوم متن ساختگی با تولید سادگی نامفهوم از صنعت چاپ و با استفاده از طراحان گرافیک است. چاپگرها و متون بلکه روزنامه و مجله در ستون و سطرآنچنان که.</p>
-                        <a href="#" class="greybutton">نمایش دوره</a>
-                    </div>
-                </div>*@
-        </div>
-    </div>
-    @*@model IEnumerable<SenakLearn.Models.learn_cours>
 
-        <table class="table">
-            <tr>
-                <th>
-                    @Html.DisplayNameFor(model => model.learn_cours_group.name)
-                </th>
-                <th>
-                    @Html.DisplayNameFor(model => model.name)
-                </th>
-                <th>
-                    @Html.DisplayNameFor(model => model.doc)
-                </th>
-                <th>
-                    @Html.DisplayNameFor(model => model.image)
-                </th>
-            </tr>
+<style>
+    /* ==================== فونت‌ها و استایل کلی صفحه ==================== */
+    body {
+        font-family: 'Byekan', 'IRANSANSExpanded', Tahoma, sans-serif;
+    }
 
-        @foreach (var item in Model) {
-            <tr>
-                <td>
-                    @Html.DisplayFor(modelItem => item.learn_cours_group.name)
-                </td>
-                <td>
-                    @Html.DisplayFor(modelItem => item.name)
-                </td>
-                <td>
-                    @Html.Raw(item.doc)
-                </td>
-                <td>
-                    <img src="/images/cours/@item.image" alt="@item.name" class="thumbnail" width="80" height="80"/>
-                </td>
+    .teacher-titles, h1, h2, h3, h4, h5, h6, .teacher-numbers {
+        font-family: 'Btraffic', 'IRANSans-Bold', Tahoma, sans-serif;
+    }
 
-            </tr>
+    .teacher-detail-wrapper {
+        padding: 45px 0 80px;
+        background: #f8fafc;
+        min-height: 100vh;
+        box-sizing: border-box;
+    }
+
+    /* ==================== سایدبار پروفایل استاد (سمت راست) ==================== */
+    .teacher-sticky-sidebar {
+        position: sticky;
+        top: 25px;
+        z-index: 10;
+        width: 100%;
+        box-sizing: border-box;
+    }
+
+    .teacher-profile-card {
+        background: #ffffff;
+        border-radius: 16px;
+        border: 1px solid #e2e8f0;
+        box-shadow: 0 10px 30px rgba(0, 0, 0, 0.06);
+        padding: 30px 24px;
+        text-align: center;
+        margin-bottom: 22px;
+        box-sizing: border-box;
+        width: 100%;
+    }
+
+    .teacher-avatar-wrapper {
+        position: relative;
+        width: 150px;
+        height: 150px;
+        margin: 0 auto 22px;
+        border-radius: 50%;
+        overflow: hidden;
+        border: 4px solid #e2e8f0;
+        box-shadow: 0 8px 20px rgba(0, 0, 0, 0.12);
+        background: #f1f5f9;
+    }
+
+        .teacher-avatar-wrapper img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            display: block;
         }
 
-        </table>*@
+    .teacher-fullname {
+        font-size: 1.35rem;
+        font-weight: 800;
+        color: #1e293b;
+        margin: 0 0 10px;
+        padding: 0;
+    }
+
+    .teacher-education-badge {
+        display: inline-block;
+        background: #eff6ff;
+        color: #2563eb;
+        padding: 6px 18px;
+        border-radius: 24px;
+        font-size: 0.9rem;
+        font-weight: 700;
+        margin-bottom: 20px;
+    }
+
+    /* اطلاعات تماس و متادیتا */
+    .teacher-meta-list {
+        text-align: right;
+        border-top: 1px solid #f1f5f9;
+        padding-top: 20px;
+        margin-top: 6px;
+    }
+
+    .teacher-meta-item {
+        display: flex;
+        align-items: center;
+        gap: 10px;
+        font-size: 0.9rem;
+        color: #475569;
+        margin-bottom: 13px;
+        font-weight: 600;
+        word-break: break-word;
+    }
+
+        .teacher-meta-item i {
+            color: #007bff;
+            width: 20px;
+            text-align: center;
+            flex-shrink: 0;
+        }
+
+    /* ==================== کارت‌های دوره‌های استاد (ستون سمت چپ) ==================== */
+    .content-box-card {
+        background: #ffffff;
+        border-radius: 16px;
+        border: 1px solid #e2e8f0;
+        box-shadow: 0 4px 16px rgba(0, 0, 0, 0.03);
+        padding: 28px;
+        margin-bottom: 22px;
+        box-sizing: border-box;
+        width: 100%;
+    }
+
+    .content-box-header {
+        display: flex;
+        align-items: center;
+        gap: 10px;
+        margin-bottom: 26px;
+        padding-bottom: 14px;
+        border-bottom: 2px solid #f1f5f9;
+    }
+
+        .content-box-header h4 {
+            margin: 0;
+            font-size: 1.25rem;
+            font-weight: 800;
+            color: #1e293b;
+        }
+
+        .content-box-header i {
+            color: #007bff;
+            font-size: 1.35rem;
+        }
+
+    /* گرید دوره‌ها */
+    .teacher-courses-grid {
+        display: grid;
+        grid-template-columns: repeat(auto-fill, minmax(260px, 1fr));
+        gap: 20px;
+        width: 100%;
+    }
+
+    .course-item-card {
+        background: #ffffff;
+        border: 1px solid #e2e8f0;
+        border-radius: 12px;
+        overflow: hidden;
+        transition: all 0.3s ease;
+        display: flex;
+        flex-direction: column;
+        box-sizing: border-box;
+        width: 100%;
+    }
+
+        .course-item-card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 10px 28px rgba(0, 0, 0, 0.09);
+            border-color: #cbd5e1;
+        }
+
+    .course-img-wrap {
+        position: relative;
+        height: 175px;
+        background: #f1f5f9;
+        overflow: hidden;
+    }
+
+        .course-img-wrap img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            transition: transform 0.4s ease;
+            display: block;
+        }
+
+    .course-item-card:hover .course-img-wrap img {
+        transform: scale(1.06);
+    }
+
+    .course-body {
+        padding: 16px;
+        display: flex;
+        flex-direction: column;
+        flex-grow: 1;
+        box-sizing: border-box;
+    }
+
+    .course-title {
+        font-size: 1.05rem;
+        font-weight: 800;
+        color: #1e293b;
+        margin-bottom: 8px;
+        text-decoration: none !important;
+        line-height: 1.5;
+    }
+
+        .course-title:hover {
+            color: #007bff;
+        }
+
+    .course-desc {
+        font-size: 0.88rem;
+        color: #64748b;
+        line-height: 1.7;
+        margin-bottom: 15px;
+        flex-grow: 1;
+        overflow: hidden;
+    }
+
+    .course-footer-meta {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        border-top: 1px solid #f1f5f9;
+        padding-top: 12px;
+        font-size: 0.82rem;
+        color: #64748b;
+        font-weight: 600;
+    }
+
+    .btn-view-course {
+        display: block;
+        width: 100%;
+        padding: 11px 0;
+        background: #eff6ff;
+        color: #2563eb;
+        text-align: center;
+        border-radius: 8px;
+        font-weight: 700;
+        text-decoration: none !important;
+        transition: all 0.2s ease;
+        margin-top: 12px;
+        box-sizing: border-box;
+    }
+
+        .btn-view-course:hover {
+            background: #2563eb;
+            color: #ffffff !important;
+        }
+
+    /* ریسپانسیو */
+    @@media (max-width: 991px) {
+        .teacher-sticky-sidebar {
+            position: static;
+        }
+
+        .teacher-detail-wrapper {
+            padding: 25px 0 50px;
+        }
+    }
+</style>
+
+<div class="teacher-detail-wrapper">
+    <div class="container">
+        @if (Model == null)
+        {
+            <div class="alert alert-warning text-center">مدرس مورد نظر یافت نشد.</div>
+        }
+        else
+        {
+            <div class="row">
+
+                @* ============ سایدبار سمت راست: پروفایل و اطلاعات استاد ============ *@
+                <div class="col-lg-4 col-md-5 mb-4">
+                    <div class="teacher-sticky-sidebar">
+                        <div class="teacher-profile-card">
+
+                            <div class="teacher-avatar-wrapper">
+                                @{
+                                    var avatarImg = !string.IsNullOrEmpty(Model.image)
+                                        ? "/images/teacher/" + Model.image
+                                        : "/images/avatar.png";
+                                }
+                                <img src="@avatarImg" alt="@Model.FullName" onerror="this.src='/images/avatar.png';">
+                            </div>
+
+                            <h1 class="teacher-fullname">@Model.FullName</h1>
+                            <span class="teacher-education-badge">@Model.education</span>
+
+                            <div class="teacher-meta-list">
+                                @if (!string.IsNullOrEmpty(Model.mobile))
+                                {
+                                    <div class="teacher-meta-item">
+                                        <i class="fa fa-phone"></i>
+                                        <span>تلفن همراه: @Model.mobile</span>
+                                    </div>
+                                }
+                                @if (!string.IsNullOrEmpty(Model.email))
+                                {
+                                    <div class="teacher-meta-item">
+                                        <i class="fa fa-envelope"></i>
+                                        <span>ایمیل: @Model.email</span>
+                                    </div>
+                                }
+                                <div class="teacher-meta-item">
+                                    <i class="fa fa-book"></i>
+                                    <span class="teacher-numbers">@(Model.learn_cours != null ? Model.learn_cours.Count : 0)</span>
+                                    <span>دوره</span>
+                                </div>
+                            </div>
+
+                        </div>
+                    </div>
+                </div>
+
+                @* ============ بخش اصلی سمت چپ: دوره‌ها و پادکست‌های استاد ============ *@
+                <div class="col-lg-8 col-md-7">
+                    <div class="content-box-card">
+
+                        <div class="content-box-header">
+                            <i class="fa fa-graduation-cap"></i>
+                            <h4>دوره‌ها و پادکست‌های استاد @Model.FullName</h4>
+                        </div>
+
+                        @if (Model.learn_cours == null || !Model.learn_cours.Any())
+                        {
+                            <div class="text-center py-5 text-muted">
+                                <i class="fa fa-info-circle fa-2x mb-2"></i>
+                                <p>هنوز دوره‌ای برای این استاد ثبت نشده است.</p>
+                            </div>
+                        }
+                        else
+                        {
+                            <div class="teacher-courses-grid">
+                                @foreach (var item in Model.learn_cours)
+                                {
+                                    var courseImg = !string.IsNullOrEmpty(item.image)
+                                        ? "/images/cours/" + item.image
+                                        : "/images/logo.png";
+
+                                    <div class="course-item-card">
+                                        <div class="course-img-wrap">
+                                            <img src="@courseImg" alt="@item.name" onerror="this.src='/images/logo.png';">
+                                        </div>
+                                        <div class="course-body">
+                                            <a href="/DetailsCours/Index?type=1&id=@item.id" class="course-title">@item.name</a>
+                                            <p class="course-desc">@item.doc</p>
+
+                                            <div class="course-footer-meta">
+                                                <span><i class="fa fa-file-text-o"></i> @item.num_present جلسه</span>
+                                                <span class="teacher-numbers"><i class="fa fa-clock-o"></i> @item.time ساعت</span>
+                                            </div>
+
+                                            <a href="/DetailsCours/Index?type=1&id=@item.id" class="btn-view-course">
+                                                مشاهده و ثبت نام دوره
+                                            </a>
+                                        </div>
+                                    </div>
+                                }
+                            </div>
+                        }
+
+                    </div>
+                </div>
+
+            </div>
+        }
+    </div>
+</div>

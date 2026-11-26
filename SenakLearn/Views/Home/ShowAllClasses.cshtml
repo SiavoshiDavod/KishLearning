@@ -1,272 +1,125 @@
 ﻿@using SenakLearn.Models.Common
-@using SenakLearn.Models
-@model Pagination<Book>
+@using SenakLearn.Models.wrapper
+@model LearnWrapper
 @{
     Layout = "~/Views/Shared/_Layout.cshtml";
-    var count = 0;
+    ViewBag.Title = "تمام دوره‌ها و منابع آموزشی";
     int? groupId = ViewBag.groupId;
     int? teacherId = ViewBag.teacherId;
     string keyword = ViewBag.keyword;
-    var onlineClass = SenakLearn.Biz.OnlineClassBiz.Instance.GetAllPage(i => i.ClassType != SenakLearn.Enums.OnlineClassType.Archived && (groupId == null || groupId == i.id_learn_cours_group) && (teacherId == null || teacherId == i.id_learn_teacher) && (string.IsNullOrEmpty(keyword) || i.name.Contains(keyword)), 0, 50);
-    var listCourse = SenakLearn.Biz.CourseBiz.Instance.GetAllPage(i => i.status && (groupId == null || groupId == i.id_group) && (teacherId == null || teacherId == i.id_teacher) && (string.IsNullOrEmpty(keyword) || i.name.Contains(keyword)), 0, 50);
-    var listPaper = SenakLearn.Biz.PaperBiz.Instance.GetAllPage(i => (groupId == null || groupId == i.GroupId) && (string.IsNullOrEmpty(keyword) || i.Keyword.Contains(keyword)), 0, 50);
-    Pagination<Book> listBook = new Pagination<Book>();
-    listBook.Data = SenakLearn.Biz.BookBiz.Instance.GetAllBooks(i => (groupId == null || groupId == i.GroupId) && (string.IsNullOrEmpty(keyword) || i.Keyword.Contains(keyword)));
+
 }
-<div class="row ">
-    <div class="col-md-3 col-sm-6 col-xs-12   search-button select-categories">
+<style>
+    /* دکمه آبی (کلاس آنلاین) */
+    .btn-view-blue {
+        background-color: #eff6ff; /* bg-blue-50 */
+        color: #2563eb !important; /* text-blue-600 */
+    }
 
-        @Html.Cours_Group_DropDown("CoursGroupId", false, new { @class = "jquery-select" }, "یک دسته را انتخاب کنید", (int?)ViewBag.groupId, null, true)
-    </div>
-    <div class="col-md-3 col-sm-6 col-xs-12  search-button select-numofvids">
-        @Html.Teacher_DropDown("TeacherId", false, new { @class = "jquery-select" }, "یک مدرس را انتخاب کنید", (int?)ViewBag.teacherId)
-    </div>
+    .btn-view-blue:hover {
+        background-color: #2563eb !important; /* bg-blue-600 */
+        color: #ffffff !important; /* متن حتما سفید شود */
+    }
 
-    <div class="col-sm-3 col-xs-6  search-button text-keywords float-right">
-        <input class="keywords form-control placeholder" name="keywords" id="keywords" type="text" placeholder="کلمات کلیدی" value="@ViewBag.keyword">
-    </div>
-    <div class="col-sm-3 col-xs-6 search-button text-center">
-        <button class="search-teachers button " onclick="ReloadPage()">جستجو</button>
-    </div>
-</div>
-<section class="shop grid page-section-ptb">
-    <div class="container ">
-        <div class="text-center">
-            <h3>آموزش های آنلاین</h3>
+    /* دکمه سبز (فیلم آموزشی) */
+    .btn-view-emerald {
+        background-color: #ecfdf5; /* bg-emerald-50 */
+        color: #059669 !important; /* text-emerald-600 */
+    }
+
+        .btn-view-emerald:hover {
+            background-color: #059669 !important; /* bg-emerald-600 */
+            color: #ffffff !important; /* متن حتما سفید شود */
+        }
+</style>
+
+<section class="py-12 bg-gray-50">
+    <div class="container mx-auto px-4">
+        <!-- Header & Tabs -->
+        <div class="text-center max-w-2xl mx-auto mb-8">
+            <h1 class="text-3xl font-titr text-gray-900 mb-2">جامع‌ترین دوره‌های آموزشی</h1>
+            <p class="text-sm text-gray-500">مشاهده همزمان کلاس‌های آنلاین زنده و فیلم‌های آموزشی مالتی‌مدیا</p>
         </div>
-        <div class="row">
-            @if (!onlineClass.Any())
-            {
-                <span> موردی یافت نشد</span>
-            }
-            else
-            {
-                foreach (var item in onlineClass)
+
+        <!-- Filter Row -->
+        <div class="bg-white p-4 rounded-2xl shadow-sm border border-gray-100 mb-10 grid grid-cols-1 md:grid-cols-4 gap-4">
+            @Html.Cours_Group_DropDown("groupId", false, new { @class = "border border-gray-200 rounded-xl px-3 py-2 text-sm", @id = "all_group" }, "دسته‌بندی...", groupId, null, true)
+            @Html.Teacher_DropDown("teacherId", false, new { @class = "border border-gray-200 rounded-xl px-3 py-2 text-sm", @id = "all_teacher" }, "مدرس...", teacherId)
+            <input type="text" id="all_keyword" value="@keyword" placeholder="جستجو بر اساس عنوان دوره..." class="border border-gray-200 rounded-xl px-4 py-2 text-sm" />
+            <button onclick="ReloadAllClasses()" class="bg-blue-600 hover:bg-blue-700 text-white font-bold rounded-xl py-2 text-sm transition">جستجو و فیلتر</button>
+        </div>
+
+        <!-- SECTION 1: Online Classes -->
+        <div class="mb-14">
+            <div class="flex items-center justify-between mb-6">
+                <h2 class="text-xl font-titr text-gray-900 border-r-4 border-blue-600 pr-3">کلاس‌های آنلاین زنده</h2>
+                <a href="/home/OnlineClass" class="text-xs text-blue-600 hover:text-blue-700 font-bold">مشاهده همه کلاس‌های آنلاین &larr;</a>
+            </div>
+            <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6">
+                @foreach (var item in Model.listOnlineClass)
                 {
-                    <div class="col-md-4">
-                        <div class="product text-center mb-4">
-                            <div class="product-image">
-                                <img class="img-fluid center-block" src="/images/Interview/@item.InterviewPathImage" alt="@item.name">
-                                <div class="product-overlay">
-                                    <div class="add-to-cart">
-                                        <a href="/DetailsOnlineClass/Index?type=2&id=@item.Id">نمایش دوره</a>
-                                    </div>
-                                </div>
+                    <div class="bg-white rounded-2xl border border-gray-100 overflow-hidden shadow-sm hover:shadow-md transition flex flex-col justify-between">
+                        <div>
+                            <div class="h-40 bg-gray-100 overflow-hidden">
+                                <img src="@(!string.IsNullOrEmpty(item.InterviewPathImage) ? "/images/Interview/" + item.InterviewPathImage : "/images/cours/no-photo.jpg")" alt="@item.name" class="w-full h-full object-cover" onerror="this.src='/images/cours/no-photo.jpg'" />
                             </div>
-                            <div class="product-des">
-                                @*<div class="product-title">
-                                        <a href="/DetailsCours/Index?type=1&id=@item.id">@item.name</a>
-                                    </div>*@
-                                <div class="product-title">
-                                    <a href="/DetailsOnlineClass/Index?type=2&id=@item.Id">@item.name</a>
-                                </div>
-                                <div class="product-price">
-                                    @item.Description
-                                </div>
-                                <div class="product-rating">
-                                    <span class="lessons">
-                                        <i class="fa fa-building-o"></i>
-                                        @item.SessionCount جلسه
-                                    </span>
-                                    <span class="duration">
-                                        <i class="fa fa-clock-o"></i>
-                                        @item.Time ساعت
-                                    </span>
-                                </div>
-                                @*<div class="product-price">
-                                        <del>26 ه ت</del> <ins>13 ه ت</ins>
-                                    </div>*@
+                            <div class="p-4">
+                                <h3 class="font-titr text-sm text-gray-900 line-clamp-1">@item.name</h3>
+                                <p class="text-xs text-gray-500 mt-2"><i class="fa fa-clock ml-1"></i> @item.Time ساعت - @item.SessionCount جلسه</p>
                             </div>
+                        </div>
+                        <div class="p-4 pt-0">
+                            <a href="/DetailsOnlineClass/Index?type=2&id=@item.Id"
+                               class="block text-center text-xs font-bold py-2 rounded-xl transition-all duration-200 btn-view-blue">
+                                مشاهده کلاس
+                            </a>
+
                         </div>
                     </div>
                 }
-            }
+            </div>
         </div>
-    </div>
-</section>
 
-<section class="shop grid page-section-ptb">
-    <div class="container ">
-        <div class="text-center">
-            <h3>فیلمهای آموزشی</h3>
-        </div>
-        <div class="row">
-
-            @if (!listCourse.Any())
-            {
-                <span> موردی یافت نشد</span>
-            }
-            else
-            {
-                foreach (var item in listCourse)
-                {
-                    <div class="col-md-4">
-                        <div class="product text-center mb-4">
-                            <div class="product-image">
-                                <img class="img-fluid center-block" src="/images/cours/@item.image" alt="@item.name">
-                                <div class="product-overlay">
-                                    <div class="add-to-cart">
-                                        <a href="/DetailsCours/Index?type=1&id=@item.id">نمایش دوره</a>
-                                    </div>
-                                </div>
-                            </div>
-                            <div class="product-des">
-                                @*<div class="product-title">
-                                        <a href="/DetailsCours/Index?type=1&id=@item.id">@item.name</a>
-                                    </div>*@
-                                <div class="product-title">
-                                    <a href="/DetailsCours/Index?type=1&id=@item.id">@item.name</a>
-                                </div>
-                                <div class="product-price">
-                                    @item.doc
-                                </div>
-                                <div class="product-rating">
-                                    <span class="lessons">
-                                        <i class="fa fa-building-o"></i>
-                                        @item.num_present جلسه
-                                    </span>
-                                    <span class="duration">
-                                        <i class="fa fa-clock-o"></i>
-                                        @item.time ساعت
-                                    </span>
-                                </div>
-                                @*<div class="product-price">
-                                        <del>26 ه ت</del> <ins>13 ه ت</ins>
-                                    </div>*@
-                            </div>
-                        </div>
-                    </div>
-                }
-            }
-        </div>
-    </div>
-</section>
-<section class="shop grid page-section-ptb">
-    <div class="container ">
-        <div class="text-center">
-            <h3>کتاب های آموزشی</h3>
-        </div>
+        <!-- SECTION 2: Video Courses -->
         <div>
-
-            @if (!Model.DataPage.Any())
-            {
-                <span> موردی یافت نشد</span>
-            }
-            else
-            {
-                <div class="row">
-                    @foreach (var item in Model.DataPage)
-                    {
-                        <div class="col-md-4">
-                            <div class="product text-center mb-4">
-                                <div class="product-image">
-                                    <img class="img-fluid center-block" src="/images/book/@item.ScreenShotId" alt="@item.TitleF">
-                                    <div class="product-overlay">
-                                        <div class="add-to-cart">
-                                            <a href="/Books/detail?Id=@item.Id">نمایش کتاب</a>
-                                        </div>
-                                    </div>
-                                </div>
-                                <div class="product-des">
-                                    <div class="product-title">
-                                        <a href="/Books/detail?Id=@item.Id">@item.TitleF</a>
-                                    </div>
-                                    <div class="product-title">
-                                        <a href="/Books/detail?Id=@item.Id">@item.Title</a>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-                    }
-                </div>
-                <div class="row">
-                    <nav class="center-block">
-                        <div class="navigation" style="text-align: center">
-                            <ul class="pagination">
-                                @*<li class="page-item @Model.PreviousClass"><a class="page-link" href="?page=@(@Model.Previous+@Model.Query)">&laquo;</a></li>*@
-                                @for (int _page = 1; _page <= Model.CountPage; _page++)
-                                {
-                                    if (_page == Model.CurrentPage)
-                                    {
-                                       <li class="page-item " style="font-weight: bolder;"><a class="page-link" style="background-color: lightgray" href="?page=@_page ">@_page</a></li>
-                                    }
-                                    else
-                                    {
-                                        <li class="page-item "><a class="page-link" href="?page=@_page ">@_page</a></li>
-                                    }
-                                }
-                                @*<li class="page-item @Model.NextClass"><a class="page-link" href="?page=@(@Model.Next+@Model.Query)">&raquo;</a></li>*@
-                            </ul>
-                        </div>
-                    </nav>
-                </div>
-            }
-        </div>
-    </div>
-</section>
-<section class="shop grid page-section-ptb">
-    <div id="mainPaper" class="container ">
-        <div class="text-center">
-            <h3>مقالات آموزشی</h3>
-        </div>
-        <div class="row tutorial ">
-            @if (!listPaper.Any())
-            {
-                <span> موردی یافت نشد</span>
-            }
-            else
-            {
-
-                foreach (var item in listPaper)
+            <div class="flex items-center justify-between mb-6">
+                <h2 class="text-xl font-titr text-gray-900 border-r-4 border-emerald-600 pr-3">فیلم‌های آموزشی ضبط‌شده</h2>
+            </div>
+            <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6">
+                @foreach (var item in Model.listCourse)
                 {
-                    <div class="col-xs-12 col-sm-12 col-md-6">
-                        <div class="tutorial-details">
-                            <div class="pull-right fav favorite">
-                                <i class="zmdi zmdi-star"></i>
+                    <div class="bg-white rounded-2xl border border-gray-100 overflow-hidden shadow-sm hover:shadow-md transition flex flex-col justify-between">
+                        <div>
+                            <div class="h-40 bg-gray-100 overflow-hidden">
+                                <img src="@(!string.IsNullOrEmpty(item.image) ? "/images/cours/" + item.image : "/images/cours/no-photo.jpg")" alt="@item.doc" class="w-full h-full object-cover" onerror="this.src='/images/cours/no-photo.jpg'" />
                             </div>
-                            <h6>@item.TitleF</h6>
-                            <p><span class="duration"><i class="zmdi zmdi-time"></i>@item.Year </span></p>
-                            <p class="abs">@item.Title</p>
-                            <a href="/paper/detail?Id=@item.Id" class="greybutton">نمایش مقاله</a>
+                            <div class="p-4">
+                                <h3 class="font-titr text-sm text-gray-900 line-clamp-1">@item.name</h3>
+                                <p class="text-xs text-gray-500 mt-2"><i class="fa fa-video ml-1"></i> @item.time ساعت آموزش تخصصی</p>
+                            </div>
+                        </div>
+                        <div class="p-4 pt-0">
+                            <a href="/DetailsCours/Index?type=1&id=@item.id"
+                               class="block text-center text-xs font-bold py-2 rounded-xl transition-all duration-200 btn-view-emerald">
+                                نمایش دوره
+                            </a>
+
                         </div>
                     </div>
                 }
-
-
-            }
+            </div>
         </div>
     </div>
 </section>
-<script>
-    function paging(currentPage, pages, divId) {
-        if (pages <= 1) {
-            return "";
-        }
-        var htm = '<div class="row text-center"><div class="col-xs-12"><div class="paginations">';
-        if (currentPage > 1) {
-            var i = currentPage - 1;
-            htm += '<a class="prev" onclick="showClasses(' + i + ')"><i class="zmdi zmdi-chevron-right"></i>قبلی</a>';
-        }
-        for (var i = 1; i < pages; i++) {
-            htm += '<a onclick="showClasses(' + i + ')">' + i + '</a>';
-        }
-        if (currentPage < pages) {
-            var i = currentPage + 1;
-            htm += '<a class="next" onclick="showClasses(' + i + ')">بعدی<i class="zmdi zmdi-chevron-left"></i></a>';
-        }
-        htm += '</div></div></div>';
-        $('#' + divId).html(htm);
-    }
-    function showClasses(page) {
 
-    }
-</script>
-<script>
-    function ReloadPage() {
-        window.location.href = "/home/ShowAllClasses?groupId=" + $('#CoursGroupId').val() + "&teacherId=" + $('#TeacherId').val() + "&keyword=" + $('#keywords').val();
-    }
-
-</script>
-
-
+@section scripts {
+    <script>
+        function ReloadAllClasses() {
+            var g = $("#all_group").val() || "";
+            var t = $("#all_teacher").val() || "";
+            var k = $("#all_keyword").val() || "";
+            window.location.href = "/home/ShowAllClasses?groupId=" + encodeURIComponent(g) + "&teacherId=" + encodeURIComponent(t) + "&keyword=" + encodeURIComponent(k);
+        }
+    </script>
+}
 

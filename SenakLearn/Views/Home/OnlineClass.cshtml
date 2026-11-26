@@ -1,82 +1,80 @@
 ﻿@model IEnumerable<SenakLearn.Models.OnlineClass>
 @{
     Layout = "~/Views/Shared/_Layout.cshtml";
-    ViewBag.Title = "آموزش های آنلاین";
+    ViewBag.Title = "آموزش‌های آنلاین";
 }
 
-@Html.Raw("<div class='container courses-browse popular'>")
-<div class="row ">
-    <div class="col-md-3 col-sm-6 col-xs-12   search-button select-categories">
+<section class="py-12 bg-gray-50" style="background-color: #f9fafb; padding: 40px 0;">
+    <div class="container mx-auto px-4" style="max-width: 1200px; margin: 0 auto; padding: 0 15px;">
+        <!-- Title & Filter -->
+        <div class="flex flex-col md:flex-row justify-between items-start md:items-center mb-8 gap-4" style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 30px;">
+            <div>
+                <h1 class="text-3xl font-titr text-gray-900" style="font-size: 24px; font-weight: bold; color: #111;">کلاس‌های آنلاین و وبینارها</h1>
+                <p class="text-sm text-gray-500 mt-1" style="font-size: 13px; color: #6b7280; margin-top: 5px;">یادگیری همزمان، تعاملی و پروژه محور در بستر کلاس مجازی</p>
+            </div>
+        </div>
 
-        @Html.Cours_Group_DropDown("CoursGroupId", false, new { @class = "jquery-select" }, "یک دسته را انتخاب کنید", (int?)ViewBag.groupId, null, true)
-    </div>
-    <div class="col-md-3 col-sm-6 col-xs-12  search-button select-numofvids">
-        @Html.Teacher_DropDown("TeacherId", false, new { @class = "jquery-select" }, "یک مدرس را انتخاب کنید", (int?)ViewBag.teacherId)
-    </div>
+        <!-- Filter Row -->
+        <div class="bg-white p-4 rounded-2xl shadow-sm border border-gray-100 mb-8 grid grid-cols-1 md:grid-cols-4 gap-4" style="background: #fff; padding: 20px; border-radius: 16px; box-shadow: 0 1px 3px rgba(0,0,0,0.05); border: 1px solid #f3f4f6; margin-bottom: 30px; display: grid; grid-template-columns: repeat(4, minmax(0, 1fr)); gap: 16px;">
+            @Html.Cours_Group_DropDown("groupId", false, new { @class = "border border-gray-200 rounded-xl px-3 py-2 text-sm", @id = "filter_group", @style = "border: 1px solid #e5e7eb; border-radius: 12px; padding: 8px 12px; font-size: 14px; width: 100%;" }, "دسته‌بندی...", (int?)ViewBag.groupId, null, true)
+            @Html.Teacher_DropDown("teacherId", false, new { @class = "border border-gray-200 rounded-xl px-3 py-2 text-sm", @id = "filter_teacher", @style = "border: 1px solid #e5e7eb; border-radius: 12px; padding: 8px 12px; font-size: 14px; width: 100%;" }, "استاد...", (int?)ViewBag.teacherId)
+            <input type="text" id="filter_keyword" value="@ViewBag.keyword" placeholder="جستجوی عنوان کلاس..." class="border border-gray-200 rounded-xl px-4 py-2 text-sm" style="border: 1px solid #e5e7eb; border-radius: 12px; padding: 8px 16px; font-size: 14px; width: 100%;" />
+            <button onclick="ReloadOnlineClasses()" class="bg-blue-600 hover:bg-blue-700 text-white font-bold rounded-xl py-2 text-sm transition" style="background-color: #2563eb; color: #fff; font-weight: bold; border-radius: 12px; padding: 10px 16px; font-size: 14px; border: none; cursor: pointer; transition: background 0.2s;" onmouseover="this.style.backgroundColor='#1d4ed8'" onmouseout="this.style.backgroundColor='#2563eb'">اعمال فیلتر</button>
+        </div>
 
-    <div class="col-sm-3 col-xs-6  search-button text-keywords float-right">
-        <input class="keywords form-control placeholder" name="keywords" id="keywords" type="text" placeholder="کلمات کلیدی" value="@ViewBag.keyword">
-    </div>
-    <div class="col-sm-3 col-xs-6 search-button text-center">
-        <button class="search-teachers button " onclick="ReloadPage()">جستجو</button>
-    </div>
-</div>
-<section class="shop grid page-section-ptb">
-    <div class="container">
-        <div class="row">
-            @foreach (var item in Model)
+        <!-- Class Cards (Grid 2 & 3 Columns) -->
+        <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6" style="display: grid; grid-template-columns: repeat(auto-fill, minmax(300px, 1fr)); gap: 24px;">
+            @if (Model != null && Model.Any())
             {
-                <div class="col-md-4">
-                    <div class="product text-center mb-4">
-                        <div class="product-image">
-                            <img class="img-fluid center-block" src="/images/Interview/@item.InterviewPathImage" alt="@item.name">
-                            <div class="product-overlay">
-                                <div class="add-to-cart">
-                                    <a href="/DetailsOnlineClass/Index?type=2&id=@item.Id">نمایش دوره</a>
-                                </div>
-                                <div class="add-to-cart">
-                                    <p class="button border-black" style="padding-top:0;padding-bottom:0;margin-top:10px;"> کلاس @item.ClassTypeString است</p>
-                                </div>
+                foreach (var item in Model)
+                {
+                    <div class="bg-white rounded-2xl border border-gray-100 overflow-hidden shadow-sm hover:shadow-lg transition flex flex-col justify-between" style="background: #fff; border-radius: 16px; border: 1px solid #f3f4f6; overflow: hidden; box-shadow: 0 1px 3px rgba(0,0,0,0.05); display: flex; flex-direction: column; justify-content: space-between; transition: all 0.3s ease;" onmouseover="this.style.boxShadow='0 10px 25px rgba(0,0,0,0.1)'" onmouseout="this.style.boxShadow='0 1px 3px rgba(0,0,0,0.05)'">
+                        <div>
+                            <div class="relative h-48 bg-gray-100" style="position: relative; height: 200px; background-color: #f3f4f6;">
+                                <img src="@(!string.IsNullOrEmpty(item.InterviewPathImage) ? "/images/Interview/" + item.InterviewPathImage : "/assets/img/popular/1.jpg")" alt="@item.name" class="w-full h-full object-cover" style="width: 100%; height: 100%; object-fit: cover;" onerror="this.src='/assets/img/popular/1.jpg'" />
+
+                                <!-- وضعیت دوره (چپ‌چین شده، با فاصله مناسب و کاملاً خوانا) -->
+                                <span class="absolute top-3 left-3 bg-blue-600 text-white text-xs px-3 py-1.5 rounded-full shadow" style="position: absolute; top: 12px; left: 12px; background-color: #2563eb; color: #white; color: #ffffff; font-size: 12px; padding: 6px 14px; border-radius: 9999px; box-shadow: 0 2px 4px rgba(0,0,0,0.1); z-index: 10; font-weight: bold;">
+                                    @item.ClassTypeString
+                                </span>
+                            </div>
+                            <div class="p-5" style="padding: 20px;">
+                                <h3 class="font-titr text-lg text-gray-900 mb-2" style="font-size: 16px; font-weight: bold; color: #111; margin-bottom: 8px;">@item.name</h3>
+                                <p class="text-xs text-gray-500 line-clamp-2 leading-relaxed" style="font-size: 12px; color: #6b7280; line-height: 1.6; display: -webkit-box; -webkit-line-clamp: 2; -webkit-box-orient: vertical; overflow: hidden;">@item.Description</p>
                             </div>
                         </div>
-                        <div class="product-des">
-                            @*<div class="product-title">
-                                    <a href="/DetailsCours/Index?type=1&id=@item.id">@item.name</a>
-                                </div>*@
-                            <div class="product-title">
-                                <a href="/DetailsOnlineClass/Index?type=2&id=@item.Id">@item.name</a>
+
+                        <div class="p-5 pt-0" style="padding: 0 20px 20px 20px;">
+                            <div class="flex items-center justify-between text-xs text-gray-500 py-3 border-t border-gray-100" style="display: flex; align-items: center; justify-content: space-between; font-size: 12px; color: #6b7280; padding: 12px 0; border-top: 1px solid #f3f4f6; margin-bottom: 10px;">
+                                <span><i class="fa fa-calendar-alt ml-1 text-blue-500" style="margin-left: 4px; color: #3b82f6;"></i> @item.SessionCount جلسه</span>
+                                <span><i class="fa fa-clock ml-1 text-blue-500" style="margin-left: 4px; color: #3b82f6;"></i> @item.Time ساعت</span>
                             </div>
-                            <div class="product-price">
-                                @item.Description
-                            </div>
-                            <div class="product-rating">
-                                <span class="lessons">
-                                    <i class="fa fa-building-o"></i>
-                                    @item.SessionCount جلسه
-                                </span>
-                                <span class="duration">
-                                    <i class="fa fa-clock-o"></i>
-                                    @item.Time ساعت
-                                </span>
-                            </div>
-                            @*<div class="product-price">
-                                    <del>26 ه ت</del> <ins>13 ه ت</ins>
-                                </div>*@
+                            <!-- دکمه با هاور کاملاً فعال و تست‌شده -->
+                            <a href="/DetailsOnlineClass/Index?type=2&id=@item.Id" class="mt-2 block text-center bg-blue-50 hover:bg-blue-600 text-blue-600 hover:text-white font-bold py-2 rounded-xl text-sm transition" style="display: block; text-align: center; background-color: #eff6ff; color: #2563eb; font-weight: bold; padding: 10px; border-radius: 12px; font-size: 13px; text-decoration: none; transition: all 0.2s ease;" onmouseover="this.style.backgroundColor='#2563eb'; this.style.color='#ffffff';" onmouseout="this.style.backgroundColor='#eff6ff'; this.style.color='#2563eb';">
+                                اطلاعات و ثبت‌نام در کلاس
+                            </a>
                         </div>
                     </div>
-                </div>
-
+                }
             }
-
+            else
+            {
+                <div class="col-span-full text-center py-16 text-gray-400" style="grid-column: 1 / -1; text-align: center; padding: 60px 0; color: #9ca3af;">
+                    <i class="fa fa-video-slash text-4xl mb-3" style="font-size: 36px; margin-bottom: 12px; display: block;"></i>
+                    <p style="font-size: 14px;">هیچ کلاس آنلاینی در این دسته‌بندی یافت نشد.</p>
+                </div>
+            }
         </div>
     </div>
 </section>
 
-<script>
-    function ReloadPage() {
-        window.location.href = "/home/OnlineClass?groupId=" + $('#CoursGroupId').val() + "&teacherId=" + $('#TeacherId').val() + "&keyword=" + $('#keywords').val();
-    }
-   
-</script>
-
-
+@section scripts {
+    <script>
+        function ReloadOnlineClasses() {
+            var g = $("#filter_group").val() || "";
+            var t = $("#filter_teacher").val() || "";
+            var k = $("#filter_keyword").val() || "";
+            window.location.href = "/home/OnlineClass?groupId=" + encodeURIComponent(g) + "&teacherId=" + encodeURIComponent(t) + "&keyword=" + encodeURIComponent(k);
+        }
+    </script>
+}

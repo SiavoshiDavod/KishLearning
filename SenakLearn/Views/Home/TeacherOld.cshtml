@@ -1,0 +1,80 @@
+﻿@model IEnumerable<SenakLearn.Models.learn_teacher>
+@{
+    Layout = "~/Views/Shared/_Layout.cshtml";
+    var count = 0;
+}
+
+
+
+<section class="our-team page-section-ptb">
+    <div class="container">
+        <div class="row">
+            <div class="col-md-12 mb-3">
+                <div class="section-title text-center">
+                    <span>منابع ارزشمند ما</span>
+                    <h3 class="text-center">مدرسین ما</h3>
+                </div>
+            </div>
+        </div>
+        <div class="row ">
+            <div class="col-md-3 col-sm-6 col-xs-12   search-button select-categories">
+
+                @Html.Cours_Group_DropDown("CoursGroupId", false, new { @class = "jquery-select" }, "یک دسته را انتخاب کنید", (int?)ViewBag.groupId, null, true)
+            </div>
+            <div class="col-md-3 col-sm-6 col-xs-12  search-button select-numofvids">
+                @Html.Teacher_DropDown("TeacherId", false, new { @class = "jquery-select" }, "یک مدرس را انتخاب کنید", (int?)ViewBag.teacherId)
+            </div>
+
+            <div class="col-sm-3 col-xs-6  search-button text-keywords float-right">
+                <input class="keywords form-control placeholder" name="keywords" id="keywords" type="text" placeholder="کلمات کلیدی" value="@ViewBag.keyword">
+            </div>
+            <div class="col-sm-3 col-xs-6 search-button text-center">
+                <button class="search-teachers button " @*onclick="ReloadPage()"*@>جستجو</button>
+            </div>
+        </div>
+
+
+        @foreach (var item in Model)
+        {
+            if (count % 4 == 0)
+            {
+                if (count != 0)
+                {
+                    @Html.Raw("</div>")
+                }
+                @Html.Raw("<div class='row '>")
+
+            }
+            count++;
+            <div class="col-lg-3 col-sm-6">
+                <div class="team mb-4">
+                    <div class="team-images">
+                        <img class="img-fluid"  src="/images/teacher/@item.image" alt="@item.FullName">
+                    </div>
+                    <div class="team-description">
+                        <a href="/Home/TeacherCours/@item.id"><h6>@item.FullName</h6></a>
+                        <p>@item.education</p>
+                        <p>@item.CourseCount دوره</p>
+                    </div>
+                    @*<div class="team-social">
+                        <ul>
+                            <li>
+                                <a href="#"> <i class="fa fa-facebook"></i> </a>
+                            </li>
+                            <li>
+                                <a href="#"> <i class="fa fa-twitter"></i> </a>
+                            </li>
+                            <li>
+                                <a href="#"> <i class="fa fa-pinterest-p"></i> </a>
+                            </li>
+                            <li>
+                                <a href="#"> <i class="fa fa-dribbble"></i> </a>
+                            </li>
+                        </ul>
+                    </div>*@
+                </div>
+            </div>
+        }
+
+    </div>
+</section>

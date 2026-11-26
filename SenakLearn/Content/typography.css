@@ -1,0 +1,101 @@
+﻿/**
+ * SenakLearn - Kish Virtual Education
+ * Global Typography & Fonts Rules (Zero-CDN / 100% Offline)
+ * Body: B Yekan (IRANSANSExpanded)
+ * Headings & Numbers: B Traffic (IRANSans-Bold)
+ */
+
+/* ==========================================================================
+   1. Font Definitions (@font-face)
+   ========================================================================== */
+
+/* عنوان‌ها، تیترها و ارقام: B Traffic */
+@font-face {
+    font-family: 'traffic';
+    src: url('../fonts/byekan.eot');
+    src: url('../fonts/byekan.eot?#iefix') format('embedded-opentype'), url('../fonts/byekan.woff') format('woff');
+    font-weight: bold;
+    font-style: normal;
+    font-display: swap;
+}
+@font-face {
+    font-family: 'byekan';
+    src: url('../fonts/byekan.eot') format('embedded-opentype');
+}
+
+/* متن بدنه، پاراگراف‌ها، دکمه‌ها و فرم‌ها: B Yekan */
+@font-face {
+    font-family: 'Byekan';
+    src: url('../fonts/byekan.eot');
+    src: url('../fonts/byekan?#iefix') format('embedded-opentype'), url('../fonts/byekan.woff2') format('woff2'), url('../fonts/byekan.woff') format('woff');
+    font-weight: normal;
+    font-style: normal;
+    font-display: swap;
+}
+
+/* ==========================================================================
+   2. Global Typography Enforcement
+   ========================================================================== */
+
+/* اعمال سراسری فونت یکان به بدنه و تمام المان‌های پایه */
+html,
+body,
+p,
+span,
+a,
+li,
+td,
+th,
+label,
+blockquote,
+input,
+button,
+select,
+textarea,
+.font-yekan,
+.ui-widget,
+.ui-jqgrid,
+.dropdown-menu,
+.tooltip,
+.popover {
+    font-family: 'Byekan', Tahoma, Arial, sans-serif !important;
+}
+
+/* اعمال سراسری فونت ترافیک برای تیترها، هدینگ‌ها و نشانگرها */
+h1,
+h2,
+h3,
+h4,
+h5,
+h6,
+.h1,
+.h2,
+.h3,
+.h4,
+.h5,
+.h6,
+.heading-traffic,
+.font-traffic,
+.navbar-brand,
+.badge-count,
+.price-tag,
+.stat-number {
+    font-family: 'traffic', 'Byekan', Tahoma, Arial, sans-serif !important;
+    letter-spacing: -0.02em;
+}
+
+/* اعداد و برچسب‌های قیمتی و جداول داده */
+.num-traffic,
+.table-data-number,
+.stat-digit {
+    font-family: 'traffic', Tahoma, sans-serif !important;
+}
+
+/* کلاس‌های کمکی برای پروژه‌های Tailwind / سفارشی */
+.font-body {
+    font-family: 'Byekan', Tahoma, sans-serif !important;
+}
+
+.font-heading {
+    font-family: 'traffic', 'Byekan', Tahoma, sans-serif !important;
+}

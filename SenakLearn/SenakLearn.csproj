@@ -491,6 +491,7 @@
     <Compile Include="Models\wrapper\AudioFileWrapper.cs" />
     <Compile Include="Models\wrapper\AzmoonQuestionAnswerdWrapper.cs" />
     <Compile Include="Models\wrapper\ChartVm.cs" />
+    <Compile Include="Models\wrapper\LearnWrapper.cs" />
     <Compile Include="Models\wrapper\MenuWrapper.cs" />
     <Compile Include="Models\wrapper\ObjCountWrapper.cs" />
     <Compile Include="Models\wrapper\OfflineVideoWrapper.cs" />
@@ -650,6 +651,9 @@
     <Content Include="assets\img\slide-1.jpg" />
     <Content Include="assets\img\slide-2.jpg" />
     <Content Include="assets\img\slide-3.jpg" />
+    <Content Include="assets\img\slide\slide1.jpg" />
+    <Content Include="assets\img\slide\slide2.jpg" />
+    <Content Include="assets\img\slide\slide3.jpg" />
     <Content Include="assets\img\starttoday.jpg" />
     <Content Include="assets\img\teacher.png" />
     <Content Include="assets\img\test.jpg" />
@@ -1840,6 +1844,8 @@
     <Content Include="Content\bootstrap-theme.min.css" />
     <Content Include="Content\bootstrap.css" />
     <Content Include="Content\bootstrap.min.css" />
+    <Content Include="Content\css\site-layout.css" />
+    <Content Include="Content\images\logo.png" />
     <Content Include="Content\images\animated-overlay.gif" />
     <Content Include="Content\images\arrowLeft.png" />
     <Content Include="Content\images\arrowRight.png" />
@@ -1919,6 +1925,8 @@
     <Content Include="Content\MVCControls\mvc.controls.css" />
     <Content Include="Content\PlayerAudioN.css" />
     <Content Include="Content\slider.css" />
+    <Content Include="Content\tailwind.min.css" />
+    <Content Include="Content\typography.css" />
     <Content Include="Content\Ui\start\images\ui-bg_flat_55_999999_40x100.png" />
     <Content Include="Content\Ui\start\images\ui-bg_flat_75_aaaaaa_40x100.png" />
     <Content Include="Content\Ui\start\images\ui-bg_glass_45_0078ae_1x400.png" />
@@ -1959,8 +1967,8 @@
     </Content>
     <Content Include="Dlls\zarinpal.dll" />
     <Content Include="favicon.ico" />
+    <Content Include="fonts\Btitr.svg" />
     <Content Include="fonts\BYekan.svg" />
-    <Content Include="fonts\Titr.svg" />
     <Content Include="Global.asax" />
     <Content Include="Content\Site.css" />
     <Content Include="Highcharts-7.1.1Persian\code\css\annotations\popup.css" />
@@ -3367,6 +3375,25 @@
     <Content Include="images\paper\خطرات تفکر مقوله ای %28Categorical Thinking%29 - مشاوران کسب و کارهای بین المللی IBC" />
     <Content Include="images\paper\سازمان یادگیرنده و رضایت شغلی  کارکنان+++.pdf" />
     <Content Include="images\herasat.pdf" />
+    <Content Include="fonts\Btitr.eot" />
+    <Content Include="fonts\Btitr.ttf" />
+    <Content Include="fonts\Btitr.woff" />
+    <Content Include="fonts\Btraffic.otf" />
+    <Content Include="fonts\Btraffic.ttf" />
+    <Content Include="fonts\Btraffic.woff" />
+    <Content Include="fonts\Btraficc.woff2" />
+    <Content Include="Content\fonts\YekanBakh.eot" />
+    <Content Include="Content\fonts\YekanBakh.ttf" />
+    <Content Include="Content\fonts\YekanBakh.woff" />
+    <Content Include="Content\fonts\YekanBakh.woff2" />
+    <Content Include="Content\fonts\YekanBakh-Black.woff" />
+    <Content Include="Content\fonts\YekanBakh-Bold.woff" />
+    <Content Include="Content\fonts\YekanBakh-ExtraBlack.woff" />
+    <Content Include="Content\fonts\YekanBakh-ExtraBold.woff" />
+    <Content Include="Content\fonts\YekanBakh-Light.woff" />
+    <Content Include="Content\fonts\YekanBakh-Regular.woff" />
+    <Content Include="Content\fonts\YekanBakh-SemiBold.woff" />
+    <Content Include="Content\fonts\YekanBakh-Thin.woff" />
     <None Include="MD.BootstrapPersianDateTimePicker\Scripts\jquery-3.1.0.intellisense.js" />
     <Content Include="MD.BootstrapPersianDateTimePicker\Scripts\jquery-3.1.0.js" />
     <Content Include="MD.BootstrapPersianDateTimePicker\Scripts\jquery-3.1.0.min.js" />
@@ -3582,9 +3609,6 @@
     <Content Include="fonts\BYekan.eot" />
     <Content Include="fonts\BYekan.ttf" />
     <Content Include="fonts\BYekan.woff" />
-    <Content Include="fonts\Titr.eot" />
-    <Content Include="fonts\Titr.ttf" />
-    <Content Include="fonts\Titr.woff" />
     <Content Include="assets\fonts\fontawesome-webfont.eot" />
     <Content Include="assets\fonts\fontawesome-webfont.ttf" />
     <Content Include="assets\fonts\fontawesome-webfont.woff" />
@@ -4060,14 +4084,14 @@
     </Content>
     <Content Include="Views\_ViewStart.cshtml" />
     <Content Include="Views\Shared\Error.cshtml" />
-    <Content Include="Views\Shared\_Layout.cshtml" />
-    <Content Include="Views\Home\Index.cshtml" />
+    <Content Include="Views\Shared\_LayoutOld.cshtml" />
+    <Content Include="Views\Home\IndexOld.cshtml" />
     <Content Include="Views\Users\CheangPass.cshtml" />
-    <Content Include="Views\Users\Login.cshtml" />
-    <Content Include="Views\Users\Register.cshtml" />
+    <Content Include="Views\Users\LoginOld.cshtml" />
+    <Content Include="Views\Users\RegisterOld.cshtml" />
     <Content Include="Views\Home\Cours.cshtml" />
-    <Content Include="Views\Home\Teacher.cshtml" />
-    <Content Include="Views\Home\CoursDetail.cshtml" />
+    <Content Include="Views\Home\TeacherOld.cshtml" />
+    <Content Include="Views\Home\CoursDetailOld.cshtml" />
     <Content Include="Views\Home\TeacherCours.cshtml" />
     <Content Include="Views\DetailsCours\Index.cshtml" />
     <Content Include="Views\DynamicForms\Create.cshtml" />
@@ -4097,7 +4121,7 @@
     <Content Include="Views\ZarinpalPayments\Edit.cshtml" />
     <Content Include="Views\ZarinpalPayments\Index.cshtml" />
     <Content Include="Views\Users\RegisterOrLogin.cshtml" />
-    <Content Include="Views\Users\_PartialRegister.cshtml" />
+    <Content Include="Views\Users\_PartialRegisterOld.cshtml" />
     <Content Include="Views\Users\_PartialLogin.cshtml" />
     <Content Include="Views\OnlineClassAccorationDetails\Create.cshtml" />
     <Content Include="Views\OnlineClassAccorationDetails\Delete.cshtml" />
@@ -4109,7 +4133,7 @@
     <Content Include="Views\OnlineClassAccorations\Details.cshtml" />
     <Content Include="Views\OnlineClassAccorations\Edit.cshtml" />
     <Content Include="Views\OnlineClassAccorations\Index.cshtml" />
-    <Content Include="Views\Home\OnlineClass.cshtml" />
+    <Content Include="Views\Home\OnlineClassOld.cshtml" />
     <Content Include="Views\AdobeConnectTest\Index.cshtml" />
     <Content Include="Views\AdobeConnectTest\GetAllMeetings.cshtml" />
     <Content Include="Views\AdobeConnectTest\GetPrincipalList.cshtml" />
@@ -4117,8 +4141,8 @@
     <Content Include="Views\AdobeConnectTest\ReportMyEvents.cshtml" />
     <Content Include="Views\TeacherProfile\Index.cshtml" />
     <Content Include="Views\TeacherProfile\Edit.cshtml" />
-    <Content Include="Views\Home\ShowAllClasses.cshtml" />
-    <Content Include="Views\Home\JoinUs.cshtml" />
+    <Content Include="Views\Home\ShowAllClassesOld.cshtml" />
+    <Content Include="Views\Home\JoinUsOld.cshtml" />
     <Content Include="Views\JoinUs\Index.cshtml" />
     <Content Include="Views\Shared\_LayoutAdmin.cshtml" />
     <Content Include="Views\Home\Details.cshtml" />
@@ -4171,9 +4195,9 @@
     <Content Include="Views\Book\Delete.cshtml" />
     <Content Include="Views\Book\Details.cshtml" />
     <Content Include="Views\Book\Index.cshtml" />
-    <Content Include="Views\Books\Detail.cshtml" />
-    <Content Include="Views\Books\Index.cshtml" />
-    <Content Include="Views\Books\_PartialSideBar.cshtml" />
+    <Content Include="Views\Books\DetailOld.cshtml" />
+    <Content Include="Views\Books\IndexOld.cshtml" />
+    <Content Include="Views\Books\_PartialSideBarOld.cshtml" />
     <Content Include="Views\Shared\Dashboard.cshtml" />
     <Content Include="Views\Sliders\Index.cshtml" />
     <Content Include="Views\Sliders\Create.cshtml" />
@@ -4195,7 +4219,7 @@
     <Content Include="Views\TeacherVideoFile\Index.cshtml" />
     <Content Include="Views\TeacherVideoFile\Selector.cshtml" />
     <Content Include="Views\JoinUs\Edit.cshtml" />
-    <Content Include="Views\Home\Contract.cshtml" />
+    <Content Include="Views\Home\ContractOld.cshtml" />
     <Content Include="Views\Shared\_ProgressBarCircleForSteps.cshtml" />
     <Content Include="Views\Authors\Create.cshtml" />
     <Content Include="Views\Authors\Delete.cshtml" />
@@ -4293,7 +4317,7 @@
     <Content Include="Views\GroupSurveys\Delete.cshtml" />
     <Content Include="Views\GroupSurveys\Index.cshtml" />
     <Content Include="Views\Shared\Survey.cshtml" />
-    <Content Include="Views\Home\AllActiveSurvey.cshtml" />
+    <Content Include="Views\Home\AllActiveSurveyOld.cshtml" />
     <Content Include="Views\Home\AllActiveSurveyPrivate.cshtml" />
     <Content Include="Views\Shared\_Layout.old.cshtml" />
     <Content Include="Views\GroupAzmoons\Create.cshtml" />
@@ -4344,7 +4368,7 @@
     <Content Include="Views\Shared\_ATextOnly.cshtml" />
     <Content Include="Views\Shared\_Aurl.cshtml" />
     <Content Include="Views\Shared\_AWelcome.cshtml" />
-    <Content Include="Views\Home\AllActiveAzmoon.cshtml" />
+    <Content Include="Views\Home\AllActiveAzmoonOld.cshtml" />
     <Content Include="Views\Home\AllActiveAzmoonPrivate.cshtml" />
     <Content Include="Views\AzmoonUserAnswers\Calculator.cshtml" />
     <Content Include="Views\MyAzmoon\Index.cshtml" />
@@ -4357,7 +4381,7 @@
     <Content Include="Views\Podcast\Edit.cshtml" />
     <Content Include="Views\Podcast\Index.cshtml" />
     <Content Include="Views\Shared\_PartialAudio.cshtml" />
-    <Content Include="Views\Home\Podcast.cshtml" />
+    <Content Include="Views\Home\PodcastOld.cshtml" />
     <Content Include="Views\OfflineVideo\IndexPartial.cshtml" />
     <Content Include="Views\VideoFile\CreatePartial.cshtml" />
     <Content Include="Views\VideoFile\PlayPartial.cshtml" />
@@ -4395,6 +4419,24 @@
     <Content Include="Views\AzmoonCertificate\Delete.cshtml" />
     <Content Include="Views\AzmoonCertificate\Details.cshtml" />
     <Content Include="Views\AzmoonCertificate\Index.cshtml" />
+    <Content Include="Views\Shared\_Layout.cshtml" />
+    <Content Include="Views\Home\Index.cshtml" />
+    <Content Include="Views\Users\Login.cshtml" />
+    <Content Include="Views\Users\Register.cshtml" />
+    <Content Include="Views\Home\Teacher.cshtml" />
+    <Content Include="Views\Home\OnlineClass.cshtml" />
+    <Content Include="Views\Home\Podcast.cshtml" />
+    <Content Include="Views\Home\ShowAllClasses.cshtml" />
+    <Content Include="Views\Books\Index.cshtml" />
+    <Content Include="Views\Home\JoinUs.cshtml" />
+    <Content Include="Views\Home\Contract.cshtml" />
+    <Content Include="Views\Home\AllActiveSurvey.cshtml" />
+    <Content Include="Views\Home\AllActiveAzmoon.cshtml" />
+    <Content Include="Views\Books\_PartialSideBar.cshtml" />
+    <Content Include="Views\Books\Detail.cshtml" />
+    <Content Include="Views\Users\_PartialRegister.cshtml" />
+    <Content Include="Views\Home\CoursDetail.cshtml" />
+    <Content Include="Views\Shared\_LoginPartial.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="AdobeConnect\" />

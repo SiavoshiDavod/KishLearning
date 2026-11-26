@@ -1,49 +1,136 @@
 ﻿@model SenakLearn.Models.LoginViewModel
-
 @{
-    ViewBag.Title = "ورود به سیستم";
     Layout = "~/Views/Shared/_Layout.cshtml";
+    ViewBag.Title = "ورود به حساب کاربری | آموزش مجازی کیش";
 }
+<style>
+    /* گرادیان شعاعی: مرکز روشن و اطراف تیره */
+    .btn-radial-submit {
+        background: radial-gradient(circle at center, #3b82f6 0%, #2563eb 55%, #1e3a8a 100%) !important;
+        border: 1px solid rgba(255, 255, 255, 0.25) !important;
+        box-shadow: 0 4px 14px rgba(30, 58, 138, 0.35), inset 0 1px 0 rgba(255, 255, 255, 0.25) !important;
+    }
 
-<div class="container">
+        /* حالت هاور (Hover) با درخشش ملایم‌تر و حرکت رو به بالا */
+        .btn-radial-submit:hover {
+            background: radial-gradient(circle at center, #60a5fa 0%, #3b82f6 55%, #1d4ed8 100%) !important;
+            box-shadow: 0 6px 20px rgba(37, 99, 235, 0.5), inset 0 1px 0 rgba(255, 255, 255, 0.35) !important;
+            transform: translateY(-1px);
+        }
 
-    <div class="row justify-content-center">
-        <div class="col-md-8 text-center">
-            <div class="contact-form-title text-center mb-4">
-                <h4 class="mb-1"> وارد شدن به حساب کاربری</h4>
+        /* حالت کلیک (Active) */
+        .btn-radial-submit:active {
+            transform: translateY(0);
+            box-shadow: 0 2px 8px rgba(30, 58, 138, 0.3) !important;
+        }
+
+</style>
+<section class="min-h-[75vh] flex items-center justify-center py-12 px-4 sm:px-6 lg:px-8 bg-gradient-to-br from-slate-50 via-blue-50/20 to-slate-100">
+    <div class="max-w-md w-full bg-white p-8 sm:p-10 rounded-3xl shadow-xl border border-slate-100 relative overflow-hidden transition-all duration-300 hover:shadow-2xl">
+
+        <!-- هدر کارت ورود -->
+        <div class="text-center mb-8">
+            <div class="inline-flex items-center justify-center w-16 h-16 rounded-2xl bg-slate-100 text-slate-400 mb-4 shadow-inner">
+                <i class="fa fa-user-lock text-2xl"></i>
             </div>
+            <h2 class="text-2xl font-bold font-titr text-slate-800 tracking-tight">ورود به آموزش مجازی کیش</h2>
+            <p class="mt-2 text-sm text-slate-500">جهت دسترسی به دوره‌ها، آزمون‌ها و پنل کاربری وارد شوید</p>
         </div>
+
+        <!-- فرم ورود -->
+        @using (Html.BeginForm("Login", "Users", FormMethod.Post, new { @class = "space-y-6", @onsubmit = "return validateForm()" }))
+        {
+            @Html.AntiForgeryToken()
+            @Html.Hidden("ReturnUrl", (string)ViewBag.returl)
+
+            <!-- فیلد نام کاربری -->
+            <div class="space-y-1">
+                <label class="block text-xs font-semibold text-slate-600 mr-1">نام کاربری یا ایمیل</label>
+                <div class="relative" style="position: relative;">
+                    <!-- آیکون نام کاربری: در مرکز عمودی و رنگ خاکستری کم‌رنگ -->
+                    <span style="position: absolute; right: 14px; top: 50%; transform: translateY(-50%); color: #94a3b8; pointer-events: none; z-index: 10;">
+                        <i class="fa fa-user text-sm"></i>
+                    </span>
+                    @Html.TextBoxFor(model => model.userNameLogin, new
+                    {
+                        @class = "block w-full bg-slate-50/60 border border-slate-200 rounded-xl text-slate-800 placeholder-slate-400 focus:outline-none focus:ring-2 focus:ring-blue-500/20 focus:border-blue-500 text-sm transition-all",
+                        @style = "padding-right: 44px; padding-left: 14px; padding-top: 11px; padding-bottom: 11px;",
+                        @placeholder = "نام کاربری یا شماره همراه"
+                    })
+                </div>
+                @Html.ValidationMessageFor(model => model.userNameLogin, "", new { @class = "text-xs text-rose-500 mt-1 block mr-1" })
+            </div>
+
+            <!-- فیلد رمز عبور -->
+            <div class="space-y-1">
+                <div class="flex items-center justify-between">
+                    <label class="block text-xs font-semibold text-slate-600 mr-1">رمز عبور</label>
+                    @Html.ActionLink("کلمه عبور را فراموش کرده‌اید؟", "ResetPass", "Users", null, new { @class = "text-xs text-blue-600 hover:text-blue-700 font-medium transition-colors" })
+                </div>
+                <div class="relative" style="position: relative;">
+                    <!-- آیکون رمز عبور: در مرکز عمودی و رنگ خاکستری کم‌رنگ -->
+                    <span style="position: absolute; right: 14px; top: 50%; transform: translateY(-50%); color: #94a3b8; pointer-events: none; z-index: 10;">
+                        <i class="fa fa-lock text-sm"></i>
+                    </span>
+                    @Html.PasswordFor(model => model.Pass, new
+                    {
+                        @class = "block w-full bg-slate-50/60 border border-slate-200 rounded-xl text-slate-800 placeholder-slate-400 focus:outline-none focus:ring-2 focus:ring-blue-500/20 focus:border-blue-500 text-sm transition-all",
+                        @style = "padding-right: 44px; padding-left: 14px; padding-top: 11px; padding-bottom: 11px;",
+                        @placeholder = "••••••••"
+                    })
+                </div>
+                @Html.ValidationMessageFor(model => model.Pass, "", new { @class = "text-xs text-rose-500 mt-1 block mr-1" })
+            </div>
+
+
+            <!-- بخش تأیید امنیتی -->
+            <div class="space-y-2 p-4 bg-slate-50 rounded-2xl border border-slate-200/80">
+                <div class="flex items-center gap-2 text-xs font-semibold text-slate-600 mb-2">
+                    <i class="fa fa-shield-alt text-gray-400"></i>
+                    <span>تأیید امنیتی</span>
+                </div>
+                <div class="w-full">
+                    @Html.Partial("_PartialGoogleRecapcha", "login")
+                </div>
+            </div>
+
+            <!-- مرا به خاطر بسپار -->
+            <div class="flex items-center justify-between">
+                <div class="flex items-center">
+                    @Html.EditorFor(model => model.Remember, new { @class = "h-4 w-4 text-blue-600 focus:ring-blue-500 border-slate-300 rounded" })
+                    <label for="Remember" class="mr-2 block text-xs text-slate-600 cursor-pointer select-none">مرا به خاطر بسپار</label>
+                </div>
+            </div>
+
+            <!-- دکمه ورود -->
+    <div>
+        <button type="submit"
+                class="w-full flex items-center justify-center gap-2 rounded-xl text-white font-medium text-sm transition-all duration-300 cursor-pointer btn-radial-submit"
+                style="height: 44px;">
+            <span>ورود به حساب کاربری</span>
+            <i class="fa fa-arrow-left text-xs"></i>
+        </button>
+
     </div>
-</div>
-<section class="login-form page-section-ptb">
-    <div class="container">
-        <div class="row">
-            <div class="col-md-12">
-                @*<div class="col-lg-9">*@
-                @*<div class="section-title text-center">
-                        <h3 class="text-center">وارد شدن به حساب کاربری</h3>
-                    </div>*@
+        }
 
-                @Html.Partial("_PartialLogin")
-
-                @*</div>
-                    <div class="col-lg-3">
-                        <div class="login-social">
-                            <h4>رسانه ها ی اجتماعی</h4>
-                            <ul>
-                                <li><a class="fb" href="#"><i class="fa fa-facebook"></i>  ورود با فیسبوک</a></li>
-                                <li><a class="twitter" href="#"><i class="fa fa-twitter"></i> ورود با توییتر</a></li>
-                                <li><a class="pinterest" href="#"><i class="fa fa-pinterest-p"></i> ورود با گوگل پلاس</a></li>
-                            </ul>
-                        </div>
-                    </div>*@
-            </div>
+        <!-- فوتر کارت (لینک ثبت‌نام) -->
+        <div class="text-center pt-6 mt-6 border-t border-slate-100 text-sm text-slate-600">
+            حساب کاربری ندارید؟
+            <a href="/Users/Register" class="text-blue-600 hover:text-blue-700 font-bold mr-1 transition-colors hover:underline">ثبت‌نام سریع در سایت</a>
         </div>
+
     </div>
 </section>
 
-
-<script src="~/Scripts/jquery-1.10.2.min.js"></script>
 @section Scripts {
     @Scripts.Render("~/bundles/jqueryval")
+    <script>
+        function validateForm() {
+            if (typeof checkCaptcha === 'function') {
+                return checkCaptcha();
+            }
+            return true;
+        }
+    </script>
 }

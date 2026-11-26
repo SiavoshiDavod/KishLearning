@@ -1,100 +1,95 @@
 ﻿@model SenakLearn.Models.RegisterViewModel
-@{List<SelectListItem> listOrg = (List<SelectListItem>)ViewBag.ListOrg;
+@{
+    List<SelectListItem> listOrg = (List<SelectListItem>)ViewBag.ListOrg;
     List<SelectListItem> listPost = (List<SelectListItem>)ViewBag.ListPost;
 }
 
-@using (Html.BeginForm("Register", "Users", FormMethod.Post, new { @class = "gray-form mb-5 md-mb-0" }))
+@using (Html.BeginForm("Register", "Users", FormMethod.Post, new { @class = "gray-form mb-5 md-mb-0", @onsubmit = "return validateRegisterForm()" }))
 {
-    @Html.ValidationSummary(true, "", new { @class = "text-danger" })
+    @Html.ValidationSummary(true, "", new { @class = "text-danger text-xs mb-4" })
     @Html.Hidden("ReturnUrl", (string)ViewBag.returl)
-    @Html.Partial("_PartialGoogleRecapcha", "Register")
-    <div class="row">
-        <div class="col-md-12">
-            <div class="form-group">
-                <label for="name">نام کاربری*</label>
-                @Html.TextBoxFor(model => model.UserName, new { @class = "form-control", @placeholder = "نام کاربری " })
-                @Html.ValidationMessageFor(model => model.UserName, "", new { @class = "text-danger" })
-            </div>
-        </div>
-    </div>
-    <div class="row">
-        <div class="col-md-6">
-            <div class="form-group">
-                <label for="name">نوع کاربر*</label>
-                @Html.DropDownListFor(x => x.TypeUser, new List<SelectListItem>() { new SelectListItem { Value = "1", Text = "شخصی",Selected=Model?.TypeUser==1?true:false },
-                       new SelectListItem { Value = "2", Text = "سازمانی",Selected=Model?.TypeUser==2?true:false } }, new { @onchange = "fn_ChangeUserType(this)" })
-            </div>
-        </div>
-        <div class="col-md-6" id="divOrg" style="display:none">
-            <div id="divOrg" class="form-group">
-                <label for="name">نام سازمان</label>
-                @Html.DropDownListFor(x => x.OrgId, listOrg, Model.OrgId)
-            </div>
-        </div>
-    </div>
-    <div class="row">
-        <div class="col-md-6">
-            <div class="form-group">
-                @Html.TextBoxFor(model => model.Name, new { @class = "form-control", @maxlength = 100, @placeholder = "نام " })
-                @Html.ValidationMessageFor(model => model.Name, "", new { @class = "text-danger" })
-            </div>
-        </div>
-        <div class="col-md-6">
-            <div class="form-group">
-                @Html.TextBoxFor(model => model.Family, new { @class = "form-control", @maxlength = 100, @placeholder = "نام خانوادگی" })
-                @Html.ValidationMessageFor(model => model.Family, "", new { @class = "text-danger" })
-            </div>
-        </div>
-    </div>
-    <div class="row">
-        <div class="col-md-6">
-            <div class="form-group">
-                @Html.TextBoxFor(model => model.Mobile, new { @class = "form-control", @maxlength = 11, @placeholder = "موبایل" })
-                @Html.ValidationMessageFor(model => model.Mobile, "", new { @class = "text-danger" })
-            </div>
-        </div>
-        <div class="col-md-6">
-            <div class="form-group">
-                @Html.TextBoxFor(model => model.Email, new { @class = "form-control", @maxlength = 50, @placeholder = "ایمیل" })
-                @Html.ValidationMessageFor(model => model.Email, "", new { @class = "text-danger" })
-            </div>
-        </div>
-    </div>
-    <div class="row">
-        <div class="col-md-6">
-            <div class="form-group">
-                @Html.TextBoxFor(model => model.Password, new { @type = "password", @class = "form-control", placeholder = "رمز عبور" })
-                @Html.ValidationMessageFor(model => model.Password, "", new { @class = "text-danger" })
-            </div>
-        </div>
-        <div class="col-md-6">
-            <div class="form-group">
-                @Html.TextBoxFor(model => model.RePassword, new { @type = "password", @class = "form-control", placeholder = " تکرار رمز عبور" })
-                @Html.ValidationMessageFor(model => model.RePassword, "", new { @class = "text-danger" })
-            </div>
-        </div>
-    </div>
-    <div class="row">
-        <div class="col-md-6">
-            <div class="form-group">
-                @Html.TextBoxFor(model => model.NationaCode, new { @type = "text", @class = "form-control", placeholder = "کد ملی" })
-                @Html.ValidationMessageFor(model => model.NationaCode, "", new { @class = "text-danger" })
-            </div>
-        </div>
-        <div class="col-md-6" id="divPost" style="display:none">
-            @Html.DropDownListFor(x => x.PostId, listPost, new { placeholder = "سمت" })
+
+    <div class="space-y-4">
+        <div>
+            <label class="block text-xs font-bold text-gray-700 mb-1">نام کاربری <span class="text-red-500">*</span> <span class="text-gray-400 font-normal">(فقط حروف انگلیسی و عدد)</span></label>
+            @Html.TextBoxFor(m => m.UserName, new { @class = "w-full border border-gray-200 rounded-xl px-3 py-2 text-sm focus:ring-2 focus:ring-blue-500 focus:outline-none", id = "txtUserName", placeholder = "Username...", @onkeypress = "return isEnglishOrNumber(event)", @onpaste = "return false;" })
+            @Html.ValidationMessageFor(m => m.UserName, "", new { @class = "text-red-500 text-xs mt-1 block" })
         </div>
 
-    </div>
-    <div class="row">
-        <div class="col-md-12">
-            <input type="submit" value="ثبت نام در سایت" class="button" />
+        <div>
+            <label class="block text-xs font-bold text-gray-700 mb-1">نوع کاربر</label>
+            @Html.DropDownListFor(m => m.TypeUser, new SelectList(new[] { new { Value = "1", Text = "شخصی" }, new { Value = "2", Text = "سازمانی" } }, "Value", "Text"), new { @class = "w-full border border-gray-200 rounded-xl px-3 py-2 text-sm bg-white focus:ring-2 focus:ring-blue-500 focus:outline-none", @onchange = "fn_ChangeUserType(this)" })
         </div>
+
+        <div id="divOrg" class="space-y-4" style="display:none;">
+            <div>
+                <label class="block text-xs font-bold text-gray-700 mb-1">سازمان متبوع</label>
+                @Html.DropDownListFor(m => m.OrgId, listOrg, "انتخاب سازمان...", new { @class = "w-full border border-gray-200 rounded-xl px-3 py-2 text-sm bg-white focus:ring-2 focus:ring-blue-500 focus:outline-none" })
+            </div>
+            <div id="divPost">
+                <label class="block text-xs font-bold text-gray-700 mb-1">سمت سازمانی</label>
+                @Html.DropDownListFor(m => m.PostId, listPost, "انتخاب سمت...", new { @class = "w-full border border-gray-200 rounded-xl px-3 py-2 text-sm bg-white focus:ring-2 focus:ring-blue-500 focus:outline-none" })
+            </div>
+        </div>
+
+        <div class="grid grid-cols-1 sm:grid-cols-2 gap-4">
+            <div>
+                <label class="block text-xs font-bold text-gray-700 mb-1">نام <span class="text-red-500">*</span></label>
+                @Html.TextBoxFor(m => m.Name, new { @class = "w-full border border-gray-200 rounded-xl px-3 py-2 text-sm focus:ring-2 focus:ring-blue-500 focus:outline-none", id = "txtName", @maxlength = 100, placeholder = "نام..." })
+                @Html.ValidationMessageFor(m => m.Name, "", new { @class = "text-red-500 text-xs mt-1 block" })
+            </div>
+            <div>
+                <label class="block text-xs font-bold text-gray-700 mb-1">نام خانوادگی <span class="text-red-500">*</span></label>
+                @Html.TextBoxFor(m => m.Family, new { @class = "w-full border border-gray-200 rounded-xl px-3 py-2 text-sm focus:ring-2 focus:ring-blue-500 focus:outline-none", id = "txtFamily", @maxlength = 100, placeholder = "نام خانوادگی..." })
+                @Html.ValidationMessageFor(m => m.Family, "", new { @class = "text-red-500 text-xs mt-1 block" })
+            </div>
+        </div>
+
+        <div class="grid grid-cols-1 sm:grid-cols-2 gap-4">
+            <div>
+                <label class="block text-xs font-bold text-gray-700 mb-1">شماره موبایل <span class="text-gray-400 font-normal">(فقط عدد)</span></label>
+                @Html.TextBoxFor(m => m.Mobile, new { @class = "w-full border border-gray-200 rounded-xl px-3 py-2 text-sm focus:ring-2 focus:ring-blue-500 focus:outline-none", id = "txtMobile", @maxlength = 11, placeholder = "0912...", @onkeypress = "return isNumberKey(event)" })
+                @Html.ValidationMessageFor(m => m.Mobile, "", new { @class = "text-red-500 text-xs mt-1 block" })
+            </div>
+            <div>
+                <label class="block text-xs font-bold text-gray-700 mb-1">کد ملی <span class="text-gray-400 font-normal">(فقط عدد)</span></label>
+                @Html.TextBoxFor(m => m.NationaCode, new { @class = "w-full border border-gray-200 rounded-xl px-3 py-2 text-sm focus:ring-2 focus:ring-blue-500 focus:outline-none", id = "txtNationaCode", @maxlength = 10, placeholder = "کد ملی...", @onkeypress = "return isNumberKey(event)" })
+                @Html.ValidationMessageFor(m => m.NationaCode, "", new { @class = "text-red-500 text-xs mt-1 block" })
+            </div>
+        </div>
+
+        <div>
+            <label class="block text-xs font-bold text-gray-700 mb-1">ایمیل</label>
+            @Html.TextBoxFor(m => m.Email, new { @class = "w-full border border-gray-200 rounded-xl px-3 py-2 text-sm focus:ring-2 focus:ring-blue-500 focus:outline-none ltr text-left", @maxlength = 50, placeholder = "info@domain.com" })
+            @Html.ValidationMessageFor(m => m.Email, "", new { @class = "text-red-500 text-xs mt-1 block" })
+        </div>
+
+        <div class="grid grid-cols-1 sm:grid-cols-2 gap-4">
+            <div>
+                <label class="block text-xs font-bold text-gray-700 mb-1">رمز عبور <span class="text-red-500">*</span> <span class="text-gray-400 font-normal">(حداقل ۶ کاراکتر)</span></label>
+                @Html.PasswordFor(m => m.Password, new { @class = "w-full border border-gray-200 rounded-xl px-3 py-2 text-sm focus:ring-2 focus:ring-blue-500 focus:outline-none", id = "txtPassword", placeholder = "رمز عبور..." })
+                @Html.ValidationMessageFor(m => m.Password, "", new { @class = "text-red-500 text-xs mt-1 block" })
+            </div>
+            <div>
+                <label class="block text-xs font-bold text-gray-700 mb-1">تکرار رمز عبور <span class="text-red-500">*</span></label>
+                @Html.PasswordFor(m => m.RePassword, new { @class = "w-full border border-gray-200 rounded-xl px-3 py-2 text-sm focus:ring-2 focus:ring-blue-500 focus:outline-none", id = "txtRePassword", placeholder = "تکرار رمز..." })
+                @Html.ValidationMessageFor(m => m.RePassword, "", new { @class = "text-red-500 text-xs mt-1 block" })
+            </div>
+        </div>
+
+        <div id="formErrorMsg" class="text-red-500 text-xs font-bold"></div>
+
+        <button type="submit" class="w-full bg-blue-600 hover:bg-blue-700 text-white font-bold py-3 rounded-xl transition text-sm shadow-lg shadow-blue-500/20">
+            ثبت نام در سامانه
+        </button>
     </div>
+
+    <!-- Google reCAPTCHA / Math Captcha Partial -->
+    @Html.Partial("_PartialGoogleRecapcha", "Register")
 }
+
 <script>
     function fn_ChangeUserType(e) {
-        debugger;
         var selectedUserType = $(e).find(":selected").val();
         if (selectedUserType == "1") {
             $('#divOrg').hide();
@@ -104,5 +99,79 @@
             $('#divPost').show();
         }
     }
-</script>
 
+    // فقط عدد برای موبایل و کد ملی
+    function isNumberKey(evt) {
+        var charCode = (evt.which) ? evt.which : evt.keyCode;
+        if (charCode > 31 && (charCode < 48 || charCode > 57)) {
+            return false;
+        }
+        return true;
+    }
+
+    // فقط حروف انگلیسی و اعداد برای نام کاربری
+    function isEnglishOrNumber(evt) {
+        var charCode = (evt.which) ? evt.which : evt.keyCode;
+        if ((charCode >= 48 && charCode <= 57) || (charCode >= 65 && charCode <= 90) || (charCode >= 97 && charCode <= 122)) {
+            return true;
+        }
+        return false;
+    }
+
+    // تابع اعتبارسنجی نهایی فرم در سمت کلاینت
+    function validateRegisterForm() {
+        $('#formErrorMsg').text('');
+
+        // 1. بررسی نام و نام خانوادگی (جلوگیری از کاراکترهای نامعتبر و خالی بودن)
+        var name = $('#txtName').val().trim();
+        var family = $('#txtFamily').val().trim();
+
+        // الگوی بررسی کاراکترهای غیرمجاز (اجازه حروف فارسی، فاصله و نیم‌فاصله)
+        var invalidCharsRegex = /[^آ-ی ا-ي \s\u200c]/;
+
+        if (name === "") {
+            $('#formErrorMsg').text('لطفاً نام خود را وارد کنید.');
+            $('#txtName').focus();
+            return false;
+        }
+        if (invalidCharsRegex.test(name)) {
+            $('#formErrorMsg').text('فیلد نام حاوی کاراکترهای غیرمجاز است.');
+            $('#txtName').focus();
+            return false;
+        }
+
+        if (family === "") {
+            $('#formErrorMsg').text('لطفاً نام خانوادگی خود را وارد کنید.');
+            $('#txtFamily').focus();
+            return false;
+        }
+        if (invalidCharsRegex.test(family)) {
+            $('#formErrorMsg').text('فیلد نام خانوادگی حاوی کاراکترهای غیرمجاز است.');
+            $('#txtFamily').focus();
+            return false;
+        }
+
+        // 2. بررسی طول رمز عبور
+        var password = $('#txtPassword').val();
+        var rePassword = $('#txtRePassword').val();
+
+        if (password.length < 6) {
+            $('#formErrorMsg').text('طول رمز عبور نباید کمتر از ۶ کاراکتر باشد.');
+            $('#txtPassword').focus();
+            return false;
+        }
+
+        if (password !== rePassword) {
+            $('#formErrorMsg').text('رمز عبور و تکرار آن مطابقت ندارند.');
+            $('#txtRePassword').focus();
+            return false;
+        }
+
+        // 3. بررسی صحت کپچا
+        if (typeof checkCaptcha === 'function') {
+            return checkCaptcha();
+        }
+
+        return true;
+    }
+</script>

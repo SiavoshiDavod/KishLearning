@@ -1,0 +1,345 @@
+﻿
+@font-face {
+    font-family: 'Yekan Bakh';
+    src: url('../fonts/YekanBakh-Thin.woff') format('woff');
+    font-weight: 100;
+    font-style: normal;
+    font-display: swap;
+}
+
+/* Light - 300 */
+@font-face {
+    font-family: 'Yekan Bakh';
+    src: url('../fonts/YekanBakh-Light.woff') format('woff');
+    font-weight: 300;
+    font-style: normal;
+    font-display: swap;
+}
+
+/* Regular - 400 */
+@font-face {
+    font-family: 'Yekan Bakh';
+    src: url('../fonts/YekanBakh-Regular.woff') format('woff');
+    font-weight: 400;
+    font-style: normal;
+    font-display: swap;
+}
+
+/* SemiBold - 600 */
+@font-face {
+    font-family: 'Yekan Bakh';
+    src: url('../fonts/YekanBakh-SemiBold.woff') format('woff');
+    font-weight: 600;
+    font-style: normal;
+    font-display: swap;
+}
+
+/* Bold - 700 */
+@font-face {
+    font-family: 'Yekan Bakh';
+    src: url('../fonts/YekanBakh-Bold.woff') format('woff');
+    font-weight: 700;
+    font-style: normal;
+    font-display: swap;
+}
+
+/* ExtraBold - 800 */
+@font-face {
+    font-family: 'Yekan Bakh';
+    src: url('../fonts/YekanBakh-ExtraBold.woff') format('woff');
+    font-weight: 800;
+    font-style: normal;
+    font-display: swap;
+}
+
+/* Black - 900 */
+@font-face {
+    font-family: 'Yekan Bakh';
+    src: url('../fonts/YekanBakh-Black.woff') format('woff');
+    font-weight: 900;
+    font-style: normal;
+    font-display: swap;
+}
+
+/* ExtraBlack - 950 */
+@font-face {
+    font-family: 'Yekan Bakh';
+    src: url('../fonts/YekanBakh-ExtraBlack.woff') format('woff');
+    font-weight: 950;
+    font-style: normal;
+    font-display: swap;
+}
+
+/* ادامه استایل‌ها (body, h1, colors, ...) دقیقاً مطابق نسخه قبل باقی می‌ماند */
+
+
+/* 2. تنظیم فونت عمومی بدنه و عناوین */
+body {
+    font-family: 'Yekan Bakh', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif !important;
+    display: flex !important;
+    flex-direction: column !important;
+    min-height: 100vh !important;
+    margin: 0;
+    padding: 0;
+}
+
+h1, h2, h3, h4, h5, h6, .font-heading, .font-traffic {
+    font-family: 'Yekan Bakh', sans-serif !important;
+    font-weight: 700 !important;
+}
+
+/* 3. پلت رنگی برند (Brand Color Palette) */
+.bg-brand-50 {
+    background-color: #eff6ff;
+}
+
+.bg-brand-100 {
+    background-color: #dbeafe;
+}
+
+.bg-brand-500 {
+    background-color: #3b82f6;
+}
+
+.bg-brand-600 {
+    background-color: #2563eb;
+}
+
+.bg-brand-700 {
+    background-color: #1d4ed8;
+}
+
+.bg-brand-900 {
+    background-color: #1e3a8a;
+}
+
+.text-brand-300 {
+    color: #93c5fd;
+}
+
+.text-brand-400 {
+    color: #60a5fa;
+}
+
+.text-brand-500 {
+    color: #3b82f6;
+}
+
+.text-brand-600 {
+    color: #2563eb;
+}
+
+.text-brand-700 {
+    color: #1d4ed8;
+}
+
+.hover\:bg-brand-100:hover {
+    background-color: #dbeafe;
+}
+
+.hover\:bg-brand-700:hover {
+    background-color: #1d4ed8;
+}
+
+.hover\:text-brand-300:hover {
+    color: #93c5fd;
+}
+
+.hover\:text-brand-600:hover {
+    color: #2563eb;
+}
+
+.border-brand-500 {
+    border-color: #3b82f6;
+}
+
+/* 4. ساختار لایوت و چسبندگی فوتر (Sticky Footer) */
+html, body {
+    height: 100%;
+}
+
+main.main-content, main {
+    flex: 1 0 auto !important;
+    display: block;
+    width: 100%;
+}
+
+#header, header {
+    flex-shrink: 0 !important;
+}
+
+footer, .footer {
+    flex-shrink: 0 !important;
+    margin-top: auto !important;
+}
+
+/* ==========================================================
+   منوی واکنش‌گرا و استایل نماد اینماد
+   ========================================================== */
+
+/* دکمه منوی موبایل */
+.mobile-menu-toggle {
+    display: none;
+    align-items: center;
+    justify-content: center;
+    width: 44px;
+    height: 44px;
+    padding: 0;
+    color: #1e3a8a;
+    background-color: #ffffff;
+    border: 1px solid #e5e7eb;
+    border-radius: 12px;
+    cursor: pointer;
+    transition: background-color 0.2s ease, border-color 0.2s ease, color 0.2s ease;
+}
+
+    .mobile-menu-toggle:hover {
+        color: #2563eb;
+        background-color: #eff6ff;
+        border-color: #bfdbfe;
+    }
+
+    .mobile-menu-toggle:focus {
+        outline: 2px solid #60a5fa;
+        outline-offset: 2px;
+    }
+
+    .mobile-menu-toggle .fa {
+        font-size: 20px;
+    }
+
+/* منوی بازشونده موبایل */
+.mobile-nav {
+    display: none;
+    padding: 12px 16px 18px;
+    background-color: #ffffff;
+    border-top: 1px solid #e5e7eb;
+    box-shadow: 0 10px 18px rgba(15, 23, 42, 0.08);
+}
+
+    .mobile-nav[hidden] {
+        display: none !important;
+    }
+    .mobile-nav:not([hidden]) {
+        display: block !important;
+    }
+
+
+.mobile-nav-links {
+    display: flex;
+    flex-direction: column;
+    gap: 4px;
+}
+
+.mobile-nav-link {
+    display: block;
+    padding: 11px 12px;
+    color: #374151;
+    font-size: 14px;
+    font-weight: 600;
+    text-decoration: none;
+    border-radius: 10px;
+    transition: color 0.2s ease, background-color 0.2s ease;
+}
+
+    .mobile-nav-link:hover,
+    .mobile-nav-link:focus {
+        color: #2563eb;
+        background-color: #eff6ff;
+    }
+
+/* جستجو در منوی موبایل */
+.mobile-search-link {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    margin-top: 10px;
+    padding: 11px 12px;
+    color: #4b5563;
+    font-size: 14px;
+    text-decoration: none;
+    background-color: #f3f4f6;
+    border-radius: 10px;
+    transition: color 0.2s ease, background-color 0.2s ease;
+}
+
+    .mobile-search-link:hover,
+    .mobile-search-link:focus {
+        color: #2563eb;
+        background-color: #eff6ff;
+    }
+
+/* ورود و ثبت‌نام یا پنل کاربری در منوی موبایل */
+.mobile-auth {
+    display: flex;
+    align-items: center;
+    margin-top: 14px;
+    padding-top: 14px;
+    border-top: 1px solid #e5e7eb;
+}
+
+/* قاب هماهنگ با استایل سایت برای نماد واقعی اینماد */
+.enamad-card {
+    display: inline-flex;
+    padding: 9px;
+    background-color: #ffffff;
+    border: 1px solid #e5e7eb;
+    border-radius: 16px;
+    box-shadow: 0 4px 12px rgba(15, 23, 42, 0.08);
+    transition: transform 0.2s ease, box-shadow 0.2s ease;
+}
+
+    .enamad-card:hover {
+        transform: translateY(-2px);
+        box-shadow: 0 8px 20px rgba(15, 23, 42, 0.14);
+    }
+
+    .enamad-card a {
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        gap: 8px;
+        color: #4b5563;
+        font-size: 12px;
+        text-align: center;
+        text-decoration: none;
+    }
+
+    .enamad-card img {
+        display: block;
+        width: 70px;
+        height: 70px;
+        object-fit: contain;
+    }
+
+.header-contact-info {
+    display: flex;
+    flex-wrap: nowrap;
+    align-items: center;
+    gap: 1rem;
+    white-space: nowrap;
+}
+
+@media (max-width: 767px) {
+    .header-contact-info {
+        display: none !important;
+    }
+
+    .mobile-menu-toggle {
+        display: inline-flex !important;
+    }
+
+    .desktop-nav,
+    .desktop-header-actions {
+        display: none !important;
+    }
+}
+
+@media (min-width: 768px) {
+    .mobile-menu-toggle,
+    .mobile-nav {
+        display: none !important;
+    }
+}
+
+

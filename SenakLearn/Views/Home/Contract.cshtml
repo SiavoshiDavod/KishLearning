@@ -1,23 +1,27 @@
-﻿@{ var Contract =(string) ViewBag.Contract;
-    Layout = "~/Views/Shared/_LayoutAdmin.cshtml";}
+﻿@{
+    Layout = "~/Views/Shared/_LayoutAdmin.cshtml";
+    ViewBag.Title = "قرارداد همکاری آموزشی";
+    var Contract = ViewBag.Contract as string;
+}
 
-<div class="page-heading text-center">
-    <div class="container">
-        <h2>قرارداد</h2>
-    </div>
-</div>
-<div class="container">
-    <div class="row" style="text-align: right;">
-       
-        <div>
-            @Contract
+<section class="py-12 bg-gray-50 min-h-[75vh]">
+    <div class="container mx-auto px-4 max-w-4xl">
+        <div class="bg-white rounded-3xl shadow-xl border border-gray-100 p-8 sm:p-12 space-y-6">
+            <div class="border-b border-gray-100 pb-4">
+                <h1 class="text-2xl font-titr text-gray-900">قرارداد همکاری و تدریس</h1>
+                <p class="text-xs text-gray-400 mt-1">لطفاً مفاد قرارداد زیر را به دقت مطالعه فرمایید</p>
+            </div>
+
+            <div class="text-sm text-gray-700 leading-relaxed max-h-[450px] overflow-y-auto p-6 bg-gray-50 rounded-2xl border border-gray-200">
+                @Html.Raw(Contract)
+            </div>
+
+            <div class="pt-4 border-t border-gray-100 flex items-center justify-end gap-4">
+                <input type="button" onclick="return Mypost('/TeacherProfile/AcceptContract')" value="تأیید و پذیرش قرارداد" class="bg-blue-600 hover:bg-blue-700 text-white font-bold px-8 py-3 rounded-xl text-sm transition shadow-lg shadow-blue-500/20 cursor-pointer" />
+            </div>
         </div>
     </div>
-    <div class="form-group">
-        <div class="col-md-offset-2 col-md-10">
-            <input type="button" onclick="return Mypost('/TeacherProfile/AcceptContract')" value="تایید" class="btn btn-default" />
-        </div>
-    </div>
-</div>
+</section>
 
-<script src='/Scripts/Learn.js' type='text/javascript'></script>
+<script src="/Scripts/Learn.js" type="text/javascript"></script>
+

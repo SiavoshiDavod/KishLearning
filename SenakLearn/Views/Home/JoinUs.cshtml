@@ -1,113 +1,509 @@
 ﻿@model SenakLearn.Models.JoinUs
-
-@using (Html.BeginForm("joinUs", "Home", FormMethod.Post, new { enctype = "multipart/form-data" }))
-{   
-
-    <div class="form-horizontal container">
-        <h3>همکاری با ما</h3>
-        <hr />
-        @Html.ValidationSummary(true, "", new { @class = "text-danger" })
-        <div class="form-group form-groupRtl">
-            @Html.LabelFor(model => model.Name,  new { @class = "control-label col-md-2" })
-            <div class="col-md-10">
-                @Html.EditorFor(model => model.Name, new { @class = "form-control" })
-                @Html.ValidationMessageFor(model => model.Name, "", new { @class = "text-danger" })
-            </div>
-        </div>
-        <div class="form-group form-groupRtl">
-            @Html.LabelFor(model => model.Family, new { @class = "control-label col-md-2" })
-            <div class="col-md-10">
-                @Html.EditorFor(model => model.Family, new { @class = "form-control" })
-                @Html.ValidationMessageFor(model => model.Family, "", new { @class = "text-danger" })
-            </div>
-        </div>
-
-        <div class="form-group form-groupRtl">
-            @Html.LabelFor(model => model.NationalCode,  new { @class = "control-label col-md-2" })
-            <div class="col-md-10">
-                @Html.EditorFor(model => model.NationalCode, new { @class = "form-control" })
-                @Html.ValidationMessageFor(model => model.NationalCode, "", new { @class = "text-danger" })
-            </div>
-        </div>
-
-        <div class="form-group form-groupRtl">
-            @Html.LabelFor(model => model.Email,  new { @class = "control-label col-md-2" })
-            <div class="col-md-10">
-                @Html.EditorFor(model => model.Email, new { @class = "form-control" })
-                @Html.ValidationMessageFor(model => model.Email, "", new { @class = "text-danger" })
-            </div>
-        </div>
-
-        <div class="form-group form-groupRtl">
-            @Html.LabelFor(model => model.Mobile,  new { @class = "control-label col-md-2" })
-            <div class="col-md-10">
-                @Html.EditorFor(model => model.Mobile, new { @class = "form-control" })
-                @Html.ValidationMessageFor(model => model.Mobile, "", new { @class = "text-danger" })
-            </div>
-        </div>
-
-        <div class="form-group form-groupRtl">
-            @Html.LabelFor(model => model.Description,  new { @class = "control-label col-md-2" })
-            <div class="col-md-10">
-                @Html.TextAreaFor(model => model.Description, new
-           {
-               @class = "form-control",
-               @cols = 80,
-               @rows = 10
-           })
-                @Html.ValidationMessageFor(model => model.Description, "", new { @class = "text-danger" })
-            </div>
-        </div>
-
-        <div class="form-group form-groupRtl">
-            @Html.LabelFor(model => model.ResumeFile,  new { @class = "control-label col-md-2" })
-            <div class="col-md-10">
-                @Html.HiddenFor(model => model.ResumeFile)
-
-                <label class="btn btn-default">
-                    انتخاب فایل رزومه <input type="file" hidden id="files" name="files" accept=".pdf, .doc , .docx">
-                </label>
-                <span id="resumeText"></span>
-                @*<input type="file"  id="files" name="files">*@
-                @Html.ValidationMessageFor(model => model.ResumeFile, "", new { @class = "text-danger" })
-            </div>
-        </div>
-
-        <div class="form-group form-groupRtl">
-            @Html.LabelFor(model => model.GroupIds,  new { @class = "control-label col-md-2" })
-            <div class="col-md-10">
-                @Html.Cours_Group_DropDown("GroupIds", true, new { @class = "jquery-select" })
-                @Html.ValidationMessageFor(model => model.GroupIds, "", new { @class = "text-danger" })
-            </div>
-        </div>
-
-        <div class="form-group">
-            <div class="col-md-offset-2 col-md-10">
-                <input type="submit" value="ثبت اطلاعات" class="btn btn-default" />
-            </div>
-        </div>
-    </div>
+@{
+    Layout = "~/Views/Shared/_Layout.cshtml";
+    ViewBag.Title = "همکاری با ما - آموزش مجازی کیش";
 }
+
+<div class="join-us-page">
+    <div class="container">
+
+        <div class="join-us-head">
+            <h1>همکاری با آموزش مجازی کیش</h1>
+            <p>فرم زیر را تکمیل کنید تا پس از بررسی مدارک و رزومه، با شما تماس بگیریم.</p>
+        </div>
+
+        @using (Html.BeginForm("joinUs", "Home", FormMethod.Post, new { enctype = "multipart/form-data", @class = "join-us-form", autocomplete = "off" }))
+        {
+            @Html.AntiForgeryToken()
+
+            @Html.ValidationSummary(true, "", new { @class = "ju-validation-summary" })
+
+            <div class="ju-grid">
+
+                <!-- ستون ۱ : اطلاعات هویتی -->
+                <div class="ju-col">
+                    <div class="ju-col-title">
+                        <i class="fa fa-user-o"></i>
+                        <span>اطلاعات هویتی</span>
+                    </div>
+
+                    <div class="ju-field">
+                        <label>نام <span class="ju-req">*</span></label>
+                        @Html.TextBoxFor(m => m.Name, new
+                        {
+                            @class = "ju-input",
+                            placeholder = "نام خود را وارد کنید",
+                            maxlength = "50",
+                            autocomplete = "given-name",
+                            data_val = "true",
+                            data_val_required = "وارد کردن نام الزامی است."
+                        })
+                        @Html.ValidationMessageFor(m => m.Name, "", new { @class = "ju-error" })
+                    </div>
+
+                    <div class="ju-field">
+                        <label>نام خانوادگی <span class="ju-req">*</span></label>
+                        @Html.TextBoxFor(m => m.Family, new
+                        {
+                            @class = "ju-input",
+                            placeholder = "نام خانوادگی خود را وارد کنید",
+                            maxlength = "50",
+                            autocomplete = "family-name",
+                            data_val = "true",
+                            data_val_required = "وارد کردن نام خانوادگی الزامی است."
+                        })
+                        @Html.ValidationMessageFor(m => m.Family, "", new { @class = "ju-error" })
+                    </div>
+
+                    <div class="ju-field">
+                        <label>کد ملی <span class="ju-req">*</span></label>
+                        @Html.TextBoxFor(m => m.NationalCode, new
+                        {
+                            @class = "ju-input ju-ltr",
+                            placeholder = "۱۰ رقم بدون خط تیره",
+                            maxlength = "10",
+                            inputmode = "numeric",
+                            autocomplete = "off",
+                            data_val = "true",
+                            data_val_required = "وارد کردن کد ملی الزامی است."
+                        })
+                        @Html.ValidationMessageFor(m => m.NationalCode, "", new { @class = "ju-error" })
+                    </div>
+
+                    <div class="ju-field">
+                        <label>حوزه تخصصی مورد درخواست <span class="ju-req">*</span></label>
+                        @Html.Cours_Group_DropDown("GroupIds", true, new { @class = "ju-input ju-select jquery-select", data_val = "true", data_val_required = "انتخاب حوزه تخصصی الزامی است." })
+                        @Html.ValidationMessageFor(m => m.GroupIds, "", new { @class = "ju-error" })
+                    </div>
+                </div>
+
+                <!-- ستون ۲ : اطلاعات تماس و رزومه -->
+                <div class="ju-col">
+                    <div class="ju-col-title">
+                        <i class="fa fa-address-card-o"></i>
+                        <span>راه‌های ارتباطی</span>
+                    </div>
+
+                    <div class="ju-field">
+                        <label>شماره موبایل <span class="ju-req">*</span></label>
+                        @Html.TextBoxFor(m => m.Mobile, new
+                        {
+                            @class = "ju-input ju-ltr",
+                            placeholder = "09xxxxxxxxx",
+                            maxlength = "11",
+                            inputmode = "tel",
+                            autocomplete = "tel",
+                            data_val = "true",
+                            data_val_required = "وارد کردن شماره موبایل الزامی است."
+                        })
+                        @Html.ValidationMessageFor(m => m.Mobile, "", new { @class = "ju-error" })
+                    </div>
+
+                    <div class="ju-field">
+                        <label>ایمیل <span class="ju-req">*</span></label>
+                        @Html.TextBoxFor(m => m.Email, new
+                        {
+                            @class = "ju-input ju-ltr",
+                            type = "email",
+                            placeholder = "example@domain.com",
+                            autocomplete = "email",
+                            data_val = "true",
+                            data_val_required = "وارد کردن ایمیل الزامی است."
+                        })
+                        @Html.ValidationMessageFor(m => m.Email, "", new { @class = "ju-error" })
+                    </div>
+
+                    <div class="ju-field">
+                        <label>فایل رزومه <span class="ju-req">*</span></label>
+                        @Html.HiddenFor(m => m.ResumeFile)
+                        <label for="files" class="ju-upload">
+                            <i class="fa fa-cloud-upload"></i>
+                            <span>انتخاب فایل رزومه</span>
+                        </label>
+                        <input type="file" id="files" name="files" accept=".pdf,.doc,.docx"
+                               required
+                               data-val="true"
+                               data-val-required="بارگذاری فایل رزومه الزامی است." />
+                        <p class="ju-hint">فقط PDF یا Word – حداکثر ۲ مگابایت</p>
+                        <div id="resumeText" class="ju-file-chip" hidden></div>
+                        @Html.ValidationMessageFor(m => m.ResumeFile, "", new { @class = "ju-error" })
+                    </div>
+                </div>
+
+                <!-- ردیف تمام‌عرض : توضیحات -->
+                <div class="ju-field ju-full">
+                    <label>توضیحات و سوابق کاری <span class="ju-req">*</span></label>
+                    @Html.TextAreaFor(m => m.Description, new
+                    {
+                        @class = "ju-input ju-textarea",
+                        rows = "6",
+                        placeholder = "خلاصه‌ای از سوابق تدریس، مدارک و توانمندی‌های خود بنویسید...",
+                        data_val = "true",
+                        data_val_required = "وارد کردن توضیحات الزامی است."
+                    })
+                    @Html.ValidationMessageFor(m => m.Description, "", new { @class = "ju-error" })
+                </div>
+
+                <div class="ju-full ju-submit-wrap">
+                    <button type="submit" class="ju-submit">
+                        <i class="fa fa-paper-plane"></i>
+                        ثبت اطلاعات و ارسال رزومه
+                    </button>
+                </div>
+            </div>
+        }
+    </div>
+</div>
 
 @section Scripts {
     @Scripts.Render("~/bundles/jqueryval")
 }
 
-
-
 <script>
-    $("#files").change(function () {
-        filename = this.files[0].name;
-        $("#resumeText").html(filename);
+    $(document).ready(function () {
+        var $files = $('#files'),
+            $chip = $('#resumeText');
+
+        $files.on('change', function () {
+            if (this.files && this.files[0]) {
+                var name = this.files[0].name,
+                    size = this.files[0].size,
+                    kb = Math.round(size / 1024);
+
+                $chip.prop('hidden', false)
+                    .html('<i class="fa fa-file-text-o"></i> ' + name + ' <span>(' + kb.toLocaleString('fa-IR') + ' کیلوبایت)</span>');
+
+                // پاک کردن خطای قبلی و اعتبارسنجی مجدد
+                $files.removeClass('input-validation-error');
+                $('#files').closest('.ju-field').find('.ju-error').text('').hide();
+            } else {
+                $chip.prop('hidden', true).html('');
+            }
+        });
     });
 </script>
+
 <style>
-    [hidden] {
-        display: none !important;
+    /* ============ متغیرهای تم ============ */
+    .join-us-page {
+        --ju-primary: #2563eb;
+        --ju-primary-dark: #1d4ed8;
+        --ju-ink: #0f172a;
+        --ju-text: #334155;
+        --ju-muted: #64748b;
+        --ju-line: #e2e8f0;
+        --ju-bg: #f8fafc;
+        --ju-danger: #dc2626;
+        padding: 40px 0 60px;
+        font-family: 'IRANSANSExpanded', 'BYekan', Tahoma, sans-serif;
     }
 
-    .col-md-2 {
-        float: right !important;
+    /* ============ هدر صفحه ============ */
+    .join-us-head {
+        text-align: center;
+        margin-bottom: 28px;
+    }
+
+        .join-us-head h1 {
+            font-family: 'IRANSans-Bold', 'BTraffic', sans-serif;
+            font-size: 26px;
+            font-weight: bold;
+            color: var(--ju-ink);
+            margin: 0 0 10px;
+            line-height: 1.5;
+        }
+
+        .join-us-head p {
+            font-size: 14px;
+            color: var(--ju-muted);
+            margin: 0;
+            line-height: 1.9;
+        }
+
+    /* ============ کارت فرم ============ */
+    .join-us-form {
+        max-width: 980px;
+        margin: 0 auto;
+        background: #fff;
+        border: 1px solid var(--ju-line);
+        border-radius: 20px;
+        padding: 32px;
+        box-shadow: 0 10px 30px rgba(15, 23, 42, .05);
+    }
+
+    /* ============ گرید دو ستونه ============ */
+    .ju-grid {
+        display: grid;
+        grid-template-columns: 1fr 1fr;
+        gap: 22px 28px;
+        align-items: start;
+    }
+
+    .ju-col {
+        display: flex;
+        flex-direction: column;
+        gap: 18px;
+    }
+
+    .ju-full {
+        grid-column: 1 / -1;
+    }
+
+    .ju-col-title {
+        display: flex;
+        align-items: center;
+        gap: 8px;
+        font-family: 'IRANSans-Bold', 'BTraffic', sans-serif;
+        font-size: 14px;
+        color: var(--ju-ink);
+        padding: 10px 14px;
+        background: #eff6ff;
+        border-right: 3px solid var(--ju-primary);
+        border-radius: 10px;
+    }
+
+        .ju-col-title i {
+            color: var(--ju-primary);
+            font-size: 15px;
+        }
+
+    /* ============ فیلدها ============ */
+    .ju-field {
+        display: flex;
+        flex-direction: column;
+    }
+
+        .ju-field > label {
+            font-family: 'IRANSans-Bold', 'BTraffic', sans-serif;
+            font-size: 13px;
+            color: var(--ju-text);
+            margin-bottom: 8px;
+            display: flex;
+            align-items: center;
+            gap: 4px;
+        }
+
+    .ju-req {
+        color: var(--ju-danger);
+        font-family: 'IRANSans-Bold', 'BTraffic', sans-serif;
+        font-size: 15px;
+        line-height: 1;
+    }
+
+    .ju-input {
+        width: 100%;
+        border: 1px solid #cbd5e1;
+        border-radius: 10px;
+        padding: 12px 14px;
+        font-family: 'IRANSANSExpanded', 'BYekan', Tahoma, sans-serif;
+        font-size: 13px;
+        color: var(--ju-ink);
+        background: #fff;
+        box-shadow: none;
+        outline: none;
+        transition: border-color .18s, box-shadow .18s, background .18s;
+        height: 46px;
+    }
+
+    textarea.ju-input {
+        height: auto;
+        resize: vertical;
+        line-height: 1.9;
+    }
+
+    .ju-input::placeholder {
+        color: #94a3b8;
+    }
+
+    .ju-input:focus {
+        border-color: var(--ju-primary);
+        box-shadow: 0 0 0 3px rgba(37, 99, 235, .15);
+        background: #fff;
+    }
+
+    .ju-ltr {
+        direction: ltr;
+        text-align: left;
+        letter-spacing: .4px;
+    }
+
+    /* سلکت */
+    .ju-select {
+        padding: 0 14px;
+        cursor: pointer;
+        appearance: none;
+        -webkit-appearance: none;
+        background-image: none;
+    }
+
+    /* ============ آپلود رزومه ============ */
+    .ju-upload {
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        gap: 8px;
+        height: 46px;
+        background: var(--ju-primary);
+        color: #fff;
+        border-radius: 10px;
+        font-family: 'IRANSans-Bold', 'BTraffic', sans-serif;
+        font-size: 13px;
+        cursor: pointer;
+        transition: background .18s, box-shadow .18s;
+        box-shadow: 0 4px 12px rgba(37, 99, 235, .22);
+        margin: 0;
+    }
+
+        .ju-upload:hover {
+            background: var(--ju-primary-dark);
+            box-shadow: 0 6px 16px rgba(37, 99, 235, .3);
+        }
+
+    /* مخفی کردن ورودی فایل با حفظ دسترسی‌پذیری */
+    #files {
+        position: absolute;
+        width: 1px;
+        height: 1px;
+        padding: 0;
+        margin: -1px;
+        overflow: hidden;
+        clip: rect(0, 0, 0, 0);
+        white-space: nowrap;
+        border: 0;
+    }
+
+    .ju-hint {
+        font-size: 11.5px;
+        color: var(--ju-muted);
+        margin: 6px 0 0;
+    }
+
+    .ju-file-chip {
+        margin-top: 8px;
+        background: #f0fdf4;
+        border: 1px solid #bbf7d0;
+        color: #15803d;
+        font-size: 12px;
+        padding: 8px 12px;
+        border-radius: 8px;
+        word-break: break-all;
+    }
+
+        .ju-file-chip i {
+            margin-left: 4px;
+        }
+
+        .ju-file-chip span {
+            color: #4b7f5e;
+        }
+
+    /* ============ خطاها ============ */
+    .ju-error {
+        display: block;
+        font-family: 'IRANSANSExpanded', 'BYekan', Tahoma, sans-serif;
+        font-size: 11.5px;
+        color: var(--ju-danger);
+        margin-top: 6px;
+        line-height: 1.7;
+        min-height: 0;
+    }
+
+        .ju-error:empty {
+            display: none;
+        }
+
+    .ju-input.input-validation-error {
+        border-color: var(--ju-danger);
+        background: #fef2f2;
+    }
+
+        .ju-input.input-validation-error:focus {
+            box-shadow: 0 0 0 3px rgba(220, 38, 38, .12);
+        }
+
+    .ju-validation-summary {
+        background: #fef2f2;
+        border: 1px solid #fecaca;
+        border-radius: 10px;
+        padding: 12px 16px;
+        font-size: 12.5px;
+        color: var(--ju-danger);
+        margin-bottom: 22px;
+        list-style: none;
+    }
+
+        .ju-validation-summary ul {
+            margin: 0;
+            padding-right: 16px;
+        }
+
+        .ju-validation-summary:empty {
+            display: none;
+        }
+
+    /* ============ دکمه ثبت ============ */
+    .ju-submit-wrap {
+        text-align: center;
+        margin-top: 6px;
+    }
+
+    .ju-submit {
+        min-width: 260px;
+        background: var(--ju-primary);
+        color: #fff;
+        border: none;
+        border-radius: 12px;
+        padding: 14px 40px;
+        font-family: 'IRANSans-Bold', 'BTraffic', sans-serif;
+        font-size: 14.5px;
+        font-weight: bold;
+        cursor: pointer;
+        display: inline-flex;
+        align-items: center;
+        justify-content: center;
+        gap: 8px;
+        box-shadow: 0 6px 18px rgba(37, 99, 235, .25);
+        transition: background .18s, box-shadow .18s, transform .18s;
+    }
+
+        .ju-submit:hover {
+            background: var(--ju-primary-dark);
+            box-shadow: 0 8px 22px rgba(37, 99, 235, .32);
+            transform: translateY(-1px);
+        }
+
+        .ju-submit:active {
+            transform: translateY(0);
+        }
+
+    /* ============ واکنش‌گرا ============ */
+    @@media (max-width: 991px) {
+        .join-us-form {
+            padding: 26px 20px;
+        }
+    }
+
+    @@media (max-width: 767px) {
+        .join-us-page {
+            padding: 24px 0 40px;
+        }
+
+        .ju-grid {
+            grid-template-columns: 1fr;
+            gap: 18px;
+        }
+
+        .join-us-head h1 {
+            font-size: 21px;
+        }
+
+        .join-us-head p {
+            font-size: 13px;
+        }
+
+        .ju-submit {
+            width: 100%;
+            min-width: 0;
+        }
     }
 </style>
-

@@ -1,216 +1,215 @@
 ﻿@model SenakLearn.Models.OnlineClass
 @{
     Layout = "~/Views/Shared/_Layout.cshtml";
-    ViewBag.Title = "کلاس "+Model.name;
+    ViewBag.Title = "کلاس " + Model.name;
     SiteSetting.SiteSetting setting = (SiteSetting.SiteSetting)ViewBag.SiteSetting;
 }
-<div class="container">
 
+<div class="container" style="padding-top: 30px; padding-bottom: 20px;">
     <div class="row justify-content-center">
-        <div class="col-md-8 text-center">
+        <div class="col-md-10 text-center">
             <div class="contact-form-title text-center mb-4">
-                <h4 class="mb-1">@Model.name</h4>
+                <h1 style="font-family: 'IRANSans-Bold', 'BTraffic', sans-serif; font-size: 28px; font-weight: bold; color: #1e293b; margin-bottom: 10px;">@Model.name</h1>
+                <p style="font-family: 'IRANSANSExpanded', 'BYekan', sans-serif; font-size: 14px; color: #64748b;">جزئیات کامل دوره، سرفصل‌ها و ثبت‌نام آنلاین</p>
             </div>
         </div>
     </div>
 </div>
-<div id="course-single" class="page">
-    @*<div class="page-heading text-center">
-            <div class="container">
-                <h2>@Model.name</h2>
-                <p class="breadcrumbs"> <a href="#">خانه</a> <i class="zmdi zmdi-chevron-left"></i> <a href="#">دوره ها</a> <i class="zmdi zmdi-chevron-left"></i> <a href="#">@Model.learn_cours_group.name</a> <i class="zmdi zmdi-chevron-left"></i> <span>@Model.name</span> </p>
-            </div>
-        </div>*@
+
+<div id="course-single" class="page" style="padding-bottom: 60px;">
     <div class="container">
         <div class="row">
-            <div class="col-md-12 col-lg-9 col-sm-12 col-xl-9 float-right">
+            <!-- ستون اصلی محتوا (سمت راست در RTL) -->
+            <div class="col-md-12 col-lg-9 col-sm-12 col-xl-9">
                 @{
-                    var filePrevivew = setting.DefaultVideoUrl;
+                    var filePreview = setting.DefaultVideoUrl;
                     if (Model.InterviewPathVideo != null && Model.InterviewPathVideo != Guid.Empty)
                     {
-                        filePrevivew = "/images/VideoFile/" + Model.InterviewPathVideo.ToString().Replace("-", "") + ".mp4";
+                        filePreview = "/images/VideoFile/" + Model.InterviewPathVideo.ToString().Replace("-", "") + ".mp4";
                     }
                 }
-                @Html.Partial("~/Views/Shared/_PartialVideo.cshtml", filePrevivew);
-                @*<img src="/assets/img/test.jpg" alt="Course" class="resp-img course-preview">*@
-                <h3>@Model.name</h3>
-                <p class="class-details">
-                    <span class="lessons"><i class="zmdi zmdi-assignment"></i>@Model.SessionCount جلسه</span> <span class="duration"><i class="zmdi zmdi-time"></i>@Model.Time ساعت</span> <span class="views">
-                        <i class="zmdi zmdi-eye"></i>@*2562 نمایش*@
-                    </span>
-                    <span class="tag"><i class="zmdi zmdi-label"></i>@Model.learn_cours_group.name</span>
-                </p>
-                <h4>جزئیات دوره</h4>
-                <p class="abs">@Model.Description</p>
-                <h5>چه چیزی داخل این دوره می آموزید؟</h5>
-                @{ List<SenakLearn.Models.OnlineClassAccorationDetails> list = new List<SenakLearn.Models.OnlineClassAccorationDetails>();
 
+                <!-- ویدیو / پیش‌نمایش دوره -->
+                <div style="border-radius: 16px; overflow: hidden; box-shadow: 0 4px 20px rgba(0,0,0,0.08); margin-bottom: 25px; background: #000;">
+                    @Html.Partial("~/Views/Shared/_PartialVideo.cshtml", filePreview)
+                </div>
+
+                <!-- عنوان و مشخصات آماری -->
+                <h3 style="font-family: 'IRANSans-Bold', 'BTraffic', sans-serif; font-size: 22px; color: #0f172a; margin-bottom: 15px;">@Model.name</h3>
+
+                <div style="display: flex; flex-wrap: wrap; gap: 15px; background: #f8fafc; padding: 15px 20px; border-radius: 12px; border: 1px solid #e2e8f0; margin-bottom: 25px; font-family: 'IRANSANSExpanded', 'BYekan', sans-serif; font-size: 13px; color: #475569;">
+                    <span><i class="fa fa-graduation-cap text-primary" style="margin-left: 6px; color: #2563eb;"></i>@Model.SessionCount جلسه</span>
+                    <span><i class="fa fa-clock-o text-primary" style="margin-left: 6px; color: #2563eb;"></i>@Model.Time ساعت</span>
+                    <span><i class="fa fa-folder-open text-primary" style="margin-left: 6px; color: #2563eb;"></i>@(Model.learn_cours_group != null ? Model.learn_cours_group.name : "عمومی")</span>
+                </div>
+
+                <!-- جزئیات دوره -->
+                <h4 style="font-family: 'IRANSans-Bold', 'BTraffic', sans-serif; font-size: 18px; color: #1e293b; margin-top: 30px; margin-bottom: 12px; border-right: 4px solid #2563eb; padding-right: 10px;">جزئیات دوره</h4>
+                <div style="font-family: 'IRANSANSExpanded', 'BYekan', sans-serif; font-size: 14px; line-height: 1.8; color: #334155; background: #ffffff; padding: 20px; border-radius: 12px; border: 1px solid #f1f5f9; margin-bottom: 30px;">
+                    @Model.Description
+                </div>
+
+                <!-- چه چیزی می‌آموزید -->
+                @if (!string.IsNullOrEmpty(Model.doc2))
+                {
+                    <h5 style="font-family: 'IRANSans-Bold', 'BTraffic', sans-serif; font-size: 16px; color: #1e293b; margin-bottom: 12px;">چه چیزی داخل این دوره می‌آموزید؟</h5>
+                    <div class="includes" style="font-family: 'IRANSANSExpanded', 'BYekan', sans-serif; font-size: 14px; line-height: 1.8; color: #334155; margin-bottom: 30px;">
+                        @Html.Raw(Model.doc2)
+                    </div>
+                }
+
+                <!-- محتوای دوره (سرفصل‌ها) -->
+                <h4 style="font-family: 'IRANSans-Bold', 'BTraffic', sans-serif; font-size: 18px; color: #1e293b; margin-top: 30px; margin-bottom: 15px; border-right: 4px solid #2563eb; padding-right: 10px;">محتوای دوره (سرفصل‌ها)</h4>
+
+                @{
+                    List<SenakLearn.Models.OnlineClassAccorationDetails> list = new List<SenakLearn.Models.OnlineClassAccorationDetails>();
                     if (Model.OnlineClassAccoration != null && Model.OnlineClassAccoration.Details != null)
                     {
                         list = Model.OnlineClassAccoration.Details.ToList();
                     }
-
                 }
 
-                <div class="includes">
-                    @Html.Raw(Model.doc2)
-                </div>
-                <h4>محتوای دوره</h4>
-                <div class="tab-content">
+                <div class="tab-content" style="margin-bottom: 40px;">
                     <div role="tabpanel" class="tab-pane active show" id="all-faqs">
-                        <div class="accordion">
+                        <div class="accordion" style="display: flex; flex-direction: column; gap: 10px;">
                             @{
-                                string a = "acd-active";
-                                string d = "block";
                                 int count = 1;
                                 foreach (var item in list.Where(x => x.ParentId == null).OrderBy(x => x.Order))
                                 {
-                                    <div class="acd-group  text-black @a">
-                                        <a href="#" class="acd-heading text-black"><i class="fa fa-pencil-square-o" aria-hidden="true"></i>@count: @item.Description</a>
-                                        <div class="acd-des text-gray" style="display: @d;">
-                                            <div class="option-wrapper">
-                                                <ul class="option-items">
-                                                    @if (item.Childs != null)
+                                    <div style="background: #ffffff; border: 1px solid #e2e8f0; border-radius: 12px; overflow: hidden; box-shadow: 0 1px 3px rgba(0,0,0,0.02);">
+                                        <div style="background: #f8fafc; padding: 15px 20px; font-family: 'IRANSans-Bold', 'BTraffic', sans-serif; font-size: 15px; color: #1e293b; display: flex; align-items: center; justify-content: space-between;">
+                                            <span><i class="fa fa-book text-primary" style="margin-left: 8px; color: #2563eb;"></i>قسمت @count: @item.Description</span>
+                                        </div>
+                                        @if (item.Childs != null && item.Childs.Any())
+                                        {
+                                            <div style="padding: 15px 20px; border-top: 1px solid #f1f5f9; background: #ffffff;">
+                                                <ul style="list-style: none; padding: 0; margin: 0; display: flex; flex-direction: column; gap: 8px;">
+                                                    @foreach (var Subitem in item.Childs.OrderBy(x => x.Order))
                                                     {
-                                                        foreach (var Subitem in item.Childs.OrderBy(x => x.Order))
-                                                        {
-                                                            <li class="option-item">
-                                                                <div class="pull-right"> @Subitem.Description </div>
-                                                            </li>
-                                                        }
+                                                        <li style="font-family: 'IRANSANSExpanded', 'BYekan', sans-serif; font-size: 13px; color: #475569; display: flex; align-items: center;">
+                                                            <i class="fa fa-angle-left" style="margin-left: 8px; color: #94a3b8;"></i> @Subitem.Description
+                                                        </li>
                                                     }
                                                 </ul>
                                             </div>
-                                        </div>
+                                        }
                                     </div>
-                                    a = "";
-                                    d = "none";
                                     count++;
                                 }
                             }
                         </div>
                     </div>
                 </div>
-                <h4 class="comment">نظرات</h4>
+
+                <!-- نظرات کاربران -->
+                <h4 style="font-family: 'IRANSans-Bold', 'BTraffic', sans-serif; font-size: 18px; color: #1e293b; margin-top: 40px; margin-bottom: 15px; border-right: 4px solid #2563eb; padding-right: 10px;" class="comment">نظرات دانشجویان</h4>
                 @Html.Action("ShowComments", "UserComment", new { id = Model.Id, type = SenakLearn.Models.PageType.OnlineClass })
 
-                <h4 class="comment">ارسال دیدگاه</h4>
+                <h4 style="font-family: 'IRANSans-Bold', 'BTraffic', sans-serif; font-size: 18px; color: #1e293b; margin-top: 30px; margin-bottom: 15px; border-right: 4px solid #2563eb; padding-right: 10px;" class="comment">ارسال دیدگاه جدید</h4>
                 @Html.Action("ContactUs", "UserComment", new { id = Model.Id, type = SenakLearn.Models.PageType.OnlineClass })
-
             </div>
-            <div class="col-md-12 col-lg-3 col-sm-12 col-xl-3 float-left">
-                <div class="order text-center">
-                    <div>
-                        <p class="button ">کلاس @Model.ClassTypeString است</p>
+
+            <!-- سایدبار سمت چپ (اطلاعات ثبت نام، مدرس، امتیازات و دوره‌های محبوب) -->
+            <div class="col-md-12 col-lg-3 col-sm-12 col-xl-3">
+
+                <!-- باکس قیمت و ثبت‌نام -->
+                <div style="background: #ffffff; border: 1px solid #e2e8f0; border-radius: 16px; padding: 24px; text-align: center; box-shadow: 0 4px 15px rgba(0,0,0,0.05); margin-bottom: 25px;">
+                    <div style="margin-bottom: 15px;">
+                        <span style="display: inline-block; background: #eff6ff; color: #2563eb; font-family: 'IRANSANSExpanded', 'BYekan', sans-serif; font-size: 12px; font-weight: bold; padding: 6px 14px; border-radius: 20px;">
+                            وضعیت: @Model.ClassTypeString
+                        </span>
                     </div>
+
                     @{
                         var url = "/Zarinpal/PaymentRequest?amount=" + Model.Amount + "&onlineClassId=" + Model.Id + "&Description=" + Model.name;
-                        var listEntezar = "ثبت نام در لیست انتظار";
-                        
-                    }
-                    @if (@Model.Amount == 0)
-                    {
-                        if (Model.ClassType==SenakLearn.Enums.OnlineClassType.Registering)
+                        var listEntezar = "ثبت‌نام در لیست انتظار";
+                        if (Model.ClassType == SenakLearn.Enums.OnlineClassType.Registering)
                         {
-                            listEntezar = "ثبت نام";
+                            listEntezar = "ثبت‌نام و شروع یادگیری";
                         }
-                        <div>
-                            <p class="button border-black">رایگان</p>
+                    }
+
+                    @if (Model.Amount == 0)
+                    {
+                        <div style="font-family: 'IRANSans-Bold', 'BTraffic', sans-serif; font-size: 20px; color: #16a34a; font-weight: bold; margin-bottom: 20px;">
+                            رایگان
                         </div>
-                        <a href="@url" class="blueplay button "> @listEntezar</a>
+                        <a href="@url" style="display: block; background: #2563eb; color: #ffffff; font-family: 'IRANSans-Bold', 'BTraffic', sans-serif; font-size: 14px; font-weight: bold; padding: 12px; border-radius: 12px; text-decoration: none; transition: background 0.2s;" onmouseover="this.style.backgroundColor='#1d4ed8'" onmouseout="this.style.backgroundColor='#2563eb'">
+                            @listEntezar
+                        </a>
                     }
                     else
                     {
-                        if (Model.ClassType==SenakLearn.Enums.OnlineClassType.Registering)
-                        {
-                            listEntezar = "خرید و ثبت نام";
-                        }
-                        <p class="button border-black">@Model.AmountFarsi<span>ریال</span></p>
-                        @*<p>قیمت تک</p>*@
-                        <p>
-                            <script src="https://www.zarinpal.com/webservice/TrustCode" type="text/javascript"></script>
-                        </p>
-                        <a href="@url" class="blueplay button "> @listEntezar</a>
+                        <div style="margin-bottom: 20px;">
+                            <span style="font-family: 'IRANSans-Bold', 'BTraffic', sans-serif; font-size: 24px; color: #0f172a; font-weight: bold;">@Model.AmountFarsi</span>
+                            <span style="font-family: 'IRANSANSExpanded', 'BYekan', sans-serif; font-size: 12px; color: #64748b; margin-right: 4px;">ریال</span>
+                        </div>
+                        <a href="@url" style="display: block; background: #2563eb; color: #ffffff; font-family: 'IRANSans-Bold', 'BTraffic', sans-serif; font-size: 14px; font-weight: bold; padding: 12px; border-radius: 12px; text-decoration: none; box-shadow: 0 4px 12px rgba(37, 99, 235, 0.2); transition: all 0.2s;" onmouseover="this.style.backgroundColor='#1d4ed8'; this.style.boxShadow='0 6px 16px rgba(37, 99, 235, 0.3)';" onmouseout="this.style.backgroundColor='#2563eb'; this.style.boxShadow='0 4px 12px rgba(37, 99, 235, 0.2)';">
+                            @listEntezar
+                        </a>
                     }
-
-                    @*<p class="order-or"><span>یا</span></p>
-        <p>ثبت نام برای</p>
-        <a href="#" class="greybutton">عضویت ویژه</a>*@
                 </div>
+
+                <!-- اطلاعات مدرس -->
                 @if (Model.learn_teacher != null)
                 {
-                    <div class="pros">
-                        <h4>درباره مدرس</h4>
-                        <div class="teacher text-center">
-                            <div class="imgcontainer">
-                                <img src="/images/teacher/@Model.learn_teacher.image" alt="@Model.learn_teacher.FullName" style="width:130px;height:130px">
-                                <div class="overlay">
-                                    <img src="/assets/img/profile.png" alt="Profile">
-                                    <p>@Model.learn_teacher.CourseCount دوره</p>
-                                </div>
-                            </div>
-                            <a href="/Home/TeacherCours/@Model.id_learn_teacher">@Model.learn_teacher.FullName</a>
-                            <p>@Model.learn_teacher.education</p>
-                            @*<ul class="social">
-                                <li><a href="#"><i class="zmdi zmdi-facebook"></i></a></li>
-                                <li> <a href="#"><i class="zmdi zmdi-twitter"></i></a></li>
-                                <li> <a href="#"><i class="zmdi zmdi-google-old"></i></a></li>
-                                <li> <a href="#"><i class="zmdi zmdi-pinterest"></i></a></li>
-                                <li> <a href="#"><i class="zmdi zmdi-email"></i></a></li>
-                                <li> <a href="#"><i class="zmdi zmdi-globe-alt"></i></a></li>
-                            </ul>*@
+                    <div style="background: #ffffff; border: 1px solid #e2e8f0; border-radius: 16px; padding: 24px; text-align: center; box-shadow: 0 4px 15px rgba(0,0,0,0.05); margin-bottom: 25px;">
+                        <h4 style="font-family: 'IRANSans-Bold', 'BTraffic', sans-serif; font-size: 16px; color: #1e293b; margin-bottom: 15px;">درباره مدرس دوره</h4>
+                        <div style="width: 110px; height: 110px; border-radius: 50%; overflow: hidden; margin: 0 auto 15px; border: 3px solid #e2e8f0; box-shadow: 0 4px 10px rgba(0,0,0,0.05);">
+                            <img src="/images/teacher/@Model.learn_teacher.image" alt="@Model.learn_teacher.FullName" style="width: 100%; height: 100%; object-fit: cover;" onerror="this.src='/assets/img/avatar.png'" />
                         </div>
+                        <a href="/Home/TeacherCours/@Model.id_learn_teacher" style="font-family: 'IRANSans-Bold', 'BTraffic', sans-serif; font-size: 15px; color: #2563eb; text-decoration: none; font-weight: bold; display: block; margin-bottom: 5px;">@Model.learn_teacher.FullName</a>
+                        <p style="font-family: 'IRANSANSExpanded', 'BYekan', sans-serif; font-size: 13px; color: #64748b; margin: 0;">@Model.learn_teacher.education</p>
                     </div>
                 }
 
-            <div class="ratings">
-                <h4>امتیاز دوره</h4>
-                @Html.Action("ShowRating", "StarRating", new { id = Model.Id, type = SenakLearn.Models.PageType.OnlineClass })
-
-            </div>
-                <h4>محبوب ترین دوره ها</h4>
-
-                <div class="owl-carousel" data-nav-dots="true" data-nav-arrow="false" data-items="1" data-sm-items="1" data-lg-items="1" data-md-items="1" data-autoplay="true">
-                    @{
-                        var onlineClass = SenakLearn.Biz.OnlineClassBiz.Instance.GetAllPage(x => x.Id != Model.Id && x.IsFavorite && x.ClassType != SenakLearn.Enums.OnlineClassType.Archived, 0, 3);
-                        foreach (var item in onlineClass)
-                        {
-                            var img = "/images/Interview/" + item.InterviewPathImage;
-                            if (string.IsNullOrEmpty(item.InterviewPathImage))
-                            {
-                                img = "/images/logo.png";
-                            }
-                            <div class="item">
-                                <div class="">
-                                    <div class=" text-center " style=" background-image:url(@img); height:200px;">
-                                        <div class="">
-                                            <div style="opacity:0.5;" class="">
-                                                <a style="font-weight: bold;" href="/DetailsOnlineClass/Index?type=2&id=@item.Id" class="testimonial-info">
-                                                    <br />
-                                                    <h5 style="font-weight: bold;">@item.name</h5>
-                                                    <br />
-                                                    <p style="font-weight: bold;">@item.Description</p>
-                                                </a>
-                                            </div>
-                                        </div>
-                                    </div>
-                                </div>
-                            </div>
-                        }
-                    }
+                <!-- امتیاز دوره -->
+                <div style="background: #ffffff; border: 1px solid #e2e8f0; border-radius: 16px; padding: 20px; text-align: center; box-shadow: 0 4px 15px rgba(0,0,0,0.05); margin-bottom: 25px;">
+                    <h4 style="font-family: 'IRANSans-Bold', 'BTraffic', sans-serif; font-size: 16px; color: #1e293b; margin-bottom: 12px;">امتیاز به این دوره</h4>
+                    @Html.Action("ShowRating", "StarRating", new { id = Model.Id, type = SenakLearn.Models.PageType.OnlineClass })
                 </div>
-                <div class="categories">
-                    <h6>دسته بندی ها</h6>
-                    <ul>
+
+                <!-- محبوب‌ترین دوره‌ها -->
+                <div style="background: #ffffff; border: 1px solid #e2e8f0; border-radius: 16px; padding: 20px; box-shadow: 0 4px 15px rgba(0,0,0,0.05); margin-bottom: 25px;">
+                    <h4 style="font-family: 'IRANSans-Bold', 'BTraffic', sans-serif; font-size: 16px; color: #1e293b; margin-bottom: 15px; border-bottom: 2px solid #f1f5f9; padding-bottom: 10px;">محبوب‌ترین دوره‌ها</h4>
+
+                    <div style="display: flex; flex-direction: column; gap: 12px;">
+                        @{
+                            var onlineClassList = SenakLearn.Biz.OnlineClassBiz.Instance.GetAllPage(x => x.Id != Model.Id && x.IsFavorite && x.ClassType != SenakLearn.Enums.OnlineClassType.Archived, 0, 3);
+                            foreach (var item in onlineClassList)
+                            {
+                                var img = !string.IsNullOrEmpty(item.InterviewPathImage) ? "/images/Interview/" + item.InterviewPathImage : "/images/logo.png";
+                                <a href="/DetailsOnlineClass/Index?type=2&id=@item.Id" style="display: flex; align-items: center; gap: 12text-decoration: none; padding: 8px; border-radius: 10px; transition: background 0.2s; text-decoration: none;" onmouseover="this.style.backgroundColor='#f8fafc'" onmouseout="this.style.backgroundColor='transparent'">
+                                    <img src="@img" alt="@item.name" style="width: 60px; height: 60px; border-radius: 8px; object-fit: cover;" />
+                                    <div>
+                                        <h5 style="font-family: 'IRANSans-Bold', 'BTraffic', sans-serif; font-size: 13px; color: #1e293b; margin: 0 0 4px 0;">@item.name</h5>
+                                        <p style="font-family: 'IRANSANSExpanded', 'BYekan', sans-serif; font-size: 11px; color: #64748b; margin: 0; line-clamp: 1; overflow: hidden; text-overflow: ellipsis; display: -webkit-box; -webkit-line-clamp: 1; -webkit-box-orient: vertical;">@item.Description</p>
+                                    </div>
+                                </a>
+                            }
+                        }
+                    </div>
+                </div>
+
+                <!-- دسته‌بندی‌ها -->
+                <div style="background: #ffffff; border: 1px solid #e2e8f0; border-radius: 16px; padding: 20px; box-shadow: 0 4px 15px rgba(0,0,0,0.05);">
+                    <h6 style="font-family: 'IRANSans-Bold', 'BTraffic', sans-serif; font-size: 16px; color: #1e293b; margin-bottom: 15px; border-bottom: 2px solid #f1f5f9; padding-bottom: 10px;">دسته‌بندی‌های آموزشی</h6>
+                    <ul style="list-style: none; padding: 0; margin: 0; display: flex; flex-direction: column; gap: 8px;">
                         @{
                             var categorieslist = SenakLearn.Biz.CourseBiz.Instance.FindAllGroup(true, null, null, null, null);
-                            foreach (var item in categorieslist)
+                            foreach (var cat in categorieslist)
                             {
-                                <li><a href="#">@item.name (@item.OnlineCount)</a></li>
+                                <li>
+                                    <a href="#" style="font-family: 'IRANSANSExpanded', 'BYekan', sans-serif; font-size: 13px; color: #475569; text-decoration: none; display: flex; justify-content: space-between; padding: 6px 10px; border-radius: 8px; transition: all 0.2s;" onmouseover="this.style.backgroundColor='#f1f5f9'; this.style.color='#2563eb';" onmouseout="this.style.backgroundColor='transparent'; this.style.color='#475569';">
+                                        <span>@cat.name</span>
+                                        <span style="background: #e2e8f0; color: #1e293b; padding: 2px 8px; border-radius: 12px; font-size: 11px;">@cat.OnlineCount</span>
+                                    </a>
+                                </li>
                             }
                         }
                     </ul>
                 </div>
+
             </div>
         </div>
     </div>

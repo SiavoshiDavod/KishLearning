@@ -1,10 +1,29 @@
 ﻿@model SenakLearn.Models.Book
+@using System.Globalization
 @{
     Layout = "~/Views/Shared/_Layout.cshtml";
     ViewBag.Title = "کتاب " + Model.TitleF;
     var isAuthorize = (bool)(ViewBag.IsAuthorized ?? false);
     List<string> saleIdUsers = ViewBag.saleIdUsers ?? new List<string>();
-    bool hasPurchased = saleIdUsers.Any(a => a == Model.Id.ToString());
+    bool hasPurchased = Model != null && saleIdUsers.Any(a => a == Model.Id.ToString());
+
+    Func<object, string> formatPersianNumber = value =>
+    {
+        var number = Convert.ToDecimal(value).ToString("N0", CultureInfo.InvariantCulture);
+        return number
+            .Replace('0', '۰')
+            .Replace('1', '۱')
+            .Replace('2', '۲')
+            .Replace('3', '۳')
+            .Replace('4', '۴')
+            .Replace('5', '۵')
+            .Replace('6', '۶')
+            .Replace('7', '۷')
+            .Replace('8', '۸')
+            .Replace('9', '۹');
+    };
+
+
 }
 
 <style>
@@ -12,6 +31,7 @@
     .book-detail-wrapper {
         padding: 40px 0 70px;
         background-color: #f8fafc;
+        font-family: 'Byekan', 'IRANSANSExpanded', Tahoma, sans-serif;
     }
 
     /* کارت اصلی سمت راست (سایدبار خرید) */
@@ -19,6 +39,7 @@
         position: sticky;
         top: 25px;
         z-index: 10;
+        width: 100%;
     }
 
     .book-preview-card {
@@ -26,9 +47,11 @@
         border-radius: 16px;
         border: 1px solid #e2e8f0;
         box-shadow: 0 10px 25px rgba(0, 0, 0, 0.05);
-        padding: 24px;
+        padding: 28px; /* پدینگ کاملاً یکسان با کارت‌های محتوای سمت چپ */
         text-align: center;
         overflow: hidden;
+        width: 100%;
+        box-sizing: border-box;
     }
 
     .book-cover-container {
@@ -41,6 +64,8 @@
         min-height: 290px;
         position: relative;
         margin-bottom: 20px;
+        width: 100%;
+        box-sizing: border-box;
     }
 
     .book-cover-img {
@@ -67,6 +92,7 @@
         padding: 5px 12px;
         border-radius: 8px;
         box-shadow: 0 4px 10px rgba(220, 38, 38, 0.35);
+        font-family: 'Btraffic', 'IRANSans-Bold', Tahoma, sans-serif;
     }
 
     /* باکس قیمت‌گذاری */
@@ -76,6 +102,8 @@
         border-radius: 12px;
         padding: 16px;
         margin-bottom: 20px;
+        width: 100%;
+        box-sizing: border-box;
     }
 
     .detail-free-badge {
@@ -87,18 +115,21 @@
         border-radius: 8px;
         display: inline-block;
         box-shadow: 0 4px 10px rgba(16, 185, 129, 0.25);
+        font-family: 'Btraffic', 'IRANSans-Bold', Tahoma, sans-serif;
     }
 
     .detail-price-del {
         font-size: 0.95rem;
         color: #94a3b8;
         text-decoration: line-through;
+        font-family: 'Btraffic', 'IRANSans-Bold', Tahoma, sans-serif;
     }
 
     .detail-price-final {
         font-size: 1.5rem;
         font-weight: 900;
         color: #0f172a;
+        font-family: 'Btraffic', 'IRANSans-Bold', Tahoma, sans-serif;
     }
 
         .detail-price-final.has-discount {
@@ -125,6 +156,7 @@
         transition: all 0.25s ease;
         text-decoration: none !important;
         border: none;
+        box-sizing: border-box;
     }
 
     .btn-action-buy {
@@ -151,14 +183,16 @@
             box-shadow: 0 8px 22px rgba(16, 185, 129, 0.38);
         }
 
-    /* کارت‌های ستون محتوا (چپ) */
+    /* کارت‌های ستون محتوا (چپ) - تنظیم یکسان‌سازی پهنا */
     .content-box-card {
         background: #ffffff;
         border-radius: 16px;
         border: 1px solid #e2e8f0;
         box-shadow: 0 4px 15px rgba(0, 0, 0, 0.03);
-        padding: 28px;
+        padding: 28px; /* پدینگ یکسان با کارت سایدبار */
         margin-bottom: 24px;
+        width: 100%;
+        box-sizing: border-box;
     }
 
     .content-box-header {
@@ -175,6 +209,7 @@
             font-size: 1.15rem;
             font-weight: 800;
             color: #1e293b;
+            font-family: 'Btraffic', 'IRANSans-Bold', Tahoma, sans-serif;
         }
 
         .content-box-header i {
@@ -185,8 +220,9 @@
     /* لیست مشخصات فنی */
     .specs-grid {
         display: grid;
-        grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+        grid-template-columns: repeat(auto-fit, minmax(240px, 1fr));
         gap: 16px;
+        width: 100%;
     }
 
     .spec-item {
@@ -196,13 +232,14 @@
         border-radius: 10px;
         padding: 12px 16px;
         border: 1px solid #edf2f7;
+        box-sizing: border-box;
     }
 
     .spec-label {
         font-size: 0.88rem;
         color: #64748b;
         font-weight: 600;
-        min-width: 120px;
+        min-width: 110px;
     }
 
     .spec-value {
@@ -218,6 +255,7 @@
         line-height: 1.9;
         color: #334155;
         text-align: justify;
+        width: 100%;
     }
 
         .rich-text-wrapper p {
@@ -230,6 +268,7 @@
         flex-wrap: wrap;
         gap: 8px;
         margin-top: 10px;
+        width: 100%;
     }
 
     .keyword-tag {
@@ -246,7 +285,7 @@
     <div class="container">
         <div class="row">
 
-            @* =================== سایدبار: تصویر، قیمت و دکمه دانلود/خرید =================== *@
+            @* =================== سایدبار: تصویر، قیمت و دکمه دانلود/خرید (ستون سمت راست) =================== *@
             <div class="col-lg-4 col-md-5 mb-4">
                 <div class="book-sticky-sidebar">
                     <div class="book-preview-card">
@@ -260,7 +299,6 @@
                                 </span>
                             }
 
-                            @* اگر تصویر کتاب بود از ScreenShotId و در غیر این صورت از تصویر ناشر استفاده می‌شود *@
                             @{
                                 var imgSrc = !string.IsNullOrEmpty(Model.ScreenShotId)
                                     ? "/images/book/" + Model.ScreenShotId
@@ -281,16 +319,16 @@
                                     </span>
                                     @if (Model.PriceToman > 0)
                                     {
-                                        <span class="detail-price-del mt-2">قیمت قبلی: @Model.PriceToman.ToString("N0") تومان</span>
+                                        <span class="detail-price-del mt-2">قیمت قبلی: @formatPersianNumber(Model.PriceToman) تومان</span>
                                     }
                                 </div>
                             }
                             else if (Model.HasValidDiscount)
                             {
                                 <div class="d-flex flex-column align-items-center">
-                                    <span class="detail-price-del">@Model.PriceToman.ToString("N0") تومان</span>
+                                    <span class="detail-price-del">@formatPersianNumber(Model.PriceToman) تومان</span>
                                     <div class="detail-price-final has-discount">
-                                        @((Model.PriceAfterDiscountToman ?? 0).ToString("N0"))
+                                        @formatPersianNumber((Model.PriceAfterDiscountToman ?? 0))
                                         <span class="detail-price-currency">تومان</span>
                                     </div>
                                 </div>
@@ -298,7 +336,7 @@
                             else
                             {
                                 <div class="d-flex justify-content-center align-items-baseline">
-                                    <span class="detail-price-final">@Model.PriceToman.ToString("N0")</span>
+                                    <span class="detail-price-final">@formatPersianNumber(Model.PriceToman)</span>
                                     <span class="detail-price-currency mr-2">تومان</span>
                                 </div>
                             }
@@ -308,7 +346,7 @@
                         <div class="action-btn-wrapper">
                             @if (Model.IsFree)
                             {
-                                <a href="/Books/DownloadBook/@Model.Id" onclick='return countPreviewItemByClient("@SenakLearn.Models.ObjCount.objType_BookDownload", @Model.Id)' class="btn-action-main btn-action-download" target="_blank">
+                                <a href="/Books/DownloadBook/@Model.Id" class="btn-action-main btn-action-download" target="_blank">
                                     <i class="fa fa-download"></i> دانلود رایگان کتاب
                                 </a>
                             }
@@ -324,7 +362,7 @@
                                 {
                                     if (hasPurchased)
                                     {
-                                        <a href="/Books/DownloadBook/@Model.Id" onclick='return countPreviewItemByClient("@SenakLearn.Models.ObjCount.objType_BookDownload", @Model.Id)' class="btn-action-main btn-action-download" target="_blank">
+                                        <a href="/Books/DownloadBook/@Model.Id" class="btn-action-main btn-action-download" target="_blank">
                                             <i class="fa fa-download"></i> دانلود کتاب (خریداری شده)
                                         </a>
                                     }
@@ -342,12 +380,12 @@
                 </div>
             </div>
 
-            @* =================== بخش چپ: عنوان، مشخصات، فهرست و متن =================== *@
+            @* =================== بخش چپ: عنوان، مشخصات، فهرست و متن (ستون سمت چپ) =================== *@
             <div class="col-lg-8 col-md-7">
 
                 @* عنوان کتاب *@
                 <div class="content-box-card">
-                    <h1 class="h3 font-weight-bold text-dark mb-2">@Model.TitleF</h1>
+                    <h1 class="h3 font-weight-bold text-dark mb-2" style="font-family: 'Btraffic', 'IRANSans-Bold', Tahoma, sans-serif;">@Model.TitleF</h1>
                     @if (!string.IsNullOrEmpty(Model.Title))
                     {
                         <h2 class="h6 text-muted text-left" style="direction: ltr;">@Model.Title</h2>
@@ -392,13 +430,13 @@
 
                         <div class="spec-item">
                             <span class="spec-label"><i class="fa fa-calendar fa-fw ml-1 text-muted"></i> سال انتشار:</span>
-                            <span class="spec-value">@Model.Year</span>
+                            <span class="spec-value" style="font-family: 'Btraffic', 'IRANSans-Bold', Tahoma, sans-serif;">@Model.Year</span>
                         </div>
 
                         <!-- تعداد صفحات -->
                         <div class="spec-item">
                             <span class="spec-label"><i class="fa fa-file-text-o fa-fw ml-1 text-muted"></i> تعداد صفحات:</span>
-                            <span class="spec-value">@Model.PageCount صفحه</span>
+                            <span class="spec-value" style="font-family: 'Btraffic', 'IRANSans-Bold', Tahoma, sans-serif;">@Model.PageCount صفحه</span>
                         </div>
 
                         @if (!string.IsNullOrWhiteSpace(Model.Shabak))

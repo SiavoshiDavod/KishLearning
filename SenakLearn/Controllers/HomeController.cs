@@ -164,15 +164,22 @@ namespace SenakLearn.Controllers
             }
             return View(dynamicForm);
         }
-        public ActionResult ShowAllClasses(int? groupId, int? teacherId, string keyword,int page=1)
+        public ActionResult ShowAllClasses(int? groupId, string groupName, int? teacherId, string name, string keyword, int page = 1)
         {
             ViewBag.groupId = groupId;
             ViewBag.teacherId = teacherId;
             ViewBag.keyword = keyword;
-            
-            Pagination<Book> model = new Pagination<Book>();
-            model.Data = BookBiz.Instance.GetAllBooks(i => (groupId == null || groupId == i.GroupId) && (string.IsNullOrEmpty(keyword) || i.Keyword.Contains(keyword)) );
-            model.CurrentPage = page;
+            LearnWrapper model = new LearnWrapper();
+
+            model.listOnlineClass = OnlineClassBiz.Instance.GetAllPage(
+     i => i.ClassType != SenakLearn.Enums.OnlineClassType.Archived
+       && (groupId == null || groupId == i.id_learn_cours_group)
+       && (teacherId == null || teacherId == i.id_learn_teacher)
+       && (string.IsNullOrEmpty(keyword) || i.name.Contains(keyword) || i.doc2.Contains(keyword)),
+     0, 50);
+
+            //model.Data = BookBiz.Instance.GetAllBooks(i => (groupId == null || groupId == i.GroupId) && (string.IsNullOrEmpty(keyword) || i.Keyword.Contains(keyword)));
+            model.listCourse = CourseBiz.Instance.FindAll(groupId, groupName, name, keyword, teacherId);
             return View(model);
         }
         public ActionResult joinUs()
@@ -378,6 +385,7 @@ namespace SenakLearn.Controllers
         //    HtmlString ret = new HtmlString(result);
         //    return ret;
         //}
+
         public ActionResult AllActiveSurvey()
         {
             return View();
@@ -386,24 +394,58 @@ namespace SenakLearn.Controllers
         {
             return View(Biz.SurveyEntityBiz.Instance.GetAllActivePrivateByUserId(Current_learn_userId));
         }
+
         public async Task<ActionResult> Survey(int? id)
         {
             if (id == null)
             {
                 return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
             }
-            SurveyEntity obl = await SurveyEntityBiz.Instance.GetIncludeQuestion(id.Value, HttpContext.Request.UserHostAddress, Current_learn_userId);
-            if (obl == null)
-            {
-                return HttpNotFound();
-            }
 
-            return View(obl);
+            try
+            {
+                // تلاش برای بارگذاری نظرسنجی و بررسی تاریخ‌ها / دسترسی‌ها
+                SurveyEntity obl = await SurveyEntityBiz.Instance.GetIncludeQuestion(id.Value, HttpContext.Request.UserHostAddress, Current_learn_userId);
+
+                if (obl == null)
+                {
+                    return HttpNotFound();
+                }
+
+                return View(obl);
+            }
+            catch (Exception ex)
+            {
+                if (ex.Message != null && (ex.Message.Contains("وارد شوید") || ex.Message.Contains("Login") ))
+                {
+                    return Redirect("/Users/Login?ReturnUrl=" + HttpContext.Request.RawUrl);
+                }
+
+                // ثبت پیام خطا در ViewBag برای نمایش به کاربر
+                SetViewBagErrorMessage(ex.Message);
+
+                //// تلاش برای ارسال حداقل اطلاعات نظرسنجی (عنوان) به ویو جهت ماندن در صفحه
+                //SurveyEntity fallbackObj = null;
+                //try
+                //{
+                //    // استفاده از متدی که تاریخ‌ها را چک نمی‌کند تا فقط اطلاعات پایه نظرسنجی برای نمایش عنوان در صفحه بماند
+                //    fallbackObj = await SurveyEntityBiz.Instance.GetIncludeQuestionAndAnswer(id.Value);
+                //}
+                //catch
+                //{
+                //    fallbackObj = new SurveyEntity { Id = id.Value, Name = "نظرسنجی" };
+                //}
+
+                // ماندن در خودِ ویوی Survey به همراه پیام خطا
+                return View("AllActiveSurvey");
+            }
         }
+
+
 
         [HttpPost]
         public async Task<ActionResult> Answer(List<SurveyAnswer> answers, System.Web.HttpPostedFileBase File)
-           {
+        {
             if (answers?.Count <= 0)
             {
                 //SetLog(e: new Exception("no answer was found"));
@@ -442,7 +484,7 @@ namespace SenakLearn.Controllers
             try
             {
 
-                result= await SurveyAnswerBiz.Instance.CheckRequiredQuestion(answers);
+                result = await SurveyAnswerBiz.Instance.CheckRequiredQuestion(answers);
 
                 return Json(new { status = true, result = result }, JsonRequestBehavior.AllowGet);
 
@@ -468,51 +510,60 @@ namespace SenakLearn.Controllers
         }
         public ActionResult Azmoon(int? id)
         {
-            if (id == null)
+            if (!id.HasValue)
             {
                 return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
             }
             try
             {
-                AzmoonEntity obl =  AzmoonEntityBiz.Instance.GetIncludeQuestion(id.Value, HttpContext.Request.UserHostAddress, Current_learn_userId);
-                if (obl.Status == false)
+                AzmoonEntity obl = AzmoonEntityBiz.Instance.GetIncludeQuestion(id.Value, HttpContext.Request.UserHostAddress, Current_learn_userId);
+                if (obl == null)
+                {
+                    return HttpNotFound();
+                }
+                if (!obl.Status)
                 {
 
                     //return new HttpStatusCodeResult(HttpStatusCode.BadRequest, "آزمون غیر فعال است !");
-                  
+
                     SetViewBagErrorMessage("آزمون غیر فعال است !");
                     //return Json(new { error = "آزمون غیر فعال است !" }, JsonRequestBehavior.AllowGet);
-                    return View("index");
+                    return View("AllActiveAzmoon");
                 }
                 var now = DateTime.Now;
-                if (obl.FromDate!=null && obl.FromDate > now)
+                if (obl.FromDate != null && obl.FromDate > now)
                 {
                     SetViewBagErrorMessage("تاریخ و زمان شروع آزمون فرا نرسیده است  !");
-                    return View("index");
+                    return View("AllActiveAzmoon");
                 }
                 if (obl.ToDate != null && obl.ToDate < now)
                 {
 
                     SetViewBagErrorMessage("تاریخ و زمان آزمون پایان یافته است  !");
-                    return View("index");
+                    return View("AllActiveAzmoon");
                 }
-                if (obl.IsUserMustBeLogin)
-                {
-                    if (Current_learn_userId <= 0)
-                    {
-                        return RedirectToAction("login", "Users", new { ReturnUrl="/Home/Azmoon?id="+id });
-                    }
-                }
-                    if (obl == null)
-                {
-                    return HttpNotFound();
-                }
-                    obl.UserIdCurrent= Current_learn_userId;
+                //if (obl.IsUserMustBeLogin)
+                //{
+                //    if (Current_learn_userId <= 0)
+                //    {
+                //        return RedirectToAction("login", "Users", new { ReturnUrl = "/Home/Azmoon?id=" + id });
+                //    }
+                //}
+
+                obl.UserIdCurrent = Current_learn_userId;
                 return View(obl);
             }
-            catch (ExceptionHandel.LoginReqException)
+            catch (Exception ex)
             {
-                return Redirect("/Users/RegisterOrLogin?ReturnUrl=" + HttpContext.Request.RawUrl);
+                // اگر متن خطا مربوط به لاگین یا احراز هویت بود، ریدایرکت به صفحه ورود
+                if (ex.Message != null && (ex.Message.Contains("وارد شوید") || ex.Message.Contains("Login") || ex.Message.Contains("ثبت نام")))
+                {
+                    return Redirect("/Users/Login?ReturnUrl=" + HttpContext.Request.RawUrl);
+                }
+
+                // برای سایر خطاها (مثل قبلاً شرکت کرده‌اید یا دسترسی ندارید)، پیام را در ویو نمایش می‌دهیم
+                SetViewBagErrorMessage(ex.Message);
+                return View("AllActiveAzmoon");
             }
 
         }

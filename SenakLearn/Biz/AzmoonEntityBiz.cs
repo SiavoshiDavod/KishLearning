@@ -30,8 +30,8 @@ namespace SenakLearn.Biz
                 {
                     if (userId <= 0)
                     {
-                        //throw new ExceptionHandel.LoginReqException();
-                        throw new System.Exception(" برای شرکت در آزمون باید ابتدا وارد شوید !");
+                        throw new ExceptionHandel.LoginReqException();
+                        //throw new System.Exception(" برای شرکت در آزمون باید ابتدا وارد شوید !");
                     }
                     if (ctx.AzmoonUserAnswer.Any(x => x.AzmoonEntityId == id && userId > 0 && x.UserId == userId))
                     {

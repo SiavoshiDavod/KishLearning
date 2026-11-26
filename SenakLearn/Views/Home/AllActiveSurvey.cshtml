@@ -1,303 +1,49 @@
-﻿<section class="intro-title blue-bg">
-    <div class="container">
-        <div class="row">
-            <div class="col-md-12">
-                <div class="intro-content">
-                    <div class="intro-name">
-                        <h3 class="text-white">نظرسنجی</h3>
-                        <ul class="breadcrumb mt-1">
-                            <li class="breadcrumb-item"><a href="#">صفحه اصلی</a></li>
-                            <li class="breadcrumb-item text-white">نظرسنجی </li>
-                        </ul>
+﻿@{
+    Layout = "~/Views/Shared/_Layout.cshtml";
+    ViewBag.Title = "نظرسنجی‌های فعال و فرم‌های ارزیابی";
+    var activeSurveys = SenakLearn.Biz.SurveyEntityBiz.Instance.GetAllActive(x => x.Status);
+}
+
+<section class="py-12 bg-gray-50">
+    <div class="container mx-auto px-4 max-w-5xl">
+        <div class="text-center mb-10">
+            <h1 class="text-3xl font-titr text-gray-900 mb-2">فرم‌های نظرسنجی و ارزیابی کیفیت</h1>
+            <p class="text-sm text-gray-500">نظرات و بازخوردهای شما بالاترین ارزش را در توسعه خدمات کیش دارد</p>
+        </div>
+
+        <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+            @if (activeSurveys != null && activeSurveys.Any())
+            {
+                foreach (var item in activeSurveys)
+                {
+                    <div class="bg-white rounded-3xl border border-gray-100 p-6 shadow-sm hover:shadow-lg transition flex flex-col justify-between">
+                        <div class="flex items-start gap-4">
+                            <div class="w-14 h-14 rounded-2xl bg-blue-50 text-blue-600 flex items-center justify-center flex-shrink-0">
+                                <i class="fa fa-poll-h text-2xl"></i>
+                            </div>
+                            <div>
+                                <h3 class="font-titr text-lg text-gray-900 mb-1">@item.Name</h3>
+                                <p class="text-xs text-gray-500 leading-relaxed">@item.Title</p>
+                            </div>
+                        </div>
+
+                        <div class="pt-6 mt-6 border-t border-gray-100 flex items-center justify-between">
+                            <span class="text-xs text-emerald-600 bg-emerald-50 px-3 py-1 rounded-full font-bold">فرم فعال</span>
+                            <a href="/Home/Survey?Id=@item.Id" class="bg-blue-600 hover:bg-blue-700 text-white text-xs font-bold px-5 py-2.5 rounded-xl transition flex items-center gap-2">
+                                شروع نظرسنجی <i class="fa fa-arrow-left"></i>
+                            </a>
+                        </div>
                     </div>
-                    @*<div class="intro-img">
-                        <img class="img-fluid" src="~/lib/SeoHub/images/breadcrumb/01.png" alt="#">
-                    </div>*@
+                }
+            }
+            else
+            {
+                <div class="col-span-full text-center py-16 text-gray-400">
+                    <i class="fa fa-clipboard-check text-4xl mb-3"></i>
+                    <p>در حال حاضر هیچ فرم نظرسنجی فعالی وجود ندارد.</p>
                 </div>
-            </div>
+            }
         </div>
     </div>
 </section>
 
-<section class="shop grid page-section-ptb">
-    <div class="container">
-        <div class="row">
-            <div class="col-md-3 order-md-2">
-                <div class="sidebar-widgets-wrap mt-0">
-                    <div class="sidebar-widget">
-                        <h5>جستجو</h5>
-                        <div class="widget-search">
-                            <i class="fa fa-search"></i>
-                            <input type="search" class="form-control placeholder" placeholder="جستجو . . .">
-                        </div>
-                    </div>
-                    <div class="sidebar-widget">
-                        <h5>دسته بندی ها</h5>
-                        <div class="widget-link">
-                            <ul>
-                                @foreach (var item in SenakLearn.Biz.GroupSurveyBiz.Instance.DropDown())
-                                {
-                                    <li> <a href="#"> <i class="fa fa-angle-double-left"></i> @item.Text</a></li>
-                                }
-                            </ul>
-                        </div>
-                    </div>
-                    <div class="sidebar-widget">
-                        <h5>محبوب ترین ها</h5>
-                        @foreach (var item in SenakLearn.Biz.SurveyEntityBiz.Instance.GetAllActive(x => x.IsFavorite))
-                        {
-                            <div class="recent-item clearfix">
-                                <div class="recent-image">
-                                    <a href="/Home/Survey?Id=@item.Id"><img class="img-fluid" src="~/images/Survey/@item.SurveyImageUrl" alt="@item.Description"></a>
-                                </div>
-                                <div class="recent-info">
-                                    <div class="recent-title">
-                                        <a href="/Home/Survey?Id=@item.Id">@item.Name</a>
-                                    </div>
-                                    <div class="recent-meta">
-                                        <ul class="list-style-unstyled">
-                                            <li class="color">@item.Title</li>
-                                            @*<li><i class="icon-star3"></i> <i class="fa fa-star"></i> <i class="fa fa-star"></i> <i class="fa fa-star"></i> <i class="fa fa-star-half-o"></i><i class="fa fa-star-o"></i></li>*@
-                                        </ul>
-                                    </div>
-                                </div>
-                            </div>
-                        }
-                        @*<div class="recent-item clearfix">
-                                <div class="recent-image">
-                                    <a href="shop-single.html"><img class="img-fluid" src="~/lib/SeoHub/images/shop/01.jpg" alt=""></a>
-                                </div>
-                                <div class="recent-info">
-                                    <div class="recent-title">
-                                        <a href="shop-single.html">لورم ایپسوم</a>
-                                    </div>
-                                    <div class="recent-meta">
-                                        <ul class="list-style-unstyled">
-                                            <li class="color">30 ه ت /</li>
-                                            <li><i class="icon-star3"></i> <i class="fa fa-star"></i> <i class="fa fa-star"></i> <i class="fa fa-star"></i> <i class="fa fa-star-half-o"></i><i class="fa fa-star-o"></i></li>
-                                        </ul>
-                                    </div>
-                                </div>
-                            </div>
-                            <div class="recent-item clearfix">
-                                <div class="recent-image">
-                                    <a href="shop-single.html"><img class="img-fluid" src="~/lib/SeoHub/images/shop/02.jpg" alt=""></a>
-                                </div>
-                                <div class="recent-info">
-                                    <div class="recent-title">
-                                        <a href="shop-single.html">لورم ایپسوم</a>
-                                    </div>
-                                    <div class="recent-meta">
-                                        <ul class="list-style-unstyled">
-                                            <li class="color">30 ه ت /</li>
-                                            <li><i class="icon-star3"></i> <i class="fa fa-star"></i> <i class="fa fa-star"></i> <i class="fa fa-star"></i> <i class="fa fa-star-half-o"></i><i class="fa fa-star-o"></i></li>
-                                        </ul>
-                                    </div>
-                                </div>
-                            </div>
-                            <div class="recent-item clearfix">
-                                <div class="recent-image">
-                                    <a href="shop-single.html"><img class="img-fluid" src="~/lib/SeoHub/images/shop/03.jpg" alt=""></a>
-                                </div>
-                                <div class="recent-info">
-                                    <div class="recent-title">
-                                        <a href="shop-single.html">لورم ایپسوم</a>
-                                    </div>
-                                    <div class="recent-meta">
-                                        <ul class="list-style-unstyled">
-                                            <li class="color">30 ه ت /</li>
-                                            <li><i class="icon-star3"></i> <i class="fa fa-star"></i> <i class="fa fa-star"></i> <i class="fa fa-star"></i> <i class="fa fa-star-half-o"></i><i class="fa fa-star-o"></i></li>
-                                        </ul>
-                                    </div>
-                                </div>
-                            </div>*@
-                    </div>
-                    @*<div class="sidebar-widget">
-                            <h5>آخرین محصولات با تخفیف</h5>
-                            <div class="recent-item clearfix">
-                                <div class="recent-image">
-                                    <a href="shop-single.html"><img class="img-fluid" src="~/lib/SeoHub/images/shop/04.jpg" alt=""></a>
-                                </div>
-                                <div class="recent-info">
-                                    <div class="recent-title">
-                                        <a href="shop-single.html">لورم ایپسوم</a>
-                                    </div>
-                                    <div class="recent-meta">
-                                        <ul class="list-style-unstyled">
-                                            <li class="color">30 ه ت /</li>
-                                            <li><i class="icon-star3"></i> <i class="fa fa-star"></i> <i class="fa fa-star"></i> <i class="fa fa-star"></i> <i class="fa fa-star-half-o"></i><i class="fa fa-star-o"></i></li>
-                                        </ul>
-                                    </div>
-                                </div>
-                            </div>
-                            <div class="recent-item clearfix">
-                                <div class="recent-image">
-                                    <a href="shop-single.html"><img class="img-fluid" src="~/lib/SeoHub/images/shop/05.jpg" alt=""></a>
-                                </div>
-                                <div class="recent-info">
-                                    <div class="recent-title">
-                                        <a href="shop-single.html">لورم ایپسوم</a>
-                                    </div>
-                                    <div class="recent-meta">
-                                        <ul class="list-style-unstyled">
-                                            <li class="color">30 ه ت /</li>
-                                            <li><i class="icon-star3"></i> <i class="fa fa-star"></i> <i class="fa fa-star"></i> <i class="fa fa-star"></i> <i class="fa fa-star-half-o"></i><i class="fa fa-star-o"></i></li>
-                                        </ul>
-                                    </div>
-                                </div>
-                            </div>
-                            <div class="recent-item clearfix">
-                                <div class="recent-image">
-                                    <a href="shop-single.html"><img class="img-fluid" src="~/lib/SeoHub/images/shop/06.jpg" alt=""></a>
-                                </div>
-                                <div class="recent-info">
-                                    <div class="recent-title">
-                                        <a href="shop-single.html">لورم ایپسوم</a>
-                                    </div>
-                                    <div class="recent-meta">
-                                        <ul class="list-style-unstyled">
-                                            <li class="color">30 ه ت /</li>
-                                            <li><i class="icon-star3"></i> <i class="fa fa-star"></i> <i class="fa fa-star"></i> <i class="fa fa-star"></i> <i class="fa fa-star-half-o"></i><i class="fa fa-star-o"></i></li>
-                                        </ul>
-                                    </div>
-                                </div>
-                            </div>
-                            <div class="recent-item clearfix">
-                                <div class="recent-image">
-                                    <a href="shop-single.html"><img class="img-fluid" src="~/lib/SeoHub/images/shop/07.jpg" alt=""></a>
-                                </div>
-                                <div class="recent-info">
-                                    <div class="recent-title">
-                                        <a href="shop-single.html">لورم ایپسوم</a>
-                                    </div>
-                                    <div class="recent-meta">
-                                        <ul class="list-style-unstyled">
-                                            <li class="color">30 ه ت /</li>
-                                            <li><i class="icon-star3"></i> <i class="fa fa-star"></i> <i class="fa fa-star"></i> <i class="fa fa-star"></i> <i class="fa fa-star-half-o"></i><i class="fa fa-star-o"></i></li>
-                                        </ul>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-                        <div class="sidebar-widget mb-0">
-                            <h5>محصولات محبوب</h5>
-                            <div class="recent-item clearfix">
-                                <div class="recent-image">
-                                    <a href="shop-single.html"><img class="img-fluid" src="~/lib/SeoHub/images/shop/08.jpg" alt=""></a>
-                                </div>
-                                <div class="recent-info">
-                                    <div class="recent-title">
-                                        <a href="shop-single.html">لورم ایپسوم</a>
-                                    </div>
-                                    <div class="recent-meta">
-                                        <ul class="list-style-unstyled">
-                                            <li class="color">30 ه ت /</li>
-                                            <li><i class="icon-star3"></i> <i class="fa fa-star"></i> <i class="fa fa-star"></i> <i class="fa fa-star"></i> <i class="fa fa-star-half-o"></i><i class="fa fa-star-o"></i></li>
-                                        </ul>
-                                    </div>
-                                </div>
-                            </div>
-                            <div class="recent-item clearfix">
-                                <div class="recent-image">
-                                    <a href="shop-single.html"><img class="img-fluid" src="~/lib/SeoHub/images/shop/01.jpg" alt=""></a>
-                                </div>
-                                <div class="recent-info">
-                                    <div class="recent-title">
-                                        <a href="shop-single.html">لورم ایپسوم</a>
-                                    </div>
-                                    <div class="recent-meta">
-                                        <ul class="list-style-unstyled">
-                                            <li class="color">30 ه ت /</li>
-                                            <li><i class="icon-star3"></i> <i class="fa fa-star"></i> <i class="fa fa-star"></i> <i class="fa fa-star"></i> <i class="fa fa-star-half-o"></i><i class="fa fa-star-o"></i></li>
-                                        </ul>
-                                    </div>
-                                </div>
-                            </div>
-                            <div class="recent-item clearfix">
-                                <div class="recent-image">
-                                    <a href="shop-single.html"><img class="img-fluid" src="~/lib/SeoHub/images/shop/02.jpg" alt=""></a>
-                                </div>
-                                <div class="recent-info">
-                                    <div class="recent-title">
-                                        <a href="shop-single.html">لورم ایپسوم</a>
-                                    </div>
-                                    <div class="recent-meta">
-                                        <ul class="list-style-unstyled">
-                                            <li class="color">30 ه ت /</li>
-                                            <li><i class="icon-star3"></i> <i class="fa fa-star"></i> <i class="fa fa-star"></i> <i class="fa fa-star"></i> <i class="fa fa-star-half-o"></i><i class="fa fa-star-o"></i></li>
-                                        </ul>
-                                    </div>
-                                </div>
-                            </div>
-                            <div class="recent-item clearfix">
-                                <div class="recent-image">
-                                    <a href="shop-single.html"><img class="img-fluid" src="~/lib/SeoHub/images/shop/03.jpg" alt=""></a>
-                                </div>
-                                <div class="recent-info">
-                                    <div class="recent-title">
-                                        <a href="shop-single.html">لورم ایپسوم</a>
-                                    </div>
-                                    <div class="recent-meta">
-                                        <ul class="list-style-unstyled">
-                                            <li class="color">30 ه ت /</li>
-                                            <li><i class="icon-star3"></i> <i class="fa fa-star"></i> <i class="fa fa-star"></i> <i class="fa fa-star"></i> <i class="fa fa-star-half-o"></i><i class="fa fa-star-o"></i></li>
-                                        </ul>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>*@
-                </div>
-            </div>
-            <div class="col-md-9 mt-md-0 mt-3">
-                <div class="row">
-                    @foreach (var item in SenakLearn.Biz.SurveyEntityBiz.Instance.GetAllActive(x => x.Status))
-                    {
-                        <div class="col-md-4">
-                            <div class="product text-center mb-4">
-                                <div class="product-image">
-                                    <img class="img-fluid center-block" src="~/images/Survey/@item.SurveyImageUrl" alt="@item.Title">
-                                    <div class="product-overlay">
-                                        <div class="add-to-cart">
-                                            <a href="/Home/Survey?Id=@item.Id">شروع کنید</a>
-                                        </div>
-                                    </div>
-                                </div>
-                                <div class="product-des">
-                                    <div class="product-title">
-                                        <a href="/Home/Survey?Id=@item.Id"><span>@item.Name</span><br /><span>@item.Title</span></a>
-                                    </div>
-                                    <div class="product-price">
-                                        @if (item.FromDate.HasValue)
-                                        {
-                                            <div style="text-align:right">  <span>شروع :</span><span>@item.FromDate.Value.ToPersianDateTime()</span></div>
-                                        }
-                                        @if (item.ToDate.HasValue)
-                                        {
-                                            <div  style="text-align:right">  <span>پایان :</span><span>@item.ToDate.Value.ToPersianDateTime()</span></div>
-                                        }
-                                    </div>
-                                    <div class="product-price" style="text-align:right">
-                                        @item.Description
-                                    </div>
-                                    @*<div class="product-rating">
-                                            <i class="fa fa-star"></i>
-                                            <i class="fa fa-star"></i>
-                                            <i class="fa fa-star"></i>
-                                            <i class="fa fa-star-half-o"></i>
-                                            <i class="fa fa-star-o"></i>
-                                        </div>
-                                        <div class="product-price">
-                                            <del>26 ه ت</del> <ins>13 ه ت</ins>
-                                        </div>*@
-                                </div>
-                            </div>
-                        </div>
-
-                    }
-
-                </div>
-            </div>
-
-        </div>
-    </div>
-</section>

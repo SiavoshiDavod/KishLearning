@@ -29,7 +29,8 @@ namespace SenakLearn.Biz
                 {
                     if (userId <= 0)
                     {
-                        throw new System.Exception(" لطفا ابتدا در سیستم لاگین کنید");
+                        throw new ExceptionHandel.LoginReqException();
+                        //throw new System.Exception(" لطفا ابتدا در سیستم لاگین کنید");
                     }
                     if (await ctx.SurveyUserAnswer.AnyAsync(x => x.SurveyEntityId == id && x.UserId == userId))
                     {

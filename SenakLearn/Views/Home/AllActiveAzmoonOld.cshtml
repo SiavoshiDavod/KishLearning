@@ -1,0 +1,119 @@
+﻿@{ 
+    SenakLearn.Models.AzmoonEntityType? azmoonEntityType =(SenakLearn.Models.AzmoonEntityType?) ViewBag.azmoonEntityType;
+}
+<section class="intro-title blue-bg">
+    <div class="container">
+        <div class="row">
+            <div class="col-md-12">
+                <div class="intro-content">
+                    <div class="intro-name">
+                        <h3 class="text-white">آزمون</h3>
+                        <ul class="breadcrumb mt-1">
+                            <li class="breadcrumb-item"><a href="#">صفحه اصلی</a></li>
+                            <li class="breadcrumb-item text-white">آزمون </li>
+                        </ul>
+                    </div>
+                    @*<div class="intro-img">
+                        <img class="img-fluid" src="~/lib/SeoHub/images/breadcrumb/01.png" alt="#">
+                    </div>*@
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+
+<section class="shop grid page-section-ptb">
+    <div class="container">
+        <div class="row">
+            <div class="col-md-3 order-md-2">
+                <div class="sidebar-widgets-wrap mt-0">
+                    <div class="sidebar-widget">
+                        <h5>جستجو</h5>
+                        <div class="widget-search">
+                            <i class="fa fa-search"></i>
+                            <input type="search" class="form-control placeholder" placeholder="جستجو . . .">
+                        </div>
+                    </div>
+                    <div class="sidebar-widget">
+                        <h5>دسته بندی ها</h5>
+                        <div class="widget-link">
+                            <ul>
+                                @foreach (var item in SenakLearn.Biz.GroupAzmoonBiz.Instance.DropDown())
+                                {
+                                    <li> <a href="#"> <i class="fa fa-angle-double-left"></i> @item.Text</a></li>
+                                }
+                            </ul>
+                        </div>
+                    </div>
+                    <div class="sidebar-widget">
+                        <h5>محبوب ترین آزمون ها</h5>
+@foreach (var item in SenakLearn.Biz.AzmoonEntityBiz.Instance.GetAllActive(azmoonEntityType,x => x.IsFavorite))
+{
+    <div class="recent-item clearfix">
+        <div class="recent-image">
+            <a href="/Home/Azmoon?Id=@item.Id"><img class="img-fluid" src="~/images/Azmoon/@item.AzmoonImageUrl" alt="@item.Description"></a>
+        </div>
+        <div class="recent-info">
+            <div class="recent-title">
+                <a href="/Home/Azmoon?Id=@item.Id">@item.Name</a>
+            </div>
+            <div class="recent-meta">
+                <ul class="list-style-unstyled">
+                    <li class="color">@item.Title</li>
+                    @*<li><i class="icon-star3"></i> <i class="fa fa-star"></i> <i class="fa fa-star"></i> <i class="fa fa-star"></i> <i class="fa fa-star-half-o"></i><i class="fa fa-star-o"></i></li>*@
+                </ul>
+            </div>
+        </div>
+    </div>
+}
+                        
+                    </div>
+                
+                </div>
+            </div>
+            <div class="col-md-9 mt-md-0 mt-3">
+                <div class="row">
+                    @foreach (var item in SenakLearn.Biz.AzmoonEntityBiz.Instance.GetAllActive(azmoonEntityType,x=>x.Status))
+                    { 
+                        <div class="col-md-4">
+                        <div class="product text-center mb-4">
+                            <div class="product-image">
+                                <img class="img-fluid center-block" src="~/images/Azmoon/@item.AzmoonImageUrl" alt="@item.Title">
+                                <div class="product-overlay">
+                                    <div class="add-to-cart">
+                                        <a href="/Home/Azmoon?Id=@item.Id">شرکت در آزمون</a>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="product-des">
+                                <div class="product-title">
+                                    <a href="/Home/Azmoon?Id=@item.Id">@item.Name</a>
+                                </div>
+                                <div class="product-title">
+                                    <a href="/Home/Azmoon?Id=@item.Id">@item.Title</a>
+                                </div>
+                                <div class="product-price">
+                                    @item.Description
+                                </div>
+                                @*<div class="product-rating">
+                                    <i class="fa fa-star"></i>
+                                    <i class="fa fa-star"></i>
+                                    <i class="fa fa-star"></i>
+                                    <i class="fa fa-star-half-o"></i>
+                                    <i class="fa fa-star-o"></i>
+                                </div>
+                                <div class="product-price">
+                                    <del>26 ه ت</del> <ins>13 ه ت</ins>
+                                </div>*@
+                            </div>
+                        </div>
+                    </div>
+
+                    }
+                   
+                </div>
+            </div>
+
+        </div>
+    </div>
+</section>

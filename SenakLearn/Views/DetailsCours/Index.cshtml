@@ -1,21 +1,33 @@
 ﻿@model SenakLearn.Models.learn_cours
 @{
     Layout = "~/Views/Shared/_Layout.cshtml";
-    ViewBag.Title = "دوره " + Model.name;
+    ViewBag.Title = (Model.TypeCours == 2 ? "پادکست " : "دوره ") + Model.name;
     string onclick = "SwalErrorMessage('جهت نمایش و دانلود فیلم ، لطفا این کلاس را خریداری نمایید')";
     bool buy = (bool?)ViewBag.Buy ?? false;
     SiteSetting.SiteSetting setting = (SiteSetting.SiteSetting)ViewBag.SiteSetting;
 }
-<div id="course-single" class="page">
-    <div class="page-heading text-center">
-        <div class="container">
-            <h2>@Model.name</h2>
-            <p class="breadcrumbs"> <a href="#">خانه</a> <i class="zmdi zmdi-chevron-left"></i> <a href="#">@(Model.TypeCours==2?"پادکست":"دوره") ها</a> <i class="zmdi zmdi-chevron-left"></i> <a href="#">@Model.learn_cours_group.name</a> <i class="zmdi zmdi-chevron-left"></i> <span>@Model.name</span> </p>
-        </div>
-    </div>
-    <div class="container">
-        <div class="row">
-            <div class="col-md-9 float-right">
+
+<div class="bg-gray-50 py-8">
+    <div class="container mx-auto px-4">
+
+        <!-- ناوبری متنی تمیز -->
+        <nav class="flex flex-wrap items-center gap-1.5 text-sm text-gray-500 mb-6">
+            <a href="/" class="hover:text-brand-600 transition">خانه</a>
+            <i class="fa fa-angle-left text-gray-300 text-xs"></i>
+            <a href="@Url.Action("ShowAllClasses", "Home")" class="hover:text-brand-600 transition">@(Model.TypeCours == 2 ? "پادکست‌" : "دوره‌")ها</a>
+            <i class="fa fa-angle-left text-gray-300 text-xs"></i>
+            <a href="#" class="hover:text-brand-600 transition">@(Model.learn_cours_group != null ? Model.learn_cours_group.name : "")</a>
+            <i class="fa fa-angle-left text-gray-300 text-xs"></i>
+            <span class="text-brand-700 font-medium">@Model.name</span>
+        </nav>
+
+        <!-- چیدمان اصلی: محتوا (مقیاس بزرگ) + سایدبار -->
+        <div class="flex flex-col lg:flex-row gap-8">
+
+            <!-- ستون اصلی محتوا -->
+            <div class="flex-1 min-w-0">
+
+                <!-- پخش‌کننده پیش‌نمایش -->
                 @{
                     var filePrevivew = setting.DefaultVideoUrl;
                     if (Model.InterviewPathVideo != null && Model.InterviewPathVideo != Guid.Empty)
@@ -23,182 +35,284 @@
                         filePrevivew = "/images/VideoFile/" + Model.InterviewPathVideo.ToString().Replace("-", "") + ".mp4";
                     }
                 }
-                <div id="offlineClassDetailsDiv">
-                    @Html.Partial("~/Views/Shared/_PartialVideo.cshtml", filePrevivew);
+                <div id="offlineClassDetailsDiv" class="bg-black rounded-2xl overflow-hidden shadow-xl">
+                    @Html.Partial("~/Views/Shared/_PartialVideo.cshtml", filePrevivew)
                 </div>
 
-                @*<img src="/assets/img/test.jpg" alt="Course" class="resp-img course-preview">*@
-                <h3>@Model.name</h3>
-                <p class="class-details">
-                    <span class="lessons"><i class="zmdi zmdi-assignment"></i>@Model.OfflineVideo.Count جلسه</span> <span class="duration"><i class="zmdi zmdi-time"></i>@Model.time ساعت</span> <span class="views">
-                        <i class="zmdi zmdi-eye"></i>@*2562 نمایش*@
-                    </span>
-                    <span class="tag"><i class="zmdi zmdi-label"></i>@Model.learn_cours_group.name</span>
-                </p>
-                <h4>جزئیات @(Model.TypeCours==2?"پادکست":"دوره")</h4>
-                <p class="abs">@Model.doc</p>
-                <h5>چه چیزی داخل این @(Model.TypeCours==2?"پادکست":"دوره") می آموزید؟</h5>
-                <div class="includes">
-                    @Html.Raw(Model.doc2)
-                </div>
-                <h4>محتوای @(Model.TypeCours==2?"پادکست":"دوره")</h4>
+                <!-- عنوان و اطلاعات دوره -->
+                <div class="mt-6">
+                    <h1 class="text-2xl md:text-3xl font-heading font-extrabold text-gray-900">@Model.name</h1>
 
-                <div class="tab-content">
-                    <div role="tabpanel" class="tab-pane active show" id="all-faqs">
-                        <div class="accordion">
-                            @{
-                                string a = "acd-active";
-                                string d = "block";
-                                int count = 1;
-                                foreach (var item in Model.OfflineVideo.Where(x => x.ParentId == null).OrderBy(x => x.Order))
+                    <div class="flex flex-wrap items-center gap-4 mt-3 text-sm text-gray-600">
+                        <span class="flex items-center gap-1.5">
+                            <i class="fa fa-sliders text-brand-600"></i>
+                            @Model.OfflineVideo.Count جلسه
+                        </span>
+                        <span class="flex items-center gap-1.5">
+                            <i class="fa fa-clock-o text-brand-600"></i>
+                            @Model.time ساعت
+                        </span>
+                        <span class="flex items-center gap-1.5">
+                            <i class="fa fa-tag text-brand-600"></i>
+                            @(Model.learn_cours_group != null ? Model.learn_cours_group.name : "")
+                        </span>
+                    </div>
+                </div>
+
+                <!-- جزئیات دوره -->
+                <div class="mt-8">
+                    <h2 class="text-xl font-heading font-extrabold text-gray-900 border-r-4 border-brand-600 pr-3 mb-4">جزئیات @(Model.TypeCours == 2 ? "پادکست" : "دوره")</h2>
+                    <p class="text-gray-700 leading-8">@Model.doc</p>
+                </div>
+
+                <!-- چه چیزی می‌آموزید -->
+                <div class="mt-8">
+                    <h2 class="text-xl font-heading font-extrabold text-gray-900 border-r-4 border-brand-600 pr-3 mb-4">چه چیزی داخل این @(Model.TypeCours == 2 ? "پادکست" : "دوره") می‌آموزید؟</h2>
+                    <div class="text-gray-700 leading-8 [&_ul]:list-disc [&_ul]:pr-5 [&_li]:mb-1">
+                        @Html.Raw(Model.doc2)
+                    </div>
+                </div>
+
+                <!-- محتوای دوره / سرفصل‌ها -->
+                <div class="mt-8">
+                    <h2 class="text-xl font-heading font-extrabold text-gray-900 border-r-4 border-brand-600 pr-3 mb-4">محتوای @(Model.TypeCours == 2 ? "پادکست" : "دوره")</h2>
+
+                    <div class="space-y-3">
+                        @{
+                            string a = "bg-white shadow-sm border-gray-200";
+                            string d = "block";
+                            int count = 1;
+                            foreach (var item in Model.OfflineVideo.Where(x => x.ParentId == null).OrderBy(x => x.Order))
+                            {
+                                if (item.IsFree || buy)
                                 {
-                                    if (item.IsFree || buy)
-                                    {
-                                        onclick = "<div style='display:inline' ><span style='padding:0!important' class='fa fa-film button' title='برای نمایش فیلم کلیک کنید ' onclick='return ShowVideoStudentSupport(\"" + item.Id + "\");' ></span><span style='padding:0!important' class='fa fa-cloud-download button' title='برای دانلود فیلم کلیک کنید'   onclick='return downloadVideoFileGet(" + item.Id + ")' ></span></div>";
-                                    }
-                                    else
-                                    {
-                                        onclick = "<div style='display:inline' class='button' style='padding:0!important' title='برای نمایش فیلم خرید نمایید'  ><span>(خرید)</span></div>";
-                                    }
-                                    <div class="acd-group  text-black @a">
-                                        <a href="#" class="acd-heading text-black"><i class="fa fa-video-camera" aria-hidden="true"></i>@count: @item.Description @Html.Raw(onclick) </a>
-                                        <div class="acd-des text-gray" style="display: @d;">
-                                            <div class="option-wrapper">
-                                                <ul class="option-items">
+                                    onclick = "<div style='display:inline-flex;align-items:center;gap:6px'><span class='text-brand-600 hover:text-brand-700 cursor-pointer text-base' title='برای نمایش فیلم کلیک کنید' onclick='return ShowVideoStudentSupport(\"" + item.Id + "\");'><i class='fa fa-play-circle'></i></span><span class='text-gray-500 hover:text-gray-700 cursor-pointer text-base' title='برای دانلود فیلم کلیک کنید' onclick='return downloadVideoFileGet(" + item.Id + ")'><i class='fa fa-cloud-download'></i></span></div>";
+                                }
+                                else
+                                {
+                                    onclick = "<div style='display:inline' class='text-gray-400 text-xs font-medium' title='برای نمایش فیلم خرید نمایید'><span>خرید</span></div>";
+                                }
 
-                                                    @foreach (var Subitem in Model.OfflineVideo.Where(x => x.ParentId == item.Id).OrderBy(x => x.Order))
-                                                    {
-                                                        if (Subitem.IsFree || buy)
-                                                        {
-                                                            onclick = "<a style='cursor: pointer;padding:1px 5px!important;margin:1px 5px!important' class='fa fa-film button' title='برای نمایش فیلم کلیک کنید' onclick='return ShowVideoStudentSupport(\"" + Subitem.Id + "\");' ><span></span></a><a style='cursor: pointer;padding:1px 5px!important;margin:1px 5px!important' class='fa fa-cloud-download button' title='برای دانلود فیلم کلیک کنید'   onclick='return downloadVideoFileGet( " + Subitem.Id + ")'  ><span></span></a>";
-                                                        }
-                                                        else
-                                                        {
-                                                            onclick = "<a style='cursor: pointer;padding:1px 5px!important;margin:1px 5px!important' class='button' title='برای نمایش فیلم خرید نمایید' ; ><span>خرید</span></a>";
-                                                        }
-                                                        <li class="option-item">
-                                                            <div class="pull-right"> @Subitem.Description</div>
-                                                            @*<span>@Subitem.Description</span>*@ @Html.Raw(onclick)
-                                                        </li>
-                                                    }
-                                                </ul>
-                                            </div>
+                                <div class="rounded-xl border overflow-hidden @a">
+                                    <div class="acd-heading flex items-center justify-between gap-3 cursor-pointer p-4 hover:bg-gray-50 transition select-none" onclick="this.parentElement.querySelector('.acd-des').style.display = this.parentElement.querySelector('.acd-des').style.display === 'none' ? 'block' : 'none'">
+                                        <div class="flex items-center gap-2 text-sm font-semibold text-gray-800">
+                                            <i class="fa fa-video-camera text-brand-600"></i>
+                                            <span>@count: @item.Description</span>
                                         </div>
+                                        <div class="flex items-center gap-2">@Html.Raw(onclick)</div>
                                     </div>
-                                    a = "";
-                                    d = "none";
-                                    count++;
+                                    <div class="acd-des border-t border-gray-100 bg-gray-50/50" style="display: @d;">
+                                        <ul class="divide-y divide-gray-100">
+                                            @foreach (var Subitem in Model.OfflineVideo.Where(x => x.ParentId == item.Id).OrderBy(x => x.Order))
+                                            {
+                                                if (Subitem.IsFree || buy)
+                                                {
+                                                    onclick = "<a style='cursor:pointer;display:inline-flex;align-items:center;justify-content:center;width:30px;height:30px;padding:0;margin:2px' class='rounded-lg text-brand-600 hover:bg-brand-50 hover:text-brand-700 transition' title='برای نمایش فیلم کلیک کنید' onclick='return ShowVideoStudentSupport(\"" + Subitem.Id + "\");'><i class='fa fa-play-circle'></i></a><a style='cursor:pointer;display:inline-flex;align-items:center;justify-content:center;width:30px;height:30px;padding:0;margin:2px' class='rounded-lg text-gray-500 hover:bg-gray-100 hover:text-gray-700 transition' title='برای دانلود فیلم کلیک کنید' onclick='return downloadVideoFileGet(" + Subitem.Id + ")'><i class='fa fa-cloud-download'></i></a>";
+                                                }
+                                                else
+                                                {
+                                                    onclick = "<a style='cursor:pointer;display:inline-flex;align-items:center;padding:4px 10px;margin:2px' class='rounded-full bg-gray-100 text-gray-500 text-xs font-medium' title='برای نمایش فیلم خرید نمایید'><span>خرید</span></a>";
+                                                }
+                                                <li class="option-item flex items-center justify-between gap-3 px-4 py-3 text-sm text-gray-700">
+                                                    <div class="flex-1">@Subitem.Description</div>
+                                                    <div class="flex items-center gap-1 flex-shrink-0">@Html.Raw(onclick)</div>
+                                                </li>
+                                            }
+                                        </ul>
+                                    </div>
+                                </div>
+                                a = "bg-white shadow-sm border-gray-200";
+                                d = "none";
+                                count++;
+                            }
+                        }
+                    </div>
+                </div>
+
+                <!-- نظرات -->
+                <div class="mt-10">
+                    <h2 class="text-xl font-heading font-extrabold text-gray-900 border-r-4 border-brand-600 pr-3 mb-4">نظرات</h2>
+                    @Html.Action("ShowComments", "UserComment", new { id = Model.id, type = SenakLearn.Models.PageType.OfflineClass })
+                </div>
+
+                <!-- ارسال دیدگاه -->
+                <div class="mt-10">
+                    <h2 class="text-xl font-heading font-extrabold text-gray-900 border-r-4 border-brand-600 pr-3 mb-4">ارسال دیدگاه</h2>
+                    @Html.Action("ContactUs", "UserComment", new { id = Model.id, type = SenakLearn.Models.PageType.OfflineClass })
+                </div>
+            </div>
+
+            <!-- سایدبار -->
+            <aside class="w-full lg:w-80 xl:w-96 flex-shrink-0 space-y-6">
+
+                <!-- کارت خرید -->
+                @*<div class="bg-white rounded-2xl border border-gray-200 shadow-sm p-6 lg:sticky lg:top-24">
+
+
+                    @if (Model.Monetary == null || Model.Monetary == 0)
+                    {
+                        <div class="text-center py-4">
+                            <span class="inline-block bg-emerald-100 text-emerald-700 text-sm font-bold px-4 py-2 rounded-full">رایگان</span>
+                        </div>
+                        <a href="#" class="button block w-full text-center bg-brand-600 hover:bg-brand-700 text-white font-semibold py-3 px-4 rounded-xl transition">ثبت نام</a>
+                    }
+                    else
+                    {
+                        <div class="text-center">
+                            <p class="text-2xl font-extrabold text-gray-900">@Model.AmountFarsi<span class="text-sm font-medium text-gray-500 mr-1">ریال</span></p>
+                        </div>
+                        <a style="cursor:pointer" onclick="fn_FactorConstant(@Model.id,@(Model?.PriceAfterDiscount!=null?Model?.PriceAfterDiscount:Model.Monetary),@Model.Monetary,'@Model.name')" class="button block w-full text-center bg-brand-600 hover:bg-brand-700 text-white font-semibold py-3 px-4 rounded-xl transition mt-4">خرید و ثبت نام</a>
+                    }
+                </div>*@
+
+                <!-- درباره مدرس و امتیاز دوره  -->
+                <div class="bg-white rounded-2xl border border-gray-200 shadow-sm p-5">
+                    <div class="grid grid-cols-1 @(Model.learn_teacher != null ? "sm:grid-cols-2 divide-y sm:divide-y-0 sm:divide-x sm:divide-x-reverse divide-gray-100" : "") gap-5 items-center">
+
+                        @if (Model.learn_teacher != null)
+                        {
+                            <!-- ستون اول: درباره مدرس -->
+                            <div class="flex flex-col items-center text-center">
+                                <h4 class="font-heading font-bold text-gray-900 mb-3 flex items-center gap-1.5 text-xs sm:text-sm">
+                                    <i class="fa fa-user-circle text-brand-600"></i>
+                                    درباره مدرس
+                                </h4>
+                                <div class="w-16 h-16 rounded-full overflow-hidden border-2 border-brand-100 shadow-sm mb-2">
+                                    <img src="/images/teacher/@Model.learn_teacher.image"
+                                         alt="@Model.learn_teacher.FullName"
+                                         class="w-full h-full object-cover" />
+                                </div>
+                                <a href="/Home/TeacherCours/@Model.id_teacher" class="font-bold text-gray-900 hover:text-brand-600 transition text-sm">
+                                    @Model.learn_teacher.FullName
+                                </a>
+                                @if (!string.IsNullOrEmpty(Model.learn_teacher.education))
+                                {
+                                    <p class="text-xs text-gray-500 mt-1 line-clamp-1 leading-relaxed">
+                                        @Model.learn_teacher.education
+                                    </p>
+                                }
+                                <div class="mt-2 inline-flex items-center gap-1.5 bg-gray-50 text-gray-600 text-[11px] px-2.5 py-1 rounded-full border border-gray-100">
+                                    <i class="fa fa-graduation-cap text-brand-500"></i>
+                                    <span>@Model.learn_teacher.CourseCount دوره فعال</span>
+                                </div>
+                            </div>
+                        }
+
+                        <!-- ستون دوم: امتیاز دوره -->
+                        <div class="flex flex-col items-center justify-center text-center @(Model.learn_teacher != null ? "pt-4 sm:pt-0" : "")">
+                            <h4 class="font-heading font-bold text-gray-900 mb-3 text-xs sm:text-sm">امتیاز دوره</h4>
+                            @Html.Action("ShowRating", "StarRating", new { id = Model.id, type = SenakLearn.Models.PageType.OfflineClass })
+                        </div>
+
+                    </div>
+                </div>
+
+
+                <!-- محبوب ترین فیلم های آموزشی -->
+                <div class="bg-white rounded-2xl border border-gray-200 shadow-sm p-4 sm:p-5 w-full min-w-0 overflow-hidden">
+                    <div class="flex items-center justify-between pb-3 mb-3 border-b border-gray-100">
+                        <h5 class="font-heading font-bold text-gray-900 flex items-center gap-2 text-xs sm:text-sm">
+                            <i class="fa fa-star text-amber-500"></i>
+                            <span>محبوب‌ترین دوره‌های آموزشی</span>
+                        </h5>
+                        <!-- دکمه‌های ورق زدن اسلایدر -->
+                        <div class="flex items-center gap-1.5">
+                            <button type="button"
+                                    onclick="slideFavCourses('prev')"
+                                    aria-label="قبلی"
+                                    class="w-7 h-7 rounded-lg border border-gray-200 hover:border-brand-500 hover:text-brand-600 flex items-center justify-center text-gray-500 transition text-xs active:scale-95">
+                                <i class="fa fa-chevron-right"></i>
+                            </button>
+                            <button type="button"
+                                    onclick="slideFavCourses('next')"
+                                    aria-label="بعدی"
+                                    class="w-7 h-7 rounded-lg border border-gray-200 hover:border-brand-500 hover:text-brand-600 flex items-center justify-center text-gray-500 transition text-xs active:scale-95">
+                                <i class="fa fa-chevron-left"></i>
+                            </button>
+                        </div>
+                    </div>
+
+                    <!-- بدنه اسلایدر با کانتینر کنترل‌شده و ضد سرریز -->
+                    <div class="relative w-full overflow-hidden">
+                        <div id="favCoursesSlider" class="flex w-full overflow-x-hidden scroll-smooth snap-x snap-mandatory">
+                            @{
+                                // تعداد را روی 4 یا 5 می‌گذاریم؛ در هر لحظه در صفحه کوچک فقط 1 دوره فیت داخل باکس دیده می‌شود
+                                var listCourse = SenakLearn.Biz.CourseBiz.Instance.FindAll(x => x.id != Model.id && x.status && x.IsFavorite, 4);
+                                foreach (var item in listCourse)
+                                {
+                                    var img = "/images/cours/" + item.image;
+                                    if (string.IsNullOrEmpty(item.image))
+                                    {
+                                        img = "/images/logo.png";
+                                    }
+
+                                    <div class="w-full min-w-full flex-shrink-0 snap-center px-0.5 box-border">
+                                        <a href="/DetailsCours/Index?type=1&id=@item.id"
+                                           class="group block rounded-xl overflow-hidden border border-gray-200 bg-white hover:border-brand-400 hover:shadow-sm transition duration-300">
+
+                                            <!-- تصویر دوره با نسبت تمیز -->
+                                            <div class="relative aspect-video w-full overflow-hidden bg-gray-100">
+                                                <img src="@img"
+                                                     alt="@item.name"
+                                                     loading="lazy"
+                                                     class="w-full h-full object-cover group-hover:scale-105 transition duration-500" />
+                                                <span class="absolute top-2 right-2 bg-black/60 backdrop-blur-sm text-white text-[10px] font-medium px-2 py-0.5 rounded">
+                                                    ویژه
+                                                </span>
+                                            </div>
+
+                                            <!-- متن و مشخصات با خوانایی ۱۰۰٪ و فونت متناسب -->
+                                            <div class="p-3">
+                                                <h6 class="text-xs font-bold text-gray-800 group-hover:text-brand-600 transition leading-relaxed line-clamp-2 h-9">
+                                                    @item.name
+                                                </h6>
+                                                <div class="mt-2 pt-2 border-t border-gray-100 flex items-center justify-between text-[11px] text-gray-500">
+                                                    <span class="text-brand-600 font-medium">مشاهده دوره</span>
+                                                    <i class="fa fa-arrow-left text-[10px] text-brand-500 group-hover:-translate-x-1 transition duration-200"></i>
+                                                </div>
+                                            </div>
+                                        </a>
+                                    </div>
                                 }
                             }
                         </div>
                     </div>
                 </div>
 
-                <h4 class="comment">نظرات</h4>
-
-                @Html.Action("ShowComments", "UserComment", new { id = Model.id, type = SenakLearn.Models.PageType.OfflineClass })
-
-                <h4 class="comment">ارسال دیدگاه</h4>
-                @Html.Action("ContactUs", "UserComment", new { id = Model.id, type = SenakLearn.Models.PageType.OfflineClass })
-
-            </div>
-            <div class="col-md-3 float-left">
-                <div class="order text-center">
-                    @{var url = "/Zarinpal/PaymentRequest?amount=" + Model.Monetary + "&courseId=" + Model.id + "&Description=" + Model.name; }
-
-                    @if (Model.Monetary == null || Model.Monetary == 0)
-                    {
-                        <div>
-                            <p class="button border-black">رایگان</p>
-                        </div>
-                        <a href="@url" class="blueplay button ">ثبت نام</a>
-                    }
-                    else
-                    {
-                        <p class="button border-black">@Model.AmountFarsi<span>ریال</span></p>
-                        <p>
-                            <script src="https://www.zarinpal.com/webservice/TrustCode" type="text/javascript"></script>
-                        </p>
-                        <a style="cursor:pointer" onclick="fn_FactorConstant(@Model.id,@(Model?.PriceAfterDiscount!=null?Model?.PriceAfterDiscount:Model.Monetary),@Model.Monetary,'@Model.name')" class="blueplay button ">خرید و ثبت نام</a>
-                    }
-
-                </div>
-                @if (Model.learn_teacher != null)
-                {
-                    <div class="pros">
-                        <h4>درباره مدرس</h4>
-                        <div class="teacher text-center">
-                            <div class="imgcontainer">
-                                <img src="/images/teacher/@Model.learn_teacher.image" alt="@Model.learn_teacher.FullName" style="width:130px;height:130px">
-                                <div class="overlay">
-                                    <img src="/assets/img/profile.png" alt="Profile">
-                                    <p>@Model.learn_teacher.CourseCount دوره</p>
-                                </div>
-                            </div>
-                            <a href="/Home/TeacherCours/@Model.id_teacher">@Model.learn_teacher.FullName</a>
-                            <p>@Model.learn_teacher.education</p>
-                            @*<ul class="social">
-                                    <li><a href="#"><i class="zmdi zmdi-facebook"></i></a></li>
-                                    <li> <a href="#"><i class="zmdi zmdi-twitter"></i></a></li>
-                                    <li> <a href="#"><i class="zmdi zmdi-google-old"></i></a></li>
-                                    <li> <a href="#"><i class="zmdi zmdi-pinterest"></i></a></li>
-                                    <li> <a href="#"><i class="zmdi zmdi-email"></i></a></li>
-                                    <li> <a href="#"><i class="zmdi zmdi-globe-alt"></i></a></li>
-                                </ul>*@
-                        </div>
-                    </div>
-                }
-
-                <div class="ratings">
-                    <h4 class="center-block" style="text-align:center;padding:2px">امتیاز دوره</h4>
-                    @Html.Action("ShowRating", "StarRating", new { id = Model.id, type = SenakLearn.Models.PageType.OfflineClass })
-                </div>
-                <div style="padding:2px;"><h5 class="center-block" style="text-align:center;">محبوب ترین فیلم های آموزشی</h5></div>
-                <div class="owl-carousel" data-nav-dots="true" data-nav-arrow="false" data-items="1" data-sm-items="1" data-lg-items="1" data-md-items="1" data-autoplay="true">
+                <br />
+                <!-- لیست دسته‌بندی‌ها  -->
+                <div class="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-2">
                     @{
-                        var listCourse = SenakLearn.Biz.CourseBiz.Instance.FindAll(x => x.id != Model.id && x.status && x.IsFavorite, 3);
-                        foreach (var item in listCourse)
+                        // واکشی دسته‌بندی‌های فعال
+                        var listCategory = SenakLearn.Biz.CourseBiz.Instance.FindAllGroup(null, true, null, null, null);
+                        foreach (var cat in listCategory)
                         {
-                            var img = "/images/cours/" + item.image;
-                            if (string.IsNullOrEmpty(item.image))
-                            {
-                                img = "/images/logo.png";
-                            }
-                            <div class="item">
-                                <div class="">
-                                    <div class=" text-center " style="">
-                                        <img src="@img" style="z-index:-1;position:absolute;top:0;left:0;width:100%" />
-                                        <div style="text-shadow:2px 1px 2px white ">
-                                            <div style="" class="">
-                                                <a style="font-weight: bold;" href="/DetailsCours/Index?type=1&id=@item.id" class="testimonial-info">
-                                                    <br />
-                                                    <div style="min-width:100px;min-height:130px"></div>
-                                                    @*<h5 style="font-weight: bold;">@item.name</h5>
-                                                        <br />
-                                                        <p style="font-weight: bold;">@item.doc</p>*@
-                                                </a>
-                                            </div>
-                                        </div>
-                                    </div>
-                                </div>
+                            // محاسبه تعداد دوره‌های فعال این دسته‌بندی
+                            var courseCount = SenakLearn.Biz.CourseBiz.Instance.FindAll(x => x.id_group == cat.id && x.status).Count;
+
+                            <!-- کارت دسته‌بندی -->
+                            <div class="group flex flex-col items-center justify-between p-2 rounded-lg border border-gray-200 bg-white hover:border-brand-500 hover:bg-brand-50/40 hover:shadow-sm transition-all duration-200">
+
+
+                                <!-- نام دسته‌بندی ریز و متناسب با تم -->
+                                <span class="text-xs font-medium text-gray-600 group-hover:text-brand-500 leading-tight text-center line-clamp-2 min-h-[32px] flex items-center justify-center">
+                                    @cat.name
+                                </span>
+
+                                <!-- شمارنده دوره -->
+                                <span class="text-xs font-medium rounded bg-gray-100 group-hover:bg-brand-100 group-hover:text-brand-600 text-gray-500 font-normal transition-colors">
+                                    @courseCount دوره
+                                </span>
+
                             </div>
                         }
                     }
                 </div>
-                <div class="categories">
-                    <h6>دسته بندی ها</h6>
-                    <ul>
-                        @{
-                            var categorieslist = SenakLearn.Biz.CourseBiz.Instance.FindAllGroup(null, true, null, null, null);
-                            foreach (var item in categorieslist)
-                            {
-                                <li><a href="#">@item.name (@item.OfflineCount)</a></li>
-                            }
-                        }
 
-                    </ul>
-                </div>
-            </div>
+
+
+
+            </aside>
         </div>
     </div>
 </div>
@@ -207,30 +321,17 @@
 {
     <script>
         $(document).ready(function () {
-                    var promptUrl = '/Home/FetchVideo?videoId=' + '@Model.InterviewPathVideo';
+            var promptUrl = '/Home/FetchVideo?videoId=' + '@Model.InterviewPathVideo';
             var videoPlayer = $('.videoPreviewTag');
-        //debugger;
-        videoPlayer.attr({
-            'src': promptUrl,
-            'type': 'video/mp4',
-            'autoplay': 'autoplay',
-            'loop': 'loop',
-            'muted': 'muted',
-            'controls': 'controls',
-            'playsinline': 'playsinline'
-        });
-            //$('.videoPreviewTag').trigger('play');
-
-            //const $video = $('.videoPreviewTag');
-            //const handleKeyDown = (event) => {
-            //    e.preventDefault();
-            //    if (e.keyCode === 39) {
-            //        const seconds = $video.currentTime;
-            //        $video.currentTime = seconds + 10;
-            //    }
-            //}
-            ////debugger;
-            //$video[0].addEventListener('keydown', handleKeyDown);
+            videoPlayer.attr({
+                'src': promptUrl,
+                'type': 'video/mp4',
+                'autoplay': 'autoplay',
+                'loop': 'loop',
+                'muted': 'muted',
+                'controls': 'controls',
+                'playsinline': 'playsinline'
+            });
         });
         function downloadVideoFileGet(coursId) {
             var type = "@SenakLearn.Models.ObjCount.objType_Video";
@@ -240,7 +341,6 @@
         }
         var lockObj = false;
         function ShowVideoStudentSupport(id) {
-
             if (lockObj) {
                 setTimeout(function () {
                     ShowVideoStudentSupport(id);
@@ -248,43 +348,62 @@
                 return false;
             }
             countPreviewItemByClient('@SenakLearn.Models.ObjCount.objType_Video', id);
-            $.ajax(
-                {
-                    type: 'Get',
-                    //data: { Code:  },
-                    url: '/DetailsCours/ShowVideo?id=' + id,
-                    beforeSend: function () {
-                        lockObj = true;
-                    },
-                    success: function (result) {
-                        debugger;
-                        if (result != undefined && result != "" && result.id != undefined) {
-                            debugger;
-                            var src = '/Home/FetchVideo?videoId=' + result.id;
-                            $('#offlineClassDetailsDiv').find('.videoPreviewTag').attr('src', src);
-                            //$('#offlineClassDetailsDiv').html(result);
-                            //document.getElementById('offlineClassDetailsDiv').scrollIntoView();
-                        } else {
-                            SwalErrorMessage('جهت نمایش و دانلود فیلم ، لطفا این کلاس را خریداری نمایید');
-                        }
-                    },
-
-                    error: function (error) {
-                         lockObj = false;
-                        console.log(error);
-                    },
-                    complete: function () {
-                        lockObj = false;
-                    },
-                });
+            $.ajax({
+                type: 'Get',
+                url: '/DetailsCours/ShowVideo?id=' + id,
+                beforeSend: function () {
+                    lockObj = true;
+                },
+                success: function (result) {
+                    if (result != undefined && result != "" && result.id != undefined) {
+                        var src = '/Home/FetchVideo?videoId=' + result.id;
+                        $('#offlineClassDetailsDiv').find('.videoPreviewTag').attr('src', src);
+                    } else {
+                        SwalErrorMessage('جهت نمایش و دانلود فیلم ، لطفا این کلاس را خریداری نمایید');
+                    }
+                },
+                error: function (error) {
+                    lockObj = false;
+                    console.log(error);
+                },
+                complete: function () {
+                    lockObj = false;
+                },
+            });
             return false;
         }
-        function fn_FactorConstant(courseId, amount,amountMaster, descript) {
-            //debugger;
+        function fn_FactorConstant(courseId, amount, amountMaster, descript) {
             var url = '/Factor/Index?ServiceName=دوره آموزشی&IdForSale=' + courseId + '&Amount=' + amount + '&AmountMaster=' + amountMaster + '&Descript=' + descript;
             window.open(url, '_blank');
-
-
         }
+
+        function slideFavCourses(direction) {
+            var container = document.getElementById('favCoursesSlider');
+            if (!container) return;
+
+            // دقیقاً به اندازه عرض داخلی باکس در هر رزولوشن حرکت کند
+            var step = container.clientWidth;
+
+            if (direction === 'next') {
+                if (Math.abs(container.scrollLeft) + container.clientWidth >= container.scrollWidth - 5) {
+                    container.scrollTo({ left: 0, behavior: 'smooth' });
+                } else {
+                    container.scrollBy({ left: -step, behavior: 'smooth' });
+                }
+            } else {
+                if (Math.abs(container.scrollLeft) <= 5) {
+                    container.scrollTo({ left: -container.scrollWidth, behavior: 'smooth' });
+                } else {
+                    container.scrollBy({ left: step, behavior: 'smooth' });
+                }
+            }
+        }
+
+
+        // ورق خوردن خودکار هر 5 ثانیه
+        setInterval(function () {
+            slideFavCourses('next');
+        }, 5000);
+
     </script>
 }

@@ -1,638 +1,292 @@
 ﻿@{
-    SiteSetting.SiteSetting setting = (SiteSetting.SiteSetting)ViewBag.SiteSetting;
+    var setting = ViewBag.SiteSetting as SiteSetting.SiteSetting;
+    string siteName = setting != null ? setting.NameFa : "آموزش مجازی کیش";
+    string siteTel = setting != null ? setting.tel : "076-44444444";
+    string siteAddress = setting != null ? setting.Address : "جزیره کیش";
+    string siteEmail = setting != null ? setting.EmailInfo : "info@kishlearning.com";
 }
 <!DOCTYPE html>
-<html lang="en">
+<html lang="fa" dir="rtl">
 <head>
-    <meta charset="utf-8">
-    <meta http-equiv="X-UA-Compatible" content="IE=edge">
-    <meta name="viewport" content="width=device-width, initial-scale=1" />
-    <meta name="description" content="@setting.Description">
-    <meta name="keywords" content="@setting.Keywords">
-    <meta name='url' content='@setting.SiteUrl'>
-    <meta name="author" content="DavodSiavoshi,siavoshi.davod@gmail.com">
-    <title>@setting.NameFa</title>
-    <link rel="shortcut icon" href="@Url.Content("~/images/logo.png")">
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
 
-    <!-- Favicon -->
-    @*<link rel="shortcut icon" href="~/kishlearning724/images/02.png" />*@
+    <title>@(ViewBag.Title != null ? ViewBag.Title + " - " : "")@siteName</title>
+    <meta name="description" content="@ViewBag.Description" />
+    <meta name="keywords" content="@ViewBag.Keywords" />
+    <link rel="shortcut icon" href="@Url.Content("~/images/logo.png")" />
 
-    <!-- bootstrap -->
-    <link rel="stylesheet" type="text/css" href="~/kishlearning724/css/bootstrap.min.css" />
+    <!-- استایل محلی Tailwind -->
+    <link href="@Url.Content("~/Content/tailwind.min.css")" rel="stylesheet" />
 
-    <!-- mega menu -->
-    <link rel="stylesheet" type="text/css" href="~/kishlearning724/css/mega-menu/mega_menu.css" />
+    <!-- فونت‌آیکون‌ها و استایل‌های محلی پروژه -->
+    <link href="@Url.Content("~/kishlearning724/css/font-awesome.min.css")" rel="stylesheet" />
+    <link href="@Url.Content("~/Content/audioplayer.css")" rel="stylesheet" />
+    <link href="@Url.Content("~/Content/css/site-layout.css")" rel="stylesheet" />
 
-    <!-- font awesome -->
-    <link rel="stylesheet" type="text/css" href="~/kishlearning724/css/font-awesome.min.css" />
-
-    <!-- Themify icons -->
-    <link rel="stylesheet" type="text/css" href="~/kishlearning724/css/themify-icons.css" />
-
-    <!-- owl-carousel -->
-    <link rel="stylesheet" type="text/css" href="~/kishlearning724/css/owl-carousel/owl.carousel.css" />
-
-    <!-- magnific-popup -->
-    <link rel="stylesheet" type="text/css" href="~/kishlearning724/css/magnific-popup/magnific-popup.css" />
-
-    <!-- revolution -->
-    <link rel="stylesheet" type="text/css" href="~/kishlearning724/revolution/css/settings.css" />
-
-    <!-- main style -->
-    <link rel="stylesheet" type="text/css" href="~/kishlearning724/css/style.css" />
-
-    <!-- Responsive style -->
-    <link rel="stylesheet" type="text/css" href="~/kishlearning724/css/responsive.css" />
-    <link href="~/Content/audioplayer.css" rel="stylesheet" />
-    <style>
-        .page-heading {
-            margin-top: 30px;
-        }
-
-        .search-button {
-            display: none;
-        }
-    </style>
+    @RenderSection("styles", required: false)
 </head>
 
-<body class="rtl">
+<body class="bg-gray-50 text-gray-800 antialiased flex flex-col min-h-screen">
 
-    <!--=================================
-      loading -->
+    <!-- نوار اعلان و اطلاعات تماس بالای هدر -->
+    <div class="bg-brand-900 text-white text-xs py-2 px-4">
+        <div class="container mx-auto flex flex-col sm:flex-row justify-between items-center gap-2">
 
-    <div id="loading">
-        <div id="loading-center">
-            <img src="~/kishlearning724/images/loader.gif" alt="">
+            <!-- تماس: موبایل مخفی؛ در عرض 640px به بالا نمایش داده می‌شود -->
+            <div class="header-contact-info">
+                <span>
+                    <i class="fa fa-phone ml-1 text-brand-400" aria-hidden="true"></i>
+                    تلفن: @siteTel
+                </span>
+
+                <span>
+                    <i class="fa fa-envelope ml-1 text-brand-400" aria-hidden="true"></i>
+                    ایمیل: @siteEmail
+                </span>
+            </div>
+
+            <div class="w-full sm:w-auto flex items-center justify-end sm:justify-start gap-3 whitespace-nowrap">
+                <a href="@Url.Action("AllActiveSurvey", "Home")"
+                   class="hover:text-brand-300 transition">نظرسنجی‌ها</a>
+
+                <span aria-hidden="true" class="text-brand-700">|</span>
+
+                <a href="@Url.Action("JoinUs", "Home")"
+                   class="hover:text-brand-300 transition">مدرس شوید</a>
+            </div>
+
         </div>
     </div>
 
-    <!--=================================
-      loading -->
-    <!--=================================
-        header -->
-    <header id="header" class="topbar-dark">
-        <div class="topbar">
-            <div class="container">
-                <div class="row">
-                    <div class="col-md-4">
-                        <div class="topbar-right text-center text-md-right">
-                            <ul class="list-inline">
-                                <li> <i class="ti-location-pin"> </i> @setting.NameFa</li>
-                                <li> <i class="ti-headphone-alt"></i> پشتیبانی: @setting.tel </li>
-                            </ul>
-                        </div>
-                    </div>
-                    <div class="col-md-8">
-                        <div class="topbar-left text-center text-md-left">
-                            <ul class="list-inline">
-                                <li><a href="/home/AllActiveSurvey">برای بهبود وضعیت آموزش در نظرسنجی ها شرکت کنید. </a> </li>
-                                @if (User.Identity.IsAuthenticated)
-                                {
 
-                                    <li><a href="/Dashboard">پروفایل</a></li>
-                                    <li><a href="/Users/Logout">خروج</a></li>
-                                }
-                                else
-                                {
-                                    <li><a href="/Users/Register"> ثبت نام</a></li>
-                                    <li><a href="#"> پشتیبانی و سؤالات متداول</a></li>
-                                    <li><a href="/Users/Login">ورود </a></li>
-                                }
 
-                            </ul>
-                        </div>
-                    </div>
+
+
+    <!-- هدر اصلی و منو -->
+    <header class="bg-white shadow-sm sticky top-0 z-50">
+        <div class="container mx-auto px-4 h-20 flex items-center justify-between gap-3">
+
+            <div class="flex items-center gap-8 min-w-0">
+                <a href="/" class="flex items-center gap-3 flex-shrink-0">
+                    <img src="@Url.Content("~/Content/images/logo.png")"
+                         alt="@siteName"
+                         class="h-12 w-auto object-contain"
+                         onerror="this.src='@Url.Content("~/images/logo.png")'" />
+                </a>
+
+                <!-- منوی دسکتاپ -->
+                <nav class="desktop-nav hidden md:flex items-center gap-6 text-sm font-medium text-gray-600"
+                     aria-label="منوی اصلی">
+                    <a href="/" class="hover:text-brand-600 transition">صفحه اصلی</a>
+                    <a href="@Url.Action("ShowAllClasses", "Home")" class="hover:text-brand-600 transition">دوره‌ها و کلاس‌ها</a>
+                    <a href="@Url.Action("AllActiveAzmoon", "Home")" class="hover:text-brand-600 transition">آزمون‌ها</a>
+                    <a href="@Url.Action("Index", "Books")" class="hover:text-brand-600 transition">کتابخانه</a>
+                    <a href="@Url.Action("Podcast", "Home")" class="hover:text-brand-600 transition">پادکست</a>
+                    <a href="@Url.Action("Teacher", "Home")" class="hover:text-brand-600 transition">اساتید</a>
+                </nav>
+            </div>
+
+            <div class="flex items-center gap-3 flex-shrink-0">
+                <!-- ابزارهای هدر دسکتاپ -->
+                <div class="desktop-header-actions hidden md:flex items-center gap-4">
+                    <a href="@Url.Action("Index", "Books")"
+                       class="hidden lg:flex items-center gap-2 text-gray-500 hover:text-brand-600 bg-gray-100 px-3 py-2 rounded-lg text-sm transition">
+                        <i class="fa fa-search" aria-hidden="true"></i>
+                        <span>جستجو در سایت...</span>
+                    </a>
+
+                    @Html.Partial("_LoginPartial")
                 </div>
+
+                <!-- دکمه منوی موبایل -->
+                <button type="button"
+                        id="mobileMenuBtn"
+                        class="mobile-menu-toggle"
+                        aria-label="باز کردن منو"
+                        aria-controls="mobileNav"
+                        aria-expanded="false"
+                        title="منوی سایت">
+                    <i id="mobileMenuIcon" class="fa fa-bars" aria-hidden="true"></i>
+                </button>
             </div>
         </div>
-        <!--=================================
-            mega menu -->
-        <div class="menu">
-            <!-- menu start -->
-            <nav id="menu" class="mega-menu">
-                <!-- menu list items container -->
-                <section class="menu-list-items">
-                    <div class="container">
-                        <div class="row">
-                            <div class="col-lg-2 col-md-4 col-sm-6 col">
-                                <!-- menu logo -->
-                                <ul class="menu-logo">
-                                    <li>
-                                        <a href="/">
-                                            <img id="logo_img" src="~/kishlearning724/images/03.png" alt="logo" style="min-height:63px">
-                                        </a>
-                                    </li>
-                                </ul>
-                            </div>
-                            <div class="col-lg-10 col-md-8 col-sm-6">
-                                <div class="header-info pull-left">
-                                    <ul>
-                                        <li class="addressDivItem">
-                                            <div class="info-box">
-                                                <div class="info-icon">
-                                                    <span class="ti-direction-alt"></span>
-                                                </div>
-                                                <div class="info-content">
-                                                    <h6>@setting.NameFa</h6>
-                                                    <p>@setting.Address</p>
-                                                </div>
-                                            </div>
-                                        </li>
-                                        <li>
-                                            <div class="info-box">
-                                                <div class="info-icon">
-                                                    <span class="ti-headphone-alt"></span>
-                                                </div>
-                                                <div class="info-content">
-                                                    <h6>@setting.tel</h6>
-                                                    <p>شنبه-پنجشنبه 8 صبح-8شب</p>
-                                                </div>
-                                            </div>
-                                        </li>
-                                        <li>
-                                            <div class="info-box">
-                                                <div class="info-icon">
-                                                    <span class="ti-layout-placeholder"></span>
-                                                </div>
-                                                <div class="info-content">
-                                                    <h6>@setting.EmailInfo @@ @setting.EmailServer</h6>
-                                                    <p> پشتیبانی آنلاین 24x7</p>
-                                                </div>
-                                            </div>
-                                        </li>
-                                    </ul>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                    <hr>
-                    <div class="container">
-                        <div class="row">
-                            <div class="col-lg-10">
-                                <!-- menu links -->
-                                <ul class="menu-links">
-                                    <!-- active class -->
-                                    <li class="active">
-                                        <a href="/"> صفحه اصلی </a>
-                                    </li>
-                                    <!-- active class -->
-                                    @{
-                                        var list = SenakLearn.Biz.MenuBiz.Instance.GetActiveMenu();
-                                        foreach (var item in list)
-                                        {
-                                            <li>
-                                                <a href="javascript:void(0)">
-                                                    @item.Title <i class="fa fa-angle-down fa-indicator"></i>
-                                                </a>
-                                                @if (item.DynamicForms != null && item.DynamicForms.Count > 0)
-                                                {
-                                                    <!-- drop down multilevel  -->
-                                                    <ul class="drop-down-multilevel">
-                                                        @foreach (var submenu in item.DynamicForms.OrderBy(x => x.Order))
-                                                        {
-                                                            if (string.IsNullOrEmpty(submenu.Url))
-                                                            {
-                                                                submenu.Url = "/Home/Details/" + submenu.Id;
-                                                            }
-                                                            <li><a href="@submenu.Url">@submenu.Title</a></li>
-                                                        }
-                                                    </ul>
-                                                }
-                                            </li>
-                                        }
-                                    }
 
+        <!-- منوی بازشونده موبایل -->
+        <nav id="mobileNav"
+             class="mobile-nav"
+             aria-label="منوی اصلی موبایل"
+             hidden>
 
-                                </ul>
-                            </div>
-                            <div class="col-lg-2">
-                                <div class="nav-add pull-left">
-                                    <ul>
-                                        <li>
-                                            <div class="search-button">
-                                                <a class="search-trigger" href="search"> <span></span></a>
-                                            </div>
-                                        </li>
-                                        <li class="side-menu-main">
-                                            <div class="side-menu">
-                                                <div class="mobile-nav-button">
-                                                    <div class="mobile-nav-button-line"></div>
-                                                    <div class="mobile-nav-button-line"></div>
-                                                    <div class="mobile-nav-button-line"></div>
-                                                </div>
-                                            </div>
-                                        </li>
-                                    </ul>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
+            <div class="mobile-nav-links">
+                <a href="/" class="mobile-nav-link">صفحه اصلی</a>
+                <a href="@Url.Action("ShowAllClasses", "Home")" class="mobile-nav-link">دوره‌ها و کلاس‌ها</a>
+                <a href="@Url.Action("AllActiveAzmoon", "Home")" class="mobile-nav-link">آزمون‌ها</a>
+                <a href="@Url.Action("Index", "Books")" class="mobile-nav-link">کتابخانه</a>
+                <a href="@Url.Action("Podcast", "Home")" class="mobile-nav-link">پادکست</a>
+                <a href="@Url.Action("Teacher", "Home")" class="mobile-nav-link">اساتید</a>
+                <a href="@Url.Action("AllActiveSurvey", "Home")" class="mobile-nav-link">نظرسنجی‌ها</a>
+                <a href="@Url.Action("JoinUs", "Home")" class="mobile-nav-link">مدرس شوید</a>
+            </div>
 
-                </section>
-            </nav>
-            <!-- menu end -->
-        </div>
+            <a href="@Url.Action("Index", "Books")" class="mobile-search-link">
+                <i class="fa fa-search" aria-hidden="true"></i>
+                <span>جستجو در سایت...</span>
+            </a>
+
+            <!-- نسخه موبایل دکمه‌های ورود و ثبت‌نام یا پنل کاربر -->
+            <div class="mobile-auth">
+                @Html.Partial("_LoginPartial")
+            </div>
+        </nav>
     </header>
-    <!--=================================
-    search and side menu content -->
-    <div class="search-overlay"></div>
-    <div class="menu-overlay"></div>
-    <div id="search" class="search header fancy">
-        <div class="container">
-            <div class="row">
-                <div class="col-md-12">
-                    <input type="search" placeholder="بنویسید و اینتر را فشار دهید . . .">
-                </div>
-            </div>
-        </div>
-    </div>
-    <div class="side-content" id="scrollbar">
-        <div class="side-content-info">
-            <div class="menu-toggle-hamburger menu-close"><span class="ti-close"> </span></div>
-            <div class="side-logo">
-                <img class="img-fluid mb-3" src="~/kishlearning724/images/02.png" alt="">
-                <p>@setting.NameFa، تمام آنچه که برای آموزش و یادگیری نیاز دارید را در اختیارتان قرار داده است.</p>
-                <hr class="mt-2 mb-3" />
-            </div>
-            <div class="contact-address">
-                <div class="address-title mb-3">
-                    <h4 class="mb-1">@setting.NameFa</h4>
-                    <p>@setting.Address</p>
-                </div>
-                <div class="contact-box mb-2">
-                    <div class="contact-icon">
-                        <i class="ti-direction-alt text-blue"></i>
-                    </div>
-                    <div class="contact-info">
-                        <div class="text-left">
-                            <h6>@setting.Address</h6>
-                            <span>هرمزگان ایران</span>
-                        </div>
-                    </div>
-                </div>
-                <div class="contact-box mb-2">
-                    <div class="contact-icon">
-                        <i class="ti-headphone-alt text-blue"></i>
-                    </div>
-                    <div class="contact-info">
-                        <div class="text-left">
-                            <h6>@setting.tel</h6>
-                            <span>شنبه-پنجشنبه 8 صبح-8شب</span>
-                        </div>
-                    </div>
-                </div>
-                <div class="contact-box mb-2">
-                    <div class="contact-icon">
-                        <i class="ti-email text-blue"></i>
-                    </div>
-                    <div class="contact-info">
-                        <div class="text-left">
-                            <h6>@setting.EmailInfo @@ @setting.EmailServer</h6>
-                            <span> پشتیبانی آنلاین 24x7</span>
-                        </div>
-                    </div>
-                </div>
-            </div>
-        </div>
-        <div class="side-content-image">
-            <img class="img-fluid center-block" src="~/kishlearning724/images/bg-element/04.png" alt="">
-        </div>
-    </div>
-    <!--=================================
-    search and side menu content -->
-    <!--=================================
-    header -->
 
-    @RenderBody()
-    <!--=================================
-    footer -->
-    <footer class="footer light footer-topbar page-section-pt" style="margin-top:150px">
+    <!-- محتوای صفحات -->
+    <main class="flex-grow">
+        @RenderBody()
+    </main>
 
-        <div class="container">
-            <div class="footer-contact white-bg">
-                <div class="row">
-                    <div class="col-md-4 bottom-m3">
-                        <div class="contact-box">
-                            <div class="contact-icon">
-                                <i class="ti-direction-alt"></i>
-                            </div>
-                            <div class="contact-info">
-                                <div class="text-center">
-                                    <h5 class="mt-1 mb-1">@setting.NameFa ...</h5>
-                                    <span>@setting.Address</span>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                    <div class="col-md-4 bottom-m3">
-                        <div class="contact-box">
-                            <div class="contact-icon">
-                                <i class="ti-headphone-alt"></i>
-                            </div>
-                            <div class="contact-info">
-                                <div class="text-center">
-                                    <h5 class="mt-1 mb-1">@setting.tel</h5>
-                                    <span>شنبه-پنجشنبه 8 صبح-8شب</span>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                    <div class="col-md-4">
-                        <div class="contact-box">
-                            <div class="contact-icon">
-                                <i class="ti-email"></i>
-                            </div>
-                            <div class="contact-info">
-                                <div class="text-center">
-                                    <h5 class="mt-1 mb-1">@setting.EmailInfo @@ @setting.EmailServer</h5>
-                                    <span> پشتیبانی آنلاین 24x7</span>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                </div>
+    <!-- فوتر سایت -->
+    <footer class="bg-gray-900 text-gray-300 pt-16 pb-8 border-t border-gray-800">
+        <div class="container mx-auto px-4 grid grid-cols-1 md:grid-cols-4 gap-8 mb-12">
+
+            <div class="space-y-4">
+                <h3 class="text-white text-lg font-heading">درباره @siteName</h3>
+                <p class="text-sm text-gray-400 leading-relaxed " style="margin:0">
+                    مرجع تخصصی آموزش مجازی، برگزاری دوره‌های آنلاین، آزمون‌های استاندارد و صدور گواهینامه‌های معتبر در جزیره کیش و سراسر کشور. تأسیس ۱۳۹۴.
+                </p>
             </div>
-            <div class="row top">
-                <div class="col-lg-3 col-md-2">
-                    @*<img class="img-fluid" id="logo-footer" src="~/kishlearning724/images/02.png" alt="">*@
-                    <a referrerpolicy='origin' target='_blank' href='https://trustseal.enamad.ir/?id=624676&Code=0zEBXyAJcUXJv6uQGSaqeyjXMXHo7axh'>
-                        <img referrerpolicy='origin' src='https://trustseal.enamad.ir/logo.aspx?id=624676&Code=0zEBXyAJcUXJv6uQGSaqeyjXMXHo7axh' alt='' style='cursor:pointer;min-width:175px;min-height:175px' code='0zEBXyAJcUXJv6uQGSaqeyjXMXHo7axh'>
-                    </a>
-                </div>
-                <div class="col-lg-3 col-md-2">
 
-                    <a referrerpolicy='origin' target='_blank' href="~/images/herasat.pdf">
-                        <img src="~/images/Nashr.png" style='cursor:pointer;min-width:125px;min-height:125px' />
-                    </a>
-
-                    @*<div class="social text-right">
-                <ul>
-                    <li>
-                        <a href="@setting.Instagram"> <i class="fa fa-facebook"></i> </a>
-                    </li>
-                    <li>
-                        <a href="@setting.Twitter"> <i class="fa fa-twitter"></i> </a>
-                    </li>
-                    <li>
-                        <a href="@setting.Telegram"> <i class="fa fa-pinterest-p"></i> </a>
-                    </li>
-                    <li>
-                        <a href="@setting.Skype"> <i class="fa fa-vimeo"></i> </a>
-                    </li>
-                    <li>
-                        <a href="@setting.WhatsUp"> <i class="fa fa-linkedin"></i> </a>
-                    </li>
+            <div class="space-y-4">
+                <h3 class="text-white text-lg font-heading">دسترسی سریع</h3>
+                <ul class="space-y-2 text-sm  text-gray-400">
+                    <li><a href="@Url.Action("joinUs", "Home")" class="hover:text-white transition">به ما بپیوندید</a></li>
+                    <li><a href="/Home/Details/9" class="hover:text-white transition">تاریخچه</a></li>
+                    <li><a href="@Url.Action("ContactUs", "UserComment")" class="hover:text-white transition">ثبت نظرات</a></li>
+                    <li><a href="@Url.Action("Index", "Support")" class="hover:text-white transition">سوالات متداول</a></li>
                 </ul>
-            </div>*@
-                </div>
-                <div class="col-lg-6 col-md-7">
-                    <div class="footer-nav text-left">
-                        <ul>
-
-                            <li><a href="/">صفحه اصلی</a></li>
-
-                            <li><a href="/home/JoinUs">مدرس شوید</a></li>
-                            <li><a href="/home/ShowAllClasses">دوره ها</a></li>
-                            <li><a href="/UserComment/ContactUs">پشتیبانی آنلاین</a></li>
-                            <li><a href="/Home/Teacher">اساتید</a></li>
-                            @*<li><a href="#">خدمات</a></li>
-                                        <li><a href="#">وبلاگ</a></li>
-                        <li><a href="/Home/Details/10">درباره ما</a></li>
-                        <li><a href="/Home/Details/13">خدمات ما</a></li>
-                        <li><a href="/Home/Details/9">تاریخچه </a></li>
-                        <li><a href="/Home/Details/11">اطلاعات</a></li>
-                                             <li><a href="/Home/Details/14">تماس با ما</a></li>
-                    <ul class="pull-right payments">
-                        <li>
-                            <script src="~/kishlearning724/https://www.zarinpal.com/webservice/TrustCode" type="text/javascript"></script>
-                        </li>
-                    </ul>
-                            *@
-
-                        </ul>
-                    </div>
-                </div>
-
             </div>
-            <div class="row">
-                <div class="col-md-12">
-                    <hr />
-                </div>
+
+            <div class="space-y-4">
+                <h3 class="text-white text-lg font-heading">ارتباط با ما</h3>
+                <ul class="space-y-2 text-sm text-gray-400">
+                    <li><i class="fa fa-map-marker ml-2 text-brand-500" aria-hidden="true"></i>@siteAddress</li>
+                    <li><i class="fa fa-phone ml-2 text-brand-500" aria-hidden="true"></i>@siteTel</li>
+                    <li><i class="fa fa-envelope ml-2 text-brand-500" aria-hidden="true"></i>@siteEmail</li>
+                </ul>
             </div>
-            <div class="row">
-                <div class="col-lg-5 col-md-12">
-                    <div class="about-content">
-                        <h6 class="mb-2">درباره ما</h6>
-                        <p>آموزش مجازی کیش در سال 1394 در جزیره زیبای کیش شروع بکار کرد. با توجه به اهداف والای این موسسه در کسب رتبه اول در ایران، استفاده از فناوریهای نوین را در دستور کار قراردادیم. آموزش مجازی کیش قصد دارد یک موسسه آموزشی بین المللی را در بستر فناوری و تکنولوژی و بصورت کاملا آنلاین ایجاد نماید. تا بتواند دسترسی به آموزشهای حرفه ای و نوین را در اختیار و دسترس تمام افراد متقاضی قرار دهد. امید است در سال 1400 بتوانیم رتبه اول آموزش مجازی و آنلاین ایران را کسب کرده و بعد از آن در بعد بین المللی رقابت نمائیم.</p>
-                    </div>
-                </div>
-                <div class="col-lg-7 col-md-12">
-                    <h6 class="mb-2">لینک های مفید</h6>
-                    <div class="usefull-link">
-                        <div class="row">
-                            <div class="col-md-4">
-                                <ul>
-                                    <li>
-                                        <a href="#"> <i class="fa fa-angle-left"></i>سامانه جامع گردشگری</a>
-                                    </li>
-                                    <li>
-                                        <a href="#"> <i class="fa fa-angle-left"></i>پزشک ما</a>
-                                    </li>
-                                    <li>
-                                        <a href="#"> <i class="fa fa-angle-left"></i>سامانه جامع مالی و اداری ویرا</a>
-                                    </li>
-                                </ul>
-                            </div>
-                            <div class="col-md-4">
-                                <ul>
-                                    <li>
-                                        <a href="/home/OnlineClass"> <i class="fa fa-angle-left"></i>کلاسهای آنلاین</a>
-                                    </li>
-                                    <li>
-                                        <a href="/home/cours"> <i class="fa fa-angle-left"></i>فیلمهای آموزشی</a>
-                                    </li>
-                                    <li>
-                                        <a href="#"> <i class="fa fa-angle-left"></i>کتابخانه آنلاین</a>
-                                    </li>
-                                </ul>
-                            </div>
-                            <div class="col-md-4">
-                                <ul>
-                                    <li>
-                                        <a href="#"> <i class="fa fa-angle-left"></i>فروشگاه مجازی کیش</a>
-                                    </li>
-                                    <li>
-                                        <a href="#"> <i class="fa fa-angle-left"></i>فروشگاه مجازی چارسوق</a>
-                                    </li>
-                                    <li>
-                                        <a href="#"> <i class="fa fa-angle-left"></i>دولت الکترونیک</a>
-                                    </li>
-                                </ul>
-                            </div>
-                        </div>
-                    </div>
+
+            <div class="space-y-4">
+                <h3 class="text-white text-lg font-heading">مجوزها و نمادها</h3>
+
+                <div class="enamad-card">
+                    <a referrerpolicy="origin"
+                       target="_blank"
+                       rel="noopener noreferrer"
+                       href="https://trustseal.enamad.ir/?id=624676&Code=0zEBXyAJcUXJv6uQGSaqeyjXMXHo7axh"
+                       aria-label="مشاهده نماد اعتماد الکترونیکی">
+                        <img referrerpolicy="origin"
+                             src='https://trustseal.enamad.ir/logo.aspx?id=624676&Code=0zEBXyAJcUXJv6uQGSaqeyjXMXHo7axh'
+                             alt="نماد اعتماد الکترونیکی"
+                             width="70"
+                             height="70"
+                             loading="lazy"
+                             style='cursor:pointer' 
+                             code='0zEBXyAJcUXJv6uQGSaqeyjXMXHo7axh' />
+                        <span>نماد اعتماد الکترونیکی</span>
+                    </a>
                 </div>
             </div>
         </div>
-        <div class="copyright mt-5">
-            <div class="container">
-                <div class="row">
-                    <div class="col-lg-6 col-sm-6">
-                        <ul class="list-inline text-right">
-                            <li><a href="/Support/Index">راهنما و سوالات متداول </a> &nbsp;&nbsp;&nbsp;|</li>
-                            @*<li><a href="#">قوانین و مقررات </a> &nbsp;&nbsp;&nbsp;|</li>
-                                <li><a href="#">راهنمای API</a> &nbsp;&nbsp;&nbsp;|</li>
-                                <li><a href="#">سیاست های سایت </a> &nbsp;&nbsp;&nbsp;|</li>
-                                <li><a href="#">کوکی ها </a></li>*@
-                        </ul>
-                    </div>
-                    <div class="col-lg-6 col-sm-6">
-                        <div class="text-left">
-                            <p>کلیه حقوق مادی و معنوی این سایت متعلق به @setting.NameFa است. (1394)</p>
-                        </div>
-                    </div>
-                </div>
-            </div>
+
+        <div class="container mx-auto px-4 pt-8 border-t border-gray-800 text-center text-xs text-gray-500 font-traffic">
+            کلیه حقوق این وب‌سایت متعلق به @siteName می‌باشد. (1394 - 1405)
         </div>
     </footer>
-    <!--=================================
-    footer -->
-    <!--=================================
-    back to top -->
-    <div class="back-to-top">
-        <span><img src="~/kishlearning724/images/rocket.png" data-src="~/kishlearning724/images/rocket.png" data-hover="images/rocket.gif" alt=""></span>
-    </div>
-    <!--=================================
-    back to top -->
-    <!-- jquery  -->
-    <script type="text/javascript" src="~/kishlearning724/js/jquery.min.js"></script>
-    <script type="text/javascript" src="~/kishlearning724/js/popper.min.js"></script>
 
-    <!-- bootstrap -->
-    <script type="text/javascript" src="~/kishlearning724/js/bootstrap.min.js"></script>
-
-    <!-- mega-menu -->
-    <script type="text/javascript" src="~/kishlearning724/js/mega-menu/mega_menu.js"></script>
-
-    <!-- owl-carousel -->
-    <script type="text/javascript" src="~/kishlearning724/js/owl-carousel/owl.carousel.min.js"></script>
-
-    <!-- magnific-popup -->
-    <script type="text/javascript" src="~/kishlearning724/js/magnific-popup/jquery.magnific-popup.min.js"></script>
-
-    <!-- appear -->
-    <script type="text/javascript" src="~/kishlearning724/js/jquery.appear.js"></script>
-
-    <!-- counter -->
-    <script type="text/javascript" src="~/kishlearning724/js/counter/jquery.countTo.js"></script>
-
-    <!-- revolution -->
-    <script type="text/javascript" src="~/kishlearning724/revolution/js/jquery.themepunch.tools.min.js"></script>
-    <script type="text/javascript" src="~/kishlearning724/revolution/js/jquery.themepunch.revolution.min.js"></script>
-
-    <!-- SLIDER REVOLUTION 5.0 EXTENSIONS  (Load Extensions only on Local File Systems !  The following part can be removed on Server for On Demand Loading) -->
-    <script type="text/javascript" src="~/kishlearning724/revolution/js/extensions/revolution.extension.actions.min.js"></script>
-    <script type="text/javascript" src="~/kishlearning724/revolution/js/extensions/revolution.extension.carousel.min.js"></script>
-    <script type="text/javascript" src="~/kishlearning724/revolution/js/extensions/revolution.extension.kenburn.min.js"></script>
-    <script type="text/javascript" src="~/kishlearning724/revolution/js/extensions/revolution.extension.layeranimation.min.js"></script>
-    <script type="text/javascript" src="~/kishlearning724/revolution/js/extensions/revolution.extension.migration.min.js"></script>
-    <script type="text/javascript" src="~/kishlearning724/revolution/js/extensions/revolution.extension.navigation.min.js"></script>
-    <script type="text/javascript" src="~/kishlearning724/revolution/js/extensions/revolution.extension.parallax.min.js"></script>
-    <script type="text/javascript" src="~/kishlearning724/revolution/js/extensions/revolution.extension.slideanims.min.js"></script>
-    <script type="text/javascript" src="~/kishlearning724/revolution/js/extensions/revolution.extension.video.min.js"></script>
-
-
-    <!-- custom -->
-    <script type="text/javascript" src="~/kishlearning724/js/custom.js"></script>
-
-    <script src="~/Highcharts-7.1.1Persian/pw.js"></script>
-    <script src="~/Scripts/home.js"></script>
+    <!-- اسکریپت‌های محلی سیستم -->
+    <script src="@Url.Content("~/kishlearning724/js/jquery.min.js")"></script>
 
     <script>
-        function AllCount() {
-            pw.post('/Home/AllUserCount', null, 'json', SetAllUserCountMain, null, false);
-            pw.post('/Home/SiteReviewCount', null, 'json', SetCountValueMainAll, null, false);
-        }
-        function SetAllUserCountMain(result) {
-            $("#AllUserCountMain").attr('data-to', result.count);
-        }
-        function SetCountValueMainAll(result) {
-            $("#AllSiteCountMain").attr('data-to', result.Site);
-            $("#AllVideoCountMain").attr('data-to', result.Video);
-            $("#AllBookCountMain").attr('data-to', result.Book);
-
+        if (typeof jQuery !== 'undefined') {
+            jQuery.fn.megaMenu = jQuery.fn.megaMenu || function () {
+                return this;
+            };
         }
     </script>
 
-    <script type="text/javascript">
-        var tpj = jQuery;
-        var revapi15;
-        tpj(document).ready(function () {
-            AllCount();
+    <!-- کنترل منوی موبایل -->
+    <script>
+        (function () {
+            var menuButton = document.getElementById('mobileMenuBtn');
+            var mobileNav = document.getElementById('mobileNav');
+            var menuIcon = document.getElementById('mobileMenuIcon');
 
-            if (tpj("#rev_slider_15_1").revolution == undefined) {
-                revslider_showDoubleJqueryError("#rev_slider_15_1");
-            } else {
-                revapi15 = tpj("#rev_slider_15_1").show().revolution({
-                    sliderType: "standard",
-                    jsFileLocation: "~/kishlearning724/revslider-standalone/revslider/public/assets/js/",
-                    sliderLayout: "fullwidth",
-                    dottedOverlay: "none",
-                    delay: 9000,
-                    navigation: {
-                        keyboardNavigation: "off",
-                        keyboard_direction: "horizontal",
-                        mouseScrollNavigation: "off",
-                        mouseScrollReverse: "default",
-                        onHoverStop: "off",
-                        arrows: {
-                            style: "zeus",
-                            enable: true,
-                            hide_onmobile: false,
-                            hide_onleave: false,
-                            tmp: '<div class="tp-title-wrap">    <div class="tp-arr-imgholder"></div> </div>',
-                            left: {
-                                h_align: "left",
-                                v_align: "center",
-                                h_offset: 20,
-                                v_offset: 0
-                            },
-                            right: {
-                                h_align: "right",
-                                v_align: "center",
-                                h_offset: 20,
-                                v_offset: 0
-                            }
-                        }
-                    },
-                    visibilityLevels: [1240, 1024, 778, 480],
-                    gridwidth: 1270,
-                    gridheight: 700,
-                    lazyType: "none",
-                    shadow: 0,
-                    spinner: "spinner3",
-                    stopLoop: "off",
-                    stopAfterLoops: -1,
-                    stopAtSlide: -1,
-                    shuffle: "off",
-                    autoHeight: "off",
-                    disableProgressBar: "on",
-                    hideThumbsOnMobile: "off",
-                    hideSliderAtLimit: 0,
-                    hideCaptionAtLimit: 0,
-                    hideAllCaptionAtLilmit: 0,
-                    debugMode: false,
-                    fallbacks: {
-                        simplifyAll: "off",
-                        nextSlideOnWindowFocus: "off",
-                        disableFocusListener: false,
-                    }
-                });
+            if (!menuButton || !mobileNav || !menuIcon) {
+                return;
             }
-        }); /*ready*/
+
+            function closeMobileMenu() {
+                mobileNav.hidden = true;
+                menuButton.setAttribute('aria-expanded', 'false');
+                menuButton.setAttribute('aria-label', 'باز کردن منو');
+                menuIcon.classList.remove('fa-times');
+                menuIcon.classList.add('fa-bars');
+            }
+
+            function openMobileMenu() {
+                mobileNav.hidden = false;
+                menuButton.setAttribute('aria-expanded', 'true');
+                menuButton.setAttribute('aria-label', 'بستن منو');
+                menuIcon.classList.remove('fa-bars');
+                menuIcon.classList.add('fa-times');
+            }
+            closeMobileMenu();
+
+            menuButton.addEventListener('click', function () {
+                var isExpanded = menuButton.getAttribute('aria-expanded') === 'true';
+
+                if (isExpanded) {
+                    closeMobileMenu();
+                } else {
+                    openMobileMenu();
+                }
+            });
+
+            mobileNav.querySelectorAll('a').forEach(function (link) {
+                link.addEventListener('click', closeMobileMenu);
+            });
+
+            document.addEventListener('keydown', function (event) {
+                if (event.key === 'Escape') {
+                    closeMobileMenu();
+                }
+            });
+
+            window.addEventListener('resize', function () {
+                if (window.innerWidth >= 768) {
+                    closeMobileMenu();
+                }
+            });
+        })();
+
+        function countPreviewItemByClient(objType, objId) {
+            //debugger;
+            console.log(objType);
+            var url = '/Home/ObjCount';
+            $.ajax({
+                url: url,
+                data: { ObjType: objType, ObjId: objId },
+                type: 'post',
+                async: true
+                //success: function (res) {
+
+                //}
+            });
+        }
     </script>
+
     @RenderSection("scripts", required: false)
     @Html.Partial("~/Views/Shared/SweetAlert.cshtml")
 </body>
-
 </html>

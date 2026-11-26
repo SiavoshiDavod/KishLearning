@@ -42,7 +42,8 @@ namespace SenakLearn.Biz
                 ServicePointManager.SecurityProtocol = SecurityProtocolType.Tls12 | SecurityProtocolType.Tls11 | SecurityProtocolType.Tls;
 
                 string orderId = factorId.ToString();
-                string additionalData = $"UserId={userId};Mobile={mobile}";
+                //string additionalData = $"UserId={userId};Mobile={mobile}";
+                string additionalData = $"";
 
                 // توجه: حرف S در Shaparak بزرگ است
                 string soapEnvelope = $@"<?xml version=""1.0"" encoding=""utf-8""?>

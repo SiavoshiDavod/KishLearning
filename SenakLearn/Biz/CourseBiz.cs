@@ -1,4 +1,5 @@
-﻿using SenakLearn.JqGrid;
+﻿using DocumentFormat.OpenXml.ExtendedProperties;
+using SenakLearn.JqGrid;
 using SenakLearn.JqGrid.Common;
 using SenakLearn.Models;
 using System;
@@ -21,7 +22,7 @@ namespace SenakLearn.Biz
             {
                 db.Configuration.LazyLoadingEnabled = false;
                 db.Configuration.ProxyCreationEnabled = false;
-                return db.learn_cours.Include(c => c.learn_cours_group).Include(c => c.learn_teacher).Where(w=>w.TypeCours==null).FilterAndSortJqGrid(grid).ToPagedList(grid);
+                return db.learn_cours.Include(c => c.learn_cours_group).Include(c => c.learn_teacher).Where(w => w.TypeCours == null).FilterAndSortJqGrid(grid).ToPagedList(grid);
             }
         }
 
@@ -31,7 +32,7 @@ namespace SenakLearn.Biz
             {
                 db.Configuration.LazyLoadingEnabled = false;
                 db.Configuration.ProxyCreationEnabled = false;
-                return db.learn_cours.Include(c => c.learn_cours_group).Include(c => c.learn_teacher).Where(x=>x.learn_teacher.UserId==userId).FilterAndSortJqGrid(grid).ToPagedList(grid);
+                return db.learn_cours.Include(c => c.learn_cours_group).Include(c => c.learn_teacher).Where(x => x.learn_teacher.UserId == userId).FilterAndSortJqGrid(grid).ToPagedList(grid);
             }
         }
 
@@ -80,6 +81,38 @@ namespace SenakLearn.Biz
                 return db.learn_cours.Where(x => x.status && (groupId == null | x.id_group == groupId)).OrderByDescending(x => x.id).Skip(skip).Take(take).ToList();
             }
         }
+        public List<learn_cours> FindAll(int? groupId, string groupName, string name, string key,int? teacherId)
+        {
+            using (SWEntities db = new SWEntities())
+            {
+                db.Configuration.LazyLoadingEnabled = false;
+                db.Configuration.ProxyCreationEnabled = false;
+                var query = db.learn_cours.Include(c => c.learn_cours_group).Where(x => x.status && x.TypeCours!=2);
+                if (groupId != null)
+                    query = query.Where(x => x.id_group == groupId);
+                if (teacherId != null)
+                    query = query.Where(x => x.id_teacher == teacherId);
+                if (!string.IsNullOrEmpty(groupName))
+                    query = query.Where(x => x.learn_cours_group.name.Contains(groupName));
+                if (!string.IsNullOrEmpty(name))
+                    query = query.Where(x => x.name.Contains(name));
+                if (!string.IsNullOrEmpty(key))
+                {
+                    if (key.Contains(","))
+                    {
+                        var keys = key.Split(',').ToList();
+                        query = query.Where(x => keys.Any(k =>
+                                 (x.doc != null && x.doc.Contains(k)) ||
+                                 (x.doc2 != null && x.doc2.Contains(k)) ||
+                                 (x.name != null && x.name.Contains(k))
+));
+                    }
+                    else
+                        query = query.Where(x => x.doc.Contains(key) || x.doc2.Contains(key) || x.name.Contains(key));
+                }
+                return query.OrderByDescending(x => x.id).ToList();
+            }
+        }
         public List<learn_cours_group> FindAllGroup(bool? online = true, bool? offline = true, bool? paper = true, bool? book = true, bool? booklet = true)
         {
             using (SWEntities db = new SWEntities())
@@ -91,12 +124,12 @@ namespace SenakLearn.Biz
         {
             using (SWEntities db = new SWEntities())
             {
-                var lists= db.learn_cours_group.Where(x => x.status && (book == null || book == x.Book) && (booklet == null || booklet == x.Booklet) && (online == null || online == x.Online) && (offline == null || offline == x.Offline) && (paper == null || paper == x.Paper)).OrderBy(x => x.Order).ToList();
+                var lists = db.learn_cours_group.Where(x => x.status && (book == null || book == x.Book) && (booklet == null || booklet == x.Booklet) && (online == null || online == x.Online) && (offline == null || offline == x.Offline) && (paper == null || paper == x.Paper)).OrderBy(x => x.Order).ToList();
                 var drops = lists.Select(a => new SelectListItem { Text = a.name, Value = a.id.ToString() }).ToList();
                 return drops;
             }
         }
-        public async Task UpdateGroupCount(CoursGroupCountType type,int groupId, bool add = true)
+        public async Task UpdateGroupCount(CoursGroupCountType type, int groupId, bool add = true)
         {
             string operate = add ? "+" : "-";
             using (var ctx = new SWEntities())

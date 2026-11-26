@@ -1,0 +1,67 @@
+﻿
+<div class="search-something">
+    <input type="search" id="BookTitle" placeholder="دنبال چه چیزی هستید؟">
+    <a onclick="reloadBooks()"><i class="zmdi zmdi-search"></i></a>
+</div>
+<div id="course-single">
+    <div class="categories">
+        <h6>موضوع ها</h6>
+        <ul>
+            @{
+                var categorieslist = SenakLearn.Biz.CourseBiz.Instance.FindAllGroup(null, null,null,true,null);
+                foreach (var item in categorieslist)
+                {
+                    <li><a onclick="reloadBooks('@item.id')">@item.name (@item.BookCount)</a></li>
+                }
+            }
+        </ul>
+    </div>
+
+</div>
+<div>
+    @Html.PaperPublisherDropDown("BookPublisher", false, false, new { style = "width:270px" }, "همه ناشرها")
+
+</div>
+    @*<h4>محبوب ترین برچسب ها</h4>
+        <ul class="popular-tags">
+            <li><a href="#">خلاقانه</a></li>
+            <li><a href="#">قالب وردپرس</a></li>
+            <li><a href="#">طراحی وب</a></li>
+            <li><a href="#">HTML 5</a></li>
+            <li><a href="#">چند منظوره</a></li>
+            <li><a href="#">قالب</a></li>
+        </ul>*@
+   <div>
+    <button class="search-teachers" style="width:270px" onclick="reloadBooks()">جستجو</button>
+</div>
+    <script>
+
+        function reloadBooks(group) {
+            var html = '';
+            $.ajax({
+                url: '/Books/GetBooks',
+                type: 'post',
+                datatype: 'json',
+                data: { title: $('#BookTitle').val(), groupId: group, qualityId: $('#BookTranslateQuality').val(), universityId: $('#BookUniversity').val(), journalId: $('#BookJournal').val(), trendId: $('#BookTrend').val(), fieldId: $('#BookField').val(), publisherId: $('#BookPublisher').val(), skip: 0 },
+                success: function (result) {
+                    for (var i = 0; i < result.Rows.length; i++) {
+                        html += '<div class="row tutorial"><div class="col-sm-4">';
+                        html += ' <img src="/images/Books/' + result.Rows[i].ScreenShotId + '" class="resp-img" alt="Tutorial"> </div>';
+                        html += '<div class="col-sm-8"><div class="tutorial-details"><div class="pull-right fav favorite"> <i class="zmdi zmdi-star"></i> </div>';
+                        html += '<h6>' + result.Rows[i].TitleF + '</h6>';
+                        html += '<p><span class="duration"><i class="zmdi zmdi-time"></i>' + result.Rows[i].Year + ' </span></p>';
+                        html += '<p class="abs">' + result.Rows[i].Title;
+                        html += '</p><a href="/Books/detail?Id=' + result.Rows[i].Id + '" class="greybutton">نمایش کتاب</a>  </div> </div> </div>';
+                    }
+
+                    $('#mainBook').html(html);
+                }
+            });
+
+            //<div class="row text-center">
+            //    <div class="col-xs-12">
+            //        <div class="paginations"> <a class="prev" href="#"><i class="zmdi zmdi-chevron-right"></i>قبلی</a> <a href="#">1</a> <a href="#">2</a> <a href="#">3</a> <a href="#">4</a> <a href="#">5</a> <a href="#">6</a> <a class="next" href="#">بعدی<i class="zmdi zmdi-chevron-left"></i></a> </div>
+            //    </div>
+            //</div>
+        }
+    </script>

@@ -1,15 +1,55 @@
 ﻿@model string
 @{
-    var id = Model;
-    if (Model.StartsWith("/images/VideoFile/"))
-    {
-        id = "/api/ShowVideoByPath?id=" + Model.Replace("/images/VideoFile/", "");
-    }
+    var videoUrl = Model ?? string.Empty;
 
+    if (videoUrl.StartsWith("/images/VideoFile/", StringComparison.OrdinalIgnoreCase))
+    {
+        var videoFileName = videoUrl.Substring("/images/VideoFile/".Length);
+        videoUrl = "/api/ShowVideoByPath?id=" + Uri.EscapeDataString(videoFileName);
+    }
 }
-<div class="text-center">
-    <video width="100%" height="auto" preload="auto" poster="/images/logo.png" controls autoplay muted class="videoPreviewTag">
-        @*<source src="@id" type="video/mp4">*@
-        <source type="video/mp4">
+
+<div class="video-preview-wrapper">
+    <video class="video-preview"
+           preload="metadata"
+           poster="/images/logo.png"
+           controls
+           playsinline>
+        <source src="@Url.Content(videoUrl)" type="video/mp4" />
+        مرورگر شما از پخش ویدیو پشتیبانی نمی‌کند.
     </video>
 </div>
+
+<style>
+    .video-preview-wrapper {
+        width: 100%;
+        max-width: 760px;
+        margin: 0 auto 24px;
+        overflow: hidden;
+        border-radius: 14px;
+        background: #111827;
+        box-shadow: 0 8px 24px rgba(15, 23, 42, 0.12);
+    }
+
+    .video-preview {
+        display: block;
+        width: 100%;
+        height: auto;
+        max-height: 420px;
+        aspect-ratio: 16 / 9;
+        object-fit: contain;
+        background: #111827;
+    }
+
+    @@media (max-width: 767px) {
+        .video-preview-wrapper {
+            max-width: 100%;
+            margin-bottom: 18px;
+            border-radius: 10px;
+        }
+
+        .video-preview {
+            max-height: 260px;
+        }
+    }
+</style>
